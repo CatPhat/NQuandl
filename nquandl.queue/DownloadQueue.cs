@@ -20,7 +20,7 @@ namespace NQuandl.Queue
             _urlBufferBlock = new BufferBlock<string>();
             _delayedDownloadBlock = new TransformBlock<string, string>(async (x) =>
             {
-                await Task.Delay(10);
+                await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
                 return await new WebClientHttpConsumer().DownloadStringAsync(x);
             }, new ExecutionDataflowBlockOptions{MaxDegreeOfParallelism = 1});
         }
