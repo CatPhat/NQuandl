@@ -7,7 +7,7 @@ namespace NQuandl.Queue
 {
     public interface IDownloadQueue
     {
-        Task<string> AttachToBufferBlock(BufferBlock<string> bufferBlock);
+        Task<string> ConsumeUrlStringAsync(string url);
     }
 
     public class DownloadQueue : IDownloadQueue
@@ -25,9 +25,11 @@ namespace NQuandl.Queue
             }, new ExecutionDataflowBlockOptions{MaxDegreeOfParallelism = 1});
         }
 
-        public async Task<string> AttachToBufferBlock(BufferBlock<string> bufferBlock)
+        public async Task<string> ConsumeUrlStringAsync(string url)
         {
+            var bufferBlock = new BufferBlock<string>();
             bufferBlock.LinkTo(_urlBufferBlock);
+            bufferBlock.Post(url);
             bufferBlock.Complete();
             _urlBufferBlock.LinkTo(_delayedDownloadBlock);
             return await _delayedDownloadBlock.ReceiveAsync();

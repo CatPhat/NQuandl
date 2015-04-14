@@ -10,19 +10,10 @@ namespace NQuandl.Queue
 {
     public delegate void ActionDelegate<in TResponse>(TResponse quandlResponse) where TResponse : QuandlResponse;
 
-    public delegate Task QueueDelegate();
-
-    public interface IQueueRequest<T> where T : QuandlResponse
-    {
-        IEnumerable<BaseQuandlRequest<T>> Requests { get; set; }
-        ActionDelegate<T> ActionDelegate { get; set; }
-    }
-
-    public class QueueRequest<T> : IQueueRequest<T> where T : QuandlResponse
+    public class QueueRequest<T> where T : QuandlResponse
     {
         public IEnumerable<BaseQuandlRequest<T>> Requests { get; set; }
         public ActionDelegate<T> ActionDelegate { get; set; }
-
     }
 
 
@@ -34,10 +25,8 @@ namespace NQuandl.Queue
     public class QuandlRequestQueue<T> : IQuandlRequestQueue<T> where T : QuandlResponse
     {
         private readonly IDownloadQueue _downloadQueue;
-       
         private readonly BufferBlock<BaseQuandlRequest<T>> _inputBlock; 
         private readonly TransformBlock<BaseQuandlRequest<T>, string> _downloadToStringBlock;
-      
         private readonly TransformBlock<string, T> _transformToDeserializedObjectBlock;
         private readonly ActionBlock<T> _outputBlock;
 
@@ -48,12 +37,7 @@ namespace NQuandl.Queue
             _downloadQueue = downloadQueue;
 
             _inputBlock = new BufferBlock<BaseQuandlRequest<T>>();
-            _downloadToStringBlock = new TransformBlock<BaseQuandlRequest<T>, string>(async (x) =>
-            {
-                var bufferBlock = new BufferBlock<string>();
-                bufferBlock.Post(x.Url);
-                return await _downloadQueue.AttachToBufferBlock(bufferBlock);
-            });
+            _downloadToStringBlock = new TransformBlock<BaseQuandlRequest<T>, string>(async (x) => await _downloadQueue.ConsumeUrlStringAsync(x.Url));
             _transformToDeserializedObjectBlock = new TransformBlock<string, T>(async (x) => await x.DeserializeToObjectAsync<T>());
             _outputBlock = new ActionBlock<T>(response => _actionDelegate(response));
         }
