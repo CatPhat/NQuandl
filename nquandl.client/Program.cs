@@ -10,20 +10,20 @@ using NQuandl.Queue;
 
 namespace NQuandl.TestConsole
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var results = new GetResults();
-          
+
             Task.WaitAll(results.GetAllResult());
-           
+
             Console.WriteLine("done");
             Console.ReadLine();
         }
     }
 
-   
+
     public class GetResults
     {
         public async Task<int> GetAllResult()
@@ -48,7 +48,7 @@ namespace NQuandl.TestConsole
                 Requests = requests
             };
 
-         
+
             await Task.Run(() => NQueue.SendRequests(queueRequest)).ConfigureAwait(false);
             return await Task.FromResult(0);
         }
@@ -69,7 +69,7 @@ namespace NQuandl.TestConsole
                 Requests = requests
             };
 
-         
+
             await Task.Run(() => NQueue.SendRequests(queueRequest)).ConfigureAwait(false);
             return await Task.FromResult(0);
         }
@@ -80,20 +80,20 @@ namespace NQuandl.TestConsole
     {
         public void ActionDelegate(TestResponse quandlResponse)
         {
-            Console.Write("Request[1] Count:" + quandlResponse.RequestCount + " Request[1]: " + quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " + quandlResponse.UniqueId + " | " + quandlResponse.Milliseconds);
+            Console.Write("Request[1] Count:" + quandlResponse.RequestCount + " Request[1]: " +
+                          quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " +
+                          quandlResponse.UniqueId + " | " + quandlResponse.Milliseconds);
             Console.WriteLine();
         }
 
         public void ActionDelegate(TestResponse2 quandlResponse)
         {
-            Console.Write("Request[2] Count:" + quandlResponse.RequestCount + " Request[2]: " + quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " + quandlResponse.UniqueId2 + " | " + quandlResponse.Milliseconds);
+            Console.Write("Request[2] Count:" + quandlResponse.RequestCount + " Request[2]: " +
+                          quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " +
+                          quandlResponse.UniqueId2 + " | " + quandlResponse.Milliseconds);
             Console.WriteLine();
         }
     }
-   
 
-
-
-    
-    }
 }
+
