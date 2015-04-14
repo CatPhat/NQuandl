@@ -1,0 +1,658 @@
+﻿{  
+   "total_count":192278,
+   "current_page":1,
+   "per_page":20,
+   "docs":[  
+      {  
+         "id":7741614,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_164PACIFICISLANDSTRUSTTERRITORY1172PREPAREDMEATNES",
+         "name":"Trade Crops Livestock: Prepared Meat Nes - Pacific Islands Trust Territory",
+         "urlize_name":"Trade-Crops-Livestock-Prepared-Meat-Nes-Pacific-Islands-Trust-Territory",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Trade_Crops_Livestock_E_Oceania_1.zip",
+         "description":"The Agricultural Trade domain covers detailed food and agriculture trade data: Export/Import quantity, Export/Import unit value, Export/Import Value, Trade matrix. The Trade module provides comprehensive, comparable and up-to-date annual trade statistics by country, region and economic country groups for about 600 individual food and agriculture commodities since 1961.",
+         "created_at":"2013-06-29T17:35:27.885Z",
+         "updated_at":"2013-07-26T02:10:43.564Z",
+         "refreshed_at":"2013-07-26T02:10:43.000Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"1989-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (tonnes)",
+            "Import Value (1000 US$)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7657271,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_73GEORGIA919CATTLEHIDES",
+         "name":"Production Livestock Primary: Cattle Hides - Georgia",
+         "urlize_name":"Production-Livestock-Primary-Cattle-Hides-Georgia",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Production_LivestockPrimary_E_Asia_1.zip",
+         "description":"The Agricultural Production domain covers quantity produced, producer price, value at farmgate, area harvested, yield per hectare. Users may note that a new methodology for imputing non-reported/missing Production domain data has been implemented in 2011.",
+         "created_at":"2013-06-14T20:25:45.734Z",
+         "updated_at":"2014-01-13T03:17:18.330Z",
+         "refreshed_at":"2014-01-13T03:17:18.330Z",
+         "frequency":"annual",
+         "from_date":"1989-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producing Animals/Slaughtered (Head)",
+            "Yield (Hg/An)",
+            "Production Quantity (tonnes)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7847503,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_136MAURITANIA1669RECOVEREDPAPER",
+         "name":"Forestry: Recovered Paper - Mauritania",
+         "urlize_name":"Forestry-Recovered-Paper-Mauritania",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Forestry_E_Africa_1.zip",
+         "description":"FAOSTAT-Forestry provides annual production and trade estimates for numerous forest products, primarily wood products such as roundwood, sawnwood, wood panels, pulp and paper. For many forest products, historical data are available from 1961. These estimates are provided by countries through an annual survey conducted by FAO Forestry Department in partnership with the International Tropical Timber Organization (ITTO), the Statistical Office of the European Communities (Eurostat) and the UN Economic Commission for Europe (UNECE). In the cases where countries have not provided information through the questionnaire, FAO estimates annual production based on trade journal reports, statistical yearbooks or other sources. Where data are unavailable, FAO repeats historical figures until new information is found.",
+         "created_at":"2013-07-06T05:37:13.319Z",
+         "updated_at":"2014-09-17T19:09:22.079Z",
+         "refreshed_at":"2014-09-17T19:09:22.079Z",
+         "frequency":"annual",
+         "from_date":"1997-12-31",
+         "to_date":"2013-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (tonnes)",
+            "Import Value (1000 US$)",
+            "Export Quantity (tonnes)",
+            "Export Value (1000 US$)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7746149,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_5501AUSTRALIAANDNEWZEALANDTOTAL266OILOFCASTORBEANS",
+         "name":"Trade Crops Livestock: Oil of Castor Beans - Australia and New Zealand + (Total)",
+         "urlize_name":"Trade-Crops-Livestock-Oil-of-Castor-Beans-Australia-and-New-Zealand-Total",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Trade_Crops_Livestock_E_All_Area_Groups_1.zip",
+         "description":"The Agricultural Trade domain covers detailed food and agriculture trade data: Export/Import quantity, Export/Import unit value, Export/Import Value, Trade matrix. The Trade module provides comprehensive, comparable and up-to-date annual trade statistics by country, region and economic country groups for about 600 individual food and agriculture commodities since 1961.",
+         "created_at":"2013-06-29T22:18:50.800Z",
+         "updated_at":"2013-07-27T02:44:24.292Z",
+         "refreshed_at":"2013-07-27T02:44:24.000Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2009-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (tonnes)",
+            "Import Value (1000 US$)",
+            "Export Quantity (tonnes)",
+            "Export Value (1000 US$)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7657386,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_102IRANISLAMICREPUBLICOF919CATTLEHIDES",
+         "name":"Production Livestock Primary: Cattle Hides - Iran (Islamic Republic of)",
+         "urlize_name":"Production-Livestock-Primary-Cattle-Hides-Iran-Islamic-Republic-of",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Production_LivestockPrimary_E_Asia_1.zip",
+         "description":"The Agricultural Production domain covers quantity produced, producer price, value at farmgate, area harvested, yield per hectare. Users may note that a new methodology for imputing non-reported/missing Production domain data has been implemented in 2011.",
+         "created_at":"2013-06-14T20:27:20.139Z",
+         "updated_at":"2014-01-11T05:57:27.051Z",
+         "refreshed_at":"2014-01-11T05:57:27.051Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producing Animals/Slaughtered (Head)",
+            "Yield (Hg/An)",
+            "Production Quantity (tonnes)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7640679,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_255BELGIUM1801FRUITEXCLMELONSTOTALTOTAL",
+         "name":"Prices Indices: Fruit excl Melons,Total + (Total) - Belgium",
+         "urlize_name":"Prices-Indices-Fruit-excl-Melons-Total-Total-Belgium",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Price_Indices_E_Europe_1.zip",
+         "description":"The Prices domain of FAOSTAT contains: 1) Producer Prices or prices received by farmers for primary crops, live animals weight and livestock primary products as collected at the point of initial sale (prices paid at the farm-gate). Data are provided for over 130 countries and for some 200 commodities, representing over 97 percent of the world's value of gross agricultural production (at 2004-2006 International Dollar Prices). 2) Indices of agricultural producer prices that measure the average annual change over time in the selling prices received by farmers (prices at the farm-gate or at the first point of sale). Annual data are provided for over 80 countries. The two categories of producer price indices available in FAOSTAT comprise: Agriculture Producer Price Index; and Single item indices. 3) Monthly (or quarterly) Food and non-alcoholic beverages consumer price indices that measure changes over time in the prices of food that households acquire, use or pay for consumption. These are sub-indices of All items consumer price indices, also disseminated on FAOSTAT, that cover all goods and services included for price measurement in the CPI.",
+         "created_at":"2013-06-14T15:04:55.627Z",
+         "updated_at":"2014-09-24T22:13:42.361Z",
+         "refreshed_at":"2014-09-24T22:13:42.361Z",
+         "frequency":"annual",
+         "from_date":"2001-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producer Price Index (2004-2006 = 100) ()"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7774836,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_114KENYA2620GRAPES",
+         "name":"Food Balance Sheets: Grapes - Kenya",
+         "urlize_name":"Food-Balance-Sheets-Grapes-Kenya",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/FoodBalanceSheets_E_Africa_1.zip",
+         "description":"A food balance sheet presents a comprehensive picture of the pattern of a country's food supply during a specified reference period. The food balance sheet shows for each food item i.e. each primary commodity availablity for human consumption which corresponds to the sources of supply and its utilisation. The total quantity of foodstuffs produced in a country added to the total quantity imported and adjusted to any change in stocks that may have occurred since the beginning of the reference period gives the supply available during that period. On the utilisation side a distinction is made between the quantities exported, fed to livestock + used for seed, losses during storage and transportation, and food supplies available for human consumption. The per capita supply of each such food item available for human consumption is then obtained by dividing the respective quantity by the related data on the population actually partaking in it. Data on per capita food supplies are expressed in terms of quantity and by applying appropriate food composition factors for all primary and processed products also in terms of dietary energy value, protein and fat content.",
+         "created_at":"2013-07-02T15:53:34.835Z",
+         "updated_at":"2014-01-11T04:26:27.907Z",
+         "refreshed_at":"2014-01-11T04:26:27.907Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2009-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (1000 tonnes)",
+            "Stock Variation (1000 tonnes)",
+            "Export Quantity (1000 tonnes)",
+            "Domestic supply quantity (1000 tonnes)",
+            "Food (1000 tonnes)",
+            "Other Util (1000 tonnes)",
+            "Food supply quantity (kg/capita/yr) (Kg)",
+            "Food supply (kcal/capita/day) (kcal/capita/day)",
+            "Protein supply quantity (g/capita/day) (g/capita/day)",
+            "Fat supply quantity (g/capita/day) (g/capita/day)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7634601,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_215UNITEDREPUBLICOFTANZANIA1801FRUITEXCLMELONSTOTALTOTAL",
+         "name":"Production Crops: Fruit excl Melons,Total + (Total) - United Republic of Tanzania",
+         "urlize_name":"Production-Crops-Fruit-excl-Melons-Total-Total-United-Republic-of-Tanzania",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Production_Crops_E_Africa_1.zip",
+         "description":"The Agricultural Production domain covers quantity produced, producer price, value at farmgate, area harvested, yield per hectare. Users may note that a new methodology for imputing non-reported/missing Production domain data has been implemented in 2011.",
+         "created_at":"2013-06-14T12:37:45.828Z",
+         "updated_at":"2014-09-17T20:47:58.557Z",
+         "refreshed_at":"2014-09-17T20:47:58.557Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Area Harvested (Ha)",
+            "Yield (Hg/Ha)",
+            "Production Quantity (tonnes)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7772662,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_7ANGOLA2511WHEAT",
+         "name":"Food Balance Sheets: Wheat - Angola",
+         "urlize_name":"Food-Balance-Sheets-Wheat-Angola",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/FoodBalanceSheets_E_Africa_1.zip",
+         "description":"A food balance sheet presents a comprehensive picture of the pattern of a country's food supply during a specified reference period. The food balance sheet shows for each food item i.e. each primary commodity availablity for human consumption which corresponds to the sources of supply and its utilisation. The total quantity of foodstuffs produced in a country added to the total quantity imported and adjusted to any change in stocks that may have occurred since the beginning of the reference period gives the supply available during that period. On the utilisation side a distinction is made between the quantities exported, fed to livestock + used for seed, losses during storage and transportation, and food supplies available for human consumption. The per capita supply of each such food item available for human consumption is then obtained by dividing the respective quantity by the related data on the population actually partaking in it. Data on per capita food supplies are expressed in terms of quantity and by applying appropriate food composition factors for all primary and processed products also in terms of dietary energy value, protein and fat content.",
+         "created_at":"2013-07-02T14:07:35.540Z",
+         "updated_at":"2014-01-11T04:16:58.275Z",
+         "refreshed_at":"2014-01-11T04:16:58.275Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2009-12-31",
+         "column_names":[  
+            "Year",
+            "Production Quantity (1000 tonnes)",
+            "Import Quantity (1000 tonnes)",
+            "Stock Variation (1000 tonnes)",
+            "Export Quantity (1000 tonnes)",
+            "Domestic supply quantity (1000 tonnes)",
+            "Seed (1000 tonnes)",
+            "Waste (1000 tonnes)",
+            "Processed (1000 tonnes)",
+            "Food (1000 tonnes)",
+            "Food supply quantity (kg/capita/yr) (Kg)",
+            "Food supply (kcal/capita/day) (kcal/capita/day)",
+            "Protein supply quantity (g/capita/day) (g/capita/day)",
+            "Fat supply quantity (g/capita/day) (g/capita/day)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7655780,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_33CANADA1062HENEGGSINSHELL",
+         "name":"Prices Indices: Hen eggs, in shell - Canada",
+         "urlize_name":"Prices-Indices-Hen-eggs-in-shell-Canada",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Price_Indices_E_Americas_1.zip",
+         "description":"The Prices domain of FAOSTAT contains: 1) Producer Prices or prices received by farmers for primary crops, live animals weight and livestock primary products as collected at the point of initial sale (prices paid at the farm-gate). Data are provided for over 130 countries and for some 200 commodities, representing over 97 percent of the world's value of gross agricultural production (at 2004-2006 International Dollar Prices). 2) Indices of agricultural producer prices that measure the average annual change over time in the selling prices received by farmers (prices at the farm-gate or at the first point of sale). Annual data are provided for over 80 countries. The two categories of producer price indices available in FAOSTAT comprise: Agriculture Producer Price Index; and Single item indices. 3) Monthly (or quarterly) Food and non-alcoholic beverages consumer price indices that measure changes over time in the prices of food that households acquire, use or pay for consumption. These are sub-indices of All items consumer price indices, also disseminated on FAOSTAT, that cover all goods and services included for price measurement in the CPI.",
+         "created_at":"2013-06-14T20:05:44.426Z",
+         "updated_at":"2014-01-13T22:44:40.792Z",
+         "refreshed_at":"2014-01-13T22:44:40.792Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2009-12-31",
+         "column_names":[  
+            "Year",
+            "Producer Price Index (2004-2006 = 100) ()"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7652620,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_126LITHUANIA1068DUCKS",
+         "name":"Emissions Agriculture Manure Left on Pasture: Ducks - Lithuania",
+         "urlize_name":"Emissions-Agriculture-Manure-Left-on-Pasture-Ducks-Lithuania",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Emissions_Agriculture_Manure_left_on_pasture_E_Europe_1.zip",
+         "description":"The FAOSTAT Emissions Agriculture database provides country-level estimates of greenhouse gas (GHG) emissions based on FAOSTAT activity data and using Tier 1 computations, following 2006 Intergovernmental Panel on Climate Change (IPCC) Guidelines for National Greenhouse Gas Inventories. Technical details of specific activity data used and relevant computational steps employed are given in the Methodology and Quality Information section of the metadata for each of the sectors in the domain.",
+         "created_at":"2013-06-14T19:08:22.331Z",
+         "updated_at":"2014-01-13T04:00:32.279Z",
+         "refreshed_at":"2014-01-13T04:00:32.279Z",
+         "frequency":"annual",
+         "from_date":"1992-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Implied emission factor for N2O (KgN2O/KgN deposited)",
+            "Emissions (N2O) (Gigagrams)",
+            "Emissions (CO2eq) (Gigagrams)",
+            "Direct emissions (N2O) (Gigagrams)",
+            "Direct emissions (CO2eq) (Gigagrams)",
+            "Indirect emissions (N2O) (Gigagrams)",
+            "Indirect emissions (CO2eq) (Gigagrams)",
+            "Manure (N content) (tonnes)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7659526,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_68FRANCE1025GOATSKINS",
+         "name":"Production Livestock Primary: Goatskins - France",
+         "urlize_name":"Production-Livestock-Primary-Goatskins-France",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Production_LivestockPrimary_E_Europe_1.zip",
+         "description":"The Agricultural Production domain covers quantity produced, producer price, value at farmgate, area harvested, yield per hectare. Users may note that a new methodology for imputing non-reported/missing Production domain data has been implemented in 2011.",
+         "created_at":"2013-06-14T20:52:30.858Z",
+         "updated_at":"2014-01-11T05:51:54.904Z",
+         "refreshed_at":"2014-01-11T05:51:54.904Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producing Animals/Slaughtered (Head)",
+            "Yield (Hg/An)",
+            "Production Quantity (tonnes)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7734816,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_186SERBIAANDMONTENEGRO112BRANOFCEREALS",
+         "name":"Trade Crops Livestock: Bran of Cereals - Serbia and Montenegro",
+         "urlize_name":"Trade-Crops-Livestock-Bran-of-Cereals-Serbia-and-Montenegro",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Trade_Crops_Livestock_E_Europe_1.zip",
+         "description":"The Agricultural Trade domain covers detailed food and agriculture trade data: Export/Import quantity, Export/Import unit value, Export/Import Value, Trade matrix. The Trade module provides comprehensive, comparable and up-to-date annual trade statistics by country, region and economic country groups for about 600 individual food and agriculture commodities since 1961.",
+         "created_at":"2013-06-29T07:34:14.381Z",
+         "updated_at":"2013-07-27T05:28:28.478Z",
+         "refreshed_at":"2013-07-27T05:28:28.000Z",
+         "frequency":"annual",
+         "from_date":"1993-12-31",
+         "to_date":"2005-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (tonnes)",
+            "Import Value (1000 US$)",
+            "Export Quantity (tonnes)",
+            "Export Value (1000 US$)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7764860,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_5104SOUTHERNAFRICATOTAL711ANISEBADIANFENNELCORIAN",
+         "name":"Trade Crops Livestock: Anise, badian, fennel, corian. - Southern Africa + (Total)",
+         "urlize_name":"Trade-Crops-Livestock-Anise-badian-fennel-corian-Southern-Africa-Total",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Trade_Crops_Livestock_E_All_Area_Groups_1.zip",
+         "description":"The Agricultural Trade domain covers detailed food and agriculture trade data: Export/Import quantity, Export/Import unit value, Export/Import Value, Trade matrix. The Trade module provides comprehensive, comparable and up-to-date annual trade statistics by country, region and economic country groups for about 600 individual food and agriculture commodities since 1961.",
+         "created_at":"2013-07-01T01:46:50.679Z",
+         "updated_at":"2013-07-26T21:43:00.655Z",
+         "refreshed_at":"2013-07-26T21:43:00.000Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2009-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (tonnes)",
+            "Import Value (1000 US$)",
+            "Export Quantity (tonnes)",
+            "Export Value (1000 US$)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7662028,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_5503MICRONESIATOTAL957BUFFALOHIDE",
+         "name":"Production Livestock Primary: Buffalo Hide - Micronesia + (Total)",
+         "urlize_name":"Production-Livestock-Primary-Buffalo-Hide-Micronesia-Total",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Production_LivestockPrimary_E_All_Area_Groups_1.zip",
+         "description":"The Agricultural Production domain covers quantity produced, producer price, value at farmgate, area harvested, yield per hectare. Users may note that a new methodology for imputing non-reported/missing Production domain data has been implemented in 2011.",
+         "created_at":"2013-06-14T21:25:38.415Z",
+         "updated_at":"2014-01-12T18:09:28.764Z",
+         "refreshed_at":"2014-01-12T18:09:28.764Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producing Animals/Slaughtered (Head)",
+            "Yield (Hg/An)",
+            "Production Quantity (tonnes)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7642405,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_146REPUBLICOFMOLDOVA1726PULSESTOTALTOTAL",
+         "name":"Prices Indices: Pulses,Total + (Total) - Republic of Moldova",
+         "urlize_name":"Prices-Indices-Pulses-Total-Total-Republic-of-Moldova",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Price_Indices_E_Europe_1.zip",
+         "description":"The Prices domain of FAOSTAT contains: 1) Producer Prices or prices received by farmers for primary crops, live animals weight and livestock primary products as collected at the point of initial sale (prices paid at the farm-gate). Data are provided for over 130 countries and for some 200 commodities, representing over 97 percent of the world's value of gross agricultural production (at 2004-2006 International Dollar Prices). 2) Indices of agricultural producer prices that measure the average annual change over time in the selling prices received by farmers (prices at the farm-gate or at the first point of sale). Annual data are provided for over 80 countries. The two categories of producer price indices available in FAOSTAT comprise: Agriculture Producer Price Index; and Single item indices. 3) Monthly (or quarterly) Food and non-alcoholic beverages consumer price indices that measure changes over time in the prices of food that households acquire, use or pay for consumption. These are sub-indices of All items consumer price indices, also disseminated on FAOSTAT, that cover all goods and services included for price measurement in the CPI.",
+         "created_at":"2013-06-14T15:37:25.102Z",
+         "updated_at":"2014-09-17T18:37:00.383Z",
+         "refreshed_at":"2014-09-17T18:37:00.383Z",
+         "frequency":"annual",
+         "from_date":"1993-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producer Price Index (2004-2006 = 100) ()"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7832154,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_5304SOUTHEASTERNASIATOTAL6621ARABLELAND",
+         "name":"Resources Land: Arable land - South-Eastern Asia + (Total)",
+         "urlize_name":"Resources-Land-Arable-land-South-Eastern-Asia-Total",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Resources_Land_E_All_Area_Groups_1.zip",
+         "description":"Some of the most interesting data for economists is found in this domain. The national distribution of land, among arable land, pastures and other lands, as well as the importance of irrigation are just some of the interesting data sets. The Agricultural Resources domain covers: Investment, Land and irrigation, Labour, Machinery, Fertilizers, Pesticides, Population. The Resources domain considers factors of production for the agricultural sector. Broadly speaking, this section details how countries differ in endowments of the three classic inputs: labour, land and capital. Qualitative differences are important for each but are particularly difficult to summarise in a single indicator for land, the productivity of which depends heavily on water and soil conditions.",
+         "created_at":"2013-07-06T01:35:44.491Z",
+         "updated_at":"2014-09-25T13:14:16.764Z",
+         "refreshed_at":"2014-09-25T13:14:16.764Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Area (1000 Ha)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7655344,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_222TUNISIA1765MEATTOTALTOTAL",
+         "name":"Prices Indices: Meat, Total + (Total) - Tunisia",
+         "urlize_name":"Prices-Indices-Meat-Total-Total-Tunisia",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Price_Indices_E_Africa_1.zip",
+         "description":"The Prices domain of FAOSTAT contains: 1) Producer Prices or prices received by farmers for primary crops, live animals weight and livestock primary products as collected at the point of initial sale (prices paid at the farm-gate). Data are provided for over 130 countries and for some 200 commodities, representing over 97 percent of the world's value of gross agricultural production (at 2004-2006 International Dollar Prices). 2) Indices of agricultural producer prices that measure the average annual change over time in the selling prices received by farmers (prices at the farm-gate or at the first point of sale). Annual data are provided for over 80 countries. The two categories of producer price indices available in FAOSTAT comprise: Agriculture Producer Price Index; and Single item indices. 3) Monthly (or quarterly) Food and non-alcoholic beverages consumer price indices that measure changes over time in the prices of food that households acquire, use or pay for consumption. These are sub-indices of All items consumer price indices, also disseminated on FAOSTAT, that cover all goods and services included for price measurement in the CPI.",
+         "created_at":"2013-06-14T19:58:18.544Z",
+         "updated_at":"2014-09-17T19:06:44.340Z",
+         "refreshed_at":"2014-09-17T19:06:44.340Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producer Price Index (2004-2006 = 100) ()"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7636559,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_166PANAMA1726PULSESTOTALTOTAL",
+         "name":"Prices Indices: Pulses,Total + (Total) - Panama",
+         "urlize_name":"Prices-Indices-Pulses-Total-Total-Panama",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Price_Indices_E_Americas_1.zip",
+         "description":"The Prices domain of FAOSTAT contains: 1) Producer Prices or prices received by farmers for primary crops, live animals weight and livestock primary products as collected at the point of initial sale (prices paid at the farm-gate). Data are provided for over 130 countries and for some 200 commodities, representing over 97 percent of the world's value of gross agricultural production (at 2004-2006 International Dollar Prices). 2) Indices of agricultural producer prices that measure the average annual change over time in the selling prices received by farmers (prices at the farm-gate or at the first point of sale). Annual data are provided for over 80 countries. The two categories of producer price indices available in FAOSTAT comprise: Agriculture Producer Price Index; and Single item indices. 3) Monthly (or quarterly) Food and non-alcoholic beverages consumer price indices that measure changes over time in the prices of food that households acquire, use or pay for consumption. These are sub-indices of All items consumer price indices, also disseminated on FAOSTAT, that cover all goods and services included for price measurement in the CPI.",
+         "created_at":"2013-06-14T13:22:29.990Z",
+         "updated_at":"2014-09-25T13:16:55.486Z",
+         "refreshed_at":"2014-09-25T13:16:55.486Z",
+         "frequency":"annual",
+         "from_date":"1961-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Producer Price Index (2004-2006 = 100) ()"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      },
+      {  
+         "id":7718752,
+         "source_id":863,
+         "source_code":"FAO",
+         "code":"FAO_167CZECHREPUBLIC239SOYASAUCE",
+         "name":"Trade Crops Livestock: Soya Sauce - Czech Republic",
+         "urlize_name":"Trade-Crops-Livestock-Soya-Sauce-Czech-Republic",
+         "display_url":"http://faostat.fao.org/Portals/_Faostat/Downloads/zip_files/Trade_Crops_Livestock_E_Europe_1.zip",
+         "description":"The Agricultural Trade domain covers detailed food and agriculture trade data: Export/Import quantity, Export/Import unit value, Export/Import Value, Trade matrix. The Trade module provides comprehensive, comparable and up-to-date annual trade statistics by country, region and economic country groups for about 600 individual food and agriculture commodities since 1961.",
+         "created_at":"2013-06-28T10:42:22.749Z",
+         "updated_at":"2014-09-25T14:20:24.678Z",
+         "refreshed_at":"2014-09-25T14:20:24.678Z",
+         "frequency":"annual",
+         "from_date":"1993-12-31",
+         "to_date":"2011-12-31",
+         "column_names":[  
+            "Year",
+            "Import Quantity (tonnes)",
+            "Import Value (1000 US$)",
+            "Export Quantity (tonnes)",
+            "Export Value (1000 US$)"
+         ],
+         "private":false,
+         "type":null,
+         "premium":false
+      }
+   ],
+   "sources":[  
+      {  
+         "id":863,
+         "code":"FAO",
+         "datasets_count":192278,
+         "description":"Comprehensive global data on food and agriculture. Data covers production, consumption, price inices, export and import of hundreds of agricultural products.",
+         "name":"Food and Agriculture Organization of the United Nations",
+         "host":"faostat3.fao.org",
+         "concurrency":20,
+         "use_proxy":false,
+         "premium":false
+      }
+   ],
+   "start":0,
+   "spellcheck":null,
+   "highlighting":[  
+      [  
+         "id_7741614",
+         {  
+
+         }
+      ],
+      [  
+         "id_7657271",
+         {  
+
+         }
+      ],
+      [  
+         "id_7847503",
+         {  
+
+         }
+      ],
+      [  
+         "id_7746149",
+         {  
+
+         }
+      ],
+      [  
+         "id_7657386",
+         {  
+
+         }
+      ],
+      [  
+         "id_7640679",
+         {  
+
+         }
+      ],
+      [  
+         "id_7774836",
+         {  
+
+         }
+      ],
+      [  
+         "id_7634601",
+         {  
+
+         }
+      ],
+      [  
+         "id_7772662",
+         {  
+
+         }
+      ],
+      [  
+         "id_7655780",
+         {  
+
+         }
+      ],
+      [  
+         "id_7652620",
+         {  
+
+         }
+      ],
+      [  
+         "id_7659526",
+         {  
+
+         }
+      ],
+      [  
+         "id_7734816",
+         {  
+
+         }
+      ],
+      [  
+         "id_7764860",
+         {  
+
+         }
+      ],
+      [  
+         "id_7662028",
+         {  
+
+         }
+      ],
+      [  
+         "id_7642405",
+         {  
+
+         }
+      ],
+      [  
+         "id_7832154",
+         {  
+
+         }
+      ],
+      [  
+         "id_7655344",
+         {  
+
+         }
+      ],
+      [  
+         "id_7636559",
+         {  
+
+         }
+      ],
+      [  
+         "id_7718752",
+         {  
+
+         }
+      ]
+   ]
+}

@@ -1,0 +1,63 @@
+Indicator Name,Code,Source
+GDP,MAP_WEO_NGDP,IMF
+Real GDP Growth,MAP_WEO_GDPG,IMF
+GDP Per Capita,MAP_WEO_NGDPPC,IMF
+GDP Per Capita at PPP,MAP_WEO_GDPPPPPC,IMF
+GDP as Share of World GDP at PPP,MAP_WEO_GDPPPPSW,IMF
+Real GDP,NGDP_R,IMF
+Population,MAP_WEO_POP,IMF
+Labour Force,LE,IMF
+Unemployment Rate,MAP_WEO_UNEMP,IMF
+Youth Unemployment,SL_UEM_1524_ZS,WORLDBANK
+Age Dependency Ratio,SP_POP_DPND,WORLDBANK
+Minimum Wage,DB_MW_19APPRENTICE,WORLDBANK
+Change in Consumer Price Index,MAP_IFS_CPRA,IMF
+GDP Deflator,NY_GDP_DEFL_KD_ZG,WORLDBANK
+Broad Money M2,FM_LBL_MQMY_GD_ZS,WORLDBANK
+Private Sector Credit,FS_AST_PRVT_GD_ZS,WORLDBANK
+Exchange Rate at PPP,MAP_WEO_IMPCR,IMF
+Stock Market Index,DSTKMKTXD,WORLDBANK
+Stock Market Capitalization,CM_MKT_LCAP_CD,WORLDBANK
+Deposit Interest Rate,FR_INR_DPST,WORLDBANK
+Lending Interest Rate,FR_INR_LEND,WORLDBANK
+Spread Over US Treasuries,IRSPREAD,WORLDBANK
+Lending Risk Premium,FR_INR_RISK,WORLDBANK
+Real Interest Rate,FR_INR_RINR,WORLDBANK
+Government Revenues,GGR,IMF
+Government Spending,GGX,IMF
+Primary Surplus or Deficit,GGXONLB,IMF
+Net Debt,GGXWDN,IMF
+Revenues as Share of GDP,GGR_NGDP,IMF
+Spending as Share of GDP,GGX_NGDP,IMF
+Surplus or Deficit as Share of GDP,GGXONLB_NGDP,IMF
+Net Debt as Share of GDP,GGXWDN_NGDP,IMF
+Industrial Production YOY,MAP_IFS_INPRODA,IMF
+Industrial Production MOM,MAP_IFS_INPRODM,IMF
+Change in Inventories,NEGDISTKBCD,WORLDBANK
+Total Investment,NID_NGDP,IMF
+National Savings,NGSD_NGDP,IMF
+Household Consumption Expenditures,NE_CON_PRVT_PP_CD,WORLDBANK
+Agriculture Share of GDP,NV_AGR_TOTL_ZS,WORLDBANK
+Industry Share of GDP,NV_IND_TOTL_ZS,WORLDBANK
+Services Share of GDP,NV_SRV_TETC_ZS,WORLDBANK
+Agriculture Share of Employment,SL_AGR_EMPL_ZS,WORLDBANK
+Industry Share of Employment,SL_IND_EMPL_ZS,WORLDBANK
+Services Share of Employment,SL_SRV_EMPL_ZS,WORLDBANK
+Imports,COMM_1_ALLCOMMODITIES_IMPORT,UN
+Exports,COMM_1_ALLCOMMODITIES_EXPORT,UN
+Reserve Assets,MAP_BOP_RESA,IMF
+FDI Inbound,MAP_BOP_DIRINVA,IMF
+FDI Outbound,MAP_BOP_DIRINVRE,IMF
+Imports as Share of GDP,MAP_BOP_IMPGSPG,IMF
+Exports as Share of GDP,MAP_BOP_EXPGSPG,IMF
+Trade Balance,NE_RSB_GNFS_CD,WORLDBANK
+Current Account Balance,BCA,IMF
+External Debt,DT_DOD_DECT_CD,WORLDBANK
+Trade Balance as Share of GDP,NE_RSB_GNFS_ZS,WORLDBANK
+Current Account Balance as Share of GDP,BCA_NGDPD,IMF
+External Debt as Share of GDP,DT_DOD_DECT_GN_ZS,WORLDBANK
+Tax Rate as Share of Commercial Profits,IC_TAX_TOTL_CP_ZS,WORLDBANK
+Net Tax Revenue as Share of GDP,GC_TAX_TOTL_GD_ZS,WORLDBANK
+Share of Revenue from Goods and Services Taxes,GC_TAX_GSRV_RV_ZS,WORLDBANK
+Share of Revenue from Income Profit and Capital Gains Taxes,GC_TAX_YPKG_RV_ZS,WORLDBANK
+Share of Revenue from International Trade Taxes,GC_TAX_INTT_RV_ZS,WORLDBANK

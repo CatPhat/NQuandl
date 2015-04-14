@@ -1,0 +1,95 @@
+Indicator Name,Code,Source
+Total Population,SP_POP_TOTL,WORLDBANK
+Population of Largest City,EN_URB_LCTY,WORLDBANK
+Female Population,SP_POP_TOTL_FE_ZS,WORLDBANK
+Rural Population,SP_RUR_TOTL_ZS,WORLDBANK
+Urban Population,SP_URB_TOTL_IN_ZS,WORLDBANK
+Rural Growth,SP_RUR_TOTL_ZG,WORLDBANK
+Population Below Age 15,SP_POP_0014_TO_ZS,WORLDBANK
+Population Aged 15 to 64,SP_POP_1564_TO_ZS,WORLDBANK
+Population Above Age 64,SP_POP_65UP_TO_ZS,WORLDBANK
+Population Density,EN_POP_DNST,WORLDBANK
+Population Growth Rate,SP_POP_GROW,WORLDBANK
+Net Migration,SM_POP_NETM,WORLDBANK
+Fertility Rate,SP_DYN_TFRT_IN,WORLDBANK
+Life Expectancy at Birth - Total,SP_DYN_LE00_IN,WORLDBANK
+Life Expectancy at Birth - Female,SP_DYN_LE00_FE_IN,WORLDBANK
+Life Expectancy at Birth - Male,SP_DYN_LE00_MA_IN,WORLDBANK
+Percent Under Nourished,SN_ITK_DEFC_ZS,WORLDBANK
+Depth of Hunger,SN_ITK_DPTH,WORLDBANK
+Percent Wasting - Under 5,SH_STA_WAST_ZS,WORLDBANK
+Percent Overweight - Under 5,SH_STA_OWGH_ZS,WORLDBANK
+Percent Overweight - Female,SH_STA_OW15_FE_ZS,WORLDBANK
+Percent Overweight - Male,SH_STA_OW15_MA_ZS,WORLDBANK
+Community Health Workers per 1000 people,SH_MED_CMHW_P3,WORLDBANK
+Nurses per 1000 people,SH_MED_NURS_P3,WORLDBANK
+Midwives per 1000 People,SH_MED_MWIV_P3,WORLDBANK
+Health Expenditure,SH_XPD_PCAP_PP_KD,WORLDBANK
+Age Dependency Ratio,SP_POP_DPND,WORLDBANK
+Age Dependency Ratio Old,SP_POP_DPND_OL,WORLDBANK
+Age Dependency Ratio Young,SP_POP_DPND_YG,WORLDBANK
+Adult Literacy Rate,SE_ADT_LITR_ZS,WORLDBANK
+Youth Literacy Rate,SE_ADT_1524_LT_ZS,WORLDBANK
+Elderly Literacy Rate,UIS_LR_AG65,WORLDBANK
+Elderly Literacy Rate - Male,UIS_LR_AG65_M,WORLDBANK
+Elderly Literacy Rate - Female,UIS_LR_AG65_F,WORLDBANK
+Enrolment Rate - Primary,SE_PRM_ENRR,WORLDBANK
+Enrolment Rate - Secondary,SE_SEC_ENRR,WORLDBANK
+Enrolment Rate - Tertiary,SE_TER_ENRR,WORLDBANK
+Human Development Index,UNDP_HDI_XD,WORLDBANK
+Population living with less than Five Dollars a day,SI_POV_5DAY,WORLDBANK
+Mean shortfall of the Five Dollar poverty line,SI_POV_GAP5,WORLDBANK
+Urban Population in Slums,EN_POP_SLUM_UR_ZS,WORLDBANK
+Access to Improved Water Sources,SH_H2O_SAFE_ZS,WORLDBANK
+Access to Improved Sanitation Facilities,SH_STA_ACSN,WORLDBANK
+Rural Access to All Season Roads,IS_ROD_ALLS_ZS,WORLDBANK
+Household Electrification Rate,EG_ELC_HOUS_ZS,WORLDBANK
+Population Affected by Droughts or Floods,EN_CLC_MDAT_ZS,WORLDBANK
+Disaster Risk Reduction Progress Score,EN_CLC_DRSK_XQ,WORLDBANK
+Estimated Control of Corruption,CC_EST,WORLDBANK
+Estimated Government Effectiveness,GE_EST,WORLDBANK
+Estimated Political Stability,PV_EST,WORLDBANK
+Estimated Rule of Law,RL_EST,WORLDBANK
+Estimated Accountability,VA_EST,WORLDBANK
+Prevalence of Bribe Requests during Public Transactions,IC_FRM_CORR_GRAFT2,WORLDBANK
+Smoking Prevalence - Females,SH_PRV_SMOK_FE,WORLDBANK
+Smoking Prevalence - Males,SH_PRV_SMOK_MA,WORLDBANK
+Social Contributions,GC_REV_SOCL_ZS,WORLDBANK
+Internet Users,IT_NET_USER_P2,WORLDBANK
+Households with a Personal Computer,IT_PC_HOUS_ZS,WORLDBANK
+Cell Phone Subscriptions,IT_CEL_SETS_P2,WORLDBANK
+Households with a Telephone,IT_TEL_HOUS_ZS,WORLDBANK
+Households with a Radio,IT_RAD_HOUS_ZS,WORLDBANK
+All Vehicles,IS_VEH_NVEH_P3,WORLDBANK
+Passenger Vehicles,IS_VEH_PCAR_P3,WORLDBANK
+International Tourism Arrivals,ST_INT_ARVL,WORLDBANK
+International Tourism Departures,ST_INT_DPRT,WORLDBANK
+International Tourism Receipts,ST_INT_RCPT_XP_ZS,WORLDBANK
+Gender Wage Ratio,SG_WAG_EQLT_FM,WORLDBANK
+Professional and Technical Female Workers,SG_GEN_TECH_ZS,WORLDBANK
+Female-Male Labor Participation Rate Ratio,SL_TLF_CACT_FM_ZS,WORLDBANK
+Female-Male Education Ratio - Primary,SE_ENR_PRIM_FM_ZS,WORLDBANK
+Female-Male Education Ratio - Secondary,SE_ENR_SECO_FM_ZS,WORLDBANK
+Female-Male Education Ratio - Tertiary,SE_ENR_TERT_FM_ZS,WORLDBANK
+Female-Male Literacy Ratio,SE_ADT_1524_LT_FM_ZS,WORLDBANK
+Condom Use - Female,SH_CON_1524_FE_ZS,WORLDBANK
+Condom Use - Male,SH_CON_1524_MA_ZS,WORLDBANK
+Need for Family Planning Satisfied,SH_FPL_SATI_ZS,WORLDBANK
+Armed Forces Personnel,MS_MIL_TOTL_P1,WORLDBANK
+Armed Forces Personnel as Percentage of Labor Force,MS_MIL_TOTL_TF_ZS,WORLDBANK
+Arms Exports,MS_MIL_XPRT_KD,WORLDBANK
+Arms Imports,MS_MIL_MPRT_KD,WORLDBANK
+Military Expenditure,MS_MIL_XPND_GD_ZS,WORLDBANK
+Age at First Marriage - Female,SP_DYN_SMAM_FE,WORLDBANK
+Age at First Marriage - Male,SP_DYN_SMAM_MA,WORLDBANK
+Adolescent Mothers,SP_MTR_1519_ZS,WORLDBANK
+Adolescent Fertility Rate,SP_ADO_TFRT,WORLDBANK
+Orphans Aged 0 to 17,SH_HIV_ORP_NUM,WORLDBANK
+Maternal Leave Benefits,SH_MMR_WAGE_ZS,WORLDBANK
+Weeks Maternity Leave,SH_MMR_LEVE,WORLDBANK
+CO2 Emissions,EN_ATM_CO2E_KT,WORLDBANK
+Methane Emissions,EN_ATM_METH_KT_CE,WORLDBANK
+Nitrous Oxide Emissions,EN_ATM_NOXE_KT_CE,WORLDBANK
+HFC Emissions,EN_ATM_HFCG_KT_CE,WORLDBANK
+PFC Emissions,EN_ATM_PFCG_KT_CE,WORLDBANK
+SF6 Emissions,EN_ATM_SF6G_KT_CE,WORLDBANK

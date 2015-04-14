@@ -1,0 +1,100 @@
+Indicator Name,Code,Source
+Population,117,WHO
+Annual Population Growth,162,WHO
+Population Median Age,118,WHO
+Population Under 15,119,WHO
+Population over 60,140,WHO
+Gross National Income per Capita,158,WHO
+Civil Registration Coverage of Births,139,WHO
+Civil Registration Coverage of Deaths,159,WHO
+Population Using Improved Sanitation Facilities,66,WHO
+Population Using Improved Drinking-water Sources,145,WHO
+Population Living in Urban Areas,161,WHO
+Alcohol Consumption Among Adults,115,WHO
+Adult Literacy Rate,116,WHO
+Adult Mortality Rate,111,WHO
+Under-Five Mortality Rate,8,WHO
+Infant Mortality Rate,4,WHO
+Neonatal Mortality Rate,110,WHO
+Stillbirth Rate,96,WHO
+Life Expectancy at Birth,121,WHO
+Healthy Life Expectancy at Birth,109,WHO
+Communicable,49,WHO
+Noncommunicable,55,WHO
+Injuries,70,WHO
+Malaria,14,WHO
+Tuberculosis,15,WHO
+HIV-AIDS,155,WHO
+Malaria,54,WHO
+Pneumonia,38,WHO
+Injuries,39,WHO
+Birth Asphyxia,93,WHO
+Diarrhoea,40,WHO
+Measles,41,WHO
+HIV-AIDS,43,WHO
+Prematurity,50,WHO
+Neonatal Sepsis,51,WHO
+Congenital Abnormalities,52,WHO
+Other Diseases,44,WHO
+Children Sleeping Under Insecticide-treated Nets,12,WHO
+Children With Fever Who Received Antimalarial Treatment,13,WHO
+Children Who Received Vitamin A Supplementation,147,WHO
+Children With ARI Symptoms Taken to a Health Facility,170,WHO
+Children With Diarrhoea Receiving ORT,171,WHO
+PAB,151,WHO
+Hib3,152,WHO
+BCG,94,WHO
+Pol3,95,WHO
+MCV,173,WHO
+HepB3,143,WHO
+DTP3,164,WHO
+Incidence of Tuberculosis,18,WHO
+Prevalence of Tuberculosis,20,WHO
+Prevalence of HIV Among Adults,34,WHO
+Cholera,108,WHO
+Rubella,138,WHO
+Measles,122,WHO
+Neonatal Tetanus,137,WHO
+Congenital Rubella Syndrome,136,WHO
+Diphtheria,123,WHO
+Japanese Encephalitis,124,WHO
+Pertussis,125,WHO
+Leprosy,126,WHO
+Total Tetanus,127,WHO
+Malaria,129,WHO
+Yellow Fever,131,WHO
+H5N1 Influenza,132,WHO
+Mumps,134,WHO
+Tuberculosis,135,WHO
+Total Fertility Rate,160,WHO
+Adolescent Fertility Rate,5,WHO
+Low-birth-weight Newborns,112,WHO
+Contraceptive Prevalence,6,WHO
+Adolescent Contraceptive Prevalence,27,WHO
+Unmet Need for Family Planning,7,WHO
+Unmet Family Planning Needs for Adolescents,26,WHO
+Births Attended By Skilled Health Personnel,22,WHO
+Adolescent Births Attended By Skilled Health Personnel,36,WHO
+Antenatal Care Coverage - At Least One Visit,157,WHO
+Adolescent Antenatal Care Coverage - At Least One Visit,98,WHO
+Antenatal Care Coverage - At Least Four Visits,63,WHO
+Maternal Mortality Rate - Interagency Estimates,23,WHO
+Maternal Mortality Rate - Country Reported Estimates,31,WHO
+Births By Caesarean Section,141,WHO
+Infants Exclusively Breastfed for the First Six Months of Life,113,WHO
+Physicians,148,WHO
+Nursing and Midwifery Personnel,59,WHO
+Dentistry Personnel,57,WHO
+Pharmaceutical Personnel,72,WHO
+Environment and Public Health Workers,91,WHO
+Hospital Beds,166,WHO
+Antiretroviral Therapy Coverage,30,WHO
+Radiotherapy Units,97,WHO
+Total Health Spending as a Percentage of GDP,56,WHO
+Per Capita Health Spending,64,WHO
+Government Health Spending as a percentage of Total Spending,156,WHO
+Government Health Spending as a percentage of Total Health Spending,60,WHO
+External Health Resources as a percentage of Total Health Spending,144,WHO
+Private Health Spending as a percentage of Total Health Spending,58,WHO
+Private Prepaid Plans as a percentage of Private Health Spending,167,WHO
+Out-of-pocket Spending as a percentage of Private Health Spending,174,WHO
