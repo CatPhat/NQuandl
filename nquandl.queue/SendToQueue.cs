@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,16 @@ namespace NQuandl.Queue
             _container.Verify();
         }
 
-        public static async Task SendRequests<T>(QueueRequest<T> queueRequest) where T : QuandlResponse
+        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<BaseQuandlRequest<T>> queueRequest) where T : QuandlResponse
         {
             var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
-            await createQueue.ConsumeAsync(queueRequest);
+            return await createQueue.ConsumeAsync(queueRequest);
+        }
+
+        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate queueStatusDelegate) where T : QuandlResponse
+        {
+            var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
+            return await createQueue.ConsumeAsync(queueRequest, queueStatusDelegate);
         }
     }
 

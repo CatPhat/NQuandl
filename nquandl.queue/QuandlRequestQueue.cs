@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using NQuandl.Client;
@@ -8,77 +9,105 @@ using NQuandl.Client;
 
 namespace NQuandl.Queue
 {
-    public delegate void ActionDelegate<in TResponse>(TResponse quandlResponse) where TResponse : QuandlResponse;
-
-    public class QueueRequest<T> where T : QuandlResponse
-    {
-        public IEnumerable<BaseQuandlRequest<T>> Requests { get; set; }
-        public ActionDelegate<T> ActionDelegate { get; set; }
-    }
-
-
+    
     public interface IQuandlRequestQueue<T> where T : QuandlResponse
     {
-        Task ConsumeAsync(QueueRequest<T> queueRequest);
+        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest);
+
+        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest,
+            QueueStatusDelegate statusDelegate);
     }
 
     public class QuandlRequestQueue<T> : IQuandlRequestQueue<T> where T : QuandlResponse
     {
         private readonly IDownloadQueue _downloadQueue;
-        private readonly BufferBlock<BaseQuandlRequest<T>> _inputBlock; 
-        private readonly TransformBlock<BaseQuandlRequest<T>, string> _downloadToStringBlock;
-        private readonly TransformBlock<string, T> _transformToDeserializedObjectBlock;
-        private readonly ActionBlock<T> _outputBlock;
+        private readonly BufferBlock<BaseQuandlRequest<T>> _inputBlock;
+        private readonly TransformBlock<BaseQuandlRequest<T>, QueueResponse> _getQueueResponseBlock;
+        private readonly TransformBlock<QueueResponse, T> _transformToDeserializedObjectBlock;
+        private int _queueRequests;
 
-        private ActionDelegate<T> _actionDelegate;
 
         public QuandlRequestQueue(IDownloadQueue downloadQueue)
         {
             _downloadQueue = downloadQueue;
 
             _inputBlock = new BufferBlock<BaseQuandlRequest<T>>();
-            _downloadToStringBlock = new TransformBlock<BaseQuandlRequest<T>, string>(async (x) => await _downloadQueue.ConsumeUrlStringAsync(x.Url));
-            _transformToDeserializedObjectBlock = new TransformBlock<string, T>(async (x) => await x.DeserializeToObjectAsync<T>());
-            _outputBlock = new ActionBlock<T>(response => _actionDelegate(response));
+            _getQueueResponseBlock = new TransformBlock<BaseQuandlRequest<T>, QueueResponse>(async (x) => await _downloadQueue.ConsumeUrlStringAsync(x.Url, _queueRequests));
+            _transformToDeserializedObjectBlock = new TransformBlock<QueueResponse, T>(async (x) => await x.StringResponse.DeserializeToObjectAsync<T>());
         }
 
-     
-        public Task ConsumeAsync(QueueRequest<T> queueRequest)
+        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest)
         {
-           return Task.WhenAll(SendAsync(queueRequest), ProcessAsync(), _outputBlock.Completion);
+            var responseList = new List<T>();
+            await Task.WhenAll(SendAsync(queueRequest), ProcessAsync());
+            while (await _transformToDeserializedObjectBlock.OutputAvailableAsync())
+            {
+                responseList.Add(await _transformToDeserializedObjectBlock.ReceiveAsync());
+            }
+            return responseList;
         }
 
-        private async Task SendAsync(QueueRequest<T> queueRequest)
+        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate statusDelegate)
         {
-            _actionDelegate = queueRequest.ActionDelegate;
-            foreach (var request in queueRequest.Requests)
+            var responseList = new List<T>();
+
+            var queueRequestList = queueRequest.ToList();
+            _queueRequests = queueRequestList.Count();
+
+            var dataflowLinkOptions = new DataflowLinkOptions { PropagateCompletion = true };
+            var actionBlock = new ActionBlock<QueueResponse>(response => statusDelegate(response.QueueStatus));
+            var broadcastBlock = new BroadcastBlock<QueueResponse>(x => x);
+
+            _inputBlock.LinkTo(_getQueueResponseBlock, dataflowLinkOptions);
+            _getQueueResponseBlock.LinkTo(broadcastBlock, dataflowLinkOptions);
+
+            broadcastBlock.LinkTo(_transformToDeserializedObjectBlock, dataflowLinkOptions);
+            broadcastBlock.LinkTo(actionBlock, dataflowLinkOptions);
+
+            await SendAsync(queueRequestList);
+
+            while (await _inputBlock.OutputAvailableAsync())
+            {
+                _inputBlock.Receive();
+            }
+            
+            while (await _transformToDeserializedObjectBlock.OutputAvailableAsync())
+            {
+                responseList.Add(await _transformToDeserializedObjectBlock.ReceiveAsync());
+            }
+
+            return responseList;
+        }
+
+        private async Task SendAsync(IEnumerable<BaseQuandlRequest<T>> requests)
+        {
+            foreach (var request in requests)
             {
                 await _inputBlock.SendAsync(request);
             }
             _inputBlock.Complete();
         }
-       
+
         private async Task ProcessAsync()
         {
             var dataflowLinkOptions = new DataflowLinkOptions { PropagateCompletion = true };
 
-            _inputBlock.LinkTo(_downloadToStringBlock, dataflowLinkOptions);
-            _downloadToStringBlock.LinkTo(_transformToDeserializedObjectBlock, dataflowLinkOptions);
-            _transformToDeserializedObjectBlock.LinkTo(_outputBlock, dataflowLinkOptions);
+            _inputBlock.LinkTo(_getQueueResponseBlock, dataflowLinkOptions);
+            _getQueueResponseBlock.LinkTo(_transformToDeserializedObjectBlock, dataflowLinkOptions);
 
             while (await _inputBlock.OutputAvailableAsync())
             {
                 _inputBlock.Receive();
             }
         }
-        
+
     }
 
-   
 
 
 
-   
+
+
 
 
 }

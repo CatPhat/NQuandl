@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\RequestExtensions.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
     <Compile Include="Interfaces\IQuandlService.cs" />

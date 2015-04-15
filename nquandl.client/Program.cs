@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client;
+using NQuandl.Client.Helpers;
 using NQuandl.Queue;
 
 
@@ -28,49 +29,50 @@ namespace NQuandl.TestConsole
     {
         public async Task<int> GetAllResult()
         {
-            Task.WaitAll(Get1(), Get2());
+            Task.WaitAll(Get1());
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get1()
         {
             var requests = new List<TestRequest>();
-            for (var i = 1; i <= 100; i++)
+            for (var i = 1; i <= 1000; i++)
             {
                 requests.Add(new TestRequest());
             }
 
             var actionDelegate = new Actions();
 
-            var queueRequest = new QueueRequest<TestResponse>
+            var responses = await NQueue.SendRequests(requests, actionDelegate.QueueDelegate);
+            foreach (var testResponse in responses)
             {
-                ActionDelegate = actionDelegate.ActionDelegate,
-                Requests = requests
-            };
+                actionDelegate.ActionDelegate(testResponse);
+            }
+            //foreach (var testResponse in responses)
+            //{
+            //    actionDelegate.ActionDelegate(testResponse);
+            //}
 
-
-            await Task.Run(() => NQueue.SendRequests(queueRequest)).ConfigureAwait(false);
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get2()
         {
             var requests = new List<TestRequest2>();
-            for (var i = 1; i <= 100; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 requests.Add(new TestRequest2());
             }
 
             var actionDelegate = new Actions();
 
-            var queueRequest = new QueueRequest<TestResponse2>
+            var responses = await Task.Run(() => NQueue.SendRequests(requests)).ConfigureAwait(false);
+
+            foreach (var testResponse2 in responses)
             {
-                ActionDelegate = actionDelegate.ActionDelegate,
-                Requests = requests
-            };
+                actionDelegate.ActionDelegate(testResponse2);
+            }
 
-
-            await Task.Run(() => NQueue.SendRequests(queueRequest)).ConfigureAwait(false);
             return await Task.FromResult(0);
         }
     }
@@ -78,11 +80,12 @@ namespace NQuandl.TestConsole
 
     public class Actions
     {
-        public void ActionDelegate(TestResponse quandlResponse)
+        public void ActionDelegate(TestResponse response)
         {
-            Console.Write("Request[1] Count:" + quandlResponse.RequestCount + " Request[1]: " +
-                          quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " +
-                          quandlResponse.UniqueId + " | " + quandlResponse.Milliseconds);
+           
+            Console.Write("Request[1] Count:" + response.RequestCount + " Request[1]: " +
+                          response.RequestType + " | Second: " + response.Second + " | " +
+                          response.UniqueId + " | " + response.Milliseconds);
             Console.WriteLine();
         }
 
@@ -92,6 +95,11 @@ namespace NQuandl.TestConsole
                           quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " +
                           quandlResponse.UniqueId2 + " | " + quandlResponse.Milliseconds);
             Console.WriteLine();
+        }
+
+        public void QueueDelegate(QueueStatus queueStatus)
+        {
+            Console.WriteLine("Requests Remaining: " + queueStatus.RequestsRemaining + " Requests Processed: " + queueStatus.RequestsProcessed);
         }
     }
 
