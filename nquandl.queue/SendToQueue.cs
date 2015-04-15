@@ -22,13 +22,13 @@ namespace NQuandl.Queue
             _container.Verify();
         }
 
-        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<BaseQuandlRequest<T>> queueRequest) where T : QuandlResponse
+        public static async Task<IEnumerable<QueueResponse<T>>> SendRequests<T>(IEnumerable<BaseQuandlRequest<T>> queueRequest) where T : QuandlResponse
         {
             var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
             return await createQueue.ConsumeAsync(queueRequest);
         }
 
-        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate queueStatusDelegate) where T : QuandlResponse
+        public static async Task<IEnumerable<QueueResponse<T>>> SendRequests<T>(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate queueStatusDelegate) where T : QuandlResponse
         {
             var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
             return await createQueue.ConsumeAsync(queueRequest, queueStatusDelegate);

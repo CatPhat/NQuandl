@@ -10,7 +10,7 @@ namespace NQuandl.Client
         public async Task<T> GetAsync<T>(BaseQuandlRequest<T> request) where T : QuandlResponse
         {
             var response = await GetStringAsync(request);
-            return await response.DeserializeToObjectAsync<T>();
+            return response.DeserializeToObject<T>();
         }
 
         public async Task<string> GetStringAsync<T>(BaseQuandlRequest<T> request) where T : QuandlResponse

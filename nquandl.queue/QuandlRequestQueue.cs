@@ -9,81 +9,111 @@ using NQuandl.Client;
 
 namespace NQuandl.Queue
 {
-    
+
     public interface IQuandlRequestQueue<T> where T : QuandlResponse
     {
-        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest);
+        Task<IEnumerable<QueueResponse<T>>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest);
 
-        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest,
+        Task<IEnumerable<QueueResponse<T>>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest,
             QueueStatusDelegate statusDelegate);
     }
 
     public class QuandlRequestQueue<T> : IQuandlRequestQueue<T> where T : QuandlResponse
     {
         private readonly IDownloadQueue _downloadQueue;
-        private readonly BufferBlock<BaseQuandlRequest<T>> _inputBlock;
-        private readonly TransformBlock<BaseQuandlRequest<T>, QueueResponse> _getQueueResponseBlock;
-        private readonly TransformBlock<QueueResponse, T> _transformToDeserializedObjectBlock;
-      
-
+        private readonly BufferBlock<IEnumerable<BaseQuandlRequest<T>>> _inputBlock;
+        private readonly TransformBlock<IEnumerable<BaseQuandlRequest<T>>, BufferBlock<QueueResponse>> _getQueueResponseBlock;
+        private readonly ActionBlock<BufferBlock<QueueResponse>> _transformToDeserializedObjectBlock;
+        private readonly BufferBlock<QueueResponse<T>> _outputBlock;
 
         public QuandlRequestQueue(IDownloadQueue downloadQueue)
         {
             _downloadQueue = downloadQueue;
+            _inputBlock = new BufferBlock<IEnumerable<BaseQuandlRequest<T>>>();
+            _outputBlock = new BufferBlock<QueueResponse<T>>();
 
-            _inputBlock = new BufferBlock<BaseQuandlRequest<T>>();
-            _getQueueResponseBlock = new TransformBlock<BaseQuandlRequest<T>, QueueResponse>(async (x) => await _downloadQueue.ConsumeUrlStringAsync(x.Url));
-            _transformToDeserializedObjectBlock = new TransformBlock<QueueResponse, T>(async (x) => await x.StringResponse.DeserializeToObjectAsync<T>());
+            _getQueueResponseBlock = new TransformBlock<IEnumerable<BaseQuandlRequest<T>>, BufferBlock<QueueResponse>>((x) =>
+            {
+                var urlList = x.Select(request => request.Url).ToList();
+                return _downloadQueue.ConsumeUrlStringsAsync(urlList);
+            });
+
+            _transformToDeserializedObjectBlock = new ActionBlock<BufferBlock<QueueResponse>>(async (x) =>
+            {
+                while (await x.OutputAvailableAsync())
+                {
+                    var task = await x.ReceiveAsync();
+                    var stringResponse = task.StringResponse;
+                    var stringResponseTask = stringResponse.DeserializeToObject<T>();
+                    var queueResponse = new QueueResponse<T>
+                    {
+                        QuandlResponse = stringResponseTask,
+                        QueueStatus = task.QueueStatus,
+                        StringResponse = task.StringResponse
+                    };
+                    await _outputBlock.SendAsync(queueResponse);
+                }
+            });
         }
 
-        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest)
+        public async Task<IEnumerable<QueueResponse<T>>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest)
         {
-            var responseList = new List<T>();
+            var responseList = new List<QueueResponse<T>>();
             await Task.WhenAll(SendAsync(queueRequest), ProcessAsync());
-            while (await _transformToDeserializedObjectBlock.OutputAvailableAsync())
+            while (await _outputBlock.OutputAvailableAsync())
             {
-                responseList.Add(await _transformToDeserializedObjectBlock.ReceiveAsync());
+                responseList.Add(await _outputBlock.ReceiveAsync());
             }
             return responseList;
         }
 
-        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate statusDelegate)
+        public async Task<IEnumerable<QueueResponse<T>>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate statusDelegate)
         {
-            var responseList = new List<T>();
+            var responseList = new List<QueueResponse<T>>();
 
             var queueRequestList = queueRequest.ToList();
-    
+
+            
+            var actionBlock = new ActionBlock<BufferBlock<QueueResponse>>(async (response) =>
+            {
+                while (await response.OutputAvailableAsync())
+                {
+                    var availableResponse = await response.ReceiveAsync();
+                    statusDelegate(availableResponse.QueueStatus);
+                }
+            });
+
             var dataflowLinkOptions = new DataflowLinkOptions { PropagateCompletion = true };
-            var actionBlock = new ActionBlock<QueueResponse>(response => statusDelegate(response.QueueStatus));
-            var broadcastBlock = new BroadcastBlock<QueueResponse>(x => x);
+            var broadcastBlock = new BroadcastBlock<BufferBlock<QueueResponse>>(x => x);
 
             _inputBlock.LinkTo(_getQueueResponseBlock, dataflowLinkOptions);
             _getQueueResponseBlock.LinkTo(broadcastBlock, dataflowLinkOptions);
 
-            broadcastBlock.LinkTo(_transformToDeserializedObjectBlock, dataflowLinkOptions);
-            broadcastBlock.LinkTo(actionBlock, dataflowLinkOptions);
 
-            await SendAsync(queueRequestList);
+            broadcastBlock.LinkTo(actionBlock, dataflowLinkOptions);
+            broadcastBlock.LinkTo(_transformToDeserializedObjectBlock, dataflowLinkOptions);
+
+            await _inputBlock.SendAsync(queueRequestList);
+           
 
             while (await _inputBlock.OutputAvailableAsync())
             {
                 await _inputBlock.ReceiveAsync();
             }
-            
-            while (await _transformToDeserializedObjectBlock.OutputAvailableAsync())
+           
+            while (await _outputBlock.OutputAvailableAsync())
             {
-                responseList.Add(await _transformToDeserializedObjectBlock.ReceiveAsync());
+                responseList.Add(await _outputBlock.ReceiveAsync());
             }
 
+            _inputBlock.Complete();
+            await Task.WhenAll(_inputBlock.Completion, _outputBlock.Completion);
             return responseList;
         }
 
         private async Task SendAsync(IEnumerable<BaseQuandlRequest<T>> requests)
         {
-            foreach (var request in requests)
-            {
-                await _inputBlock.SendAsync(request);
-            }
+            await _inputBlock.SendAsync(requests);
             _inputBlock.Complete();
         }
 

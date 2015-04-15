@@ -29,14 +29,14 @@ namespace NQuandl.TestConsole
     {
         public async Task<int> GetAllResult()
         {
-            Task.WaitAll(Get1());
+            Task.WaitAll(Get1(), Get2());
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get1()
         {
             var requests = new List<TestRequest>();
-            for (var i = 1; i <= 1000; i++)
+            for (var i = 1; i <= 2; i++)
             {
                 requests.Add(new TestRequest());
             }
@@ -46,33 +46,26 @@ namespace NQuandl.TestConsole
             var responses = await NQueue.SendRequests(requests, actionDelegate.QueueDelegate);
             foreach (var testResponse in responses)
             {
-                actionDelegate.ActionDelegate(testResponse);
+                actionDelegate.ActionDelegate(testResponse.QuandlResponse);
             }
-            //foreach (var testResponse in responses)
-            //{
-            //    actionDelegate.ActionDelegate(testResponse);
-            //}
-
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get2()
         {
             var requests = new List<TestRequest2>();
-            for (var i = 1; i <= 10; i++)
+            for (var i = 1; i <= 2; i++)
             {
                 requests.Add(new TestRequest2());
             }
 
             var actionDelegate = new Actions();
 
-            var responses = await Task.Run(() => NQueue.SendRequests(requests)).ConfigureAwait(false);
-
-            foreach (var testResponse2 in responses)
+            var responses = await NQueue.SendRequests(requests, actionDelegate.QueueDelegate);
+            foreach (var testResponse in responses)
             {
-                actionDelegate.ActionDelegate(testResponse2);
+                actionDelegate.ActionDelegate(testResponse.QuandlResponse);
             }
-
             return await Task.FromResult(0);
         }
     }
