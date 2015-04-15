@@ -9,9 +9,9 @@ namespace NQuandl.Client
 {
     public static class JsonExtensions
     {
-        public static T DeserializeToObject<T>(this string jsonResponse) where T : class 
+        public static async Task<T> DeserializeToObjectAsync<T>(this string jsonResponse) where T : class 
         {
-            return JsonConvert.DeserializeObject<T>(jsonResponse);
+            return await Task.Run(() => JsonConvert.DeserializeObject<T>(jsonResponse));
         }
     }
 }
