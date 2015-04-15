@@ -24,7 +24,7 @@ namespace NQuandl.Queue
         private readonly BufferBlock<BaseQuandlRequest<T>> _inputBlock;
         private readonly TransformBlock<BaseQuandlRequest<T>, QueueResponse> _getQueueResponseBlock;
         private readonly TransformBlock<QueueResponse, T> _transformToDeserializedObjectBlock;
-        private int _queueRequests;
+      
 
 
         public QuandlRequestQueue(IDownloadQueue downloadQueue)
@@ -32,7 +32,7 @@ namespace NQuandl.Queue
             _downloadQueue = downloadQueue;
 
             _inputBlock = new BufferBlock<BaseQuandlRequest<T>>();
-            _getQueueResponseBlock = new TransformBlock<BaseQuandlRequest<T>, QueueResponse>(async (x) => await _downloadQueue.ConsumeUrlStringAsync(x.Url, _queueRequests));
+            _getQueueResponseBlock = new TransformBlock<BaseQuandlRequest<T>, QueueResponse>(async (x) => await _downloadQueue.ConsumeUrlStringAsync(x.Url));
             _transformToDeserializedObjectBlock = new TransformBlock<QueueResponse, T>(async (x) => await x.StringResponse.DeserializeToObjectAsync<T>());
         }
 
@@ -52,8 +52,7 @@ namespace NQuandl.Queue
             var responseList = new List<T>();
 
             var queueRequestList = queueRequest.ToList();
-            _queueRequests = queueRequestList.Count();
-
+    
             var dataflowLinkOptions = new DataflowLinkOptions { PropagateCompletion = true };
             var actionBlock = new ActionBlock<QueueResponse>(response => statusDelegate(response.QueueStatus));
             var broadcastBlock = new BroadcastBlock<QueueResponse>(x => x);
@@ -68,7 +67,7 @@ namespace NQuandl.Queue
 
             while (await _inputBlock.OutputAvailableAsync())
             {
-                _inputBlock.Receive();
+                await _inputBlock.ReceiveAsync();
             }
             
             while (await _transformToDeserializedObjectBlock.OutputAvailableAsync())
@@ -97,7 +96,7 @@ namespace NQuandl.Queue
 
             while (await _inputBlock.OutputAvailableAsync())
             {
-                _inputBlock.Receive();
+                await _inputBlock.ReceiveAsync();
             }
         }
 

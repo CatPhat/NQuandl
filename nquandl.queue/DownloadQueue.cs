@@ -9,7 +9,7 @@ namespace NQuandl.Queue
 
     public interface IDownloadQueue
     {
-        Task<QueueResponse> ConsumeUrlStringAsync(string url, int? requestCount = 0);
+        Task<QueueResponse> ConsumeUrlStringAsync(string url);
     }
 
     public class DownloadQueue : IDownloadQueue
@@ -18,7 +18,7 @@ namespace NQuandl.Queue
         private readonly TransformBlock<string, string> _delayedDownloadBlock;
         private readonly TransformBlock<string, QueueResponse> _outputBlock;
         private int _requestsProcessedCount;
-        private int _requestCount;
+       
 
         public DownloadQueue()
         {
@@ -38,7 +38,7 @@ namespace NQuandl.Queue
                 var queueStatus = new QueueStatus
                 {
                     RequestsProcessed = _requestsProcessedCount,
-                    RequestsRemaining = _requestCount
+                    RequestsRemaining = _urlBufferBlock.Count
                 };
                 queueResponse.QueueStatus = queueStatus;
                 queueResponse.StringResponse = x;
@@ -46,12 +46,8 @@ namespace NQuandl.Queue
             });
         }
 
-        public async Task<QueueResponse> ConsumeUrlStringAsync(string url, int? requestCount = 0)
+        public async Task<QueueResponse> ConsumeUrlStringAsync(string url)
         {
-            if (requestCount.HasValue)
-            {
-                _requestCount = _requestCount + requestCount.Value;
-            }
             var bufferBlock = new BufferBlock<string>();
             bufferBlock.LinkTo(_urlBufferBlock);
             await bufferBlock.SendAsync(url);
