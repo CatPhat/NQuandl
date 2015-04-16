@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using NQuandl.Client;
@@ -9,51 +12,36 @@ namespace NQuandl.Queue
 
     public interface IDownloadQueue
     {
-        Task<QueueResponse> ConsumeUrlStringAsync(string url);
+        Task<IEnumerable<string>> ConsumeUrlStringsAsync(IEnumerable<string> url, List<string> outputList);
     }
 
     public class DownloadQueue : IDownloadQueue
     {
-        private readonly BufferBlock<string> _urlBufferBlock;
-        private readonly TransformBlock<string, string> _delayedDownloadBlock;
-        private readonly TransformBlock<string, QueueResponse> _outputBlock;
-        private int _requestsProcessedCount;
-       
-
+        private readonly BufferBlock<IEnumerable<string>> _inputBlock;
+        private readonly TransformBlock<IEnumerable<string>, IEnumerable<string>> _outputBlock;
+      
         public DownloadQueue()
         {
-            _requestsProcessedCount = 0;
-            _urlBufferBlock = new BufferBlock<string>();
-            _delayedDownloadBlock = new TransformBlock<string, string>(async (x) =>
+            _inputBlock = new BufferBlock<IEnumerable<string>>();
+            _outputBlock = new TransformBlock<IEnumerable<string>, IEnumerable<string>>(async (urls) =>
             {
-              
-                await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
-                return await new WebClientHttpConsumer().DownloadStringAsync(x);
-
-            }, new ExecutionDataflowBlockOptions{MaxDegreeOfParallelism = 1, MaxMessagesPerTask = 1, SingleProducerConstrained = true});
-            _outputBlock = new TransformBlock<string, QueueResponse>(x =>
-            {
-                _requestsProcessedCount = _requestsProcessedCount + 1;
-                var queueResponse = new QueueResponse();
-                var queueStatus = new QueueStatus
+                var urlList = new List<string>();
+                foreach (var url in urls)
                 {
-                    RequestsProcessed = _requestsProcessedCount,
-                    RequestsRemaining = _urlBufferBlock.Count
-                };
-                queueResponse.QueueStatus = queueStatus;
-                queueResponse.StringResponse = x;
-                return queueResponse;
-            });
-        }
+                    await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
+                    urlList.Add(await new WebClientHttpConsumer().DownloadStringAsync(url));
+                }
+                return urlList;
+            }, new ExecutionDataflowBlockOptions{MaxDegreeOfParallelism = 1});
+            }
 
-        public async Task<QueueResponse> ConsumeUrlStringAsync(string url)
+        public async Task<IEnumerable<string>> ConsumeUrlStringsAsync(IEnumerable<string> urls, List<string> outputList)
         {
-            var bufferBlock = new BufferBlock<string>();
-            bufferBlock.LinkTo(_urlBufferBlock);
-            await bufferBlock.SendAsync(url);
+            var bufferBlock = new BufferBlock<IEnumerable<string>>();
+            bufferBlock.LinkTo(_inputBlock);
+            bufferBlock.Post(urls.ToList());
             bufferBlock.Complete();
-            _urlBufferBlock.LinkTo(_delayedDownloadBlock);
-            _delayedDownloadBlock.LinkTo(_outputBlock);
+            _inputBlock.LinkTo(_outputBlock);
             return await _outputBlock.ReceiveAsync();
         }
 

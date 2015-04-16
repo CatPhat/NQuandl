@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NQuandl.Queue
 {
-    public delegate void QueueStatusDelegate(QueueStatus status);
+    public delegate void QueueStatusDelegate(IEnumerable<string> status);
 
     public class QueueResponse
     {

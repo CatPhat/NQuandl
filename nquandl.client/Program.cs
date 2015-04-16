@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using NQuandl.Client;
-using NQuandl.Client.Helpers;
 using NQuandl.Queue;
-
-
-
 
 namespace NQuandl.TestConsole
 {
@@ -16,10 +12,13 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
             var results = new GetResults();
-
+      
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             Task.WaitAll(results.GetAllResult());
+            stopwatch.Stop();
 
-            Console.WriteLine("done");
+            Console.WriteLine("done | time: " + stopwatch.Elapsed);
             Console.ReadLine();
         }
     }
@@ -29,50 +28,37 @@ namespace NQuandl.TestConsole
     {
         public async Task<int> GetAllResult()
         {
-            Task.WaitAll(Get1());
+            Task.WaitAll(Get1(),Get2());
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get1()
         {
             var requests = new List<TestRequest>();
-            for (var i = 1; i <= 1000; i++)
+            for (var i = 1; i <= 50; i++)
             {
                 requests.Add(new TestRequest());
             }
 
             var actionDelegate = new Actions();
 
-            var responses = await NQueue.SendRequests(requests, actionDelegate.QueueDelegate);
-            foreach (var testResponse in responses)
-            {
-                actionDelegate.ActionDelegate(testResponse);
-            }
-            //foreach (var testResponse in responses)
-            //{
-            //    actionDelegate.ActionDelegate(testResponse);
-            //}
-
+            var responses = await NQueue.SendRequests(requests);
+            actionDelegate.ActionDelegate(responses);
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get2()
         {
             var requests = new List<TestRequest2>();
-            for (var i = 1; i <= 10; i++)
+            for (var i = 1; i <= 50; i++)
             {
                 requests.Add(new TestRequest2());
             }
 
             var actionDelegate = new Actions();
 
-            var responses = await Task.Run(() => NQueue.SendRequests(requests)).ConfigureAwait(false);
-
-            foreach (var testResponse2 in responses)
-            {
-                actionDelegate.ActionDelegate(testResponse2);
-            }
-
+            var responses = await NQueue.SendRequests(requests);
+            actionDelegate.ActionDelegate(responses);
             return await Task.FromResult(0);
         }
     }
@@ -80,21 +66,31 @@ namespace NQuandl.TestConsole
 
     public class Actions
     {
-        public void ActionDelegate(TestResponse response)
+        public void ActionDelegate(IEnumerable<TestResponse> responses)
         {
-           
-            Console.Write("Request[1] Count:" + response.RequestCount + " Request[1]: " +
-                          response.RequestType + " | Second: " + response.Second + " | " +
-                          response.UniqueId + " | " + response.Milliseconds);
-            Console.WriteLine();
+            foreach (var response in responses)
+            {
+                Console.Write("Request[1] Count:" + response.RequestCount + " Request[1]: " +
+                      response.RequestType + " | Second: " + response.Second + " | " +
+                      response.UniqueId + " | " + response.Milliseconds);
+                Console.WriteLine();
+            }
+        
+          
         }
 
-        public void ActionDelegate(TestResponse2 quandlResponse)
+        public void ActionDelegate(IEnumerable<TestResponse2> responses)
         {
-            Console.Write("Request[2] Count:" + quandlResponse.RequestCount + " Request[2]: " +
-                          quandlResponse.RequestType + " | Second: " + quandlResponse.Second + " | " +
-                          quandlResponse.UniqueId2 + " | " + quandlResponse.Milliseconds);
-            Console.WriteLine();
+            foreach (var response in responses)
+            {
+                Console.Write("Request[2] Count:" + response.RequestCount + " Request[2]: " +
+                        response.RequestType + " | Second: " + response.Second + " | " +
+                        response.UniqueId2 + " | " + response.Milliseconds);
+                Console.WriteLine();
+            }
+
+
+          
         }
 
         public void QueueDelegate(QueueStatus queueStatus)
