@@ -32,7 +32,7 @@ namespace NQuandl.Queue
             _inputBlock = new BufferBlock<IEnumerable<BaseQuandlRequest<T>>>();
             _getQueueResponseBlock =
                 new TransformBlock<IEnumerable<BaseQuandlRequest<T>>, IEnumerable<string>>(
-                    async (x) => await _downloadQueue.ConsumeUrlStringsAsync(x.Select(y => y.Url), new List<string>()));
+                    async (x) => await _downloadQueue.ConsumeUrlStringsAsync(x.Select(y => y.Url)));
 
             _outputBlock = new TransformBlock<IEnumerable<string>, IEnumerable<T>>(async (x) =>
             {
