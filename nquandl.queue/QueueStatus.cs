@@ -16,12 +16,17 @@ namespace NQuandl.Queue
 
     public class QueueStatus
     {
-        public int RequestsRemaining { get; internal set; }
         public int RequestsProcessed { get; internal set; }
+        public int TotalRequests { get; internal set; }
+
+        public int RequestsRemaining
+        {
+            get { return TotalRequests - RequestsProcessed; }
+        }
 
         public int TimeRemaining
         {
-            get { return new DateTime(300).Millisecond*RequestsRemaining; }
+            get { return (300*RequestsRemaining) / 1000; }
         }
     }
 }

@@ -12,7 +12,10 @@ namespace NQuandl.Queue
             container.Register<IServiceProvider>(() => container, Lifestyle.Singleton);
             container.Register<IQuandlService>(() => new QuandlService());
             container.RegisterOpenGeneric(typeof(IQuandlRequestQueue<>), typeof(QuandlRequestQueue<>));
-            container.RegisterSingle<IDownloadQueue>(() => new DownloadQueue());
+            container.RegisterSingle<IDownloadQueue,DownloadQueue>();
+            container.RegisterSingle<IDownloadQueueLogger, DownloadQueueLogger>();
+            container.RegisterSingleDecorator(typeof (IDownloadQueue), typeof (DownloadQueueDecorator));
+
         }
     }
 }

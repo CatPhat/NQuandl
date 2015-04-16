@@ -33,6 +33,12 @@ namespace NQuandl.Queue
             var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
             return await createQueue.ConsumeAsync(queueRequest, queueStatusDelegate);
         }
+
+        public static QueueStatus GetQueueStatus()
+        {
+            var queueLogger = _container.GetInstance<IDownloadQueueLogger>();
+            return queueLogger.GetQueueStatus();
+        }
     }
 
 

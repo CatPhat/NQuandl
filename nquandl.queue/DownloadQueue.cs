@@ -12,7 +12,7 @@ namespace NQuandl.Queue
 
     public interface IDownloadQueue
     {
-        Task<IEnumerable<string>> ConsumeUrlStringsAsync(IEnumerable<string> url);
+        Task<IEnumerable<string>> ConsumeUrlStringsAsync(List<string> urls);
     }
 
     public class DownloadQueue : IDownloadQueue
@@ -35,7 +35,7 @@ namespace NQuandl.Queue
             }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
         }
 
-        public async Task<IEnumerable<string>> ConsumeUrlStringsAsync(IEnumerable<string> urls)
+        public async Task<IEnumerable<string>> ConsumeUrlStringsAsync(List<string> urls)
         {
             var bufferBlock = new BufferBlock<IEnumerable<string>>();
             bufferBlock.LinkTo(_inputBlock);

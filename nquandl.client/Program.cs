@@ -12,7 +12,7 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
             var results = new GetResults();
-      
+
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             Task.WaitAll(results.GetAllResult());
@@ -28,14 +28,30 @@ namespace NQuandl.TestConsole
     {
         public async Task<int> GetAllResult()
         {
-            Task.WaitAll(Get1(),Get2());
+            var task = Task.WhenAll(Get1(), Get2());
+            int? counter = null;
+            PrintStatus();
+            while (!task.IsCompleted)
+            {
+                if (counter.HasValue && counter.Value != NQueue.GetQueueStatus().RequestsRemaining)
+                {
+                    PrintStatus();
+                }
+                counter = NQueue.GetQueueStatus().RequestsRemaining;
+            }
             return await Task.FromResult(0);
+        }
+
+        public void PrintStatus()
+        {
+            Console.WriteLine("Total: {0} | Processed: {1} | Remaining {2}", NQueue.GetQueueStatus().TotalRequests, NQueue.GetQueueStatus().RequestsProcessed, NQueue.GetQueueStatus().RequestsRemaining);
+
         }
 
         public async Task<int> Get1()
         {
             var requests = new List<TestRequest>();
-            for (var i = 1; i <= 50; i++)
+            for (var i = 1; i <= 20; i++)
             {
                 requests.Add(new TestRequest());
             }
@@ -43,14 +59,14 @@ namespace NQuandl.TestConsole
             var actionDelegate = new Actions();
 
             var responses = await NQueue.SendRequests(requests);
-            actionDelegate.ActionDelegate(responses);
+          //  actionDelegate.ActionDelegate(responses);
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get2()
         {
             var requests = new List<TestRequest2>();
-            for (var i = 1; i <= 50; i++)
+            for (var i = 1; i <= 20; i++)
             {
                 requests.Add(new TestRequest2());
             }
@@ -58,7 +74,7 @@ namespace NQuandl.TestConsole
             var actionDelegate = new Actions();
 
             var responses = await NQueue.SendRequests(requests);
-            actionDelegate.ActionDelegate(responses);
+        //    actionDelegate.ActionDelegate(responses);
             return await Task.FromResult(0);
         }
     }
@@ -75,8 +91,8 @@ namespace NQuandl.TestConsole
                       response.UniqueId + " | " + response.Milliseconds);
                 Console.WriteLine();
             }
-        
-          
+
+
         }
 
         public void ActionDelegate(IEnumerable<TestResponse2> responses)
@@ -90,7 +106,7 @@ namespace NQuandl.TestConsole
             }
 
 
-          
+
         }
 
         public void QueueDelegate(QueueStatus queueStatus)
