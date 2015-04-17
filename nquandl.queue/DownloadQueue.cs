@@ -17,12 +17,13 @@ namespace NQuandl.Queue
 
     public class DownloadQueue : IDownloadQueue
     {
+        private readonly IConsumeHttp _client;
         private readonly BufferBlock<IEnumerable<string>> _inputBlock;
-       
         private readonly TransformBlock<IEnumerable<string>, IEnumerable<string>> _outputBlock;
 
-        public DownloadQueue()
+        public DownloadQueue(IConsumeHttp client)
         {
+            _client = client;
             _inputBlock = new BufferBlock<IEnumerable<string>>();
             _outputBlock = new TransformBlock<IEnumerable<string>, IEnumerable<string>>(async (urls) =>
             {
@@ -30,7 +31,7 @@ namespace NQuandl.Queue
                 foreach (var url in urls)
                 {
                     await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
-                    urlList.Add(await new WebClientHttpConsumer().DownloadStringAsync(url));
+                    urlList.Add(await _client.DownloadStringAsync(url));
                 }
                 return urlList;
             }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });

@@ -15,7 +15,7 @@ namespace NQuandl.Queue
             container.RegisterSingle<IDownloadQueue,DownloadQueue>();
             container.RegisterSingle<IDownloadQueueLogger, DownloadQueueLogger>();
             container.RegisterSingleDecorator(typeof (IDownloadQueue), typeof (DownloadQueueDecorator));
-
+            container.Register<IConsumeHttp, WebClientHttpConsumer>();
         }
     }
 }
