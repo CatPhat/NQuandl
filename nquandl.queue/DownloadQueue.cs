@@ -18,6 +18,7 @@ namespace NQuandl.Queue
     public class DownloadQueue : IDownloadQueue
     {
         private readonly BufferBlock<IEnumerable<string>> _inputBlock;
+       
         private readonly TransformBlock<IEnumerable<string>, IEnumerable<string>> _outputBlock;
 
         public DownloadQueue()
@@ -44,8 +45,6 @@ namespace NQuandl.Queue
             _inputBlock.LinkTo(_outputBlock);
             return await _outputBlock.ReceiveAsync();
         }
-
-
-
+       
     }
 }
