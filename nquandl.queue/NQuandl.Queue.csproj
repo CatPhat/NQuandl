@@ -62,6 +62,7 @@
     <Compile Include="QueueStatus.cs" />
     <Compile Include="DownloadQueueDecorator.cs" />
     <Compile Include="SendToQueue.cs" />
+    <Compile Include="WebClientHttpConsumerDecorator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NQuandl.Client\NQuandl.Client.csproj">

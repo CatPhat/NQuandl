@@ -16,17 +16,37 @@ namespace NQuandl.Queue
 
     public class QueueStatus
     {
+        public TimeSpan TimeElapsed { get; internal set; }
         public int RequestsProcessed { get; internal set; }
         public int TotalRequests { get; internal set; }
+        public string LastResponse { get; internal set; }
+
+        public double HowManyRequestsIn10MinutesAtCurrentRate
+        {
+            get { return RequestsPerSecond*600; }
+        }
+
+        public double RequestsPerSecond
+        {
+            get
+            {
+                if (TimeElapsed.Seconds != 0 && RequestsProcessed != 0)
+                {
+                    return RequestsProcessed / TimeElapsed.TotalSeconds;
+                }
+                return 0;
+
+            }
+        }
 
         public int RequestsRemaining
         {
             get { return TotalRequests - RequestsProcessed; }
         }
 
-        public int TimeRemaining
+        public double TimeRemaining
         {
-            get { return (300*RequestsRemaining) / 1000; }
+            get { return  Math.Round((RequestsRemaining /  RequestsPerSecond)); }
         }
     }
 }

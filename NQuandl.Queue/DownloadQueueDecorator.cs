@@ -18,9 +18,9 @@ namespace NQuandl.Queue
 
         public async Task<IEnumerable<string>> ConsumeUrlStringsAsync(List<string> urls)
         {
-            _logger.AddUnprocessedRequestsCount(urls);
+            await _logger.AddUnprocessedRequestCountAsync(urls.Count);
             var responses = await _downloadQueue.ConsumeUrlStringsAsync(urls);
-            _logger.AddRequestsProcessedCount(responses.ToList());
+          
             return responses;
         }
     }
