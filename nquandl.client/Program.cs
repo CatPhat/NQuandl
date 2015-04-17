@@ -12,16 +12,55 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
             var results = new GetResults();
-
+            var results2 = new GetResults();
+            var verbose = new Verbose();
             var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            Task.WaitAll(results.GetAllResult());
-            stopwatch.Stop();
 
-            Console.WriteLine("done | time: " + stopwatch.Elapsed);
+            var task = Task.WhenAll(results.GetAllResult(), results2.GetAllResult());
+
+            var counter = NQueue.GetQueueStatus().RequestsRemaining;
+            verbose.PrintStatus();
+            while (!task.IsCompleted && counter >= 0)
+            {
+
+                var currentCount = NQueue.GetQueueStatus().RequestsRemaining;
+                if (counter != currentCount)
+                {
+                    Console.Clear();
+                    verbose.PrintStatus();
+
+                    counter = currentCount;
+
+                }
+
+
+            }
+
+
+            Console.WriteLine("done | time: " + NQueue.GetQueueStatus().TimeElapsed);
             Console.ReadLine();
         }
     }
+
+    public class Verbose
+    {
+        public void PrintStatus()
+        {
+
+
+            Console.WriteLine("                     Total: {0}", NQueue.GetQueueStatus().TotalRequests);
+            Console.WriteLine("                 Remaining: {0}", NQueue.GetQueueStatus().RequestsRemaining);
+            Console.WriteLine("                 Processed: {0}", NQueue.GetQueueStatus().RequestsProcessed);
+            Console.WriteLine("            Time Remaining: {0} sec", NQueue.GetQueueStatus().TimeRemaining);
+            Console.WriteLine("            RequestsPerSec: {0} ", NQueue.GetQueueStatus().RequestsPerSecond);
+            Console.WriteLine("10 Minutes at Current Rate: {0} ", NQueue.GetQueueStatus().HowManyRequestsIn10MinutesAtCurrentRate);
+            Console.WriteLine("{0}",new string('.', NQueue.GetQueueStatus().RequestsRemaining));
+
+        }
+
+
+    }
+
 
 
     public class GetResults
@@ -29,29 +68,15 @@ namespace NQuandl.TestConsole
         public async Task<int> GetAllResult()
         {
             var task = Task.WhenAll(Get1(), Get2());
-            int? counter = null;
-            PrintStatus();
-            while (!task.IsCompleted)
-            {
-                if (counter.HasValue && counter.Value != NQueue.GetQueueStatus().RequestsRemaining)
-                {
-                    PrintStatus();
-                }
-                counter = NQueue.GetQueueStatus().RequestsRemaining;
-            }
+            await task;
             return await Task.FromResult(0);
         }
 
-        public void PrintStatus()
-        {
-            Console.WriteLine("Total: {0} | Processed: {1} | Remaining {2}", NQueue.GetQueueStatus().TotalRequests, NQueue.GetQueueStatus().RequestsProcessed, NQueue.GetQueueStatus().RequestsRemaining);
-
-        }
 
         public async Task<int> Get1()
         {
             var requests = new List<TestRequest>();
-            for (var i = 1; i <= 20; i++)
+            for (var i = 1; i <= 50; i++)
             {
                 requests.Add(new TestRequest());
             }
@@ -59,14 +84,14 @@ namespace NQuandl.TestConsole
             var actionDelegate = new Actions();
 
             var responses = await NQueue.SendRequests(requests);
-          //  actionDelegate.ActionDelegate(responses);
+            //  actionDelegate.ActionDelegate(responses);
             return await Task.FromResult(0);
         }
 
         public async Task<int> Get2()
         {
             var requests = new List<TestRequest2>();
-            for (var i = 1; i <= 20; i++)
+            for (var i = 1; i <= 60; i++)
             {
                 requests.Add(new TestRequest2());
             }
@@ -74,7 +99,7 @@ namespace NQuandl.TestConsole
             var actionDelegate = new Actions();
 
             var responses = await NQueue.SendRequests(requests);
-        //    actionDelegate.ActionDelegate(responses);
+            //    actionDelegate.ActionDelegate(responses);
             return await Task.FromResult(0);
         }
     }
