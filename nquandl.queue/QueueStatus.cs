@@ -30,12 +30,11 @@ namespace NQuandl.Queue
         {
             get
             {
-                if (TimeElapsed.Seconds != 0 && RequestsProcessed != 0)
+                if (RequestsProcessed != 0)
                 {
                     return RequestsProcessed / TimeElapsed.TotalSeconds;
                 }
                 return 0;
-
             }
         }
 
@@ -44,9 +43,9 @@ namespace NQuandl.Queue
             get { return TotalRequests - RequestsProcessed; }
         }
 
-        public double TimeRemaining
+        public TimeSpan TimeRemaining
         {
-            get { return  Math.Round((RequestsRemaining /  RequestsPerSecond)); }
+            get { return (DateTime.Now.AddSeconds((int)Math.Round(RequestsRemaining / RequestsPerSecond)) - DateTime.Now); }
         }
     }
 }
