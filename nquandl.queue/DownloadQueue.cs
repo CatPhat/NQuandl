@@ -30,7 +30,7 @@ namespace NQuandl.Queue
                 var urlList = new List<string>();
                 foreach (var url in urls)
                 {
-                   //await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
+                   await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
                     urlList.Add(await _client.DownloadStringAsync(url));
                 }
                 return urlList;
