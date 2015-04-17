@@ -67,6 +67,8 @@ namespace NQuandl.TestConsole
 
     public class GetResults
     {
+        private const int RequestCount = 1000;
+
         public async Task<int> GetAllResult()
         {
             var task = Task.WhenAll(Get1(), Get2());
@@ -78,7 +80,7 @@ namespace NQuandl.TestConsole
         public async Task<int> Get1()
         {
             var requests = new List<TestRequest>();
-            for (var i = 1; i <= 50; i++)
+            for (var i = 1; i <= RequestCount; i++)
             {
                 requests.Add(new TestRequest());
             }
@@ -93,7 +95,7 @@ namespace NQuandl.TestConsole
         public async Task<int> Get2()
         {
             var requests = new List<TestRequest2>();
-            for (var i = 1; i <= 60; i++)
+            for (var i = 1; i <= RequestCount; i++)
             {
                 requests.Add(new TestRequest2());
             }
