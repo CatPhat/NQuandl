@@ -22,6 +22,7 @@ namespace NQuandl.Queue
         {
             await _logger.AddProcessedRequestCountAsync(1);
             var response =  _client.DownloadStringAsync(url);
+            await _logger.SetLastResponseAsync(await response);
             return await response;
         }
     }

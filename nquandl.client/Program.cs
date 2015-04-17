@@ -54,6 +54,7 @@ namespace NQuandl.TestConsole
             Console.WriteLine("            Time Remaining: {0} sec", NQueue.GetQueueStatus().TimeRemaining);
             Console.WriteLine("            RequestsPerSec: {0} ", NQueue.GetQueueStatus().RequestsPerSecond);
             Console.WriteLine("10 Minutes at Current Rate: {0} ", NQueue.GetQueueStatus().HowManyRequestsIn10MinutesAtCurrentRate);
+            Console.WriteLine("Last Response: {0} \n", NQueue.GetQueueStatus().LastResponse);
             Console.WriteLine("{0}",new string('.', NQueue.GetQueueStatus().RequestsRemaining));
 
         }

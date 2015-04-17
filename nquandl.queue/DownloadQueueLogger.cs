@@ -10,6 +10,7 @@ namespace NQuandl.Queue
     {
         Task AddUnprocessedRequestCountAsync(int amount);
         Task AddProcessedRequestCountAsync(int amount);
+        Task SetLastResponseAsync(string response);
         QueueStatus GetQueueStatus();
     }
 
@@ -37,10 +38,18 @@ namespace NQuandl.Queue
             return Task.FromResult(0);
         }
 
+        public Task SetLastResponseAsync(string response)
+        {
+            _queueStatus.LastResponse = response;
+            return Task.FromResult(0);
+        }
+
         public QueueStatus GetQueueStatus()
         {
             _queueStatus.TimeElapsed = _stopWatch.Elapsed;
             return _queueStatus;
         }
+
+        
     }
 }

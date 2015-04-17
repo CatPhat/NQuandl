@@ -20,7 +20,6 @@ namespace NQuandl.Queue
         {
             await _logger.AddUnprocessedRequestCountAsync(urls.Count);
             var responses = await _downloadQueue.ConsumeUrlStringsAsync(urls);
-          
             return responses;
         }
     }
