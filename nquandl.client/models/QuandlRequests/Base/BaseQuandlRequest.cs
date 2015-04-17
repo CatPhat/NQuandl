@@ -3,6 +3,11 @@ using System;
 
 namespace NQuandl.Client
 {
+    public abstract class QuandlResponse
+    {
+        
+    }
+
    
     public abstract class BaseQuandlRequest<TResponse> where TResponse : QuandlResponse
     {

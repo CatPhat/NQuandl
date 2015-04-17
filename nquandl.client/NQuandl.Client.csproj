@@ -65,10 +65,7 @@
     <Compile Include="Models\QuandlRequests\Base\QuandlMetadataV2Request.cs" />
     <Compile Include="Models\QuandlRequests\Base\BaseQuandlRequest.cs" />
     <Compile Include="Models\QuandlRequests\Base\QuandlMetadataV1Request.cs" />
-    <Compile Include="Models\QuandlResponses\QuandlMetadataV2Response.cs" />
     <Compile Include="Models\QuandlRequests\Base\RequestAttributes.cs" />
-    <Compile Include="Models\QuandlResponses\QuandlMetadataV1Response.cs" />
-    <Compile Include="Models\QuandlResponses\QuandlResponse.cs" />
     <Compile Include="Models\TestRequest2.cs" />
     <Compile Include="Models\TestRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
