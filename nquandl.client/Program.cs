@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client;
+using NQuandl.Client.Models.QuandlRequests;
 using NQuandl.Queue;
 
 namespace NQuandl.TestConsole
@@ -11,12 +13,15 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var results = new GetResults();
-            var results2 = new GetResults();
+            //var results = new GetResults();
+            //var results2 = new GetResults();
             var verbose = new Verbose();
-            var stopwatch = new Stopwatch();
+        
+            //var task = Task.WhenAll(results.GetAllResult(), results2.GetAllResult());
 
-            var task = Task.WhenAll(results.GetAllResult(), results2.GetAllResult());
+            var quandlRealDeal = new QuandlRealDeal();
+
+            var task = Task.WhenAll(quandlRealDeal.GetStringResponse());
 
             var counter = NQueue.GetQueueStatus().RequestsRemaining;
             verbose.PrintStatus();
@@ -39,6 +44,18 @@ namespace NQuandl.TestConsole
 
             Console.WriteLine("done | time: " + NQueue.GetQueueStatus().TimeElapsed);
             Console.ReadLine();
+        }
+    }
+
+
+    public class QuandlRealDeal
+    {
+        public async Task<IEnumerable<RequestStringResponse>> GetStringResponse()
+        {
+            var request1 = new RequestString("WSJ/MILK", "exclude_data=true");
+            var request2 = new RequestString("OFDP/FUTURE_DA1", "exclude_data=true");
+            var requestList = new List<RequestString> {request1, request2};
+            return await NQueue.SendRequests(requestList);
         }
     }
 
