@@ -7,26 +7,27 @@ using System.Threading.Tasks;
 namespace NQuandl.Generator
 {
 
-  
-    
 
-    //public class CommodityCSVModel : IParseFromCSV
-    //{
-    //    public string Name { get; set; }
-    //    public string Code { get; set; }
 
-    //    public string DatabaseCode
-    //    {
-    //        get { return Code.Split('/')[0]; }
-    //    }
 
-    //    public string TableCode
-    //    {
-    //        get { return Code.Split('/')[1]; }
-    //    }
+    public class CommodityCSVModel : IParseFromCSV
+    {
+        public string Name { get; set; }
+        public string Code { get; set; }
 
-     
-    //}
+        public string DatabaseCode
+        {
+            get { return Code.Split('/')[0]; }
+        }
+
+        public string TableCode
+        {
+            get { return Code.Split('/')[1]; }
+        }
+
+
+        public ICSVModel ParseToCSVModel { get; set; }
+    }
 }
 
 
