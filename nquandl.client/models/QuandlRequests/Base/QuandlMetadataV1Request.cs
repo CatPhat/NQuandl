@@ -33,7 +33,6 @@ namespace NQuandl.Client.Models.QuandlRequests
     }
 
     [DataContract]
-    [RequestAttributes(DatabaseCode = "foo", TableCode = "bar")]
     public class QuandlMetadataV1Response : QuandlResponse
     {
         [DataMember(Name = "errors")]
