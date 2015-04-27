@@ -8,12 +8,10 @@ namespace NQuandl.Client.Models.QuandlRequests
 {
     public class RequestString : BaseQuandlRequestV1<RequestStringResponse>
     {
-        public RequestString(QuandlCode quandlCode)
-            : base(quandlCode)
+        public RequestString(QuandlCode quandlCode, OptionalRequestParameters options = null)
+            : base(quandlCode, options)
         {
         }
-
-        public OptionalRequestParameters OptionalRequestParameter { get; set; }
     }
 
     public class RequestStringResponse : QuandlResponse

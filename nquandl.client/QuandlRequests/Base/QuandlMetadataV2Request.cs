@@ -19,12 +19,7 @@ namespace NQuandl.Client
         private readonly string _sourceCode;
         private readonly int _perPageCount;
         private readonly int _currentPage;
-
-        public string QueryCode
-        {
-            get { return _sourceCode; }
-        }
-
+        
         public string OptionalRequestParameter
         {
             get { return "per_page=" + _perPageCount + "&current_page=" + _currentPage; }

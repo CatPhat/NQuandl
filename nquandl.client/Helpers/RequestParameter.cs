@@ -62,7 +62,7 @@ namespace NQuandl.Client
         public int? Column { get; set; }
         public Transformation? Transformation { get; set; }
         public Exclude? ExcludeData { get; set; }
-        public string ApiKey { get; set; }
+       
     }
 
     public class QuandlCode

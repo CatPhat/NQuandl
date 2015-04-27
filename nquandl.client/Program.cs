@@ -13,32 +13,28 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var results = new GetResults();
-            var results2 = new GetResults();
-            var verbose = new Verbose();
-        
-            var task = Task.WhenAll(results.GetAllResult(), results2.GetAllResult());
+            var quandlCode = new QuandlCode { DatabaseCode = "WSJ", TableCode = "MILK" };
+            var request1 = new RequestString(quandlCode,
 
-          
-
-            var counter = NQueue.GetQueueStatus().RequestsRemaining;
-            verbose.PrintStatus();
-            while (!task.IsCompleted && counter >= 0)
-            {
-
-                var currentCount = NQueue.GetQueueStatus().RequestsRemaining;
-                if (counter != currentCount)
+                new OptionalRequestParameters
                 {
-                    Console.Clear();
-                    verbose.PrintStatus();
+                    SortOrder = SortOrder.Ascending,
+                    Column = 3,
+                    DateRange = new DateRange
+                    {
+                        TrimStart = DateTime.Now,
+                        TrimEnd = DateTime.Today.AddDays(-20)
+                    },
+                    ExcludeData = Exclude.False,
+                    ExcludeHeaders = Exclude.False,
+                    Rows = 6,
+                    Transformation = Transformation.CumulativeSum
+                });
 
-                    counter = currentCount;
 
-                }
-
-
-            }
-
+            var client = new QuandlService();
+            var response = client.GetAsync(request1);
+            Console.WriteLine(response.Result.String);
 
             Console.WriteLine("done | time: " + NQueue.GetQueueStatus().TimeElapsed);
             Console.ReadLine();
@@ -50,10 +46,44 @@ namespace NQuandl.TestConsole
     {
         public async Task<IEnumerable<RequestStringResponse>> GetStringResponse()
         {
-            var request1 = new RequestString("WSJ/MILK");
-            var request2 = new RequestString("OFDP/FUTURE_DA1");
-            var requestList = new List<RequestString> {request1, request2};
-            return await NQueue.SendRequests(requestList);
+            var quandlCode = new QuandlCode { DatabaseCode = "WSJ", TableCode = "MILK" };
+            var request1 = new RequestString(quandlCode,
+
+                new OptionalRequestParameters
+                {
+                    SortOrder = SortOrder.Ascending,
+                    Column = 3,
+                    DateRange = new DateRange
+                    {
+                        TrimStart = DateTime.Now,
+                        TrimEnd = DateTime.Today.AddDays(-20)
+                    },
+                    ExcludeData = Exclude.False,
+                    ExcludeHeaders = Exclude.False,
+                    Rows = 6,
+                    Transformation = Transformation.CumulativeSum
+                });
+
+
+            var request2 = new RequestString(quandlCode,
+
+                new OptionalRequestParameters
+                {
+                    SortOrder = SortOrder.Ascending,
+                    Column = 3,
+                    DateRange = new DateRange
+                    {
+                        TrimStart = DateTime.Now,
+                        TrimEnd = DateTime.Today.AddDays(-20)
+                    },
+                    ExcludeData = Exclude.False,
+                    ExcludeHeaders = Exclude.False,
+                    Rows = 6,
+                    Transformation = Transformation.CumulativeSum
+                });
+            var requestList = new List<RequestString> { request1, request2 };
+            var responses = await NQueue.SendRequests(requestList);
+            return await Task.FromResult(responses);
         }
     }
 
