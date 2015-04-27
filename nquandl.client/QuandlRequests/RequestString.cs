@@ -8,15 +8,9 @@ namespace NQuandl.Client.Models.QuandlRequests
 {
     public class RequestString : BaseQuandlRequestV1<RequestStringResponse>
     {
-        private readonly string _queryCode;
-        public RequestString(string querycode)
+        public RequestString(QuandlCode quandlCode)
+            : base(quandlCode)
         {
-            _queryCode = querycode;
-        }
-
-        public override string QueryCode
-        {
-            get { return _queryCode; }
         }
 
         public OptionalRequestParameters OptionalRequestParameter { get; set; }

@@ -15,36 +15,31 @@ namespace NQuandl.Client
         //{
         //    get { return "json"; }
         //}
-        RequiredRequestParameters RequiredRequestParameters { get; set; }
-        OptionalRequestParameters OptionalRequestParameters { get; set; }
-
-       string QueryCode { get; }
        string Url { get;}
     }
 
     public abstract class BaseQuandlRequestV1<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
-        public RequiredRequestParameters RequiredRequestParameters { get; set; }
+        protected BaseQuandlRequestV1(QuandlCode quandlCode)
+        {
+            _quandlCode = quandlCode;
+        } 
+    
         public OptionalRequestParameters OptionalRequestParameters { get; set; }
-
-        public string QueryCode { get; private set; }
-
+        private readonly QuandlCode _quandlCode;
         public string Url
         {
-            get { return QuandlServiceConfiguration.BaseUrl + RequestParameterConstants.Version1Format + QueryCode + RequestParameterConstants.JsonFormat + OptionalRequestParameters.ToRequestParameter(); }
+            get { return QuandlServiceConfiguration.BaseUrl + RequestParameterConstants.Version1Format + "/" + _quandlCode.DatabaseCode + _quandlCode.TableCode + RequestParameterConstants.JsonFormat + OptionalRequestParameters.ToRequestParameter(); }
         }
     }
 
     public abstract class BaseQuandlRequestV2<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
-        public RequiredRequestParameters RequiredRequestParameters { get; set; }
-        OptionalRequestParameters IQuandlRequest<TResponse>.OptionalRequestParameters { get; set; }
-        public string OptionalRequestParameters { get; set; }
-        public string QueryCode { get; private set; }
+        public string QueryCode { get; set; }
 
-        public override string Url
+        public string Url
         {
-            get { return QuandlServiceConfiguration.BaseUrl + "v2/datasets." + ResponseFormat + "?query=*&source_code=" + QueryCode + "&" + RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey); }
+            get { return QuandlServiceConfiguration.BaseUrl + RequestParameterConstants.Version2Format + "." + RequestParameterConstants.JsonFormat + "?query=*&source_code=" + QueryCode + "&" + RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey); }
         }
     }
     

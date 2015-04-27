@@ -56,7 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\OptionalRequestBuilder.cs" />
-    <Compile Include="Helpers\RequestExtensions.cs" />
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />

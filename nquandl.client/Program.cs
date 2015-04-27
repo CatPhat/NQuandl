@@ -50,8 +50,8 @@ namespace NQuandl.TestConsole
     {
         public async Task<IEnumerable<RequestStringResponse>> GetStringResponse()
         {
-            var request1 = new RequestString("WSJ/MILK", "exclude_data=true");
-            var request2 = new RequestString("OFDP/FUTURE_DA1", "exclude_data=true");
+            var request1 = new RequestString("WSJ/MILK");
+            var request2 = new RequestString("OFDP/FUTURE_DA1");
             var requestList = new List<RequestString> {request1, request2};
             return await NQueue.SendRequests(requestList);
         }

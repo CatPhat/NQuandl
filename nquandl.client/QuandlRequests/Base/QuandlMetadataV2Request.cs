@@ -20,7 +20,7 @@ namespace NQuandl.Client
         private readonly int _perPageCount;
         private readonly int _currentPage;
 
-        public override string QueryCode
+        public string QueryCode
         {
             get { return _sourceCode; }
         }

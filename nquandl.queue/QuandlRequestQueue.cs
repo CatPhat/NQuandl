@@ -12,26 +12,26 @@ namespace NQuandl.Queue
 
     public interface IQuandlRequestQueue<T> where T : QuandlResponse
     {
-        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest);
+        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<IQuandlRequest<T>> queueRequest);
 
-        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest,
+        Task<IEnumerable<T>> ConsumeAsync(IEnumerable<IQuandlRequest<T>> queueRequest,
             QueueStatusDelegate statusDelegate);
     }
 
     public class QuandlRequestQueue<T> : IQuandlRequestQueue<T> where T : QuandlResponse
     {
         private readonly IDownloadQueue _downloadQueue;
-        private readonly BufferBlock<IEnumerable<BaseQuandlRequest<T>>> _inputBlock;
-        private readonly TransformBlock<IEnumerable<BaseQuandlRequest<T>>, IEnumerable<string>> _getQueueResponseBlock;
+        private readonly BufferBlock<IEnumerable<IQuandlRequest<T>>> _inputBlock;
+        private readonly TransformBlock<IEnumerable<IQuandlRequest<T>>, IEnumerable<string>> _getQueueResponseBlock;
         private readonly TransformBlock<IEnumerable<string>, IEnumerable<T>> _outputBlock;
 
         public QuandlRequestQueue(IDownloadQueue downloadQueue)
         {
             _downloadQueue = downloadQueue;
             var dataflowLinkOptions = new DataflowLinkOptions { PropagateCompletion = true };
-            _inputBlock = new BufferBlock<IEnumerable<BaseQuandlRequest<T>>>();
+            _inputBlock = new BufferBlock<IEnumerable<IQuandlRequest<T>>>();
             _getQueueResponseBlock =
-                new TransformBlock<IEnumerable<BaseQuandlRequest<T>>, IEnumerable<string>>(
+                new TransformBlock<IEnumerable<IQuandlRequest<T>>, IEnumerable<string>>(
                     async (x) => await _downloadQueue.ConsumeUrlStringsAsync(x.Select(y => y.Url).ToList()));
 
             _outputBlock = new TransformBlock<IEnumerable<string>, IEnumerable<T>>(async (x) =>
@@ -48,7 +48,7 @@ namespace NQuandl.Queue
             _getQueueResponseBlock.LinkTo(_outputBlock, dataflowLinkOptions);
         }
 
-        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest)
+        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<IQuandlRequest<T>> queueRequest)
         {
             var responseList = new List<T>();
             await SendAsync(queueRequest);
@@ -65,14 +65,14 @@ namespace NQuandl.Queue
             return responseList;
         }
 
-        private async Task SendAsync(IEnumerable<BaseQuandlRequest<T>> requests)
+        private async Task SendAsync(IEnumerable<IQuandlRequest<T>> requests)
         {
             await _inputBlock.SendAsync(requests);
             _inputBlock.Complete();
         }
 
 
-        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<BaseQuandlRequest<T>> queueRequest, QueueStatusDelegate statusDelegate)
+        public async Task<IEnumerable<T>> ConsumeAsync(IEnumerable<IQuandlRequest<T>> queueRequest, QueueStatusDelegate statusDelegate)
         {
             var responseList = new List<T>();
 

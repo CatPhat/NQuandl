@@ -53,25 +53,6 @@ namespace NQuandl.Client
         }
     }
 
-
-    public class RequiredRequestParameters
-    {
-        public RequiredRequestParameters(string baseUrl, QuandlCode quandlCode)
-        {
-            BaseUrl = baseUrl;
-            QuandlCode = quandlCode;
-        }
-
-        public string BaseUrl { get; private set; }
-        public QuandlCode QuandlCode { get; private set; }
-
-        public string Format
-        {
-            get { return RequestParameterConstants.JsonFormat; }
-        }
-
-    }
-
     public class OptionalRequestParameters
     {
         public SortOrder? SortOrder { get; set; }

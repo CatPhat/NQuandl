@@ -4,12 +4,12 @@ namespace NQuandl.Client
 {
     public class TestRequest2 : IQuandlRequest<TestResponse2>
     {
-        public override string QueryCode
+        public string QueryCode
         {
             get { throw new NotImplementedException(); }
         }
         
-        public override string Url
+        public string Url
         {
             get { return "http://localhost:49832/api/testapi2/"; }
         }
