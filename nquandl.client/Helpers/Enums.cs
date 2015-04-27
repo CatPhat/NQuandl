@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NQuandl.Client.Helpers;
 
 namespace NQuandl.Client
 {
@@ -15,7 +16,7 @@ namespace NQuandl.Client
         Descending,
     }
 
-    public enum ExcludeHeaders
+    public enum Exclude
     {
         [RequestValue("true")]
         True,

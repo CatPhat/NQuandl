@@ -1,5 +1,5 @@
 ﻿
-using System;
+using NQuandl.Client.Helpers;
 
 namespace NQuandl.Client
 {
@@ -9,57 +9,43 @@ namespace NQuandl.Client
     }
 
    
-    public abstract class BaseQuandlRequest<TResponse> where TResponse : QuandlResponse
+    public interface IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
-        internal static string ResponseFormat
-        {
-            get { return "json"; }
-        }
+        //internal static string ResponseFormat
+        //{
+        //    get { return "json"; }
+        //}
+        RequiredRequestParameters RequiredRequestParameters { get; set; }
+        OptionalRequestParameters OptionalRequestParameters { get; set; }
 
-        public static Type ResponseType
-        {
-            get { return typeof (TResponse); }
-        }
-
-        public abstract string QueryCode { get; }
-        public abstract string Parameters { get; }
-        public abstract string Url { get;}
-
+       string QueryCode { get; }
+       string Url { get;}
     }
 
-    public abstract class BaseQuandlRequestV1<TResponse> : BaseQuandlRequest<TResponse> where TResponse : QuandlResponse
+    public abstract class BaseQuandlRequestV1<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
+        public RequiredRequestParameters RequiredRequestParameters { get; set; }
+        public OptionalRequestParameters OptionalRequestParameters { get; set; }
+
+        public string QueryCode { get; private set; }
+
+        public string Url
+        {
+            get { return QuandlServiceConfiguration.BaseUrl + RequestParameterConstants.Version1Format + QueryCode + RequestParameterConstants.JsonFormat + OptionalRequestParameters.ToRequestParameter(); }
+        }
+    }
+
+    public abstract class BaseQuandlRequestV2<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
+    {
+        public RequiredRequestParameters RequiredRequestParameters { get; set; }
+        OptionalRequestParameters IQuandlRequest<TResponse>.OptionalRequestParameters { get; set; }
+        public string OptionalRequestParameters { get; set; }
+        public string QueryCode { get; private set; }
+
         public override string Url
         {
-            get { return QuandlServiceConfiguration.BaseUrl + "v1/datasets/" + QueryCode + "." + ResponseFormat + "?" + Parameters.AppendApiKey(QuandlServiceConfiguration.ApiKey); }
+            get { return QuandlServiceConfiguration.BaseUrl + "v2/datasets." + ResponseFormat + "?query=*&source_code=" + QueryCode + "&" + RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey); }
         }
     }
-
-    public abstract class BaseQuandlRequestV2<TResponse> : BaseQuandlRequest<TResponse> where TResponse : QuandlResponse
-    {
-        public override string Url
-        {
-            get { return QuandlServiceConfiguration.BaseUrl + "v2/datasets." + ResponseFormat + "?query=*&source_code=" + QueryCode + "&" + Parameters.AppendApiKey(QuandlServiceConfiguration.ApiKey); }
-        }
-    }
-
-
-    public abstract class BaseQuandlRequestWithQueryOptions<TResponse> : BaseQuandlRequestV1<TResponse> where TResponse : QuandlResponse
-    {
-       
-        internal abstract string DatabaseCode { get; }
-        internal abstract string TableCode { get; }
-        
-        public SortOrder SortOrder { get; set; }
-        public bool ExcludeHeaders { get; set; }
-
-        public override string Parameters
-        {
-            get { return SortOrder.ToString(); } //needs extension
-        }
-    }
-
- 
-  
-
+    
 }

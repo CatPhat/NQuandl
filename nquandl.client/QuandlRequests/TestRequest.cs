@@ -7,18 +7,13 @@ using System.Threading.Tasks;
 
 namespace NQuandl.Client
 {
-    public class TestRequest : BaseQuandlRequest<TestResponse>
+    public class TestRequest : IQuandlRequest<TestResponse>
     {
         public override string QueryCode
         {
             get { throw new NotImplementedException(); }
         }
-
-        public override string Parameters
-        {
-            get { throw new NotImplementedException(); }
-        }
-
+        
         public override string Url
         {
             get { return "http://localhost:49832/api/testapi/"; }

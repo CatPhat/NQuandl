@@ -10,5 +10,10 @@
         public const string Column = "column=";
         public const string Frequency = "collapse=";
         public const string Transformation = "transformation=";
+        public const string ExcludeData = "exclude_data=";
+        public const string AuthToken = "auth_token=";
+        public const string JsonFormat = ".json";
+        public const string Version1Format = "v1/datasets";
+        public const string Version2Format = "v2/datasets";
     }
 }

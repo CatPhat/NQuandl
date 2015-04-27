@@ -4,7 +4,7 @@ namespace NQuandl.Client
 {
     public interface IQuandlService
     {
-        Task<T> GetAsync<T>(BaseQuandlRequest<T> request) where T : QuandlResponse;
-        Task<string> GetStringAsync<T>(BaseQuandlRequest<T> request) where T : QuandlResponse;
+        Task<T> GetAsync<T>(IQuandlRequest<T> request) where T : QuandlResponse;
+        Task<string> GetStringAsync<T>(IQuandlRequest<T> request) where T : QuandlResponse;
     }
 }

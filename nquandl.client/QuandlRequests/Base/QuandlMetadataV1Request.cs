@@ -16,6 +16,11 @@ namespace NQuandl.Client.Models.QuandlRequests
 
             _databaseCode = databaseCode.ToUpper();
             _tableCode = tableCode.ToUpper();
+
+            OptionalRequestParameters = new OptionalRequestParameters
+            {
+                ExcludeData = Exclude.True
+            };
         }
 
         private readonly string _databaseCode;
@@ -25,11 +30,7 @@ namespace NQuandl.Client.Models.QuandlRequests
         {
             get { return _databaseCode + "/" + _tableCode; }
         }
-
-        public override string Parameters
-        {
-            get { return "exclude_data=true"; }
-        }
+        
     }
 
     [DataContract]

@@ -25,7 +25,7 @@ namespace NQuandl.Client
             get { return _sourceCode; }
         }
 
-        public override string Parameters
+        public string OptionalRequestParameter
         {
             get { return "per_page=" + _perPageCount + "&current_page=" + _currentPage; }
         }

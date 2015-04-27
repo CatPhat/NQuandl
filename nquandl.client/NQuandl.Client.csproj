@@ -55,19 +55,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\OptionalRequestBuilder.cs" />
     <Compile Include="Helpers\RequestExtensions.cs" />
+    <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
     <Compile Include="Interfaces\IQuandlService.cs" />
     <Compile Include="Interfaces\IQuandlResult.cs" />
     <Compile Include="IResponse.cs" />
     <Compile Include="IReturn.cs" />
-    <Compile Include="QuandlRequests\Base\Enums.cs" />
+    <Compile Include="Helpers\Enums.cs" />
     <Compile Include="QuandlRequests\Base\QuandlMetadataV2Request.cs" />
     <Compile Include="QuandlRequests\Base\BaseQuandlRequest.cs" />
     <Compile Include="QuandlRequests\Base\QuandlMetadataV1Request.cs" />
-    <Compile Include="QuandlRequests\Base\RequestParameter.cs" />
-    <Compile Include="QuandlRequests\Base\RequestParameterConstants.cs" />
+    <Compile Include="Helpers\RequestParameter.cs" />
+    <Compile Include="Helpers\RequestParameterConstants.cs" />
     <Compile Include="QuandlRequests\RequestString.cs" />
     <Compile Include="QuandlRequests\TestRequest2.cs" />
     <Compile Include="QuandlRequests\TestRequest.cs" />
@@ -76,7 +78,6 @@
     <Compile Include="QuandlServiceConfiguration.cs" />
     <Compile Include="WebClientHttpConsumer.cs" />
     <Compile Include="Helpers\JsonExtensions.cs" />
-    <Compile Include="Helpers\UrlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
