@@ -13,15 +13,13 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            //var results = new GetResults();
-            //var results2 = new GetResults();
+            var results = new GetResults();
+            var results2 = new GetResults();
             var verbose = new Verbose();
         
-            //var task = Task.WhenAll(results.GetAllResult(), results2.GetAllResult());
+            var task = Task.WhenAll(results.GetAllResult(), results2.GetAllResult());
 
-            var quandlRealDeal = new QuandlRealDeal();
-
-            var task = Task.WhenAll(quandlRealDeal.GetStringResponse());
+          
 
             var counter = NQueue.GetQueueStatus().RequestsRemaining;
             verbose.PrintStatus();
