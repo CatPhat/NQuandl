@@ -75,8 +75,8 @@
     <Compile Include="QuandlService.cs" />
     <Compile Include="QuandlServiceConfiguration.cs" />
     <Compile Include="WebClientHttpConsumer.cs" />
-    <Compile Include="_Etc\JsonExtensions.cs" />
-    <Compile Include="_Etc\UrlExtensions.cs" />
+    <Compile Include="Helpers\JsonExtensions.cs" />
+    <Compile Include="Helpers\UrlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
