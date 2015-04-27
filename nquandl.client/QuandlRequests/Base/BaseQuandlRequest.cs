@@ -62,9 +62,4 @@ namespace NQuandl.Client
  
   
 
-    public enum SortOrder
-    {
-        Asc = 0,
-        Desc = 1
-    }
 }
