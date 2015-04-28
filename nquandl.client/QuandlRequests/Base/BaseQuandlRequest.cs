@@ -8,40 +8,40 @@ namespace NQuandl.Client
 
     }
 
-
     public interface IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
-        //internal static string ResponseFormat
-        //{
-        //    get { return "json"; }
-        //}
         string Url { get; }
     }
 
     public abstract class BaseQuandlRequestV1<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
-        protected BaseQuandlRequestV1(QuandlCode quandlCode, OptionalRequestParameters options = null)
+        protected BaseQuandlRequestV1(QuandlCode quandlCode)
         {
             _quandlCode = quandlCode;
-            if (options != null)
-            {
-                _options = options.ToRequestParameter();
-            }
         }
 
-        private readonly string _options;
+        public OptionalRequestParameters Options { get; set; }
+
         private readonly QuandlCode _quandlCode;
         public string Url
         {
             get
             {
-                return QuandlServiceConfiguration.BaseUrl + RequestParameterConstants.Version1Format + "/" +
-                       _quandlCode.DatabaseCode + _quandlCode.TableCode + RequestParameterConstants.JsonFormat +
-                       _options + "&" +
-                       RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey);
+                var url = QuandlServiceConfiguration.BaseUrl + "/" + RequestParameterConstants.Version1Format + "/" +
+                          _quandlCode.DatabaseCode + _quandlCode.TableCode + RequestParameterConstants.JsonFormat + "?" +
+                          RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey);
+
+                if (Options == null)
+                {
+                    return url;
+                }
+                return url + Options.ToRequestParameter();
             }
         }
     }
+
+
+
 
     public abstract class BaseQuandlRequestV2<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
