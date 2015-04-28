@@ -10,6 +10,11 @@ namespace NQuandl.Client.Helpers
     {
         public static string ToRequestParameter(this OptionalRequestParameters optionalRequestParameters)
         {
+            if (optionalRequestParameters == null)
+            {
+                return null;
+            }
+
             var parameters = new List<string>();
             var parameter = new StringBuilder();
 
@@ -40,7 +45,7 @@ namespace NQuandl.Client.Helpers
 
             if (parameters.Count <= 1) return parameters.FirstOrDefault();
 
-            foreach (var requestParameter in parameters.Skip(1))
+            foreach (var requestParameter in parameters)
             {
                 parameter.Append("&" + requestParameter);
             }
