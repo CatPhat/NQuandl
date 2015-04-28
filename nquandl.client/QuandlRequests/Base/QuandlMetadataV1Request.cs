@@ -7,10 +7,12 @@ namespace NQuandl.Client
     public class QuandlMetadataV1Request : BaseQuandlRequestV1<QuandlMetadataV1Response>
     {
         public QuandlMetadataV1Request(QuandlCode quandlCode)
-            : base(quandlCode, new OptionalRequestParameters { ExcludeData = Exclude.True })
+            : base(quandlCode)
         {
-
+            Options = new OptionalRequestParameters {ExcludeData = Exclude.True};
         }
+
+        
     }
 
     [DataContract]
