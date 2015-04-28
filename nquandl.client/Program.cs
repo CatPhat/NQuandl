@@ -14,9 +14,9 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
             var quandlCode = new QuandlCode { DatabaseCode = "WSJ", TableCode = "MILK" };
-            var request1 = new RequestString(quandlCode,
-
-                new OptionalRequestParameters
+            var request1 = new RequestString(quandlCode)
+            {
+                Options = new OptionalRequestParameters
                 {
                     SortOrder = SortOrder.Ascending,
                     Column = 3,
@@ -29,7 +29,8 @@ namespace NQuandl.TestConsole
                     ExcludeHeaders = Exclude.False,
                     Rows = 6,
                     Transformation = Transformation.CumulativeSum
-                });
+                }
+            };
 
 
             var client = new QuandlService();
@@ -42,50 +43,50 @@ namespace NQuandl.TestConsole
     }
 
 
-    public class QuandlRealDeal
-    {
-        public async Task<IEnumerable<RequestStringResponse>> GetStringResponse()
-        {
-            var quandlCode = new QuandlCode { DatabaseCode = "WSJ", TableCode = "MILK" };
-            var request1 = new RequestString(quandlCode,
+    //public class QuandlRealDeal
+    //{
+    //    public async Task<IEnumerable<RequestStringResponse>> GetStringResponse()
+    //    {
+    //        var quandlCode = new QuandlCode { DatabaseCode = "WSJ", TableCode = "MILK" };
+    //        var request1 = new RequestString(quandlCode,
 
-                new OptionalRequestParameters
-                {
-                    SortOrder = SortOrder.Ascending,
-                    Column = 3,
-                    DateRange = new DateRange
-                    {
-                        TrimStart = DateTime.Now,
-                        TrimEnd = DateTime.Today.AddDays(-20)
-                    },
-                    ExcludeData = Exclude.False,
-                    ExcludeHeaders = Exclude.False,
-                    Rows = 6,
-                    Transformation = Transformation.CumulativeSum
-                });
+    //            new OptionalRequestParameters
+    //            {
+    //                SortOrder = SortOrder.Ascending,
+    //                Column = 3,
+    //                DateRange = new DateRange
+    //                {
+    //                    TrimStart = DateTime.Now,
+    //                    TrimEnd = DateTime.Today.AddDays(-20)
+    //                },
+    //                ExcludeData = Exclude.False,
+    //                ExcludeHeaders = Exclude.False,
+    //                Rows = 6,
+    //                Transformation = Transformation.CumulativeSum
+    //            });
 
 
-            var request2 = new RequestString(quandlCode,
+    //        var request2 = new RequestString(quandlCode,
 
-                new OptionalRequestParameters
-                {
-                    SortOrder = SortOrder.Ascending,
-                    Column = 3,
-                    DateRange = new DateRange
-                    {
-                        TrimStart = DateTime.Now,
-                        TrimEnd = DateTime.Today.AddDays(-20)
-                    },
-                    ExcludeData = Exclude.False,
-                    ExcludeHeaders = Exclude.False,
-                    Rows = 6,
-                    Transformation = Transformation.CumulativeSum
-                });
-            var requestList = new List<RequestString> { request1, request2 };
-            var responses = await NQueue.SendRequests(requestList);
-            return await Task.FromResult(responses);
-        }
-    }
+    //            new OptionalRequestParameters
+    //            {
+    //                SortOrder = SortOrder.Ascending,
+    //                Column = 3,
+    //                DateRange = new DateRange
+    //                {
+    //                    TrimStart = DateTime.Now,
+    //                    TrimEnd = DateTime.Today.AddDays(-20)
+    //                },
+    //                ExcludeData = Exclude.False,
+    //                ExcludeHeaders = Exclude.False,
+    //                Rows = 6,
+    //                Transformation = Transformation.CumulativeSum
+    //            });
+    //        var requestList = new List<RequestString> { request1, request2 };
+    //        var responses = await NQueue.SendRequests(requestList);
+    //        return await Task.FromResult(responses);
+    //    }
+    //}
 
     public class Verbose
     {
