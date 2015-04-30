@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using NQuandl.Client.Models;
 
 namespace NQuandl.Client
 {

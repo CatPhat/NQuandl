@@ -1,4 +1,5 @@
 ﻿using System;
+using NQuandl.Client.Models;
 
 namespace NQuandl.Client
 {
@@ -18,6 +19,10 @@ namespace NQuandl.Client
   
     public class TestResponse2 : QuandlResponse
     {
+        public TestResponse2(QuandlCode quandlCode) : base(quandlCode)
+        {
+        }
+
         public string RequestType { get; set; }
         public string UniqueId2 { get; set; }
         public int RequestCount { get; set; }

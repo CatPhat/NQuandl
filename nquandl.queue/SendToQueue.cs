@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using NQuandl.Client;
+using NQuandl.Client.Models;
 using NQuandl.Queue.Annotations;
 using SimpleInjector;
 

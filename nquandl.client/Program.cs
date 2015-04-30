@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client;
+using NQuandl.Client.Models;
+using NQuandl.Client.Models.Base;
 using NQuandl.Client.Models.QuandlRequests;
 using NQuandl.Queue;
 
@@ -13,32 +15,29 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var quandlCode = new QuandlCode { DatabaseCode = "WSJ", TableCode = "MILK" };
-            var request1 = new RequestString(quandlCode)
+            var options = new OptionalRequestParameters
             {
-                Options = new OptionalRequestParameters
+                SortOrder = SortOrder.Ascending,
+                Column = 3,
+                DateRange = new DateRange
                 {
-                    SortOrder = SortOrder.Ascending,
-                    Column = 3,
-                    DateRange = new DateRange
-                    {
-                        TrimStart = DateTime.Now,
-                        TrimEnd = DateTime.Today.AddDays(-20)
-                    },
-                    ExcludeData = Exclude.False,
-                    ExcludeHeaders = Exclude.False,
-                    Rows = 6,
-                    Transformation = Transformation.CumulativeSum
-                }
+                    TrimStart = DateTime.Now,
+                    TrimEnd = DateTime.Today.AddDays(-20)
+                },
+                ExcludeData = Exclude.False,
+                ExcludeHeaders = Exclude.False,
+                Rows = 6,
+                Transformation = Transformation.CumulativeSum
             };
 
-
-            var client = new QuandlService();
-            var response = client.GetAsync(request1);
-            Console.WriteLine(response.Result.String);
+            var service = new QuandlService();
+            var context = new QuandlContext(service);
+            var response = context.GetAsync<FRED_GDP>(options);
+            Console.WriteLine(response.Result.Value);
 
             Console.WriteLine("done | time: " + NQueue.GetQueueStatus().TimeElapsed);
             Console.ReadLine();
+
         }
     }
 

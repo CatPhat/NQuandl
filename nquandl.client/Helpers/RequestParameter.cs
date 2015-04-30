@@ -53,6 +53,12 @@ namespace NQuandl.Client
         }
     }
 
+    public class RequestParameters
+    {
+        public QuandlCode QuandlCode { get; set; }
+        public OptionalRequestParameters Options { get; set; }
+    }
+
     public class OptionalRequestParameters
     {
         public SortOrder? SortOrder { get; set; }

@@ -1,17 +1,9 @@
 ﻿
 using NQuandl.Client.Helpers;
+using NQuandl.Client.Models;
 
 namespace NQuandl.Client
 {
-    public abstract class QuandlResponse
-    {
-
-    }
-
-    public class ResponseWithMetadata
-    {
-        
-    }
 
     public interface IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
@@ -20,42 +12,43 @@ namespace NQuandl.Client
 
     public abstract class BaseQuandlRequestV1<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
-        protected BaseQuandlRequestV1(QuandlCode quandlCode)
+        private readonly RequestParameters _parameters;
+        protected BaseQuandlRequestV1(RequestParameters parameters)
         {
-            _quandlCode = quandlCode;
+            _parameters = parameters;
         }
 
-        public OptionalRequestParameters Options { get; set; }
-
-        private readonly QuandlCode _quandlCode;
         public string Url
         {
             get
             {
                 var url = QuandlServiceConfiguration.BaseUrl + "/" + RequestParameterConstants.Version1Format + "/" +
-                          _quandlCode.DatabaseCode + _quandlCode.TableCode + RequestParameterConstants.JsonFormat + "?" +
+                          _parameters.QuandlCode.DatabaseCode + _parameters.QuandlCode.TableCode + RequestParameterConstants.JsonFormat + "?" +
                           RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey);
 
-                if (Options == null)
+                if (_parameters.Options == null)
                 {
                     return url;
                 }
-                return url + Options.ToRequestParameter();
+                return url + _parameters.Options.ToRequestParameter();
             }
         }
     }
 
-
-
-
-    public abstract class BaseQuandlRequestV2<TResponse> : IQuandlRequest<TResponse> where TResponse : QuandlResponse
+    public class QuandlRequestV1<TResponse> : BaseQuandlRequestV1<TResponse> where TResponse : QuandlResponse
     {
-        public string QueryCode { get; set; }
 
-        public string Url
+        public QuandlRequestV1(TResponse response, OptionalRequestParameters options = null)
+            : base(new RequestParameters { QuandlCode = response.QuandlCode, Options = options })
         {
-            get { return QuandlServiceConfiguration.BaseUrl + RequestParameterConstants.Version2Format + "." + RequestParameterConstants.JsonFormat + "?query=*&source_code=" + QueryCode + "&" + RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey); }
         }
     }
+
+  
+
+
+
+
+
 
 }

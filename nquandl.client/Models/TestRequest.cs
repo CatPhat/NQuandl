@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using NQuandl.Client.Models;
 
 namespace NQuandl.Client
 {
@@ -20,9 +21,13 @@ namespace NQuandl.Client
         }
     }
 
-  
+
     public class TestResponse : QuandlResponse
     {
+        public TestResponse(QuandlCode quandlCode) : base(quandlCode)
+        {
+        }
+
         public string RequestType { get; set; }
         public int UniqueId { get; set; }
         public int RequestCount { get; set; }

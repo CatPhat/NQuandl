@@ -66,10 +66,12 @@
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Models\Base\QuandlMetadataV2Request.cs" />
     <Compile Include="Models\Base\BaseQuandlRequest.cs" />
-    <Compile Include="Models\Base\QuandlMetadataV1Request.cs" />
     <Compile Include="Helpers\RequestParameter.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
+    <Compile Include="Models\Base\QuandlContext.cs" />
+    <Compile Include="Models\FRED-GDP.cs" />
     <Compile Include="Models\RequestString.cs" />
+    <Compile Include="Models\Base\BaseResponse.cs" />
     <Compile Include="Models\TestRequest2.cs" />
     <Compile Include="Models\TestRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +84,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="_Etc\quandl_api_data\commodities.csv" />
+    <None Include="_Etc\quandl_api_data\fred-gdp.json" />
     <None Include="_Etc\quandl_api_data\master-dataset-response-v2.json" />
     <None Include="_Etc\quandl_api_data\metadata_response.json" />
   </ItemGroup>
