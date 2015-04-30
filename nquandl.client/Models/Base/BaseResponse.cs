@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NQuandl.Client.Models
 {
-    public interface IQuandlResponse<TResponse> where TResponse : QuandlResponse
-    {
-        QuandlCode QuandlCode { get; }
-    }
-
     public abstract class QuandlResponse
     {
         private readonly QuandlCode _quandlCode;
+
         protected QuandlResponse(QuandlCode quandlCode)
         {
             _quandlCode = quandlCode;
         }
 
-        
+
         public QuandlCode QuandlCode
         {
             get { return _quandlCode; }
@@ -36,62 +28,62 @@ namespace NQuandl.Client.Models
         }
 
         [DataMember(Name = "errors")]
-        public Dictionary<string, string> Errors { get;  set; }
+        public Dictionary<string, string> Errors { get; set; }
 
         [DataMember(Name = "id")]
-        public int MetadataId { get;  set; }
+        public int MetadataId { get; set; }
 
         [DataMember(Name = "source_name")]
-        public string SourceName { get;  set; }
+        public string SourceName { get; set; }
 
         [DataMember(Name = "source_code")]
-        public string SourceCode { get;  set; }
+        public string SourceCode { get; set; }
 
         [DataMember(Name = "code")]
-        public string Code { get;  set; }
+        public string Code { get; set; }
 
         [DataMember(Name = "name")]
-        public string Name { get;  set; }
+        public string Name { get; set; }
 
         [DataMember(Name = "urlize_name")]
-        public string UrlizeName { get;  set; }
+        public string UrlizeName { get; set; }
 
         [DataMember(Name = "display_url")]
-        public string DisplayUrl { get;  set; }
+        public string DisplayUrl { get; set; }
 
         [DataMember(Name = "description")]
-        public string Descrption { get;  set; }
+        public string Descrption { get; set; }
 
         [DataMember(Name = "updated_at")]
-        public DateTime UpdatedAt { get;  set; }
+        public DateTime UpdatedAt { get; set; }
 
         [DataMember(Name = "frequency")]
-        public string Frequency { get;  set; }
+        public string Frequency { get; set; }
 
         [DataMember(Name = "from_date")]
-        public string FromDate { get;  set; }
+        public string FromDate { get; set; }
 
         [DataMember(Name = "to_date")]
-        public string ToDate { get;  set; }
+        public string ToDate { get; set; }
 
         [DataMember(Name = "column_names")]
-        public string[] ColumnNames { get;  set; }
+        public string[] ColumnNames { get; set; }
 
         [DataMember(Name = "_private")]
-        public bool Private { get;  set; }
+        public bool Private { get; set; }
 
         [DataMember(Name = "type")]
-        public object Type { get;  set; }
+        public object Type { get; set; }
 
         [DataMember(Name = "premium")]
-        public bool Premium { get;  set; }
+        public bool Premium { get; set; }
 
         [DataMember(Name = "data")]
         public object[][] Data { get; set; }
     }
 
 
-    [Serializable]
+
     public class ResponseWithV2Metadata : QuandlResponse
     {
         public ResponseWithV2Metadata(QuandlCode quandlCode) : base(quandlCode)
@@ -106,8 +98,6 @@ namespace NQuandl.Client.Models
         public int start { get; set; }
         public object spellcheck { get; set; }
         public object[][] highlighting { get; set; }
-
-
     }
 
     public class Doc
