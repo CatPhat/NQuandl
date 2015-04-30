@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace NQuandl.Client.Models
 {
-    [Serializable]
+   
+    [DataContract]
     public class FRED_GDP : QuandlV1Response
     {
         public FRED_GDP() 
             : base(new QuandlCode {DatabaseCode = "FRED", TableCode = "GDP"})
         {
-            
         }
 
         [DataMember(Name = "date")]

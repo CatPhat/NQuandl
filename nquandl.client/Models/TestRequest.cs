@@ -36,22 +36,7 @@ namespace NQuandl.Client
         public int Second { get; set; }
         public int Milliseconds { get; set; }
     }
-
-
-    public class TestFREDGDP : QuandlV1Response
-    {
-        public TestFREDGDP()
-            : base(new QuandlCode { DatabaseCode = "FRED", TableCode = "GDP" })
-        {
-        }
-
-        [DataMember(Name = "date")]
-        public DateTime Date { get; set; }
-        [DataMember(Name = "value")]
-        public int Value { get; set; }
-    }
-
-
+    
 
 }
 

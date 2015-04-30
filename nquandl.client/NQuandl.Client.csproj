@@ -68,7 +68,7 @@
     <Compile Include="Models\Base\BaseRequest.cs" />
     <Compile Include="Helpers\RequestParameter.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
-    <Compile Include="Models\Base\QuandlContext.cs" />
+    <Compile Include="QuandlContext.cs" />
     <Compile Include="Models\FRED-GDP.cs" />
     <Compile Include="Models\RequestString.cs" />
     <Compile Include="Models\Base\BaseResponse.cs" />
