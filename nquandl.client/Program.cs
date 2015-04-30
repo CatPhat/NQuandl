@@ -32,7 +32,7 @@ namespace NQuandl.TestConsole
 
             var service = new QuandlService();
             var context = new QuandlContext(service);
-            var response = context.GetAsync<FRED_GDP>(options);
+            var response = context.GetAsync<TestFREDGDP>();
             Console.WriteLine(response.Result.Value);
 
             Console.WriteLine("done | time: " + NQueue.GetQueueStatus().TimeElapsed);
