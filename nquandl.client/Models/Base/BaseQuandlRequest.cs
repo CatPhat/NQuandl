@@ -8,6 +8,11 @@ namespace NQuandl.Client
 
     }
 
+    public class ResponseWithMetadata
+    {
+        
+    }
+
     public interface IQuandlRequest<TResponse> where TResponse : QuandlResponse
     {
         string Url { get; }
