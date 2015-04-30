@@ -23,7 +23,7 @@ namespace NQuandl.Client
             get
             {
                 var url = QuandlServiceConfiguration.BaseUrl + "/" + RequestParameterConstants.Version1Format + "/" +
-                          _parameters.QuandlCode.DatabaseCode + _parameters.QuandlCode.TableCode + RequestParameterConstants.JsonFormat + "?" +
+                          _parameters.QuandlCode.DatabaseCode + "/" + _parameters.QuandlCode.TableCode + RequestParameterConstants.JsonFormat + "?" +
                           RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey);
 
                 if (_parameters.Options == null)

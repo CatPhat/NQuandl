@@ -65,7 +65,7 @@
     <Compile Include="IReturn.cs" />
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Models\Base\QuandlMetadataV2Request.cs" />
-    <Compile Include="Models\Base\BaseQuandlRequest.cs" />
+    <Compile Include="Models\Base\BaseRequest.cs" />
     <Compile Include="Helpers\RequestParameter.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
     <Compile Include="Models\Base\QuandlContext.cs" />
