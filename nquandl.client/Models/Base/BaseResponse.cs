@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace NQuandl.Client.Models
@@ -21,7 +22,7 @@ namespace NQuandl.Client.Models
     }
 
     [DataContract]
-    public class QuandlV1Response : QuandlResponse
+    public class QuandlV1Response<T> : QuandlResponse
     {
         public QuandlV1Response(QuandlCode quandlCode) : base(quandlCode)
         {
@@ -79,7 +80,15 @@ namespace NQuandl.Client.Models
         public bool Premium { get; set; }
 
         [DataMember(Name = "data")]
-        public object[][] Data { get; set; }
+        public List<object[]> Data { get; set; }
+
+        public List<FRED_GDP> DataList
+        {
+            get
+            {
+                return Data.Select(FRED_GDPHelper.ConvertToType).ToList();
+            }
+        } 
     }
 
 
