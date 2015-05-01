@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NQuandl.Client.Helpers;
 
 namespace NQuandl.Client
 {
-
     public static class RequestParameter
     {
-        public static string SortOrder(SortOrder sortOrder)
+        public static string SortOrder(this SortOrder sortOrder)
         {
             return RequestParameterConstants.SortOrder + sortOrder.GetStringValue();
         }
@@ -53,37 +49,9 @@ namespace NQuandl.Client
         }
     }
 
-    public class RequestParameters
-    {
-        public QuandlCode QuandlCode { get; set; }
-        public OptionalRequestParameters Options { get; set; }
-    }
-
-    public class OptionalRequestParameters
-    {
-        public SortOrder? SortOrder { get; set; }
-        public Exclude? ExcludeHeaders { get; set; }
-        public int? Rows { get; set; }
-        public DateRange DateRange { get; set; }
-        public int? Column { get; set; }
-        public Transformation? Transformation { get; set; }
-        public Exclude? ExcludeData { get; set; }
-       
-    }
-
-    public class QuandlCode
-    {
-        public string TableCode { get; set; }
-        public string DatabaseCode { get; set; }
-    }
-   
-
-    public class DateRange
-    {
-        public DateTime TrimStart { get; set; }
-        public DateTime TrimEnd { get; set; }
-    }
-    
 
    
+
+
+  
 }
