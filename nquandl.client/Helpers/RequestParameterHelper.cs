@@ -2,9 +2,9 @@
 
 namespace NQuandl.Client.Helpers
 {
-    public static class RequestParameter
+    public static class RequestParameterHelper
     {
-        public static string SortOrder(this SortOrder sortOrder)
+        public static string SortOrder(SortOrder sortOrder)
         {
             return RequestParameterConstants.SortOrder + sortOrder.GetStringValue();
         }

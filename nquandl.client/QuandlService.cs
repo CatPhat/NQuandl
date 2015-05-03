@@ -1,46 +1,21 @@
-﻿using System;
-using System.Threading.Tasks;
-using NQuandl.Client.CompositionRoot;
-using NQuandl.Client.Entities;
+﻿using System.Threading.Tasks;
 using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
-using NQuandl.Client.Requests;
 using NQuandl.Client.Responses;
 
 namespace NQuandl.Client
 {
-    public class QuandlService : IQuandlService
+    public class QuandlService
     {
-        public async Task<TResponse> GetAsync<TResponse>(IQuandlRequest request) where TResponse : QuandlResponse
+        public async Task<TResponse> GetAsync<TResponse>(IReturn<TResponse> request) where TResponse : QuandlResponse
         {
-            var response = await GetStringAsync(request);
+            var response = await GetStringAsync(request.Url);
             return await response.DeserializeToObjectAsync<TResponse>();
         }
 
-        public async Task<string> GetStringAsync(IQuandlRequest request)
+        public async Task<string> GetStringAsync(string url)
         {
-            return await new WebClientHttpConsumer().DownloadStringAsync(request.Url);
-        }
-
-        public async Task<NQuandlResponse<TEntity>> GetAsync<TEntity>(OptionalRequestParameters options = null)
-            where TEntity : QuandlEntity
-        {
-            var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
-            var parameters = new RequestParameters
-            {
-                QuandlCode = entity.QuandlCode,
-                Options = options
-            };
-            var request = new QuandlRequestV1(parameters);
-            var response = await GetAsync<QuandlResponseV1>(request);
-            var mapper = new NQuandlResponseProcessor();
-            var nquandlResponse = new NQuandlResponse<TEntity>
-            {
-                Response = response,
-                Entities = mapper.MapEntities<TEntity>(response.Data)
-            };
-
-            return nquandlResponse;
+            return await new WebClientHttpConsumer().DownloadStringAsync(url);
         }
     }
 }

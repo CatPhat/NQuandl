@@ -62,9 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
+    <Compile Include="CompositionRoot\RequestProcessor.cs" />
     <Compile Include="CompositionRoot\ResponseProcessor.cs" />
     <Compile Include="Helpers\OptionalRequestBuilder.cs" />
+    <Compile Include="Helpers\QueryOptions.cs" />
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
+    <Compile Include="Helpers\UrlExtensions.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
     <Compile Include="Interfaces\IMapData.cs" />
@@ -75,10 +78,12 @@
     <Compile Include="Entities\BaseQuandlEntity.cs" />
     <Compile Include="Interfaces\IQuandlEntity.cs" />
     <Compile Include="Interfaces\IQuandlRequest.cs" />
+    <Compile Include="Queries\Query.cs" />
+    <Compile Include="Requests\NQuandlRequest.cs" />
     <Compile Include="Requests\QuandlMetadataV2Request.cs" />
-    <Compile Include="Requests\QuandlRequestV1.cs" />
-    <Compile Include="Helpers\RequestParameter.cs" />
+    <Compile Include="Helpers\RequestParameterHelper.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
+    <Compile Include="Requests\QuandlRequestV1.cs" />
     <Compile Include="Responses\NQuandlResponse.cs" />
     <Compile Include="Responses\QuandlResponseV1.cs" />
     <Compile Include="Requests\RequestParameters.cs" />

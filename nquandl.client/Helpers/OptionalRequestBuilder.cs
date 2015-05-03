@@ -19,32 +19,33 @@ namespace NQuandl.Client.Helpers
 
             if (optionalRequestParameters.SortOrder.HasValue)
             {
-                parameters.Add(optionalRequestParameters.SortOrder.Value.SortOrder());
+                parameters.Add(RequestParameterHelper.SortOrder(optionalRequestParameters.SortOrder.Value));
             }
             if (optionalRequestParameters.ExcludeHeaders.HasValue)
             {
-                parameters.Add(RequestParameter.ExcludeHeaders(optionalRequestParameters.ExcludeHeaders.Value));
+                parameters.Add(RequestParameterHelper.ExcludeHeaders(optionalRequestParameters.ExcludeHeaders.Value));
             }
             if (optionalRequestParameters.Rows.HasValue)
             {
-                parameters.Add(RequestParameter.Rows(optionalRequestParameters.Rows.Value));
+                parameters.Add(RequestParameterHelper.Rows(optionalRequestParameters.Rows.Value));
             }
             if (optionalRequestParameters.DateRange != null)
             {
-                parameters.Add(RequestParameter.DateRange(optionalRequestParameters.DateRange));
+                parameters.Add(RequestParameterHelper.DateRange(optionalRequestParameters.DateRange));
             }
             if (optionalRequestParameters.Column.HasValue)
             {
-                parameters.Add(RequestParameter.Column(optionalRequestParameters.Column.Value));
+                parameters.Add(RequestParameterHelper.Column(optionalRequestParameters.Column.Value));
             }
             if (optionalRequestParameters.Transformation.HasValue)
             {
-                parameters.Add(RequestParameter.Transformation(optionalRequestParameters.Transformation.Value));
+                parameters.Add(RequestParameterHelper.Transformation(optionalRequestParameters.Transformation.Value));
             }
 
             if (parameters.Count <= 1) return parameters.FirstOrDefault();
 
-            foreach (string requestParameter in parameters)
+            parameter.Append(parameters.First());
+            foreach (var requestParameter in parameters.Skip(1))
             {
                 parameter.Append("&" + requestParameter);
             }

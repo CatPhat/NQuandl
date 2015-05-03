@@ -7,6 +7,12 @@ namespace NQuandl.Client.Responses
     [DataContract]
     public class QuandlResponseV1 : QuandlResponse
     {
+        
+    }
+
+    [DataContract]
+    public class QuandlMetadataResponseV1 : QuandlResponseV1
+    {
         [DataMember(Name = "errors")]
         public Dictionary<string, string> Errors { get; set; }
 
@@ -57,10 +63,25 @@ namespace NQuandl.Client.Responses
 
         [DataMember(Name = "premium")]
         public bool Premium { get; set; }
+       
+    }
 
+    [DataContract]
+    public class QuandlFullDataResponseV1 : QuandlMetadataResponseV1
+    {
+        [DataMember(Name = "data")]
+        public object[][] Data { get; set; }
+
+    }
+
+    [DataContract]
+    public class QuandlDataResponseV1 : QuandlResponseV1
+    {
         [DataMember(Name = "data")]
         public object[][] Data { get; set; }
     }
+
+
 
    
 }

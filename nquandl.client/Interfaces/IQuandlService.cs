@@ -5,7 +5,7 @@ namespace NQuandl.Client.Interfaces
 {
     public interface IQuandlService
     {
-        Task<T> GetAsync<T>(IQuandlRequest request) where T : QuandlResponse;
-        Task<string> GetStringAsync(IQuandlRequest request);
+        Task<TResponse> GetAsync<TResponse>(IReturn<TResponse> request) where TResponse : QuandlResponse;
+        Task<string> GetStringAsync(string url);
     }
 }

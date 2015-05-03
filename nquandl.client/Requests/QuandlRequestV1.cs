@@ -1,12 +1,12 @@
 ﻿using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
+using NQuandl.Client.Responses;
 
 namespace NQuandl.Client.Requests
 {
-    public class QuandlRequestV1 : IQuandlRequest
+    public class QuandlRequestV1 : IReturn<QuandlFullDataResponseV1>
     {
         private readonly RequestParameters _parameters;
-
         public QuandlRequestV1(RequestParameters parameters)
         {
             _parameters = parameters;
@@ -14,18 +14,7 @@ namespace NQuandl.Client.Requests
 
         public string Url
         {
-            get
-            {
-                var url = QuandlServiceConfiguration.BaseUrl + "/" + RequestParameterConstants.Version1Format + "/" +
-                             _parameters.QuandlCode + RequestParameterConstants.JsonFormat + "?" +
-                             RequestParameter.ApiKey(QuandlServiceConfiguration.ApiKey);
-
-                if (_parameters.Options == null)
-                {
-                    return url;
-                }
-                return url + _parameters.Options.ToRequestParameter();
-            }
+            get { return _parameters.ToV1Url(); }
         }
     }
 }
