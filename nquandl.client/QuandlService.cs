@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NQuandl.Client.Entities;
+using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
 using NQuandl.Client.Responses;
