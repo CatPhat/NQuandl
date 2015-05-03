@@ -34,6 +34,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\packages\SimpleInjector.2.7.3\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\packages\SimpleInjector.2.7.3\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -55,25 +61,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositionRoot\CompositionRoot.cs" />
     <Compile Include="Helpers\OptionalRequestBuilder.cs" />
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="HttpClient.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
+    <Compile Include="Interfaces\IMapData.cs" />
+    <Compile Include="Interfaces\IQuandlCode.cs" />
     <Compile Include="Interfaces\IQuandlService.cs" />
-    <Compile Include="Interfaces\IQuandlResult.cs" />
-    <Compile Include="IResponse.cs" />
-    <Compile Include="IReturn.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="Models\Base\QuandlMetadataV2Request.cs" />
-    <Compile Include="Models\Base\BaseRequest.cs" />
+    <Compile Include="MapProcessor.cs" />
+    <Compile Include="Models\Entities\BaseQuandlEntity.cs" />
+    <Compile Include="Interfaces\IQuandlEntity.cs" />
+    <Compile Include="Interfaces\IQuandlRequest.cs" />
+    <Compile Include="Models\Requests\QuandlMetadataV2Request.cs" />
+    <Compile Include="Models\Requests\QuandlRequestV1.cs" />
     <Compile Include="Helpers\RequestParameter.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
-    <Compile Include="QuandlContext.cs" />
-    <Compile Include="Models\FRED-GDP.cs" />
-    <Compile Include="Models\RequestString.cs" />
-    <Compile Include="Models\Base\BaseResponse.cs" />
-    <Compile Include="Models\TestRequest2.cs" />
-    <Compile Include="Models\TestRequest.cs" />
+    <Compile Include="Models\Responses\NQuandlResponse.cs" />
+    <Compile Include="Models\Responses\QuandlResponseV1.cs" />
+    <Compile Include="Models\Requests\RequestParameters.cs" />
+    <Compile Include="Models\Responses\QuandlResponseV2.cs" />
+    <Compile Include="Models\Entities\FRED-GDP.cs" />
+    <Compile Include="Models\Responses\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuandlService.cs" />
     <Compile Include="QuandlServiceConfiguration.cs" />
@@ -88,6 +98,7 @@
     <None Include="_Etc\quandl_api_data\master-dataset-response-v2.json" />
     <None Include="_Etc\quandl_api_data\metadata_response.json" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

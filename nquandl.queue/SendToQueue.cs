@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Threading.Tasks.Dataflow;
-using NQuandl.Client;
-using NQuandl.Client.Models;
-using NQuandl.Queue.Annotations;
+using NQuandl.Client.Interfaces;
+using NQuandl.Client.Responses;
 using SimpleInjector;
 
 namespace NQuandl.Queue
@@ -23,13 +17,15 @@ namespace NQuandl.Queue
             _container.Verify();
         }
 
-        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<IQuandlRequest<T>> queueRequest) where T : QuandlResponse
+        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<IQuandlRequest> queueRequest)
+            where T : QuandlResponse
         {
             var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
             return await createQueue.ConsumeAsync(queueRequest);
         }
 
-        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<IQuandlRequest<T>> queueRequest, QueueStatusDelegate queueStatusDelegate) where T : QuandlResponse
+        public static async Task<IEnumerable<T>> SendRequests<T>(IEnumerable<IQuandlRequest> queueRequest,
+            QueueStatusDelegate queueStatusDelegate) where T : QuandlResponse
         {
             var createQueue = _container.GetInstance<IQuandlRequestQueue<T>>();
             return await createQueue.ConsumeAsync(queueRequest, queueStatusDelegate);
@@ -41,12 +37,4 @@ namespace NQuandl.Queue
             return queueLogger.GetQueueStatus();
         }
     }
-
-
-
-
-   
-    
-
-   
 }

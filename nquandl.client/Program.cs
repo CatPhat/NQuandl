@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using NQuandl.Client;
-using NQuandl.Client.Models;
-using NQuandl.Client.Models.Base;
-using NQuandl.Client.Models.QuandlRequests;
+using NQuandl.Client.Entities;
+using NQuandl.Client.Requests;
 using NQuandl.Queue;
 
 namespace NQuandl.TestConsole
@@ -31,9 +26,12 @@ namespace NQuandl.TestConsole
             };
 
             var service = new QuandlService();
-            var context = new QuandlContext(service);
-            var response = context.GetAsync<FRED_GDP>();
+            var response = service.GetAsync<FRED_GDP>();
             Console.WriteLine(response.Result);
+            foreach (var entity in response.Result.Entities)
+            {
+                Console.WriteLine(entity.Date + " | " + entity.Value);
+            }
 
             Console.WriteLine("done | time: " + NQueue.GetQueueStatus().TimeElapsed);
             Console.ReadLine();
@@ -110,84 +108,84 @@ namespace NQuandl.TestConsole
 
 
 
-    public class GetResults
-    {
-        private const int RequestCount = 1000;
+    //public class GetResults
+    //{
+    //    private const int RequestCount = 1000;
 
-        public async Task<int> GetAllResult()
-        {
-            var task = Task.WhenAll(Get1(), Get2());
-            await task;
-            return await Task.FromResult(0);
-        }
-
-
-        public async Task<int> Get1()
-        {
-            var requests = new List<TestRequest>();
-            for (var i = 1; i <= RequestCount; i++)
-            {
-                requests.Add(new TestRequest());
-            }
-
-            var actionDelegate = new Actions();
-
-            var responses = await NQueue.SendRequests(requests);
-            //  actionDelegate.ActionDelegate(responses);
-            return await Task.FromResult(0);
-        }
-
-        public async Task<int> Get2()
-        {
-            var requests = new List<TestRequest2>();
-            for (var i = 1; i <= RequestCount; i++)
-            {
-                requests.Add(new TestRequest2());
-            }
-
-            var actionDelegate = new Actions();
-
-            var responses = await NQueue.SendRequests(requests);
-            //    actionDelegate.ActionDelegate(responses);
-            return await Task.FromResult(0);
-        }
-    }
+    //    public async Task<int> GetAllResult()
+    //    {
+    //        var task = Task.WhenAll(Get1(), Get2());
+    //        await task;
+    //        return await Task.FromResult(0);
+    //    }
 
 
-    public class Actions
-    {
-        public void ActionDelegate(IEnumerable<TestResponse> responses)
-        {
-            foreach (var response in responses)
-            {
-                Console.Write("Request[1] Count:" + response.RequestCount + " Request[1]: " +
-                      response.RequestType + " | Second: " + response.Second + " | " +
-                      response.UniqueId + " | " + response.Milliseconds);
-                Console.WriteLine();
-            }
+    //    public async Task<int> Get1()
+    //    {
+    //        var requests = new List<TestRequest>();
+    //        for (var i = 1; i <= RequestCount; i++)
+    //        {
+    //            requests.Add(new TestRequest());
+    //        }
+
+    //        var actionDelegate = new Actions();
+
+    //        var responses = await NQueue.SendRequests(requests);
+    //        //  actionDelegate.ActionDelegate(responses);
+    //        return await Task.FromResult(0);
+    //    }
+
+    //    public async Task<int> Get2()
+    //    {
+    //        var requests = new List<TestRequest2>();
+    //        for (var i = 1; i <= RequestCount; i++)
+    //        {
+    //            requests.Add(new TestRequest2());
+    //        }
+
+    //        var actionDelegate = new Actions();
+
+    //        var responses = await NQueue.SendRequests(requests);
+    //        //    actionDelegate.ActionDelegate(responses);
+    //        return await Task.FromResult(0);
+    //    }
+    //}
 
 
-        }
+    //public class Actions
+    //{
+    //    public void ActionDelegate(IEnumerable<TestResponse> responses)
+    //    {
+    //        foreach (var response in responses)
+    //        {
+    //            Console.Write("Request[1] Count:" + response.RequestCount + " Request[1]: " +
+    //                  response.RequestType + " | Second: " + response.Second + " | " +
+    //                  response.UniqueId + " | " + response.Milliseconds);
+    //            Console.WriteLine();
+    //        }
 
-        public void ActionDelegate(IEnumerable<TestResponse2> responses)
-        {
-            foreach (var response in responses)
-            {
-                Console.Write("Request[2] Count:" + response.RequestCount + " Request[2]: " +
-                        response.RequestType + " | Second: " + response.Second + " | " +
-                        response.UniqueId2 + " | " + response.Milliseconds);
-                Console.WriteLine();
-            }
+
+    //    }
+
+    //    public void ActionDelegate(IEnumerable<TestResponse2> responses)
+    //    {
+    //        foreach (var response in responses)
+    //        {
+    //            Console.Write("Request[2] Count:" + response.RequestCount + " Request[2]: " +
+    //                    response.RequestType + " | Second: " + response.Second + " | " +
+    //                    response.UniqueId2 + " | " + response.Milliseconds);
+    //            Console.WriteLine();
+    //        }
 
 
 
-        }
+    //    }
 
-        public void QueueDelegate(QueueStatus queueStatus)
-        {
-            Console.WriteLine("Requests Remaining: " + queueStatus.RequestsRemaining + " Requests Processed: " + queueStatus.RequestsProcessed);
-        }
-    }
+    //    public void QueueDelegate(QueueStatus queueStatus)
+    //    {
+    //        Console.WriteLine("Requests Remaining: " + queueStatus.RequestsRemaining + " Requests Processed: " + queueStatus.RequestsProcessed);
+    //    }
+    //}
 
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using NQuandl.Client;
+using NQuandl.Client.Interfaces;
 using SimpleInjector;
 using SimpleInjector.Extensions;
 

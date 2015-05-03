@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using NQuandl.Client;
+using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Queue
 {
-
-
     public interface IDownloadQueue
     {
         Task<IEnumerable<string>> ConsumeUrlStringsAsync(List<string> urls);
@@ -25,16 +21,16 @@ namespace NQuandl.Queue
         {
             _client = client;
             _inputBlock = new BufferBlock<IEnumerable<string>>();
-            _outputBlock = new TransformBlock<IEnumerable<string>, IEnumerable<string>>(async (urls) =>
+            _outputBlock = new TransformBlock<IEnumerable<string>, IEnumerable<string>>(async urls =>
             {
                 var urlList = new List<string>();
-                foreach (var url in urls)
+                foreach (string url in urls)
                 {
-                   await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
+                    await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
                     urlList.Add(await _client.DownloadStringAsync(url));
                 }
                 return urlList;
-            }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 });
+            }, new ExecutionDataflowBlockOptions {MaxDegreeOfParallelism = 1});
         }
 
         public async Task<IEnumerable<string>> ConsumeUrlStringsAsync(List<string> urls)
@@ -46,6 +42,5 @@ namespace NQuandl.Queue
             _inputBlock.LinkTo(_outputBlock);
             return await _outputBlock.ReceiveAsync();
         }
-       
     }
 }

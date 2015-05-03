@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using NQuandl.Client.Models;
+using NQuandl.Client.Responses;
 
-namespace NQuandl.Client
+namespace NQuandl.Client.Interfaces
 {
     public interface IQuandlService
     {
-        Task<T> GetAsync<T>(IQuandlRequest<T> request) where T : QuandlResponse;
-        Task<string> GetStringAsync<T>(IQuandlRequest<T> request) where T : QuandlResponse;
+        Task<T> GetAsync<T>(IQuandlRequest request) where T : QuandlResponse;
+        Task<string> GetStringAsync(IQuandlRequest request);
     }
 }

@@ -1,7 +1,6 @@
-﻿using System;
-using NQuandl.Client.Helpers;
+﻿using NQuandl.Client.Requests;
 
-namespace NQuandl.Client
+namespace NQuandl.Client.Helpers
 {
     public static class RequestParameter
     {

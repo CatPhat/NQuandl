@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NQuandl.Client;
+﻿using System.Threading.Tasks;
+using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Queue
 {
@@ -21,7 +17,7 @@ namespace NQuandl.Queue
         public async Task<string> DownloadStringAsync(string url, int? timeout = null, int retries = 0)
         {
             await _logger.AddProcessedRequestCountAsync(1);
-            var response =  _client.DownloadStringAsync(url);
+            Task<string> response = _client.DownloadStringAsync(url);
             await _logger.SetLastResponseAsync(await response);
             return await response;
         }

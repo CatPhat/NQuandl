@@ -1,63 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NQuandl.Client.Helpers;
-
-namespace NQuandl.Client
+﻿namespace NQuandl.Client.Helpers
 {
     public enum SortOrder
     {
-        [RequestValue("asc")]
-        Ascending,
+        [RequestValue("asc")] Ascending,
 
-        [RequestValue("desc")]
-        Descending,
+        [RequestValue("desc")] Descending,
     }
 
     public enum Exclude
     {
-        [RequestValue("true")]
-        True,
+        [RequestValue("true")] True,
 
-        [RequestValue("false")]
-        False
+        [RequestValue("false")] False
     }
 
     public enum Frequency
     {
-        [RequestValue("none")]
-        None,
+        [RequestValue("none")] None,
 
-        [RequestValue("daily")]
-        Daily,
+        [RequestValue("daily")] Daily,
 
-        [RequestValue("weekly")]
-        Weekly,
+        [RequestValue("weekly")] Weekly,
 
-        [RequestValue("monthly")]
-        Monthly,
+        [RequestValue("monthly")] Monthly,
 
-        [RequestValue("quarterly")]
-        Quarterly,
+        [RequestValue("quarterly")] Quarterly,
 
-        [RequestValue("annual")]
-        Annual,
+        [RequestValue("annual")] Annual,
     }
 
     public enum Transformation
     {
-        [RequestValue("diff")]
-        RowOnRowChange,
+        [RequestValue("diff")] RowOnRowChange,
 
-        [RequestValue("rdiff")]
-        RowOnRowPercentageChange,
+        [RequestValue("rdiff")] RowOnRowPercentageChange,
 
-        [RequestValue("cumul")]
-        CumulativeSum,
+        [RequestValue("cumul")] CumulativeSum,
 
-        [RequestValue("normalize")]
-        Normalize,
+        [RequestValue("normalize")] Normalize,
     }
 }

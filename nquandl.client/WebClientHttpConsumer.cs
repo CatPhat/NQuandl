@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Client
 {
-
     public class WebClientHttpConsumer : IConsumeHttp
     {
         public async Task<string> DownloadStringAsync(string url, int? timeout = null, int retries = 0)
         {
             var uri = new Uri(url);
-            var thisTry = 1;
-            var tryLimit = retries + 1;
+            int thisTry = 1;
+            int tryLimit = retries + 1;
 
             var taskCompletionSource = new TaskCompletionSource<string>();
             await Task.Factory.StartNew(() =>
@@ -25,14 +25,14 @@ namespace NQuandl.Client
                         if (e.Error != null)
                         {
                             if (thisTry++ < tryLimit)
-                                ((HttpClient)sender).DownloadDataAsync(uri);
+                                ((HttpClient) sender).DownloadDataAsync(uri);
                             else
                                 taskCompletionSource.SetException(e.Error);
                         }
                         else if (e.Cancelled)
                         {
                             if (thisTry++ < tryLimit)
-                                ((HttpClient)sender).DownloadDataAsync(uri);
+                                ((HttpClient) sender).DownloadDataAsync(uri);
                             else
                                 taskCompletionSource.SetCanceled();
                         }
@@ -49,5 +49,3 @@ namespace NQuandl.Client
         }
     }
 }
-
-

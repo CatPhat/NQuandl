@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using NQuandl.Client.Requests;
 
 namespace NQuandl.Client.Helpers
 {
@@ -20,7 +19,7 @@ namespace NQuandl.Client.Helpers
 
             if (optionalRequestParameters.SortOrder.HasValue)
             {
-                parameters.Add(RequestParameter.SortOrder(optionalRequestParameters.SortOrder.Value));
+                parameters.Add(optionalRequestParameters.SortOrder.Value.SortOrder());
             }
             if (optionalRequestParameters.ExcludeHeaders.HasValue)
             {
@@ -45,7 +44,7 @@ namespace NQuandl.Client.Helpers
 
             if (parameters.Count <= 1) return parameters.FirstOrDefault();
 
-            foreach (var requestParameter in parameters)
+            foreach (string requestParameter in parameters)
             {
                 parameter.Append("&" + requestParameter);
             }
