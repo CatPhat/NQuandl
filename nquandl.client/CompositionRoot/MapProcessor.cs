@@ -3,7 +3,7 @@ using NQuandl.Client.Entities;
 using NQuandl.Client.Interfaces;
 using SimpleInjector;
 
-namespace NQuandl.Client
+namespace NQuandl.Client.CompositionRoot
 {
     internal sealed class MapProcessor : IMapProcessor
     {

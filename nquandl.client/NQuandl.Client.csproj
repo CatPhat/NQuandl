@@ -70,7 +70,7 @@
     <Compile Include="Interfaces\IQuandlCode.cs" />
     <Compile Include="Interfaces\IQuandlService.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="MapProcessor.cs" />
+    <Compile Include="CompositionRoot\MapProcessor.cs" />
     <Compile Include="Models\Entities\BaseQuandlEntity.cs" />
     <Compile Include="Interfaces\IQuandlEntity.cs" />
     <Compile Include="Interfaces\IQuandlRequest.cs" />
