@@ -1,5 +1,4 @@
-﻿using NQuandl.Client.Entities;
-using NQuandl.Client.Helpers;
+﻿using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Client.Requests
@@ -27,14 +26,6 @@ namespace NQuandl.Client.Requests
                 }
                 return url + _parameters.Options.ToRequestParameter();
             }
-        }
-    }
-
-    public class QuandlEntityRequest<T> : QuandlRequestV1 where T : QuandlEntity
-    {
-        public QuandlEntityRequest(T entity, OptionalRequestParameters options = null)
-            : base(new RequestParameters {QuandlCode = entity.QuandlCode, Options = options})
-        {
         }
     }
 }

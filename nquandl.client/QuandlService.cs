@@ -25,7 +25,12 @@ namespace NQuandl.Client
             where TEntity : QuandlEntity
         {
             var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
-            var request = new QuandlEntityRequest<TEntity>(entity, options);
+            var parameters = new RequestParameters
+            {
+                QuandlCode = entity.QuandlCode,
+                Options = options
+            };
+            var request = new QuandlRequestV1(parameters);
             var response = await GetAsync<QuandlResponseV1>(request);
             var mapper = new NQuandlResponseProcessor();
             var nquandlResponse = new NQuandlResponse<TEntity>
