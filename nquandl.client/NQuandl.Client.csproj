@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
+    <Compile Include="CompositionRoot\ResponseProcessor.cs" />
     <Compile Include="Helpers\OptionalRequestBuilder.cs" />
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="HttpClient.cs" />
