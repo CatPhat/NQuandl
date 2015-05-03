@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using NQuandl.Client;
+using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
 using NQuandl.Client.Responses;
 

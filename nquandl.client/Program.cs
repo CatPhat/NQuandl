@@ -1,6 +1,7 @@
 ﻿using System;
 using NQuandl.Client;
 using NQuandl.Client.Entities;
+using NQuandl.Client.Helpers;
 using NQuandl.Client.Requests;
 using NQuandl.Queue;
 
