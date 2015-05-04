@@ -12,9 +12,9 @@ namespace NQuandl.Client.Requests
             _parameters = parameters;
         }
 
-        public string Url
+        public string Uri
         {
-            get { return _parameters.ToV1Url(); }
+            get { return _parameters.ToV1Uri(); }
         }
     }
 }

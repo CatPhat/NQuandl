@@ -5,13 +5,9 @@ namespace NQuandl.Client.Requests
 {
     public class RequestParameters
     {
-        
-        public string ApiKey { get; set; }
-        public string BaseUrl { get; set; }
         public string QuandlCode { get; set; }
         public string RequestFormat { get; set; }
         public string ApiVersion { get; set; }
-        public string ResponseFormat { get; set; }
         public OptionalRequestParameters Options { get; set; }
     }
 
