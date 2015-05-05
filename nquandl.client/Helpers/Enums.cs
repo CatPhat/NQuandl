@@ -39,4 +39,14 @@
 
         [RequestValue("normalize")] Normalize,
     }
+
+    public enum ResponseFormat
+    {
+        [RequestValue("json")] JSON,
+
+        [RequestValue("xml")] XML,
+
+        [RequestValue("csv")] CSV,
+
+    }
 }
