@@ -1,41 +1,30 @@
-﻿using System.Threading.Tasks;
-using NQuandl.Client.Helpers;
-using NQuandl.Client.Interfaces;
-using NQuandl.Client.Responses;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using NQuandl.Client.Requests;
 
 namespace NQuandl.Client
 {
     public class QuandlService
     {
-        private readonly string _apiKey;
         private readonly string _baseUrl;
 
-        public QuandlService(string baseUrl, string apiKey)
+        public QuandlService(string baseUrl)
         {
             _baseUrl = baseUrl;
-            _apiKey = apiKey;
+        }
+        
+        public async Task<string> GetStringAsync(IQuandlRequest request)
+        {
+            var response = await GetAsync(request);
+            return await response.Content.ReadAsStringAsync();
         }
 
-        public async Task<TResponse> GetAsync<TResponse>(IReturn<TResponse> request) where TResponse : QuandlResponse
+        public async Task<HttpResponseMessage> GetAsync(IQuandlRequest request)
         {
-            var response = await GetStringAsync(request);
-            return await response.DeserializeToObjectAsync<TResponse>();
-        }
-
-        public async Task<string> GetStringAsync(IReturn request)
-        {
-            var url = new Url
-            {
-                ApiKey = _apiKey,
-                BaseUrl = _baseUrl,
-                Uri = request.Uri
-            };
-            return await GetStringAsync(url);
-        }
-
-        private static async Task<string> GetStringAsync(Url url)
-        {
-            return await new WebClientHttpConsumer().DownloadStringAsync(url.ToUrlString());
+            var httpClient = new HttpClient();
+            var uri = new Uri(_baseUrl + request.Uri);
+            return await httpClient.GetAsync(uri);
         }
     }
 }
