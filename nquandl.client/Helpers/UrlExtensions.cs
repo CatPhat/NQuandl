@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NQuandl.Client.Requests;
@@ -7,83 +8,93 @@ namespace NQuandl.Client.Helpers
 {
     public static class UrlExtensions
     {
-        public static string ToV1Uri(this RequestParameters parameters)
+        public static string ToUriV1(this RequiredRequestParameters parameters)
         {
             var uri = parameters.ApiVersion +
-                "/" + parameters.QuandlCode +
-                "." + parameters.RequestFormat;
-
-            if (parameters.Options == null)
-            {
-                return uri;
-            }
-            return uri + "?" + parameters.Options.ToRequestParameter();
+                      "/" + parameters.QuandlCode +
+                      "." + parameters.ResponseFormat;
+            return uri;
         }
 
-
-        // https://quandl.com/api/v1/datasets/FRED/GDP.json?options=asdfasdfa&auth_key=ASDFASDAFD
-        // baseUrl = https://quandl.com/api
-        // Uri = v1/datasets/FRED/GDP.json?options=asdfasdfa
-
-        public static string ToUrlString(this Url url)
+        public static List<QueryParameter> ToQueryParameters(this OptionalRequestParameters optional)
         {
-            var baseUrl = url.BaseUrl.TrimEnd('/');
-            var joinCharacter = url.Uri.Contains("?") ? "&" : "?";
-            return baseUrl + "/" + url.Uri + "/" + joinCharacter + RequestParameterHelper.ApiKey(url.ApiKey);
+            var parameters = new List<QueryParameter>();
+
+            if (!String.IsNullOrEmpty(optional.ApiKey))
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, optional.ApiKey);
+                parameters.Add(parameter);
+            }
+            if (optional.SortOrder.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.SortOrder,
+                    optional.SortOrder.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
+            if (optional.ExcludeHeaders.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.ExcludeHeaders,
+                    optional.ExcludeHeaders.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
+            if (optional.Rows.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.Rows, optional.Rows.Value.ToString());
+                parameters.Add(parameter);
+            }
+            if (optional.DateRange != null)
+            {
+                const string dateFormat = "yyyy-MM-dd";
+
+                var parameter1 = new QueryParameter(RequestParameterConstants.TrimStart,
+                    optional.DateRange.TrimStart.ToString(dateFormat));
+                parameters.Add(parameter1);
+
+                var parameter2 = new QueryParameter(RequestParameterConstants.TrimEnd,
+                    optional.DateRange.TrimEnd.ToString(dateFormat));
+                parameters.Add(parameter2);
+            }
+            if (optional.Column.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.Column, optional.Column.Value.ToString());
+                parameters.Add(parameter);
+            }
+            if (optional.Transformation.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.Transformation,
+                    optional.Transformation.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
+            return parameters;
         }
 
-
-        public static string ToRequestParameter(this OptionalRequestParameters optionalRequestParameters)
+        public static string ToQueryUri(this OptionalRequestParameters optional)
         {
-            if (optionalRequestParameters == null)
-            {
-                return null;
-            }
+            if (optional == null) return string.Empty;
 
-            var parameters = new List<string>();
-            var parameter = new StringBuilder();
-
-            if (optionalRequestParameters.SortOrder.HasValue)
-            {
-                parameters.Add(RequestParameterHelper.SortOrder(optionalRequestParameters.SortOrder.Value));
-            }
-            if (optionalRequestParameters.ExcludeHeaders.HasValue)
-            {
-                parameters.Add(RequestParameterHelper.ExcludeHeaders(optionalRequestParameters.ExcludeHeaders.Value));
-            }
-            if (optionalRequestParameters.Rows.HasValue)
-            {
-                parameters.Add(RequestParameterHelper.Rows(optionalRequestParameters.Rows.Value));
-            }
-            if (optionalRequestParameters.DateRange != null)
-            {
-                parameters.Add(RequestParameterHelper.DateRange(optionalRequestParameters.DateRange));
-            }
-            if (optionalRequestParameters.Column.HasValue)
-            {
-                parameters.Add(RequestParameterHelper.Column(optionalRequestParameters.Column.Value));
-            }
-            if (optionalRequestParameters.Transformation.HasValue)
-            {
-                parameters.Add(RequestParameterHelper.Transformation(optionalRequestParameters.Transformation.Value));
-            }
-
-            if (parameters.Count <= 1) return parameters.FirstOrDefault();
-
-            parameter.Append(parameters.First());
-            foreach (var requestParameter in parameters.Skip(1))
-            {
-                parameter.Append("&" + requestParameter);
-            }
-
-            return parameter.ToString();
+            var parameters = optional.ToQueryParameters();
+            return parameters.ToQueryUri();
         }
-    }
 
-    public class Url
-    {
-        public string BaseUrl { get; set; }
-        public string Uri { get; set; }
-        public string ApiKey { get; set; }
+        public static string ToQueryUri(this List<QueryParameter> parameters)
+        {
+            if (parameters.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            var uri = new StringBuilder();
+
+            var stringList =
+                parameters.Select(serviceParameter => serviceParameter.Name + "=" + serviceParameter.Value).ToList();
+            uri.Append("?");
+            uri.Append(stringList.First());
+            foreach (var parameter in parameters.Skip(1))
+            {
+                uri.Append("&" + parameter.Name + "=" + parameter.Value);
+            }
+
+            return uri.ToString();
+        }
     }
 }
