@@ -5,7 +5,7 @@ using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Client
 {
-    public class QuandlService
+    public class QuandlService : IQuandlService
     {
         private readonly Uri _baseUri;
 
@@ -13,13 +13,8 @@ namespace NQuandl.Client
         {
             _baseUri = new Uri(baseUrl);
         }
-
+        
         public async Task<string> GetStringAsync(IQuandlRequest request)
-        {
-            return await GetAsync(request);
-        }
-
-        public async Task<string> GetAsync(IQuandlRequest request)
         {
             var httpClient = new HttpClient();
             var uri = new Uri(_baseUri + "/" + request.Uri.Uri);
