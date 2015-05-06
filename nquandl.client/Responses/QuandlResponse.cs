@@ -2,6 +2,5 @@
 {
     public abstract class QuandlResponse
     {
-        //todo: meta-metadata goes here
     }
 }
