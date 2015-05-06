@@ -29,29 +29,7 @@ namespace NQuandl.TestConsole
         }
     }
 
-    public class TestDeserialize : IDeserializedEntityRequest<FRED_GDP>
-    {
-        public OptionalRequestParameters Optional
-        {
-            get
-            {
-                return new OptionalRequestParameters
-                {
-                    ApiKey = "asdfasdfa"
-                };
-            }
-        }
-
-        public IContainUri Uri
-        {
-            get { return new QuandlJsonUriV1("FRED/GDP", Optional); }
-        }
-
-        public IMapData<FRED_GDP> Mapper
-        {
-            get { return new Map_FRED_GDP(); }
-        }
-    }
+   
 
 
     //public class QuandlRealDeal

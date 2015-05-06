@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Flurl;
 using NQuandl.Client.Requests;
 
 namespace NQuandl.Client.Helpers
@@ -70,10 +72,9 @@ namespace NQuandl.Client.Helpers
 
         public static string ToQueryUri(this OptionalRequestParameters optional)
         {
-            if (optional == null) return string.Empty;
-
-            var parameters = optional.ToQueryParameters();
-            return parameters.ToQueryUri();
+            var uri = string.Empty;
+            if (optional == null) return uri;
+            return uri.SetQueryParams(optional);
         }
 
         public static string ToQueryUri(this List<QueryParameter> parameters)

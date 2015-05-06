@@ -1,24 +1,30 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Flurl;
+using Flurl.Http;
 using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Client
 {
     public class QuandlService : IQuandlService
     {
-        private readonly Uri _baseUri;
+        private readonly string _baseUrl;
 
         public QuandlService(string baseUrl)
         {
-            _baseUri = new Uri(baseUrl);
+            _baseUrl = baseUrl;
         }
-        
+
         public async Task<string> GetStringAsync(IQuandlRequest request)
         {
-            var httpClient = new HttpClient();
-            var uri = new Uri(_baseUri + "/" + request.Uri.Uri);
-            return await httpClient.GetStringAsync(uri);
+            var baseUrl = new Url(_baseUrl);
+
+
+            return
+                await
+                    baseUrl.AppendPathSegment(request.Uri.PathSegment)
+                        .SetQueryParams(request.Uri.QueryParmeters.ToDictionary(x => x.Name))
+                        .GetStringAsync();
         }
     }
 }
