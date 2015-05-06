@@ -1,4 +1,4 @@
-﻿using NQuandl.Client.Entities;
+﻿using NQuandl.Client.Entities.Base;
 using NQuandl.Client.Interfaces;
 using SimpleInjector;
 using SimpleInjector.Extensions;
@@ -18,7 +18,7 @@ namespace NQuandl.Client.CompositionRoot
 
         public static IMapData<TEntity> GetMapper<TEntity>() where TEntity : QuandlEntity
         {
-           return Container.GetInstance<IMapData<TEntity>>();
+            return Container.GetInstance<IMapData<TEntity>>();
         }
     }
 }
