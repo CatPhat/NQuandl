@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using NQuandl.Client.Entities;
 using NQuandl.Client.Entities.Base;
 using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
@@ -13,7 +12,8 @@ namespace NQuandl.Client
         {
         }
 
-        public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(OptionalRequestParameters optional = null)
+        public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
+            OptionalRequestParameters optional = null)
             where TEntity : QuandlEntity, new()
         {
             var request = new DeserializeEntityRequest<TEntity> {Optional = optional};
