@@ -12,15 +12,13 @@ namespace NQuandl.Client.CompositionRoot
         static Bootstapper()
         {
             Container = new Container();
-
-            Container.Register<IMapProcessor, MapProcessor>();
             Container.RegisterManyForOpenGeneric(typeof (IMapData<>), typeof (IMapData<>).Assembly);
             Container.Verify();
         }
 
         public static IMapData<TEntity> GetMapper<TEntity>() where TEntity : QuandlEntity
         {
-            Container.GetInstance<IMapData<TEntity>>();
+           return Container.GetInstance<IMapData<TEntity>>();
         }
     }
 }
