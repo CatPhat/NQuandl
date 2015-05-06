@@ -3,16 +3,16 @@ using NQuandl.Client.Helpers;
 
 namespace NQuandl.Client.Requests
 {
-    public class RequestParameters
+    public class RequiredRequestParameters
     {
         public string QuandlCode { get; set; }
-        public string RequestFormat { get; set; }
+        public string ResponseFormat { get; set; }
         public string ApiVersion { get; set; }
-        public OptionalRequestParameters Options { get; set; }
     }
 
     public class OptionalRequestParameters
     {
+        public string ApiKey { get; set; }
         public SortOrder? SortOrder { get; set; }
         public Exclude? ExcludeHeaders { get; set; }
         public int? Rows { get; set; }
