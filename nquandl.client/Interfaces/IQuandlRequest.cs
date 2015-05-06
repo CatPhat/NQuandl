@@ -1,15 +1,9 @@
-using NQuandl.Client.Requests;
-using NQuandl.Client.Responses;
+﻿using NQuandl.Client.URIs;
 
 namespace NQuandl.Client.Interfaces
 {
-    public interface IReturn
+    public interface IQuandlRequest
     {
-        string Uri { get; }
-    }
-
-    public interface IReturn<TResponse> : IReturn where TResponse : QuandlResponse 
-    {
-       
+        IContainUri Uri { get; }
     }
 }
