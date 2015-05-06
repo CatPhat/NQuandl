@@ -4,6 +4,6 @@ namespace NQuandl.Client.Interfaces
 {
     public interface IQuandlService
     {
-        Task<string> GetAsync(IQuandlRequest request);
+        Task<string> GetStringAsync(IQuandlRequest request);
     }
 }
