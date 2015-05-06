@@ -62,39 +62,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
-    <Compile Include="CompositionRoot\RequestProcessor.cs" />
-    <Compile Include="CompositionRoot\ResponseProcessor.cs" />
-    <Compile Include="Helpers\OptionalRequestBuilder.cs" />
+    <Compile Include="Entities\Base\QuandlCommodityEntity.cs" />
+    <Compile Include="Entities\Base\QuandlEntity.cs" />
     <Compile Include="Helpers\QueryOptions.cs" />
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="Helpers\UrlExtensions.cs" />
-    <Compile Include="HttpClient.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
     <Compile Include="Interfaces\IMapData.cs" />
     <Compile Include="Interfaces\IQuandlCode.cs" />
+    <Compile Include="Interfaces\IQuandlJsonRequest.cs" />
+    <Compile Include="Interfaces\IQuandlRequest.cs" />
     <Compile Include="Interfaces\IQuandlService.cs" />
     <Compile Include="Helpers\Enums.cs" />
-    <Compile Include="CompositionRoot\MapProcessor.cs" />
-    <Compile Include="Entities\BaseQuandlEntity.cs" />
     <Compile Include="Interfaces\IQuandlEntity.cs" />
-    <Compile Include="Interfaces\IQuandlRequest.cs" />
-    <Compile Include="Queries\Query.cs" />
-    <Compile Include="Requests\NQuandlRequest.cs" />
+    <Compile Include="QuandlJsonService.cs" />
+    <Compile Include="Requests\DeserializeEntityRequest.cs" />
     <Compile Include="Requests\QuandlMetadataV2Request.cs" />
-    <Compile Include="Helpers\RequestParameterHelper.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
-    <Compile Include="Requests\QuandlRequestV1.cs" />
-    <Compile Include="Responses\NQuandlResponse.cs" />
-    <Compile Include="Responses\QuandlResponseV1.cs" />
+    <Compile Include="Requests\QueryParameter.cs" />
+    <Compile Include="Responses\DeserializedEntityResponse.cs" />
+    <Compile Include="Responses\DeserializedJsonResponse.cs" />
+    <Compile Include="Responses\JsonResponse.cs" />
+    <Compile Include="Responses\NQuandlMetadata.cs" />
+    <Compile Include="Responses\QuandlResponse.cs" />
+    <Compile Include="Responses\JsonResponseV1.cs" />
     <Compile Include="Requests\RequestParameters.cs" />
     <Compile Include="Responses\QuandlResponseV2.cs" />
     <Compile Include="Entities\FRED-GDP.cs" />
-    <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuandlService.cs" />
     <Compile Include="QuandlServiceConfiguration.cs" />
-    <Compile Include="WebClientHttpConsumer.cs" />
     <Compile Include="Helpers\JsonExtensions.cs" />
+    <Compile Include="URIs\QuandlCsvUriV1.cs" />
+    <Compile Include="URIs\QuandlJsonUriV1.cs" />
+    <Compile Include="URIs\QuandlVersion1Uri.cs" />
+    <Compile Include="URIs\QuandlXmlUriV1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
