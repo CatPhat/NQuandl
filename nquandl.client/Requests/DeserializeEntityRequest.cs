@@ -12,7 +12,7 @@ namespace NQuandl.Client.Requests
         private readonly IMapData<TEntity> _mapper;
         private readonly string _quandlCode;
 
-        public OptionalRequestParameters Optional;
+        public RequestParameterOptions Options;
 
         public DeserializeEntityRequest()
         {
@@ -22,7 +22,7 @@ namespace NQuandl.Client.Requests
 
         public IContainUri Uri
         {
-            get { return new QuandlJsonUriV1(_quandlCode, Optional); }
+            get { return new QuandlJsonUriV1(_quandlCode, Options); }
         }
 
         public IMapData<TEntity> Mapper

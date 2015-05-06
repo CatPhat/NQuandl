@@ -1,9 +1,7 @@
 ﻿using System;
 using NQuandl.Client;
 using NQuandl.Client.Entities;
-using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
-using NQuandl.Client.URIs;
 
 namespace NQuandl.TestConsole
 {
@@ -11,13 +9,13 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var optional = new OptionalRequestParameters
+            var options = new RequestParameterOptions
             {
                 ApiKey = "asdfasdfa"
             };
 
             var service = new QuandlJsonService(QuandlServiceConfiguration.BaseUrl);
-            var result = service.GetAsync<FRED_GDP>(optional).Result;
+            var result = service.GetAsync<FRED_GDP>(options).Result;
 
             foreach (var entity in result.Entities)
             {
@@ -28,8 +26,6 @@ namespace NQuandl.TestConsole
             Console.ReadLine();
         }
     }
-
-   
 
 
     //public class QuandlRealDeal

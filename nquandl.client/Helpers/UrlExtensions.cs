@@ -18,63 +18,63 @@ namespace NQuandl.Client.Helpers
             return uri;
         }
 
-        public static List<QueryParameter> ToQueryParameters(this OptionalRequestParameters optional)
+        public static List<QueryParameter> ToQueryParameters(this RequestParameterOptions options)
         {
             var parameters = new List<QueryParameter>();
 
-            if (!String.IsNullOrEmpty(optional.ApiKey))
+            if (!String.IsNullOrEmpty(options.ApiKey))
             {
-                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, optional.ApiKey);
+                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey);
                 parameters.Add(parameter);
             }
-            if (optional.SortOrder.HasValue)
+            if (options.SortOrder.HasValue)
             {
                 var parameter = new QueryParameter(RequestParameterConstants.SortOrder,
-                    optional.SortOrder.Value.GetStringValue());
+                    options.SortOrder.Value.GetStringValue());
                 parameters.Add(parameter);
             }
-            if (optional.ExcludeHeaders.HasValue)
+            if (options.ExcludeHeaders.HasValue)
             {
                 var parameter = new QueryParameter(RequestParameterConstants.ExcludeHeaders,
-                    optional.ExcludeHeaders.Value.GetStringValue());
+                    options.ExcludeHeaders.Value.GetStringValue());
                 parameters.Add(parameter);
             }
-            if (optional.Rows.HasValue)
+            if (options.Rows.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Rows, optional.Rows.Value.ToString());
+                var parameter = new QueryParameter(RequestParameterConstants.Rows, options.Rows.Value.ToString());
                 parameters.Add(parameter);
             }
-            if (optional.DateRange != null)
+            if (options.DateRange != null)
             {
                 const string dateFormat = "yyyy-MM-dd";
 
                 var parameter1 = new QueryParameter(RequestParameterConstants.TrimStart,
-                    optional.DateRange.TrimStart.ToString(dateFormat));
+                    options.DateRange.TrimStart.ToString(dateFormat));
                 parameters.Add(parameter1);
 
                 var parameter2 = new QueryParameter(RequestParameterConstants.TrimEnd,
-                    optional.DateRange.TrimEnd.ToString(dateFormat));
+                    options.DateRange.TrimEnd.ToString(dateFormat));
                 parameters.Add(parameter2);
             }
-            if (optional.Column.HasValue)
+            if (options.Column.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Column, optional.Column.Value.ToString());
+                var parameter = new QueryParameter(RequestParameterConstants.Column, options.Column.Value.ToString());
                 parameters.Add(parameter);
             }
-            if (optional.Transformation.HasValue)
+            if (options.Transformation.HasValue)
             {
                 var parameter = new QueryParameter(RequestParameterConstants.Transformation,
-                    optional.Transformation.Value.GetStringValue());
+                    options.Transformation.Value.GetStringValue());
                 parameters.Add(parameter);
             }
             return parameters;
         }
 
-        public static string ToQueryUri(this OptionalRequestParameters optional)
+        public static string ToQueryUri(this RequestParameterOptions options)
         {
             var uri = string.Empty;
-            if (optional == null) return uri;
-            return uri.SetQueryParams(optional);
+            if (options == null) return uri;
+            return uri.SetQueryParams(options);
         }
 
         public static string ToQueryUri(this List<QueryParameter> parameters)

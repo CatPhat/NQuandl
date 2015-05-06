@@ -13,10 +13,10 @@ namespace NQuandl.Client.URIs
 
     public class QuandlVersion1Uri : IContainUri
     {
-        private readonly OptionalRequestParameters _optional;
+        private readonly RequestParameterOptions _options;
         private readonly RequiredRequestParameters _required;
 
-        public QuandlVersion1Uri(string quandlCode, ResponseFormat format, OptionalRequestParameters optional = null)
+        public QuandlVersion1Uri(string quandlCode, ResponseFormat format, RequestParameterOptions options = null)
         {
             _required = new RequiredRequestParameters
             {
@@ -24,7 +24,7 @@ namespace NQuandl.Client.URIs
                 ResponseFormat = format.GetStringValue(),
                 QuandlCode = quandlCode
             };
-            _optional = optional;
+            _options = options;
         }
 
         public string PathSegment
@@ -34,7 +34,7 @@ namespace NQuandl.Client.URIs
 
         public IEnumerable<QueryParameter> QueryParmeters
         {
-            get { return _optional.ToQueryParameters(); }
+            get { return _options.ToQueryParameters(); }
         }
 
        

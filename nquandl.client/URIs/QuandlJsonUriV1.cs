@@ -5,8 +5,8 @@ namespace NQuandl.Client.URIs
 {
     public class QuandlJsonUriV1 : QuandlVersion1Uri
     {
-        public QuandlJsonUriV1(string quandlCode, OptionalRequestParameters optional = null)
-            : base(quandlCode, ResponseFormat.JSON, optional)
+        public QuandlJsonUriV1(string quandlCode, RequestParameterOptions options = null)
+            : base(quandlCode, ResponseFormat.JSON, options)
         {
         }
     }

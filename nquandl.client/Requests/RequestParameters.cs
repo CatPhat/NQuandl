@@ -10,7 +10,7 @@ namespace NQuandl.Client.Requests
         public string ApiVersion { get; set; }
     }
 
-    public class OptionalRequestParameters
+    public class RequestParameterOptions
     {
         public string ApiKey { get; set; }
         public SortOrder? SortOrder { get; set; }
