@@ -1,5 +1,5 @@
-﻿using NQuandl.Client.Interfaces;
-using NQuandl.Client.Requests;
+﻿using NQuandl.Client.Entities;
+using NQuandl.Client.Interfaces;
 using SimpleInjector;
 using SimpleInjector.Extensions;
 
@@ -7,7 +7,7 @@ namespace NQuandl.Client.CompositionRoot
 {
     public static class Bootstapper
     {
-        public static Container Container;
+        private static readonly Container Container;
 
         static Bootstapper()
         {
@@ -15,9 +15,12 @@ namespace NQuandl.Client.CompositionRoot
 
             Container.Register<IMapProcessor, MapProcessor>();
             Container.RegisterManyForOpenGeneric(typeof (IMapData<>), typeof (IMapData<>).Assembly);
-            Container.RegisterManyForOpenGeneric(typeof(INQuandlRequest<>), typeof(NQuandlRequest<>).Assembly);
-            Container.Register<IGetNQuandlRequest, RequestProcessor>();
             Container.Verify();
+        }
+
+        public static IMapData<TEntity> GetMapper<TEntity>() where TEntity : QuandlEntity
+        {
+            Container.GetInstance<IMapData<TEntity>>();
         }
     }
 }
