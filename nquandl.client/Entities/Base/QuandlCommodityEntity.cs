@@ -1,12 +1,5 @@
-﻿using NQuandl.Client.Interfaces;
-
-namespace NQuandl.Client.Entities
+namespace NQuandl.Client.Entities.Base
 {
-    public abstract class QuandlEntity : IQuandlEntity
-    {
-        public abstract string QuandlCode { get; }
-    }
-
     public abstract class QuandlCommodityEntity : QuandlEntity
     {
         public abstract string DatabaseCode { get; }
