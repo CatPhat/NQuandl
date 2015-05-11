@@ -6,7 +6,7 @@ using NQuandl.Client.Responses;
 
 namespace NQuandl.Client
 {
-    public class QuandlJsonService : QuandlService
+    public class QuandlJsonService : QuandlService, IQuandlJsonService
     {
         public QuandlJsonService(string baseUrl) : base(baseUrl)
         {
