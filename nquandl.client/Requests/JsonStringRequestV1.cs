@@ -3,11 +3,11 @@ using NQuandl.Client.URIs;
 
 namespace NQuandl.Client.Requests
 {
-    public class JsonStringRequest : IQuandlRequest
+    public class JsonStringRequestV1 : IQuandlRequest
     {
         private readonly string _quandlCode;
         public RequestParameterOptions Options { get; set; }
-        public JsonStringRequest(string quandlCode)
+        public JsonStringRequestV1(string quandlCode)
         {
             _quandlCode = quandlCode;
         }

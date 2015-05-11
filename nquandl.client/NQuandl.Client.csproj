@@ -87,7 +87,7 @@
     <Compile Include="Requests\QuandlMetadataV2Request.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
     <Compile Include="Requests\QueryParameter.cs" />
-    <Compile Include="Requests\JsonStringRequest.cs" />
+    <Compile Include="Requests\JsonStringRequestV1.cs" />
     <Compile Include="Responses\DeserializedEntityResponse.cs" />
     <Compile Include="Responses\DeserializedJsonResponse.cs" />
     <Compile Include="Responses\JsonResponse.cs" />
