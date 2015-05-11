@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NQuandl.Queue
 {
@@ -14,13 +11,24 @@ namespace NQuandl.Queue
         public string StringResponse { get; internal set; }
     }
 
+    
     public class QueueStatus
     {
-        public TimeSpan TimeElapsed { get; internal set; }
-        public int RequestsProcessed { get; internal set; }
-        public int TotalRequests { get; internal set; }
-        public string LastResponse { get; internal set; }
+        private readonly DateTime _queueStatusStartTime;
 
+        public QueueStatus()
+        {
+            _queueStatusStartTime = DateTime.Now;
+        }
+        
+        public int RequestsUnprocessed { get; set; }
+
+        public int RequestsProcessed { get; set; }
+
+        public TimeSpan TimeElapsed
+        {
+            get { return DateTime.Now - _queueStatusStartTime; }
+        }
         public double HowManyRequestsIn10MinutesAtCurrentRate
         {
             get { return RequestsPerSecond*600; }
@@ -32,10 +40,15 @@ namespace NQuandl.Queue
             {
                 if (RequestsProcessed != 0)
                 {
-                    return RequestsProcessed / TimeElapsed.TotalSeconds;
+                    return RequestsProcessed/TimeElapsed.TotalSeconds;
                 }
                 return 0;
             }
+        }
+
+        public int TotalRequests
+        {
+            get { return RequestsUnprocessed; }
         }
 
         public int RequestsRemaining
@@ -45,7 +58,10 @@ namespace NQuandl.Queue
 
         public TimeSpan TimeRemaining
         {
-            get { return (DateTime.Now.AddSeconds((int)Math.Round(RequestsRemaining / RequestsPerSecond)) - DateTime.Now); }
+            get
+            {
+                return (DateTime.Now.AddSeconds((int) Math.Round(RequestsRemaining/RequestsPerSecond)) - DateTime.Now);
+            }
         }
     }
 }
