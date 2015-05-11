@@ -1,11 +1,39 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NQuandl.Client;
+using NQuandl.Client.Helpers;
+using NQuandl.Client.Requests;
 
 namespace NQuandl.TestConsole
 {
     internal class Program
     {
         private static void Main(string[] args)
+        {
+            var options = new RequestParameterOptions
+            {
+                ApiKey = QuandlServiceConfiguration.ApiKey,
+                ExcludeData = Exclude.True
+
+            };
+            var client = new QuandlService("https://quandl.com/api");
+            var request = new JsonStringRequest("FRED/GDP")
+            {
+                Options = options
+            };
+
+            var result = client.GetStringAsync(request).Result;
+            Console.WriteLine(result);
+            Console.WriteLine("done");
+            Console.ReadLine();
+        }
+    }
+
+
+
+    public class QueueTest
+    {
+        public void Run()
         {
             var test1 = new QuandlQueueTest();
             var test2 = new QuandlQueueTest();
@@ -20,9 +48,6 @@ namespace NQuandl.TestConsole
                 printStatus.Print();
             }
 
-
-            Console.WriteLine("done");
-            Console.ReadLine();
         }
     }
 }
