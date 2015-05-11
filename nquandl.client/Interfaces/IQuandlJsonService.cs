@@ -8,7 +8,7 @@ namespace NQuandl.Client.Interfaces
     public interface IQuandlJsonService
     {
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            RequestParameterOptions options = null)
+            RequestOptionsV1 options = null)
             where TEntity : QuandlEntity, new();
 
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(

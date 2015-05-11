@@ -10,14 +10,14 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var options = new RequestParameterOptions
+            var options = new RequestOptionsV1
             {
                 ApiKey = QuandlServiceConfiguration.ApiKey,
                 ExcludeData = Exclude.True
 
             };
             var client = new QuandlService("https://quandl.com/api");
-            var request = new JsonStringRequest("FRED/GDP")
+            var request = new JsonStringRequestV1("FRED/GDP")
             {
                 Options = options
             };

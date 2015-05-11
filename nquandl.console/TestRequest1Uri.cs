@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NQuandl.Client.Helpers;
+using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
 using NQuandl.Client.URIs;
 
@@ -14,7 +15,7 @@ namespace NQuandl.TestConsole
 
         public IEnumerable<QueryParameter> QueryParmeters
         {
-            get { return new RequestParameterOptions().ToQueryParameters(); }
+            get { return new RequestOptionsV1().ToQueryParameters(); }
         }
     }
 }

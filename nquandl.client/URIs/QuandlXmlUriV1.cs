@@ -3,9 +3,9 @@ using NQuandl.Client.Requests;
 
 namespace NQuandl.Client.URIs
 {
-    public class QuandlXmlUriV1 : QuandlVersion1Uri
+    public class QuandlXmlUriV1V1 : QuandlUriV1
     {
-        public QuandlXmlUriV1(string quandlCode, RequestParameterOptions options = null)
+        public QuandlXmlUriV1V1(string quandlCode, RequestOptionsV1 options = null)
             : base(quandlCode, ResponseFormat.XML, options)
         {
         }

@@ -17,7 +17,7 @@ namespace NQuandl.Queue
         Task<string> GetStringAsync(IQuandlRequest request);
 
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            RequestParameterOptions options = null)
+            RequestOptionsV1 options = null)
             where TEntity : QuandlEntity, new();
 
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
@@ -73,10 +73,10 @@ namespace NQuandl.Queue
         }
 
         public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            RequestParameterOptions options = null)
+            RequestOptionsV1 options = null)
             where TEntity : QuandlEntity, new()
         {
-            var request = new DeserializeEntityRequest<TEntity> {Options = options};
+            var request = new DeserializeEntityRequestV1<TEntity> {Options = options};
             return await GetAsync(request);
         }
 
@@ -95,12 +95,12 @@ namespace NQuandl.Queue
             List<QueueRequest<TEntity>> requests) where TEntity : QuandlEntity, new()
         {
             var responses = new List<DeserializedEntityResponse<TEntity>>();
-            var mapper = requests.First().DeserializeEntityRequest.Mapper;
+            var mapper = requests.First().DeserializeEntityRequestV1.Mapper;
             var inputBlock = new BufferBlock<IQuandlRequest>();
             inputBlock.LinkTo(_queue);
             foreach (var queueRequest in requests)
             {
-                await inputBlock.SendAsync(queueRequest.DeserializeEntityRequest);
+                await inputBlock.SendAsync(queueRequest.DeserializeEntityRequestV1);
             }
             inputBlock.Complete();
             while (await _outputBlock.OutputAvailableAsync())

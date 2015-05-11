@@ -6,13 +6,13 @@ namespace NQuandl.Queue
 {
     public class QueueRequest<TEntity> where TEntity : QuandlEntity, new()
     {
-        public RequestParameterOptions Options { get; set; }
+        public RequestOptionsV1 Options { get; set; }
 
-        public DeserializeEntityRequest<TEntity> DeserializeEntityRequest
+        public DeserializeEntityRequestV1<TEntity> DeserializeEntityRequestV1
         {
             get
             {
-                return new DeserializeEntityRequest<TEntity>
+                return new DeserializeEntityRequestV1<TEntity>
                 {
                     Options = Options
                 };

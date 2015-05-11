@@ -5,19 +5,19 @@ using NQuandl.Client.URIs;
 
 namespace NQuandl.Client.Requests
 {
-    public class DeserializeEntityRequest<TEntity> : IDeserializedEntityRequest<TEntity>
+    public class DeserializeEntityRequestV1<TEntity> : IDeserializedEntityRequest<TEntity>
         where TEntity : QuandlEntity, new()
     {
         private readonly IMapData<TEntity> _mapper;
         private readonly string _quandlCode;
 
-        public DeserializeEntityRequest()
+        public DeserializeEntityRequestV1()
         {
             _mapper = Bootstapper.GetMapper<TEntity>();
             _quandlCode = new TEntity().QuandlCode;
         }
 
-        public RequestParameterOptions Options { get; set; }
+        public RequestOptionsV1 Options { get; set; }
 
         public IContainUri Uri
         {

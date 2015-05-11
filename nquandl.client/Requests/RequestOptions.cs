@@ -3,14 +3,7 @@ using NQuandl.Client.Helpers;
 
 namespace NQuandl.Client.Requests
 {
-    public class RequiredRequestParameters
-    {
-        public string QuandlCode { get; set; }
-        public string ResponseFormat { get; set; }
-        public string ApiVersion { get; set; }
-    }
-
-    public class RequestParameterOptions
+    public class RequestOptionsV1
     {
         public string ApiKey { get; set; }
         public SortOrder? SortOrder { get; set; }
@@ -21,6 +14,27 @@ namespace NQuandl.Client.Requests
         public Transformation? Transformation { get; set; }
         public Exclude? ExcludeData { get; set; }
         public Frequency? Frequency { get; set; }
+    }
+
+    public class RequestOptionsV2
+    {
+        public string ApiKey { get; set; }
+        public string Query { get; set; }
+        public string SourceCode { get; set; }
+        public int? PerPage { get; set; }
+        public int? Page { get; set; }
+    }
+
+    public class ForcedRequestOptionsV2 : RequestOptionsV2
+    {
+        public ForcedRequestOptionsV2(string apiKey, string query, string sourceCode, int perPage, int page)
+        {
+            ApiKey = apiKey;
+            Query = query;
+            SourceCode = sourceCode;
+            PerPage = perPage;
+            Page = page;
+        }
     }
 
     public class DateRange

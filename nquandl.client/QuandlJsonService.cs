@@ -13,10 +13,10 @@ namespace NQuandl.Client
         }
 
         public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            RequestParameterOptions options = null)
+            RequestOptionsV1 options = null)
             where TEntity : QuandlEntity, new()
         {
-            var request = new DeserializeEntityRequest<TEntity> { Options = options };
+            var request = new DeserializeEntityRequestV1<TEntity> { Options = options };
             return await GetAsync(request);
         }
 

@@ -26,7 +26,7 @@ namespace NQuandl.Queue
         }
 
         public static async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-       RequestParameterOptions options = null)
+       RequestOptionsV1 options = null)
        where TEntity : QuandlEntity, new()
         {
             var instance = _container.GetInstance<INQuandlQueue>();

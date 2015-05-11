@@ -9,7 +9,7 @@ namespace NQuandl.TestConsole
     {
         public void Get()
         {
-            var options = new RequestParameterOptions();
+            var options = new RequestOptionsV1();
 
             var service = new QuandlJsonService("https://quandl.com/api");
             var result = service.GetAsync<FRED_GDP>(options).Result;

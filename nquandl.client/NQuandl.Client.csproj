@@ -74,6 +74,7 @@
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="Helpers\UrlExtensions.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
+    <Compile Include="Interfaces\IContainUri.cs" />
     <Compile Include="Interfaces\IMapData.cs" />
     <Compile Include="Interfaces\IQuandlCode.cs" />
     <Compile Include="Interfaces\IQuandlJsonRequest.cs" />
@@ -83,8 +84,10 @@
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Interfaces\IQuandlEntity.cs" />
     <Compile Include="QuandlJsonService.cs" />
-    <Compile Include="Requests\DeserializeEntityRequest.cs" />
-    <Compile Include="Requests\QuandlMetadataV2Request.cs" />
+    <Compile Include="Requests\DeserializeEntityRequestV1.cs" />
+    <Compile Include="Requests\PathSegmentParametersV1.cs" />
+    <Compile Include="Requests\PathSegmentParametersV2.cs" />
+    <Compile Include="Requests\DeserializeMetadataRequestV2.cs" />
     <Compile Include="Helpers\RequestParameterConstants.cs" />
     <Compile Include="Requests\QueryParameter.cs" />
     <Compile Include="Requests\JsonStringRequestV1.cs" />
@@ -94,8 +97,8 @@
     <Compile Include="Responses\NQuandlMetadata.cs" />
     <Compile Include="Responses\QuandlResponse.cs" />
     <Compile Include="Responses\JsonResponseV1.cs" />
-    <Compile Include="Requests\RequestParameters.cs" />
-    <Compile Include="Responses\QuandlResponseV2.cs" />
+    <Compile Include="Requests\RequestOptions.cs" />
+    <Compile Include="Responses\JsonResponseV2.cs" />
     <Compile Include="Entities\FRED-GDP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuandlService.cs" />
@@ -103,8 +106,11 @@
     <Compile Include="Helpers\JsonExtensions.cs" />
     <Compile Include="URIs\QuandlCsvUriV1.cs" />
     <Compile Include="URIs\QuandlJsonUriV1.cs" />
-    <Compile Include="URIs\QuandlVersion1Uri.cs" />
+    <Compile Include="URIs\QuandlJsonUriV2.cs" />
+    <Compile Include="URIs\QuandlUriV1.cs" />
+    <Compile Include="URIs\QuandlUriV2.cs" />
     <Compile Include="URIs\QuandlXmlUriV1.cs" />
+    <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

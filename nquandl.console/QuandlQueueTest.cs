@@ -11,7 +11,7 @@ namespace NQuandl.TestConsole
     {
         public async Task<int> Get()
         {
-            var options = new RequestParameterOptions
+            var options = new RequestOptionsV1
             {
                 ApiKey = "asdfasdfa"
             };

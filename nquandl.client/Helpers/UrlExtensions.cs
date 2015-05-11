@@ -16,7 +16,7 @@ namespace NQuandl.Client.Helpers
                 .SetQueryParams(request.Uri.QueryParmeters.ToDictionary(x => x.Name));
         }
 
-        public static string ToUriV1(this RequiredRequestParameters parameters)
+        public static string ToUri(this PathSegmentParametersV1 parameters)
         {
             var uri = parameters.ApiVersion +
                       "/" + parameters.QuandlCode +
@@ -24,7 +24,14 @@ namespace NQuandl.Client.Helpers
             return uri;
         }
 
-        public static List<QueryParameter> ToQueryParameters(this RequestParameterOptions options)
+        public static string ToUri(this PathSegmentParametersV2 parameters)
+        {
+            var uri = parameters.ApiVersion + "." + parameters.ResponseFormat;
+                   
+            return uri;
+        }
+
+        public static IEnumerable<QueryParameter> ToQueryParameters(this RequestOptionsV1 options)
         {
             var parameters = new List<QueryParameter>();
 
@@ -87,7 +94,44 @@ namespace NQuandl.Client.Helpers
             return parameters;
         }
 
-        public static string ToQueryUri(this RequestParameterOptions options)
+        public static IEnumerable<QueryParameter> ToQueryParameters(this RequestOptionsV2 options)
+        {
+            var parameters = new List<QueryParameter>();
+
+            if (!String.IsNullOrEmpty(options.ApiKey))
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey);
+                parameters.Add(parameter);
+            }
+
+            if (!String.IsNullOrEmpty(options.Query))
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.Query, options.Query);
+                parameters.Add(parameter);
+            }
+
+            if (!String.IsNullOrEmpty(options.SourceCode))
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.SourceCode, options.SourceCode);
+                parameters.Add(parameter);
+            }
+
+            if (options.PerPage.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.PerPage, options.PerPage.Value.ToString());
+                parameters.Add(parameter);
+            }
+
+            if (options.Page.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
+                parameters.Add(parameter);
+            }
+           
+            return parameters;
+        }
+
+        public static string ToQueryUri(this RequestOptionsV1 options)
         {
             var uri = string.Empty;
             if (options == null) return uri;
