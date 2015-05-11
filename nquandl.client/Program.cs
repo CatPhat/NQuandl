@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using NQuandl.Client;
 using NQuandl.Client.Entities;
 using NQuandl.Client.Requests;
+using NQuandl.Client.Responses;
+using NQuandl.Queue;
 
 namespace NQuandl.TestConsole
 {
@@ -9,24 +13,77 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
+            var test1 = new QuandlQueueTest();
+            var test2 = new QuandlQueueTest();
+            var test3 = new QuandlQueueTest();
+            var test4 = new QuandlQueueTest();
+            var test5 = new QuandlQueueTest();
+            var test6 = new QuandlQueueTest();
+            var printStatus = new PrintStatus();
+            var task = Task.WhenAll(test1.Get(), test2.Get(), printStatus.Print()).Result;
+            Console.WriteLine("done");
+            Console.ReadLine();
+        }
+    }
+
+    public class PrintStatus
+    {
+        public async Task<int> Print()
+        {
+            int lastRequestCount = 0;
+            while (true)
+            {
+                var currentRequestCount = NQueue.GetQueueStatus().RequestsProcessed;
+                if (NQueue.GetQueueStatus().RequestsRemaining == 0) break;
+                if (currentRequestCount == lastRequestCount) continue;
+
+                Console.Clear();
+                Verbose.PrintStatus();
+                lastRequestCount = currentRequestCount;
+            }
+            return await Task.FromResult(0);
+        }
+    }
+
+    public class QuandlQueueTest
+    {
+        public async Task<int> Get()
+        {
             var options = new RequestParameterOptions
             {
                 ApiKey = "asdfasdfa"
             };
 
-            var service = new QuandlJsonService(QuandlServiceConfiguration.BaseUrl);
+            var requests = new List<QueueRequest<FRED_GDP>>();
+
+            for (var i = 0; i < 1000; i++)
+            {
+                requests.Add(new QueueRequest<FRED_GDP>
+                {
+                    Options = options
+                });
+            }
+            await NQueue.GetAsync(requests);
+            return await Task.FromResult(0);
+        }
+    }
+
+
+    public class GetQuandl
+    {
+        public void Get()
+        {
+            var options = new RequestParameterOptions();
+
+            var service = new QuandlJsonService("https://quandl.com/api");
             var result = service.GetAsync<FRED_GDP>(options).Result;
 
             foreach (var entity in result.Entities)
             {
                 Console.WriteLine(entity.Date + " | " + entity.Value);
             }
-
-            Console.WriteLine("done");
-            Console.ReadLine();
         }
     }
-
 
     //public class QuandlRealDeal
     //{
@@ -73,24 +130,25 @@ namespace NQuandl.TestConsole
     //    }
     //}
 
-    //public class Verbose
-    //{
-    //    public void PrintStatus()
-    //    {
+    public static class Verbose
+    {
+        public static void PrintStatus()
+        {
 
 
-    //        Console.WriteLine("                     Total: {0}", NQueue.GetQueueStatus().TotalRequests);
-    //        Console.WriteLine("                 Remaining: {0}", NQueue.GetQueueStatus().RequestsRemaining);
-    //        Console.WriteLine("                 Processed: {0}", NQueue.GetQueueStatus().RequestsProcessed);
-    //        Console.WriteLine("              Time Elapsed: {0}", NQueue.GetQueueStatus().TimeElapsed);
-    //        Console.WriteLine("            Time Remaining: {0}", NQueue.GetQueueStatus().TimeRemaining);
-    //        Console.WriteLine("            RequestsPerSec: {0} ", NQueue.GetQueueStatus().RequestsPerSecond);
-    //        Console.WriteLine("10 Minutes at Current Rate: {0} ", NQueue.GetQueueStatus().HowManyRequestsIn10MinutesAtCurrentRate);
-    //        Console.WriteLine("\nLast Response: {0} \n", NQueue.GetQueueStatus().LastResponse);
-    //        //Console.WriteLine("{0}",new string('.', NQueue.GetQueueStatus().RequestsRemaining));
+            Console.WriteLine("                     Total: {0}", NQueue.GetQueueStatus().TotalRequests);
+            Console.WriteLine("                 Remaining: {0}", NQueue.GetQueueStatus().RequestsRemaining);
+            Console.WriteLine("                 Processed: {0}", NQueue.GetQueueStatus().RequestsProcessed);
+            Console.WriteLine("              Time Elapsed: {0}", NQueue.GetQueueStatus().TimeElapsed);
+            Console.WriteLine("            Time Remaining: {0}", NQueue.GetQueueStatus().TimeRemaining);
+            Console.WriteLine("            RequestsPerSec: {0} ", NQueue.GetQueueStatus().RequestsPerSecond);
+            Console.WriteLine("10 Minutes at Current Rate: {0} ",
+                NQueue.GetQueueStatus().HowManyRequestsIn10MinutesAtCurrentRate);
+            //Console.WriteLine("{0}",new string('.', NQueue.GetQueueStatus().RequestsRemaining));
 
-    //    }
+        }
 
+    }
 
     //}
 

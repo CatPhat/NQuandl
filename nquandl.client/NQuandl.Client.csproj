@@ -77,6 +77,7 @@
     <Compile Include="Interfaces\IMapData.cs" />
     <Compile Include="Interfaces\IQuandlCode.cs" />
     <Compile Include="Interfaces\IQuandlJsonRequest.cs" />
+    <Compile Include="Interfaces\IQuandlJsonService.cs" />
     <Compile Include="Interfaces\IQuandlRequest.cs" />
     <Compile Include="Interfaces\IQuandlService.cs" />
     <Compile Include="Helpers\Enums.cs" />

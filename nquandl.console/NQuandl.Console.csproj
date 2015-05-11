@@ -70,6 +70,10 @@
       <Project>{83a4ad9e-17ba-4bf8-a38d-c0b0794ddb5c}</Project>
       <Name>NQuandl.Generator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NQuandl.Queue\NQuandl.Queue.csproj">
+      <Project>{a86c33e3-624e-4f02-9f4b-b452c96f4c42}</Project>
+      <Name>NQuandl.Queue</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
