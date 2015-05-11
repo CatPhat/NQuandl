@@ -54,10 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
-    <Compile Include="JsonServiceQueueDecorator.cs" />
+    <Compile Include="QuandlQueueDecorator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JsonServiceQueue.cs" />
+    <Compile Include="NQuandlQueue.cs" />
     <Compile Include="QueueRequest.cs" />
     <Compile Include="QueueStatus.cs" />
     <Compile Include="NQueue.cs" />

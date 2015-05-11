@@ -25,6 +25,8 @@ namespace NQuandl.Queue
 
         public int RequestsProcessed { get; set; }
 
+        public string LastResponse { get; set; }
+
         public TimeSpan TimeElapsed
         {
             get { return DateTime.Now - _queueStatusStartTime; }

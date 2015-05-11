@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client;
 using NQuandl.Client.Entities;
+using NQuandl.Client.Helpers;
+using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
-using NQuandl.Client.Responses;
+using NQuandl.Client.URIs;
 using NQuandl.Queue;
 
 namespace NQuandl.TestConsole
@@ -20,17 +23,114 @@ namespace NQuandl.TestConsole
             var test5 = new QuandlQueueTest();
             var test6 = new QuandlQueueTest();
             var printStatus = new PrintStatus();
-            var task = Task.WhenAll(test1.Get(), test2.Get(), printStatus.Print()).Result;
+            var task = Task.WhenAll(test1.GetTestString(), test2.GetTest2String());
+            while (task.IsCompleted == false)
+            {
+                printStatus.Print();
+            }
+         
+              
+            
+           
             Console.WriteLine("done");
             Console.ReadLine();
         }
     }
 
+
+    public class TestRequest1 : IQuandlRequest
+    {
+        public IContainUri Uri
+        {
+            get { return new TestRequest1Uri(); }
+        }
+    }
+
+    public class TestRequest1Uri : IContainUri
+    {
+        public string PathSegment
+        {
+            get { return "testapi"; }
+        }
+
+        public IEnumerable<QueryParameter> QueryParmeters
+        {
+            get { return new RequestParameterOptions().ToQueryParameters(); }
+        }
+    }
+
+    public class StringRequest : IQuandlRequest
+    {
+        private readonly string _pathSegment;
+        public StringRequest(string pathSegment)
+        {
+            _pathSegment = pathSegment;
+        }
+        public IContainUri Uri
+        {
+            get
+            {
+                return new StringRequestUri(_pathSegment);
+            }
+        }
+
+
+    }
+
+    public class StringRequestUri : IContainUri
+    {
+        private readonly string _pathsegment;
+
+        public StringRequestUri(string pathsegment)
+        {
+            _pathsegment = pathsegment;
+        }
+
+        public string PathSegment
+        {
+            get { return _pathsegment; }
+        }
+
+        public IEnumerable<QueryParameter> QueryParmeters
+        {
+            get
+            {
+                return new RequestParameterOptions
+                {
+                    ExcludeHeaders = Exclude.True
+                }.ToQueryParameters();
+            }
+        }
+    }
+
+    
+
+    public class TestRequest2 : IQuandlRequest
+    {
+        public IContainUri Uri
+        {
+            get { return new TestRequest2Uri(); }
+        }
+    }
+
+    public class TestRequest2Uri : IContainUri
+    {
+        public string PathSegment
+        {
+            get { return "testapi2"; }
+        }
+
+        public IEnumerable<QueryParameter> QueryParmeters
+        {
+            get { return new RequestParameterOptions().ToQueryParameters(); }
+        }
+    }
+
     public class PrintStatus
     {
-        public async Task<int> Print()
+        public void Print()
         {
-            int lastRequestCount = 0;
+            var lastRequestCount = 0;
             while (true)
             {
                 var currentRequestCount = NQueue.GetQueueStatus().RequestsProcessed;
@@ -41,7 +141,7 @@ namespace NQuandl.TestConsole
                 Verbose.PrintStatus();
                 lastRequestCount = currentRequestCount;
             }
-            return await Task.FromResult(0);
+          
         }
     }
 
@@ -56,7 +156,7 @@ namespace NQuandl.TestConsole
 
             var requests = new List<QueueRequest<FRED_GDP>>();
 
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < 20; i++)
             {
                 requests.Add(new QueueRequest<FRED_GDP>
                 {
@@ -66,8 +166,37 @@ namespace NQuandl.TestConsole
             await NQueue.GetAsync(requests);
             return await Task.FromResult(0);
         }
-    }
 
+        public async Task<int> GetTestString()
+        {
+            var requests = new List<TestRequest1>();
+            for (var i = 0; i < 2000; i++)
+            {
+                requests.Add(new TestRequest1());
+            }
+
+            var responses = new List<string>();
+            var tasks = requests.Select(NQueue.GetStringAsync).ToList();
+            await Task.WhenAll(tasks);
+
+            return await Task.FromResult(0);
+        }
+
+        public async Task<int> GetTest2String()
+        {
+            var requests = new List<TestRequest2>();
+            for (var i = 0; i < 200; i++)
+            {
+                requests.Add(new TestRequest2());
+            }
+
+            var responses = new List<string>();
+            var tasks = requests.Select(NQueue.GetStringAsync).ToList();
+            await Task.WhenAll(tasks);
+
+            return await Task.FromResult(0);
+        }
+    }
 
     public class GetQuandl
     {
@@ -134,20 +263,16 @@ namespace NQuandl.TestConsole
     {
         public static void PrintStatus()
         {
-
-
             Console.WriteLine("                     Total: {0}", NQueue.GetQueueStatus().TotalRequests);
             Console.WriteLine("                 Remaining: {0}", NQueue.GetQueueStatus().RequestsRemaining);
             Console.WriteLine("                 Processed: {0}", NQueue.GetQueueStatus().RequestsProcessed);
             Console.WriteLine("              Time Elapsed: {0}", NQueue.GetQueueStatus().TimeElapsed);
             Console.WriteLine("            Time Remaining: {0}", NQueue.GetQueueStatus().TimeRemaining);
-            Console.WriteLine("            RequestsPerSec: {0} ", NQueue.GetQueueStatus().RequestsPerSecond);
-            Console.WriteLine("10 Minutes at Current Rate: {0} ",
-                NQueue.GetQueueStatus().HowManyRequestsIn10MinutesAtCurrentRate);
+            Console.WriteLine("            RequestsPerSec: {0} ",NQueue.GetQueueStatus().RequestsPerSecond);
+            Console.WriteLine("10 Minutes at Current Rate: {0} ",NQueue.GetQueueStatus().HowManyRequestsIn10MinutesAtCurrentRate);
+            Console.WriteLine(NQueue.GetQueueStatus().LastResponse);
             //Console.WriteLine("{0}",new string('.', NQueue.GetQueueStatus().RequestsRemaining));
-
         }
-
     }
 
     //}

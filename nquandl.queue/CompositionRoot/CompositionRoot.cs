@@ -18,8 +18,8 @@ namespace NQuandl.Queue
            
             container.RegisterSingle<IQueueStatusLogger, QueueStatusLogger>();
 
-            container.RegisterSingle<IJsonServiceQueue, JsonServiceQueue>();
-            container.RegisterSingleDecorator(typeof(IJsonServiceQueue), typeof(JsonServiceQueueDecorator));
+            container.RegisterSingle<INQuandlQueue, NQuandlQueue>();
+            container.RegisterSingleDecorator(typeof(INQuandlQueue), typeof(QuandlQueueDecorator));
             
         }
     }

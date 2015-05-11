@@ -19,18 +19,24 @@ namespace NQuandl.Queue
             _container.Verify();
         }
 
+        public static async Task<string> GetStringAsync(IQuandlRequest request)
+        {
+            var instance = _container.GetInstance<INQuandlQueue>();
+            return await instance.GetStringAsync(request);
+        }
+
         public static async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
        RequestParameterOptions options = null)
        where TEntity : QuandlEntity, new()
         {
-            var instance = _container.GetInstance<IJsonServiceQueue>();
+            var instance = _container.GetInstance<INQuandlQueue>();
             return await instance.GetAsync<TEntity>(options);
         }
 
         public static async Task<IEnumerable<DeserializedEntityResponse<TEntity>>> GetAsync<TEntity>(
           List<QueueRequest<TEntity>> requests) where TEntity : QuandlEntity, new()
         {
-            var instance = _container.GetInstance<IJsonServiceQueue>();
+            var instance = _container.GetInstance<INQuandlQueue>();
             return await instance.GetAsync(requests);
         }
 
