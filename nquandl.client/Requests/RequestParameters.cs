@@ -20,6 +20,7 @@ namespace NQuandl.Client.Requests
         public int? Column { get; set; }
         public Transformation? Transformation { get; set; }
         public Exclude? ExcludeData { get; set; }
+        public Frequency? Frequency { get; set; }
     }
 
     public class DateRange

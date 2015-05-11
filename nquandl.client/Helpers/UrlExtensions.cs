@@ -45,9 +45,20 @@ namespace NQuandl.Client.Helpers
                     options.ExcludeHeaders.Value.GetStringValue());
                 parameters.Add(parameter);
             }
+            if (options.ExcludeData.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.ExcludeData,
+                    options.ExcludeData.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
             if (options.Rows.HasValue)
             {
                 var parameter = new QueryParameter(RequestParameterConstants.Rows, options.Rows.Value.ToString());
+                parameters.Add(parameter);
+            }
+            if (options.Frequency.HasValue)
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.Frequency, options.Frequency.Value.ToString());
                 parameters.Add(parameter);
             }
             if (options.DateRange != null)
