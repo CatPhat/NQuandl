@@ -1,5 +1,4 @@
 ﻿using NQuandl.Client.CompositionRoot;
-using NQuandl.Client.Entities;
 using NQuandl.Client.Entities.Base;
 using NQuandl.Client.Interfaces;
 using NQuandl.Client.URIs;
@@ -12,13 +11,13 @@ namespace NQuandl.Client.Requests
         private readonly IMapData<TEntity> _mapper;
         private readonly string _quandlCode;
 
-        public RequestParameterOptions Options;
-
         public DeserializeEntityRequest()
         {
             _mapper = Bootstapper.GetMapper<TEntity>();
             _quandlCode = new TEntity().QuandlCode;
         }
+
+        public RequestParameterOptions Options { get; set; }
 
         public IContainUri Uri
         {
