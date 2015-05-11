@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Flurl;
+using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
 
 namespace NQuandl.Client.Helpers
 {
     public static class UrlExtensions
     {
+        public static string ToUrl(this Url baseUrl, IQuandlRequest request)
+        {
+            return baseUrl.AppendPathSegment(request.Uri.PathSegment)
+                .SetQueryParams(request.Uri.QueryParmeters.ToDictionary(x => x.Name));
+        }
+
         public static string ToUriV1(this RequiredRequestParameters parameters)
         {
             var uri = parameters.ApiVersion +
