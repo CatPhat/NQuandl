@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -59,7 +60,10 @@ namespace NQuandl.Queue
             {
                 MaxDegreeOfParallelism = 1
             }); 
-            _client = new TransformBlock<IQuandlRequest, string>(async x => await _quandl.GetStringAsync(x));
+            _client = new TransformBlock<IQuandlRequest, string>(async x => await _quandl.GetStringAsync(x), new ExecutionDataflowBlockOptions
+            {
+                MaxDegreeOfParallelism = -1
+            });
             _broadcastBlock = new BroadcastBlock<string>(x => x);
             _outputBlock = new BufferBlock<string>();
             _queue.LinkTo(_client);
