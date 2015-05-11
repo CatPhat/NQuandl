@@ -40,6 +40,14 @@ namespace NQuandl.Queue
             return response;
         }
 
+        public async Task<IEnumerable<string>> GetStringsAsync(IEnumerable<IQuandlRequest> requests)
+        {
+            var quandlRequests = requests as IList<IQuandlRequest> ?? requests.ToList();
+            await _logger.AddUnprocessedCount(quandlRequests.Count());
+            var responses = await _queue.GetStringsAsync(quandlRequests);
+            return responses;
+        }
+
         public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(RequestOptionsV1 options = null)
             where TEntity : QuandlEntity, new()
         {
@@ -61,7 +69,7 @@ namespace NQuandl.Queue
             return responses;
         }
 
-        public TransformBlock<IQuandlRequest, string> Queue
+        public TransformBlock<IQuandlRequest, IQuandlRequest> Queue
         {
             get { return _queue.Queue; }
         }

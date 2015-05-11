@@ -25,6 +25,12 @@ namespace NQuandl.Queue
             return await instance.GetStringAsync(request);
         }
 
+        public static async Task<IEnumerable<string>> GetStringsAsync(IEnumerable<IQuandlRequest> requests)
+        {
+            var instance = _container.GetInstance<INQuandlQueue>();
+            return await instance.GetStringsAsync(requests);
+        }
+
         public static async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
        RequestOptionsV1 options = null)
        where TEntity : QuandlEntity, new()

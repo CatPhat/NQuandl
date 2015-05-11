@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using NQuandl.Client.Entities.Base;
@@ -12,9 +13,10 @@ namespace NQuandl.Queue
 {
     public interface INQuandlQueue
     {
-        TransformBlock<IQuandlRequest, string> Queue { get; }
+        TransformBlock<IQuandlRequest, IQuandlRequest> Queue { get; }
         BroadcastBlock<string> BroadcastBlock { get; }
         Task<string> GetStringAsync(IQuandlRequest request);
+        Task<IEnumerable<string>> GetStringsAsync(IEnumerable<IQuandlRequest> requests);
 
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
             RequestOptionsV1 options = null)
@@ -31,11 +33,12 @@ namespace NQuandl.Queue
     public class NQuandlQueue : INQuandlQueue
     {
         private readonly IQuandlService _quandl;
-        private readonly TransformBlock<IQuandlRequest, string> _queue;
+        private readonly TransformBlock<IQuandlRequest, IQuandlRequest> _queue;
+        private readonly TransformBlock<IQuandlRequest, string> _client;
         private readonly BroadcastBlock<string> _broadcastBlock;
         private readonly BufferBlock<string> _outputBlock;
 
-        public TransformBlock<IQuandlRequest, string> Queue
+        public TransformBlock<IQuandlRequest, IQuandlRequest> Queue
         {
             get { return _queue; }
         }
@@ -48,17 +51,19 @@ namespace NQuandl.Queue
         public NQuandlQueue(IQuandlService quandl)
         {
             _quandl = quandl;
-            _queue = new TransformBlock<IQuandlRequest, string>(async x =>
+            _queue = new TransformBlock<IQuandlRequest, IQuandlRequest>(async x =>
             {
-                await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms
-                return await _quandl.GetStringAsync(x);;
-            }, new ExecutionDataflowBlockOptions
+                await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms);
+                return x;
+            },new ExecutionDataflowBlockOptions
             {
                 MaxDegreeOfParallelism = 1
-            });
+            }); 
+            _client = new TransformBlock<IQuandlRequest, string>(async x => await _quandl.GetStringAsync(x));
             _broadcastBlock = new BroadcastBlock<string>(x => x);
             _outputBlock = new BufferBlock<string>();
-            _queue.LinkTo(_broadcastBlock);
+            _queue.LinkTo(_client);
+            _client.LinkTo(_broadcastBlock);
             _broadcastBlock.LinkTo(_outputBlock);
         }
 
@@ -70,6 +75,23 @@ namespace NQuandl.Queue
             inputQueue.Complete();
             var response = await _outputBlock.ReceiveAsync();
             return response;
+        }
+
+        public async Task<IEnumerable<string>> GetStringsAsync(IEnumerable<IQuandlRequest> requests)
+        {
+            var responses = new List<string>();
+            var inputBlock = new BufferBlock<IQuandlRequest>();
+            inputBlock.LinkTo(_queue);
+            foreach (var queueRequest in requests)
+            {
+                await inputBlock.SendAsync(queueRequest);
+            }
+            inputBlock.Complete();
+            while (await _outputBlock.OutputAvailableAsync())
+            {
+                responses.Add(await _outputBlock.ReceiveAsync());
+            }
+            return responses;
         }
 
         public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(

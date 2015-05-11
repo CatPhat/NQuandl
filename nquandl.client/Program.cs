@@ -13,13 +13,9 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var saveToFile = new SaveToFile();
-            var printStatus = new PrintStatus();
-            var task = Task.WhenAll(saveToFile.QueryAndSave());
-            while (task.IsCompleted == false)
-            {
-                printStatus.Print();
-            }
+            var test = new SaveToFile();
+            test.Run();
+
             Console.WriteLine("done");
             Console.ReadLine();
         }
@@ -27,12 +23,22 @@ namespace NQuandl.TestConsole
 
     public class SaveToFile
     {
+        public void Run()
+        {
+            var printStatus = new PrintStatus();
+            var task = Task.WhenAll(QueryAndSave());
+            while (task.IsCompleted == false)
+            {
+                printStatus.Print();
+            }
+        }
+
         public async Task<int> QueryAndSave()
         {
             var requests = new List<DeserializeMetadataRequestV2>();
-            for (var i = 1; i <= 521; i++)
+            for (var i = 1; i <= 2451; i++)
             {
-                var options = new ForcedRequestOptionsV2(QuandlServiceConfiguration.ApiKey, "*", "UNDATA", 300, i);
+                var options = new ForcedRequestOptionsV2(QuandlServiceConfiguration.ApiKey, "*", "WORLDBANK", 300, i);
                 var request = new DeserializeMetadataRequestV2(options);
                 requests.Add(request);
             }
@@ -40,8 +46,7 @@ namespace NQuandl.TestConsole
             var tasks = requests.Select(async request =>
             {
                 var response = await NQueue.GetStringAsync(request);
-                using (
-                    var writer =
+                using (                    var writer =
                         new StreamWriter(@"C:\Users\kian.monsoon\Documents\SYSADMIN\DEV\GITHUB\NQuandl\responses\" +
                                          request._options.SourceCode + request._options.Page + ".json"))
                 {
