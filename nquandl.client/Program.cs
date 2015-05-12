@@ -36,9 +36,9 @@ namespace NQuandl.TestConsole
         public async Task<int> QueryAndSave()
         {
             var requests = new List<DeserializeMetadataRequestV2>();
-            for (var i = 2256; i <= 2451; i++)
+            for (var i = 1; i <= 641; i++)
             {
-                var options = new ForcedRequestOptionsV2(QuandlServiceConfiguration.ApiKey, "*", "WORLDBANK", 300, i);
+                var options = new ForcedRequestOptionsV2(QuandlServiceConfiguration.ApiKey, "*", "FAO", 300, i);
                 var request = new DeserializeMetadataRequestV2(options);
                 requests.Add(request);
             }
@@ -47,7 +47,7 @@ namespace NQuandl.TestConsole
             {
                 var response = await NQueue.GetStringAsync(request);
                 using (                    var writer =
-                        new StreamWriter(@"C:\Users\kian.monsoon\Documents\SYSADMIN\DEV\GITHUB\NQuandl\responses\" +
+                        new StreamWriter(@"A:\DEVOPS\NQuandl\NQuandl.Generator\responses\" +
                                          request._options.SourceCode + request._options.Page + ".json"))
                 {
                     writer.Write(response);
