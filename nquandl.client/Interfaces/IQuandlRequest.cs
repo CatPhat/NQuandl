@@ -1,6 +1,4 @@
-﻿using NQuandl.Client.URIs;
-
-namespace NQuandl.Client.Interfaces
+﻿namespace NQuandl.Client.Interfaces
 {
     public interface IQuandlRequest
     {

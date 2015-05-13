@@ -27,7 +27,7 @@ namespace NQuandl.Client.Helpers
         public static string ToUri(this PathSegmentParametersV2 parameters)
         {
             var uri = parameters.ApiVersion + "." + parameters.ResponseFormat;
-                   
+
             return uri;
         }
 
@@ -65,7 +65,8 @@ namespace NQuandl.Client.Helpers
             }
             if (options.Frequency.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Frequency, options.Frequency.Value.ToString());
+                var parameter = new QueryParameter(RequestParameterConstants.Frequency,
+                    options.Frequency.Value.ToString());
                 parameters.Add(parameter);
             }
             if (options.DateRange != null)
@@ -98,12 +99,6 @@ namespace NQuandl.Client.Helpers
         {
             var parameters = new List<QueryParameter>();
 
-            if (!String.IsNullOrEmpty(options.ApiKey))
-            {
-                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey);
-                parameters.Add(parameter);
-            }
-
             if (!String.IsNullOrEmpty(options.Query))
             {
                 var parameter = new QueryParameter(RequestParameterConstants.Query, options.Query);
@@ -127,7 +122,13 @@ namespace NQuandl.Client.Helpers
                 var parameter = new QueryParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
                 parameters.Add(parameter);
             }
-           
+
+            if (!String.IsNullOrEmpty(options.ApiKey))
+            {
+                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey);
+                parameters.Add(parameter);
+            }
+
             return parameters;
         }
 

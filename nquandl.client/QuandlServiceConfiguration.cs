@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace NQuandl.Client
 {
@@ -8,7 +7,7 @@ namespace NQuandl.Client
         BaseUrl,
         ApiKey
     }
-    
+
     public static class QuandlServiceConfiguration
     {
         public static string BaseUrl
@@ -20,6 +19,5 @@ namespace NQuandl.Client
         {
             get { return ConfigurationManager.AppSettings[QuandlServiceSettingsKey.ApiKey.ToString()]; }
         }
-
     }
 }

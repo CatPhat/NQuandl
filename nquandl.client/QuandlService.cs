@@ -25,12 +25,6 @@ namespace NQuandl.Client
                 url = url.SetQueryParams(request.Uri.QueryParmeters.ToDictionary(x => x.Name, x => x.Value));
             }
             return await url.GetStringAsync();
-
-
-
-
         }
-
-       
     }
 }

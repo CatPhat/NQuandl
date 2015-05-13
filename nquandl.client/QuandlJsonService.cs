@@ -16,7 +16,7 @@ namespace NQuandl.Client
             RequestOptionsV1 options = null)
             where TEntity : QuandlEntity, new()
         {
-            var request = new DeserializeEntityRequestV1<TEntity> { Options = options };
+            var request = new DeserializeEntityRequestV1<TEntity> {Options = options};
             return await GetAsync(request);
         }
 

@@ -2,7 +2,6 @@
 
 namespace NQuandl.Client.Responses
 {
-
     public class JsonResponseV2 : JsonResponse
     {
         public int total_count { get; set; }
@@ -49,5 +48,4 @@ namespace NQuandl.Client.Responses
         public bool use_proxy { get; set; }
         public bool premium { get; set; }
     }
-
 }

@@ -5,10 +5,12 @@ namespace NQuandl.Client.Helpers
     internal class RequestValue : Attribute
     {
         private readonly string _value;
+
         public RequestValue(string value)
         {
             _value = value;
         }
+
         public string Value
         {
             get { return _value; }
@@ -22,7 +24,7 @@ namespace NQuandl.Client.Helpers
             string output = null;
             var type = value.GetType();
             var field = type.GetField(value.ToString());
-            var attributes = field.GetCustomAttributes(typeof(RequestValue), false) as RequestValue[];
+            var attributes = field.GetCustomAttributes(typeof (RequestValue), false) as RequestValue[];
             if (attributes != null && attributes.Length > 0)
             {
                 output = attributes[0].Value;

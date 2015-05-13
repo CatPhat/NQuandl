@@ -13,7 +13,7 @@
         public const string Transformation = "transformation";
         public const string ExcludeData = "exclude_data";
         public const string ApiVersion1 = "v1/datasets";
-        
+
         //v1 & v2
         public const string AuthToken = "auth_token";
 
@@ -23,6 +23,5 @@
         public const string SourceCode = "source_code";
         public const string PerPage = "per_page";
         public const string Page = "page";
-
     }
 }

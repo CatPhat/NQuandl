@@ -6,11 +6,13 @@ namespace NQuandl.Client.Requests
     public class JsonStringRequestV1 : IQuandlRequest
     {
         private readonly string _quandlCode;
-        public RequestOptionsV1 Options { get; set; }
+
         public JsonStringRequestV1(string quandlCode)
         {
             _quandlCode = quandlCode;
         }
+
+        public RequestOptionsV1 Options { get; set; }
 
         public IContainUri Uri
         {

@@ -1,11 +1,8 @@
-﻿using NQuandl.Client.Entities;
-using NQuandl.Client.Entities.Base;
+﻿using NQuandl.Client.Entities.Base;
 using NQuandl.Client.Responses;
 
 namespace NQuandl.Client.Interfaces
 {
-   
-    
     //public abstract class NQuandlRequest<TEntity, TResponse> : INQuandlRequest<TEntity, TResponse>
     //    where TEntity : QuandlEntity
     //    where TResponse : QuandlResponse
@@ -30,7 +27,6 @@ namespace NQuandl.Client.Interfaces
 
     public interface IQuandlJsonRequest<TResponse> : IQuandlRequest where TResponse : JsonResponse
     {
-        
     }
 
     public interface IDeserializedEntityRequest<out TEntity> : IQuandlRequest
@@ -38,8 +34,4 @@ namespace NQuandl.Client.Interfaces
     {
         IMapData<TEntity> Mapper { get; }
     }
-
-    
-
-  
 }

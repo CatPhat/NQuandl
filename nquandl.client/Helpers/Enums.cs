@@ -47,6 +47,5 @@
         [RequestValue("xml")] XML,
 
         [RequestValue("csv")] CSV,
-
     }
 }
