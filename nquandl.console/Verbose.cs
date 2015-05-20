@@ -21,6 +21,7 @@ namespace NQuandl.TestConsole
 
         public static void PrintTestResponse(TestJsonResponseV2 response)
         {
+           
             var cached = response.CacheResponse;
             var timeElapsed =  cached.LastRequestTime - cached.FirstRequestTime;
 
@@ -31,7 +32,8 @@ namespace NQuandl.TestConsole
             Console.WriteLine("             Est RP10Minutes: {0}", cached.EstimatedRequestsPer10MinutesAtCurrentRate);
             Console.WriteLine("     Est Average RP10Minutes: {0}", cached.EstimatedAverageRequestsPer10MinutesAtCurrentRate);
             Console.WriteLine("Average Time Between Requests {0}", cached.AverageTimeBetweenRequests);
-            Console.WriteLine("           Requests Remaining {0}", cached.RequestsRemaining );
+            Console.WriteLine("          Requests Remaining: {0}", cached.RequestsRemaining );
+            Console.WriteLine("Requests since first request: {0}", cached.RequestsSinceFirstRequestTime);
         }
     }
 }
