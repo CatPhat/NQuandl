@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
 using NQuandl.Client.Responses;
@@ -14,21 +11,11 @@ namespace NQuandl.Queue
 {
     public class NQuandlQueue : INQuandlQueue
     {
+        private readonly BroadcastBlock<string> _broadcastBlock;
+        private readonly TransformBlock<IQuandlRequest, string> _client;
+        private readonly BufferBlock<string> _outputBlock;
         private readonly IQuandlService _quandl;
         private readonly TransformBlock<IQuandlRequest, IQuandlRequest> _queue;
-        private readonly TransformBlock<IQuandlRequest, string> _client;
-        private readonly BroadcastBlock<string> _broadcastBlock;
-        private readonly BufferBlock<string> _outputBlock;
-
-        public TransformBlock<IQuandlRequest, IQuandlRequest> Queue
-        {
-            get { return _queue; }
-        }
-        
-        public BroadcastBlock<string> BroadcastBlock
-        {
-            get { return _broadcastBlock; }
-        }
 
         public NQuandlQueue(IQuandlService quandl)
         {
@@ -37,16 +24,27 @@ namespace NQuandl.Queue
             {
                 await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms);
                 return x;
-            }); 
-            _client = new TransformBlock<IQuandlRequest, string>(async x => await _quandl.GetStringAsync(x), new ExecutionDataflowBlockOptions
-            {
-                MaxDegreeOfParallelism = -1
             });
+            _client = new TransformBlock<IQuandlRequest, string>(async x => await _quandl.GetStringAsync(x),
+                new ExecutionDataflowBlockOptions
+                {
+                    MaxDegreeOfParallelism = -1
+                });
             _broadcastBlock = new BroadcastBlock<string>(x => x);
             _outputBlock = new BufferBlock<string>();
             _queue.LinkTo(_client);
             _client.LinkTo(_broadcastBlock);
             _broadcastBlock.LinkTo(_outputBlock);
+        }
+
+        public TransformBlock<IQuandlRequest, IQuandlRequest> Queue
+        {
+            get { return _queue; }
+        }
+
+        public BroadcastBlock<string> BroadcastBlock
+        {
+            get { return _broadcastBlock; }
         }
 
         public async Task<string> GetStringAsync(IQuandlRequest request)
@@ -113,7 +111,5 @@ namespace NQuandl.Queue
             }
             return responses;
         }
-
-        
     }
 }
