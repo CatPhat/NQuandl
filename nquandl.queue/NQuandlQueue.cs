@@ -12,25 +12,6 @@ using NQuandl.Client.Responses;
 
 namespace NQuandl.Queue
 {
-    public interface INQuandlQueue
-    {
-        TransformBlock<IQuandlRequest, IQuandlRequest> Queue { get; }
-        BroadcastBlock<string> BroadcastBlock { get; }
-        Task<string> GetStringAsync(IQuandlRequest request);
-        Task<IEnumerable<string>> GetStringsAsync(IEnumerable<IQuandlRequest> requests);
-
-        Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            RequestOptionsV1 options = null)
-            where TEntity : QuandlEntity, new();
-
-        Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            IDeserializedEntityRequest<TEntity> request)
-            where TEntity : QuandlEntity;
-
-        Task<IEnumerable<DeserializedEntityResponse<TEntity>>> GetAsync<TEntity>(
-            List<QueueRequest<TEntity>> requests) where TEntity : QuandlEntity, new();
-    }
-
     public class NQuandlQueue : INQuandlQueue
     {
         private readonly IQuandlService _quandl;
@@ -56,9 +37,6 @@ namespace NQuandl.Queue
             {
                 await Task.Delay(300); // (10 minutes)/(2000 requests) = 300ms);
                 return x;
-            },new ExecutionDataflowBlockOptions
-            {
-                MaxDegreeOfParallelism = 1
             }); 
             _client = new TransformBlock<IQuandlRequest, string>(async x => await _quandl.GetStringAsync(x), new ExecutionDataflowBlockOptions
             {
