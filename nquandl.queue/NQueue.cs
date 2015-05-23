@@ -32,15 +32,15 @@ namespace NQuandl.Queue
         }
 
         public static async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-       RequestOptionsV1 options = null)
-       where TEntity : QuandlEntity, new()
+            RequestOptionsV1 options = null)
+            where TEntity : QuandlEntity, new()
         {
             var instance = _container.GetInstance<INQuandlQueue>();
             return await instance.GetAsync<TEntity>(options);
         }
 
         public static async Task<IEnumerable<DeserializedEntityResponse<TEntity>>> GetAsync<TEntity>(
-          List<QueueRequest<TEntity>> requests) where TEntity : QuandlEntity, new()
+            List<QueueRequest<TEntity>> requests) where TEntity : QuandlEntity, new()
         {
             var instance = _container.GetInstance<INQuandlQueue>();
             return await instance.GetAsync(requests);
@@ -48,7 +48,7 @@ namespace NQuandl.Queue
 
         public static QueueStatus GetQueueStatus()
         {
-            var logger =  _container.GetInstance<IQueueStatusLogger>();
+            var logger = _container.GetInstance<IQueueStatusLogger>();
             return logger.Status;
         }
     }
