@@ -12,10 +12,10 @@ namespace NQuandl.Client.Helpers
 
     public static class QueryOptionsHelper
     {
-        public static RequestOptionsV1 GetOptionalRequestParameters(this QueryOptions options)
+        public static QueryParametersV1 GetOptionalRequestParameters(this QueryOptions options)
         {
             if (options == null) return null;
-            var parameters = new RequestOptionsV1
+            var parameters = new QueryParametersV1
             {
                 SortOrder = options.SortOrder,
                 DateRange = options.DateRange,

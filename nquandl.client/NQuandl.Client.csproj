@@ -74,7 +74,6 @@
     <Compile Include="Helpers\RequestValueEnumAttributes.cs" />
     <Compile Include="Helpers\UrlExtensions.cs" />
     <Compile Include="Interfaces\IConsumeHttp.cs" />
-    <Compile Include="Interfaces\IContainUri.cs" />
     <Compile Include="Interfaces\IMapData.cs" />
     <Compile Include="Interfaces\IQuandlCode.cs" />
     <Compile Include="Interfaces\IQuandlJsonRequest.cs" />
@@ -83,6 +82,7 @@
     <Compile Include="Interfaces\IQuandlService.cs" />
     <Compile Include="Helpers\Enums.cs" />
     <Compile Include="Interfaces\IQuandlEntity.cs" />
+    <Compile Include="NQuandlClient.cs" />
     <Compile Include="QuandlJsonService.cs" />
     <Compile Include="Requests\DeserializeEntityRequestV1.cs" />
     <Compile Include="Requests\PathSegmentParametersV1.cs" />
@@ -104,6 +104,7 @@
     <Compile Include="QuandlService.cs" />
     <Compile Include="QuandlServiceConfiguration.cs" />
     <Compile Include="Helpers\JsonExtensions.cs" />
+    <Compile Include="URIs\IQuandlUri.cs" />
     <Compile Include="URIs\QuandlCsvUriV1.cs" />
     <Compile Include="URIs\QuandlJsonUriV1.cs" />
     <Compile Include="URIs\QuandlJsonUriV2.cs" />

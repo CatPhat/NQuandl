@@ -17,9 +17,9 @@ namespace NQuandl.Client.Requests
             _quandlCode = new TEntity().QuandlCode;
         }
 
-        public RequestOptionsV1 Options { get; set; }
+        public QueryParametersV1 Options { get; set; }
 
-        public IContainUri Uri
+        public IQuandlUri Uri
         {
             get { return new QuandlJsonUriV1(_quandlCode, Options); }
         }

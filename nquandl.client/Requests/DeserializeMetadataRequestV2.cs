@@ -6,14 +6,14 @@ namespace NQuandl.Client.Requests
 {
     public class DeserializeMetadataRequestV2 : IQuandlJsonRequest<JsonResponseV2>
     {
-        public readonly ForcedRequestOptionsV2 _options;
+        private  readonly QueryParametersV2 _options;
 
-        public DeserializeMetadataRequestV2(ForcedRequestOptionsV2 options)
+        public DeserializeMetadataRequestV2(QueryParametersV2 options)
         {
             _options = options;
         }
 
-        public IContainUri Uri
+        public IQuandlUri Uri
         {
             get { return new QuandlJsonUriV2(_options); }
         }
