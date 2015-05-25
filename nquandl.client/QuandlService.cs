@@ -22,8 +22,9 @@ namespace NQuandl.Client
             var url = baseUrl.AppendPathSegment(request.Uri.PathSegment);
             if (request.Uri.QueryParmeters.Any())
             {
-                url = url.SetQueryParams(request.Uri.QueryParmeters.ToDictionary(x => x.Name, x => x.Value));
+                url = url.SetQueryParams(request.Uri.QueryParmeters);
             }
+
             return await url.GetStringAsync();
         }
     }
