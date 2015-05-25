@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using NQuandl.Client.Helpers;
-using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
 
 namespace NQuandl.Client.URIs
 {
-    public class QuandlUriV1 : IContainUri
+    public class QuandlUriV1 : IQuandlUri
     {
-        private readonly RequestOptionsV1 _options;
+        private readonly QueryParametersV1 _options;
         private readonly PathSegmentParametersV1 _required;
 
-        public QuandlUriV1(string quandlCode, ResponseFormat format, RequestOptionsV1 options = null)
+        public QuandlUriV1(string quandlCode, ResponseFormat format, QueryParametersV1 options = null)
         {
             _required = new PathSegmentParametersV1
             {
@@ -26,9 +25,9 @@ namespace NQuandl.Client.URIs
             get { return _required.ToUri(); }
         }
 
-        public IEnumerable<QueryParameter> QueryParmeters
+        public Dictionary<string, string> QueryParmeters
         {
-            get { return _options.ToQueryParameters(); }
+            get { return _options.ToQueryParameterDictionary(); }
         }
     }
 }

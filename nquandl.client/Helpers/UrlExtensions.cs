@@ -13,7 +13,7 @@ namespace NQuandl.Client.Helpers
         public static string ToUrl(this Url baseUrl, IQuandlRequest request)
         {
             return baseUrl.AppendPathSegment(request.Uri.PathSegment)
-                .SetQueryParams(request.Uri.QueryParmeters.ToDictionary(x => x.Name));
+                .SetQueryParams(request.Uri.QueryParmeters);
         }
 
         public static string ToUri(this PathSegmentParametersV1 parameters)
@@ -31,7 +31,19 @@ namespace NQuandl.Client.Helpers
             return uri;
         }
 
-        public static IEnumerable<QueryParameter> ToQueryParameters(this RequestOptionsV1 options)
+        public static Dictionary<string, string> ToQueryParameterDictionary(this QueryParametersV1 options)
+        {
+            if (options == null) throw new NullReferenceException("options");
+            return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
+        }
+
+        public static Dictionary<string, string> ToQueryParameterDictionary(this QueryParametersV2 options)
+        {
+            if(options == null) throw new NullReferenceException("options");
+            return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
+        }
+
+        public static IEnumerable<QueryParameter> ToQueryParameters(this QueryParametersV1 options)
         {
             var parameters = new List<QueryParameter>();
 
@@ -95,44 +107,21 @@ namespace NQuandl.Client.Helpers
             return parameters;
         }
 
-        public static IEnumerable<QueryParameter> ToQueryParameters(this RequestOptionsV2 options)
+        public static IEnumerable<QueryParameter> ToQueryParameters(this QueryParametersV2 options)
         {
-            var parameters = new List<QueryParameter>();
-
-            if (!String.IsNullOrEmpty(options.Query))
+            var parameters = new List<QueryParameter>
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Query, options.Query);
-                parameters.Add(parameter);
-            }
-
-            if (!String.IsNullOrEmpty(options.SourceCode))
-            {
-                var parameter = new QueryParameter(RequestParameterConstants.SourceCode, options.SourceCode);
-                parameters.Add(parameter);
-            }
-
-            if (options.PerPage.HasValue)
-            {
-                var parameter = new QueryParameter(RequestParameterConstants.PerPage, options.PerPage.Value.ToString());
-                parameters.Add(parameter);
-            }
-
-            if (options.Page.HasValue)
-            {
-                var parameter = new QueryParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
-                parameters.Add(parameter);
-            }
-
-            if (!String.IsNullOrEmpty(options.ApiKey))
-            {
-                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey);
-                parameters.Add(parameter);
-            }
+                new QueryParameter(RequestParameterConstants.Query, options.Query),
+                new QueryParameter(RequestParameterConstants.SourceCode, options.SourceCode),
+                new QueryParameter(RequestParameterConstants.PerPage, options.PerPage.ToString()),
+                new QueryParameter(RequestParameterConstants.Page, options.Page.ToString()),
+                new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey)
+            };
 
             return parameters;
         }
 
-        public static string ToQueryUri(this RequestOptionsV1 options)
+        public static string ToQueryUri(this QueryParametersV1 options)
         {
             var uri = string.Empty;
             if (options == null) return uri;
