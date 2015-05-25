@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Hangfire;
 using NQuandl.Client;
+using NQuandl.Client.Helpers;
 using NQuandl.Client.Interfaces;
 using NQuandl.Client.Requests;
 using NQuandl.Client.Responses;
 using NQuandl.Client.URIs;
 using NQuandl.Queue;
+using Rebus;
+using Rebus.Configuration;
+using Rebus.Logging;
+using Rebus.Messages;
+using Rebus.Persistence.SqlServer;
+using Rebus.Transports.Sql;
 
 namespace NQuandl.TestConsole
 {
@@ -17,7 +22,7 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-            var test = new TestClient();
+            var test = new TestBus();
             test.Run();
 
             Console.WriteLine("done");
@@ -25,8 +30,113 @@ namespace NQuandl.TestConsole
         }
     }
 
+    public class TestBus
+    {
+        public void Run()
+        {
+            using (var adapter = new BuiltinContainerAdapter())
+            {
+                adapter.Register(() => new HandleQueueRequest());
+                adapter.Register(() => new PrintDateTime());
+                var bus = Configure.With(adapter)
+                    .Logging(l => l.ColoredConsole(LogLevel.Error))
+                    .Transport(
+                        t =>
+                            t.UseSqlServer(@"server=SHIVA9.;initial catalog=RebusInputQueue;integrated security=sspi",
+                                "thequeue", "my-app.input", "my-app.error").EnsureTableIsCreated())
+                    .Timeouts(
+                        x =>
+                            x.Use(
+                                new SqlServerTimeoutStorage(
+                                    @"server=SHIVA9.;initial catalog=RebusInputQueue;integrated security=sspi",
+                                    "timeouts").EnsureTableIsCreated()))
+                    .MessageOwnership(x => x.Use(new DetermineQueueOwnership()))
+                    .CreateBus()
+                    .Start();
 
-   
+                var requests = new List<QueryParametersV2>();
+                for (var i = 1; i <= 10; i++)
+                {
+                    for (var j = 1; j <= 2000; j++)
+                    {
+                        var options = new QueryParametersV2
+                        {
+                            ApiKey = QuandlServiceConfiguration.ApiKey,
+                            Query = "*",
+                            SourceCode = "UNDATA",
+                            PerPage = 300,
+                            Page = i
+                        };
+
+                        requests.Add(options);
+                    }
+                }
+
+
+                foreach (var request in requests)
+                {
+                    bus.Defer(TimeSpan.FromMilliseconds(300*requests.IndexOf(request)), request);
+                }
+                Console.WriteLine("Press enter to quit");
+                Console.ReadLine();
+            }
+        }
+
+        public class DetermineQueueOwnership : IDetermineMessageOwnership
+        {
+            public string GetEndpointFor(Type messageType)
+            {
+                if (messageType == typeof (DeserializeMetadataRequestV2))
+                {
+                    return "my-app.input";
+                }
+                throw new Exception("no endpoint for message type");
+            }
+        }
+
+        public class HandleQueueRequest : IHandleMessages<QueryParametersV2>
+        {
+            private readonly IQuandlJsonService _client;
+
+            public HandleQueueRequest()
+            {
+                _client = new QuandlJsonService(QuandlServiceConfiguration.BaseUrl);
+            }
+
+            public async void Handle(QueryParametersV2 message)
+            {
+                var request = new TestMetadataRequestV2(message);
+                var response = await _client.GetAsync(request);
+                Verbose.PrintTestResponse(response.JsonResponse);
+            }
+        }
+
+        private class PrintDateTime : IHandleMessages<DateTime>
+        {
+            public void Handle(DateTime currentDateTime)
+            {
+                Console.WriteLine("The time is {0}", currentDateTime);
+            }
+        }
+    }
+
+
+    public class QueueRequestSerializer : ISerializeMessages
+    {
+        public TransportMessageToSend Serialize(Message message)
+        {
+            var thisMessage = message;
+            var transportMessage = new TransportMessageToSend();
+
+            throw new NotImplementedException();
+        }
+
+        public Message Deserialize(ReceivedTransportMessage transportMessage)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 
     public class Cacheresponse
     {
@@ -58,14 +168,21 @@ namespace NQuandl.TestConsole
 
         public async Task<int> Consume()
         {
-            var requests = new List<TesteMetadataRequestV2>();
+            var requests = new List<TestMetadataRequestV2>();
             for (var i = 1; i <= 100; i++)
             {
                 for (var j = 1; j <= 200; j++)
                 {
-                    var options = new ForcedRequestOptionsV2(QuandlServiceConfiguration.ApiKey, "*", "UNDATA", 300,
-                        i);
-                    var request = new TesteMetadataRequestV2(options);
+                    var options = new QueryParametersV2
+                    {
+                        ApiKey = QuandlServiceConfiguration.ApiKey,
+                        Query = "*",
+                        SourceCode = "UNDATA",
+                        PerPage = 300,
+                        Page = i
+                    };
+
+                    var request = new TestMetadataRequestV2(options);
 
                     requests.Add(request);
                 }
@@ -96,18 +213,18 @@ namespace NQuandl.TestConsole
         public Cacheresponse CacheResponse { get; set; }
     }
 
-    public class TesteMetadataRequestV2 : IQuandlJsonRequest<TestJsonResponseV2>
+    public class TestMetadataRequestV2 : IQuandlJsonRequest<TestJsonResponseV2>
     {
-        public readonly ForcedRequestOptionsV2 _options;
+        public readonly QueryParametersV2 _options;
 
-        public TesteMetadataRequestV2(ForcedRequestOptionsV2 options)
+        public TestMetadataRequestV2(QueryParametersV2 options)
         {
             _options = options;
         }
 
-        public IContainUri Uri
+        public IQuandlUri Uri
         {
-            get { return new QuandlJsonUriV2(_options); }
+            get { return new QuandlUriV2(ResponseFormat.JSON, _options); }
         }
     }
 
@@ -139,44 +256,31 @@ namespace NQuandl.TestConsole
             var requests = new List<DeserializeMetadataRequestV2>();
             for (var i = 1; i <= 6752; i++)
             {
-                var options = new ForcedRequestOptionsV2(QuandlServiceConfiguration.ApiKey, "*", "UN", 300, i);
+                var options = new QueryParametersV2
+                {
+                    ApiKey = QuandlServiceConfiguration.ApiKey,
+                    Query = "*",
+                    SourceCode = "UNDATA",
+                    PerPage = 300,
+                    Page = i
+                };
                 var request = new DeserializeMetadataRequestV2(options);
                 requests.Add(request);
             }
 
-            var tasks = requests.Select(async request =>
-            {
-                var response = await NQueue.GetStringAsync(request);
-                using (var writer =
-                    new StreamWriter(@"A:\DEVOPS\NQuandl\NQuandl.Generator\testresponses\" +
-                                     request._options.SourceCode + request._options.Page + ".json"))
-                {
-                    writer.Write(response);
-                }
-            }).ToList();
+            //var tasks = requests.Select(async request =>
+            //{
+            //    var response = await NQueue.GetStringAsync(request);
+            //    using (var writer =
+            //        new StreamWriter(@"A:\DEVOPS\NQuandl\NQuandl.Generator\testresponses\" +
+            //                         request._options.SourceCode + request._options.Page + ".json"))
+            //    {
+            //        writer.Write(response);
+            //    }
+            //}).ToList();
 
-            await Task.WhenAll(tasks);
+            //await Task.WhenAll(tasks);
             return await Task.FromResult(0);
-        }
-    }
-
-
-    public class QueueTest
-    {
-        public void Run()
-        {
-            var test1 = new QuandlQueueTest();
-            var test2 = new QuandlQueueTest();
-            var test3 = new QuandlQueueTest();
-            var test4 = new QuandlQueueTest();
-            var test5 = new QuandlQueueTest();
-            var test6 = new QuandlQueueTest();
-            var printStatus = new PrintStatus();
-            var task = Task.WhenAll(test1.GetTestString(), test2.GetTest2String());
-            while (task.IsCompleted == false)
-            {
-                printStatus.Print();
-            }
         }
     }
 }

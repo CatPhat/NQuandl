@@ -1,13 +1,21 @@
-﻿using NQuandl.Client.Interfaces;
+﻿using NQuandl.Client.Helpers;
+using NQuandl.Client.Interfaces;
+using NQuandl.Client.Requests;
 using NQuandl.Client.URIs;
 
 namespace NQuandl.TestConsole
 {
     public class TestRequest1 : IQuandlRequest
     {
-        public IContainUri Uri
+        private readonly QueryParametersV2 _queryParameters;
+        public TestRequest1(QueryParametersV2 queryParameters)
         {
-            get { return new TestRequest1Uri(); }
+            _queryParameters = queryParameters;
+        }
+
+        public IQuandlUri Uri
+        {
+            get { return new QuandlUriV2(ResponseFormat.JSON, _queryParameters); }
         }
     }
 }
