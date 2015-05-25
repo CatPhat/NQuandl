@@ -48,7 +48,7 @@ namespace NQuandl.Queue
             return responses;
         }
 
-        public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(RequestOptionsV1 options = null)
+        public async Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(QueryParametersV1 options = null)
             where TEntity : QuandlEntity, new()
         {
             await _logger.AddUnprocessedCount(1);

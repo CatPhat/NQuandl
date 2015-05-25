@@ -6,7 +6,7 @@ namespace NQuandl.Queue
 {
     public class QueueRequest<TEntity> where TEntity : QuandlEntity, new()
     {
-        public RequestOptionsV1 Options { get; set; }
+        public QueryParametersV1 Options { get; set; }
 
         public DeserializeEntityRequestV1<TEntity> DeserializeEntityRequestV1
         {

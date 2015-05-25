@@ -16,7 +16,7 @@ namespace NQuandl.Queue
         Task<IEnumerable<string>> GetStringsAsync(IEnumerable<IQuandlRequest> requests);
 
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(
-            RequestOptionsV1 options = null)
+            QueryParametersV1 options = null)
             where TEntity : QuandlEntity, new();
 
         Task<DeserializedEntityResponse<TEntity>> GetAsync<TEntity>(

@@ -53,7 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bus\AsyncMessageHandler.cs" />
+    <Compile Include="Bus\IHandleAsync.cs" />
+    <Compile Include="Bus\MessageBus.cs" />
+    <Compile Include="Bus\SendMessageRequest.cs" />
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
+    <Compile Include="INQuandlQueue.cs" />
     <Compile Include="QuandlQueueDecorator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
