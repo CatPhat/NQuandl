@@ -16,9 +16,12 @@ namespace NQuandl.TestConsole
             {
                 ApiKey = "XXXXXX"
             })).Result;
-        
 
-            Console.WriteLine(result.Entities.First());
+
+            foreach (var fredGdp in result.Entities)
+            {
+                Console.WriteLine("Date: {0} | Value: {1}", fredGdp.Date, fredGdp.Value);
+            }
             Console.WriteLine("done");
             Console.ReadLine();
         }
