@@ -36,6 +36,33 @@ namespace NQuandl.Client.Domain
             return _queries.Execute(new DeserializeToJsonResponseV1<TEntity>(rawResponse));
         }
 
+        public async Task<JsonResponseV2> GetAsync(RequestParametersV2 requestParameters)
+        {
+            
+            var quandlClientRequestParameters = new QuandlClientRequestParametersV2
+            {
+                PathSegmentParameters = GetPathSegmentParametersV2(),
+                RequestParameters = requestParameters,
+                Format = ResponseFormat.JSON
+            };
+
+            var rawResponse = await _client.GetAsync(quandlClientRequestParameters);
+            return _queries.Execute(new DeserializeToJsonResponseV2(rawResponse));
+        }
+
+
+
+        private PathSegmentParametersV2 GetPathSegmentParametersV2()
+        {
+            var pathSegmentParameters = new PathSegmentParametersV2
+            {
+                ApiVersion = RequestParameterConstants.ApiVersion2,
+                ResponseFormat = ResponseFormat.JSON.ToString()
+            };
+
+            return pathSegmentParameters;
+        }
+
         private PathSegmentParametersV1 GetPathSegmentParametersV1(string quandlCode)
         {
             var pathSegmentParameters = new PathSegmentParametersV1

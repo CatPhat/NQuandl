@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Helpers\QuandlServiceConfiguration.cs" />
     <Compile Include="Api\Helpers\RequestValue.cs" />
     <Compile Include="Api\IDeserializeEntity.cs" />
     <Compile Include="Api\IMapObjectToEntity.cs" />
@@ -78,14 +79,17 @@
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
     <Compile Include="Domain\Queries\DeserializeToJsonResponseV1.cs" />
     <Compile Include="Domain\Queries\DeserializeToClass.cs" />
+    <Compile Include="Domain\Queries\DeserializeToJsonResponseV2.cs" />
     <Compile Include="Domain\Queries\GetQuandlCodeByEntity.cs" />
     <Compile Include="Domain\Queries\MapEntitiesByDataObjects.cs" />
     <Compile Include="Domain\Queries\RequestJsonResponseV1ByEntity.cs" />
     <Compile Include="Domain\Queries\RequestJsonFredGdp.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
+    <Compile Include="Domain\Queries\RequestJsonResponseV2.cs" />
     <Compile Include="Domain\RequestParameters\PathSegmentParametersV1.cs" />
     <Compile Include="Domain\RequestParameters\PathSegmentParametersV2.cs" />
+    <Compile Include="Domain\RequestParameters\QuandlClientRequestParametersV2.cs" />
     <Compile Include="Domain\RequestParameters\QuandlRequestParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
     <Compile Include="CompositionRoot\CompositionRoot.cs" />

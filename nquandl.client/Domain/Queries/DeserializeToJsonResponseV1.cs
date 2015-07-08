@@ -28,8 +28,8 @@ namespace NQuandl.Client.Domain.Queries
             if (query == null) throw new ArgumentNullException("query");
             return _queries.Execute(new DeserializeToClass<JsonResponseV1>(query.RawResponse));
         }
-    }
-
+    }  
+    
     public class DeserializeToJsonResponseV1<TEntity> : IDefineQuery<JsonResponseV1<TEntity>>
         where TEntity : QuandlEntity
     {
