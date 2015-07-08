@@ -55,6 +55,7 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterOpenGeneric(typeof(IHandleQuery<,>), typeof(HandleDeserializeToClass<>));
             container.RegisterOpenGeneric(typeof(IHandleQuery<,>), typeof(HandleDeserializeToJsonResponseV1<>));
             container.RegisterOpenGeneric(typeof(IHandleQuery<,>), typeof(HandleMapToEntitiesByDataObjects<>));
+            container.RegisterOpenGeneric(typeof(IHandleQuery<,>), typeof(HandleRequestJsonResponseV1ByEntity<>));
          
         }
     }
