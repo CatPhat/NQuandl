@@ -86,7 +86,7 @@
     <Compile Include="Domain\QuandlRestClient.cs" />
     <Compile Include="Domain\QuandlRequestParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
-    <Compile Include="_OLD\CompositionRoot\CompositionRoot.cs" />
+    <Compile Include="CompositionRoot\CompositionRoot.cs" />
     <Compile Include="Api\QuandlEntity.cs" />
     <Compile Include="Api\Helpers\QueryOptions.cs" />
     <Compile Include="Api\Helpers\RequestValueEnumAttributes.cs" />
@@ -141,15 +141,15 @@
     <Compile Include="_OLD\URIs\QuandlUriV1.cs" />
     <Compile Include="_OLD\URIs\QuandlUriV2.cs" />
     <Compile Include="_OLD\URIs\QuandlXmlUriV1.cs" />
-    <None Include="_OLD\_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
+    <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="_OLD\_Etc\quandl_api_data\commodities.csv" />
-    <None Include="_OLD\_Etc\quandl_api_data\fred-gdp.json" />
-    <None Include="_OLD\_Etc\quandl_api_data\master-dataset-response-v2.json" />
-    <None Include="_OLD\_Etc\quandl_api_data\metadata_response.json" />
+    <None Include="_Etc\quandl_api_data\commodities.csv" />
+    <None Include="_Etc\quandl_api_data\fred-gdp.json" />
+    <None Include="_Etc\quandl_api_data\master-dataset-response-v2.json" />
+    <None Include="_Etc\quandl_api_data\metadata_response.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\RequestParameters\" />
