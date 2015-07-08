@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Interfaces
+﻿namespace NQuandl.Client.Api
 {
     public interface IHandleResponse<in TQuery, out TResult> where TQuery : IDefineResponse<TResult>
     {

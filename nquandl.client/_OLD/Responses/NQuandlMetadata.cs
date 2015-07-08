@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 
-namespace NQuandl.Client.Responses
+namespace NQuandl.Client._OLD.Responses
 {
     public class NQuandlMetadata
     {

@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Responses
+﻿namespace NQuandl.Client._OLD.Responses
 {
     public abstract class QuandlResponse
     {

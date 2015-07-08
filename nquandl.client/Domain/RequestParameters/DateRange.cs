@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NQuandl.Client.Requests
+namespace NQuandl.Client.Domain.RequestParameters
 {
     public class DateRange
     {

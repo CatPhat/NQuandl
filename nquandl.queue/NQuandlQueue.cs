@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Interfaces;
-using NQuandl.Client.Requests;
-using NQuandl.Client.Responses;
+using NQuandl.Client.Api;
+using NQuandl.Client._OLD.Interfaces.old;
+using NQuandl.Client._OLD.Requests;
+using NQuandl.Client._OLD.Requests.old;
 
 namespace NQuandl.Queue
 {

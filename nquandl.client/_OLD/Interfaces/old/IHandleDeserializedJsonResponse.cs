@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NQuandl.Client.Interfaces
+﻿namespace NQuandl.Client._OLD.Interfaces.old
 {
     interface IHandleDeserializedJsonResponse
     {

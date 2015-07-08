@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Requests;
-using NQuandl.Client.Responses;
+using NQuandl.Client.Api;
+using NQuandl.Client._OLD.Requests;
 
-namespace NQuandl.Client.Interfaces
+namespace NQuandl.Client._OLD.Interfaces.old
 {
     public interface IQuandlJsonService
     {

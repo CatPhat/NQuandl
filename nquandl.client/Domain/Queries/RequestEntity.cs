@@ -2,8 +2,7 @@
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Domain.Responses;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Requests;
+using NQuandl.Client._OLD.Requests;
 
 namespace NQuandl.Client.Domain.Queries
 {

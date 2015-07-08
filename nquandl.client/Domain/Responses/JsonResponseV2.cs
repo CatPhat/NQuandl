@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NQuandl.Client.Responses
+namespace NQuandl.Client.Domain.Responses
 {
     public class JsonResponseV2 : JsonResponse
     {

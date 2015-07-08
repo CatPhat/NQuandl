@@ -1,6 +1,5 @@
 ﻿using System;
 using NQuandl.Client.Api;
-using NQuandl.Client.Entities.Base;
 
 namespace NQuandl.Client.Domain.Queries
 {

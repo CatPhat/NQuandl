@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace NQuandl.Client.Interfaces
+namespace NQuandl.Client._OLD.Interfaces.old
 {
     public interface IConsumeHttp
     {

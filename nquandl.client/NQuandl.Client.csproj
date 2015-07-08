@@ -84,7 +84,7 @@
     <Compile Include="Domain\Queries\RequestJsonFredGdp.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
-    <Compile Include="Domain\QuandlRequestParameters.cs" />
+    <Compile Include="Domain\RequestParameters\QuandlRequestParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
     <Compile Include="Api\QuandlEntity.cs" />
@@ -93,6 +93,7 @@
     <Compile Include="Api\Helpers\UrlExtensions.cs" />
     <Compile Include="Api\IDefineResponse.cs" />
     <Compile Include="Api\IHandleQuery.cs" />
+    <Compile Include="Domain\RequestParameters\QuandlRestClientRequestParameters.cs" />
     <Compile Include="_OLD\Interfaces\old\IConsumeHttp.cs" />
     <Compile Include="_OLD\Interfaces\old\IDefineDeserializedJsonResponse.cs" />
     <Compile Include="Api\IDefineQuery.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="_OLD\Interfaces\old\IQuandlEntity.cs" />
     <Compile Include="_OLD\NQuandlClient.cs" />
     <Compile Include="_OLD\QuandlJsonService.cs" />
-    <Compile Include="_OLD\Requests\DateRange.cs" />
+    <Compile Include="Domain\RequestParameters\DateRange.cs" />
     <Compile Include="_OLD\Requests\old\BaseEntityRequestV1.cs" />
     <Compile Include="_OLD\Requests\old\DeserializeEntityRequestV1.cs" />
     <Compile Include="_OLD\Requests\EntityBy.cs" />
@@ -151,9 +152,7 @@
     <None Include="_Etc\quandl_api_data\master-dataset-response-v2.json" />
     <None Include="_Etc\quandl_api_data\metadata_response.json" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\RequestParameters\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

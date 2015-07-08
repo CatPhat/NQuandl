@@ -1,6 +1,6 @@
-﻿using NQuandl.Client.Entities.Base;
+﻿using NQuandl.Client.Api;
 
-namespace NQuandl.Client.Interfaces
+namespace NQuandl.Client._OLD.Interfaces.old
 {
     public interface IMapJsonToEntity<out TEntity> where TEntity : QuandlEntity
     {

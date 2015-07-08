@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace NQuandl.Client.Helpers
+namespace NQuandl.Client.Api.Helpers
 {
     public static class JsonExtensions
     {

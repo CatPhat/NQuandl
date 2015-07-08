@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Flurl;
-using NQuandl.Client.Requests;
+using NQuandl.Client._OLD.Requests;
+using NQuandl.Client._OLD.Requests.old;
 
-namespace NQuandl.Client.Helpers
+namespace NQuandl.Client.Api.Helpers
 {
     public static class UrlExtensions
     {

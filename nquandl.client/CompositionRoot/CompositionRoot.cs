@@ -1,5 +1,5 @@
-﻿using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Interfaces;
+﻿using NQuandl.Client.Api;
+using NQuandl.Client._OLD.Interfaces.old;
 using SimpleInjector;
 using SimpleInjector.Extensions;
 

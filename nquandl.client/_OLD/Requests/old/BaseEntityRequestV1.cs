@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace NQuandl.Client.Requests
+﻿namespace NQuandl.Client._OLD.Requests.old
 {
     public abstract class BaseEntityRequestV1
     {

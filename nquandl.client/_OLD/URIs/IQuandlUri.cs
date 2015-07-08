@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using NQuandl.Client.Requests;
-
-namespace NQuandl.Client.URIs
+﻿namespace NQuandl.Client._OLD.URIs
 {
     public interface IQuandlUri
     {

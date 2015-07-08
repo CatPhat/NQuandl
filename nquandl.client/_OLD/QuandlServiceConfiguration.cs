@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace NQuandl.Client
+namespace NQuandl.Client._OLD
 {
     public enum QuandlServiceSettingsKey
     {

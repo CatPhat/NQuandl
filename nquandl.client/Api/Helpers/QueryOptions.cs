@@ -1,6 +1,7 @@
-﻿using NQuandl.Client.Requests;
+﻿using NQuandl.Client.Domain.RequestParameters;
+using NQuandl.Client._OLD.Requests;
 
-namespace NQuandl.Client.Helpers
+namespace NQuandl.Client.Api.Helpers
 {
     public class QueryOptions
     {

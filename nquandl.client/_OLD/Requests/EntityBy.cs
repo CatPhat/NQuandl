@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Interfaces;
+using NQuandl.Client.Api;
+using NQuandl.Client._OLD.Interfaces.old;
 
-namespace NQuandl.Client.Requests
+namespace NQuandl.Client._OLD.Requests
 {
     public class EntityBy<TEntity> : IDefineQuandlRequest<Task<TEntity>> where TEntity : QuandlEntity
     {

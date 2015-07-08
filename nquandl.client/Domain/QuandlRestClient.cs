@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using NQuandl.Client.Api;
+using NQuandl.Client.Domain.RequestParameters;
 
 namespace NQuandl.Client.Domain
 {

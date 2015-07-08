@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using NQuandl.Client.Interfaces;
-using NQuandl.Client.Requests;
+using NQuandl.Client._OLD.Interfaces.old;
 
-namespace NQuandl.Client
+namespace NQuandl.Client._OLD
 {
     public class QuandlService : IQuandlService
     {

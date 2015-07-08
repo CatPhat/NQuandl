@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Requests
+﻿namespace NQuandl.Client._OLD.Requests.old
 {
     public class PathSegmentParametersV1
     {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
-using NQuandl.Client.Helpers;
-using NQuandl.Client.Requests;
+using NQuandl.Client.Api.Helpers;
+using NQuandl.Client.Domain.RequestParameters;
 
 namespace NQuandl.Client.Domain
 {

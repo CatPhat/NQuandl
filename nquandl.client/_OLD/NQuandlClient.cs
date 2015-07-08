@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NQuandl.Client.Responses;
+using NQuandl.Client.Domain.Responses;
 
-namespace NQuandl.Client
+namespace NQuandl.Client._OLD
 {
     public class NQuandlClient : QuandlService
     {

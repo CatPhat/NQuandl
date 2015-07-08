@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using NQuandl.Client.Helpers;
-using NQuandl.Client.Requests;
+using NQuandl.Client.Api.Helpers;
+using NQuandl.Client._OLD.Requests;
+using NQuandl.Client._OLD.Requests.old;
 
-namespace NQuandl.Client.URIs
+namespace NQuandl.Client._OLD.URIs
 {
     public class QuandlUriV1 : IQuandlUri
     {

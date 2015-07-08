@@ -1,7 +1,7 @@
-﻿using NQuandl.Client.Helpers;
-using NQuandl.Client.Requests;
+﻿using NQuandl.Client.Api.Helpers;
+using NQuandl.Client._OLD.Requests;
 
-namespace NQuandl.Client.URIs
+namespace NQuandl.Client._OLD.URIs
 {
     public class QuandlJsonUriV1 : QuandlUriV1
     {

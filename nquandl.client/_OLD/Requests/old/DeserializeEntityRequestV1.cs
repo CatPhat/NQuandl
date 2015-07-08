@@ -1,9 +1,9 @@
-﻿using NQuandl.Client.CompositionRoot;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Interfaces;
-using NQuandl.Client.URIs;
+﻿using NQuandl.Client.Api;
+using NQuandl.Client.CompositionRoot;
+using NQuandl.Client._OLD.Interfaces.old;
+using NQuandl.Client._OLD.URIs;
 
-namespace NQuandl.Client.Requests
+namespace NQuandl.Client._OLD.Requests.old
 {
     public class DeserializeEntityRequestV1<TEntity> 
         where TEntity : QuandlEntity, new()

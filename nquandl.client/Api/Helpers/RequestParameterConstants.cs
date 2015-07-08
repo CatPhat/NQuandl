@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Helpers
+﻿namespace NQuandl.Client.Api.Helpers
 {
     public static class RequestParameterConstants
     {

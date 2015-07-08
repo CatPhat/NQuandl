@@ -1,5 +1,4 @@
-﻿using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Interfaces;
+﻿using NQuandl.Client.Api;
 
 namespace NQuandl.Client.Domain.Entities
 {

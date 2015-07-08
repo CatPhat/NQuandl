@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Responses;
+using NQuandl.Client.Api;
 
 namespace NQuandl.Client.Domain.Responses
 {

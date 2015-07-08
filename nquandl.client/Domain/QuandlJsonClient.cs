@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
+using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.Domain.Queries;
+using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
-using NQuandl.Client.Entities.Base;
-using NQuandl.Client.Helpers;
-using NQuandl.Client.Requests;
+using NQuandl.Client._OLD.Requests;
+using NQuandl.Client._OLD.Requests.old;
 
 namespace NQuandl.Client.Domain
 {

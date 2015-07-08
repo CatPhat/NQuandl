@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Interfaces
+﻿namespace NQuandl.Client._OLD.Interfaces.old
 {
     public interface IHandleQuandlRequest<in TQuery, out TResult> where TQuery : IDefineQuandlRequest<TResult>
     {

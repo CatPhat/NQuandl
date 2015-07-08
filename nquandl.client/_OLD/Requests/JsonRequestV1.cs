@@ -1,6 +1,7 @@
-﻿using NQuandl.Client.Entities.Base;
+﻿using NQuandl.Client.Api;
+using NQuandl.Client._OLD.Requests.old;
 
-namespace NQuandl.Client.Requests
+namespace NQuandl.Client._OLD.Requests
 {
     public class JsonRequestV1<TEntity> where TEntity : QuandlEntity
     {

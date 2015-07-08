@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Entities.Base
+﻿namespace NQuandl.Client.Api
 {
     public abstract class QuandlEntity
     {
