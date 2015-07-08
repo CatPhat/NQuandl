@@ -10,5 +10,7 @@ namespace NQuandl.Client.Api
             where TEntity : QuandlEntity;
 
         Task<JsonResponseV2> GetAsync(RequestParametersV2 requestParameters);
+        Task<string> GetStringAsync(RequestParametersV2 requestParameters);
+        Task<string> GetStringAsync<TEntity>(RequestParametersV1 requestParameters) where TEntity : QuandlEntity;
     }
 }

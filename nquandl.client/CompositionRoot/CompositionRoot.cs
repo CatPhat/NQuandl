@@ -33,7 +33,9 @@ namespace NQuandl.Client.CompositionRoot
 
         private static void RegisterQuandlClient(this Container container)
         {
-            container.Register<IQuandlRestClient>(() => new QuandlRestClient("http://localhost:49832/api"));
+            //container.Register<IQuandlRestClient>(() => new QuandlRestClient("http://localhost:49832/api"));
+            container.Register<IQuandlRestClient>(() => new QuandlRestClient("https://quandl.com/api"));
+
             container.Register<IQuandlClient>(() => new QuandlClient(container.GetInstance<IQuandlRestClient>()));
             container.Register<IQuandlJsonClient>(() => new QuandlJsonClient(container.GetInstance<IQuandlClient>(), GetQueryProcessor()));
         }

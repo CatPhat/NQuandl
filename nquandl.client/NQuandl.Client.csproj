@@ -87,6 +87,7 @@
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
     <Compile Include="Domain\Queries\RequestJsonResponseV2.cs" />
+    <Compile Include="Domain\Queries\RequestString.cs" />
     <Compile Include="Domain\RequestParameters\PathSegmentParametersV1.cs" />
     <Compile Include="Domain\RequestParameters\PathSegmentParametersV2.cs" />
     <Compile Include="Domain\RequestParameters\QuandlClientRequestParametersV2.cs" />

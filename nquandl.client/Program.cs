@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.CompositionRoot;
 using NQuandl.Client.Domain.Entities;
 using NQuandl.Client.Domain.Queries;
@@ -13,6 +14,8 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
            
+            var get = new GetV2();
+            get.GetJsonResponseV2();
             Console.WriteLine("done");
             Console.ReadLine();
         }
@@ -49,23 +52,24 @@ namespace NQuandl.TestConsole
                 Query = "*",
                 SourceCode = "UNDATA",
                 PerPage = 300,
-                Page = i
+                Page = 1
             })).Result;
 
 
-            for (var j = 1; j <= 2000; j++)
-            {
-                var options = new QueryParametersV2
-                {
-                    ApiKey = QuandlServiceConfiguration.ApiKey,
-                    Query = "*",
-                    SourceCode = "UNDATA",
-                    PerPage = 300,
-                    Page = i
-                };
 
-                requests.Add(options);
-            }
+            //for (var i = 1; i <= 2000; i++)
+            //{
+            //    var options = new RequestParametersV2
+            //    {
+            //        ApiKey = QuandlServiceConfiguration.ApiKey,
+            //        Query = "*",
+            //        SourceCode = "UNDATA",
+            //        PerPage = 300,
+            //        Page = i
+            //    };
+
+            //    requests.Add(options);
+            //}
 
          
 

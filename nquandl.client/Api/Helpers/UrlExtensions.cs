@@ -11,13 +11,13 @@ namespace NQuandl.Client.Api.Helpers
         {
             var uri = parameters.ApiVersion +
                       "/" + parameters.QuandlCode +
-                      "." + parameters.ResponseFormat;
+                      "." + parameters.ResponseFormat.ToLower();
             return uri;
         }
 
         public static string ToPathSegment(this PathSegmentParametersV2 parameters)
         {
-            var uri = parameters.ApiVersion + "." + parameters.ResponseFormat;
+            var uri = parameters.ApiVersion + "." + parameters.ResponseFormat.ToLower();
 
             return uri;
         }
