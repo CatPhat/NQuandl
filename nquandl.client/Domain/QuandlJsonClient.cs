@@ -5,8 +5,6 @@ using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.Domain.Queries;
 using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
-using NQuandl.Client._OLD.Requests;
-using NQuandl.Client._OLD.Requests.old;
 
 namespace NQuandl.Client.Domain
 {
@@ -23,14 +21,14 @@ namespace NQuandl.Client.Domain
             _queries = queries;
         }
 
-        public async Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(QueryParametersV1 queryParameters)
+        public async Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(RequestParametersV1 requestParameters)
             where TEntity : QuandlEntity
         {
             var quandlCode = _queries.Execute(new GetQuandlCodeByEntity<TEntity>());
             var quandlClientRequestParameters = new QuandlClientRequestParametersV1
             {
                 PathSegmentParameters = GetPathSegmentParametersV1(quandlCode),
-                QueryParameters = queryParameters,
+                RequestParameters = requestParameters,
                 Format = ResponseFormat.JSON
             };
 

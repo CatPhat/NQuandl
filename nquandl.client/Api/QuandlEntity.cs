@@ -4,5 +4,4 @@
     {
         public abstract string QuandlCode { get; }
     }
-
 }

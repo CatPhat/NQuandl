@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
@@ -22,7 +21,7 @@ namespace NQuandl.Client.Domain
             var quandlRestClientParameters = new QuandlRestClientRequestParameters
             {
                 PathSegment = requestParameters.PathSegmentParameters.ToPathSegment(),
-                QueryParameters = requestParameters.QueryParameters.ToQueryParameterDictionary()
+                QueryParameters = requestParameters.RequestParameters.ToQueryParameterDictionary()
             };
             return await _client.DoGetRequestAsync(quandlRestClientParameters);
         }

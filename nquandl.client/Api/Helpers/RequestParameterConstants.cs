@@ -13,10 +13,8 @@
         public const string Transformation = "transformation";
         public const string ExcludeData = "exclude_data";
         public const string ApiVersion1 = "v1/datasets";
-
         //v1 & v2
         public const string AuthToken = "auth_token";
-
         //v2
         public const string ApiVersion2 = "v2/datasets";
         public const string Query = "query";

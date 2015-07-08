@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
+using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
-using NQuandl.Client._OLD.Requests;
 
 namespace NQuandl.Client.Api
 {
     public interface IQuandlJsonClient
     {
-        Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(QueryParametersV1 queryParameters)
+        Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(RequestParametersV1 requestParameters)
             where TEntity : QuandlEntity;
     }
 }

@@ -1,11 +1,11 @@
-namespace NQuandl.Client._OLD.Requests.old
+﻿namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class QueryParameter
+    public class RequestParameter
     {
         private readonly string _name;
         private readonly string _value;
 
-        internal QueryParameter(string name, string value)
+        internal RequestParameter(string name, string value)
         {
             _name = name;
             _value = value;

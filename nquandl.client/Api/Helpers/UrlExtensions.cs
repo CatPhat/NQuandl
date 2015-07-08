@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Flurl;
-using NQuandl.Client._OLD.Requests;
-using NQuandl.Client._OLD.Requests.old;
+using NQuandl.Client.Domain.RequestParameters;
 
 namespace NQuandl.Client.Api.Helpers
 {
@@ -25,53 +22,53 @@ namespace NQuandl.Client.Api.Helpers
             return uri;
         }
 
-        public static Dictionary<string, string> ToQueryParameterDictionary(this QueryParametersV1 options)
+        public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParametersV1 options)
         {
             if (options == null) throw new NullReferenceException("options");
             return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
         }
 
-        public static Dictionary<string, string> ToQueryParameterDictionary(this QueryParametersV2 options)
+        public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParametersV2 options)
         {
             if (options == null) throw new NullReferenceException("options");
             return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
         }
 
-        public static IEnumerable<QueryParameter> ToQueryParameters(this QueryParametersV1 options)
+        public static IEnumerable<RequestParameter> ToQueryParameters(this RequestParametersV1 options)
         {
-            var parameters = new List<QueryParameter>();
+            var parameters = new List<RequestParameter>();
 
             if (!String.IsNullOrEmpty(options.ApiKey))
             {
-                var parameter = new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey);
+                var parameter = new RequestParameter(RequestParameterConstants.AuthToken, options.ApiKey);
                 parameters.Add(parameter);
             }
             if (options.SortOrder.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.SortOrder,
+                var parameter = new RequestParameter(RequestParameterConstants.SortOrder,
                     options.SortOrder.Value.GetStringValue());
                 parameters.Add(parameter);
             }
             if (options.ExcludeHeaders.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.ExcludeHeaders,
+                var parameter = new RequestParameter(RequestParameterConstants.ExcludeHeaders,
                     options.ExcludeHeaders.Value.GetStringValue());
                 parameters.Add(parameter);
             }
             if (options.ExcludeData.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.ExcludeData,
+                var parameter = new RequestParameter(RequestParameterConstants.ExcludeData,
                     options.ExcludeData.Value.GetStringValue());
                 parameters.Add(parameter);
             }
             if (options.Rows.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Rows, options.Rows.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.Rows, options.Rows.Value.ToString());
                 parameters.Add(parameter);
             }
             if (options.Frequency.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Frequency,
+                var parameter = new RequestParameter(RequestParameterConstants.Frequency,
                     options.Frequency.Value.ToString());
                 parameters.Add(parameter);
             }
@@ -79,68 +76,40 @@ namespace NQuandl.Client.Api.Helpers
             {
                 const string dateFormat = "yyyy-MM-dd";
 
-                var parameter1 = new QueryParameter(RequestParameterConstants.TrimStart,
+                var parameter1 = new RequestParameter(RequestParameterConstants.TrimStart,
                     options.DateRange.TrimStart.ToString(dateFormat));
                 parameters.Add(parameter1);
 
-                var parameter2 = new QueryParameter(RequestParameterConstants.TrimEnd,
+                var parameter2 = new RequestParameter(RequestParameterConstants.TrimEnd,
                     options.DateRange.TrimEnd.ToString(dateFormat));
                 parameters.Add(parameter2);
             }
             if (options.Column.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Column, options.Column.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.Column, options.Column.Value.ToString());
                 parameters.Add(parameter);
             }
             if (options.Transformation.HasValue)
             {
-                var parameter = new QueryParameter(RequestParameterConstants.Transformation,
+                var parameter = new RequestParameter(RequestParameterConstants.Transformation,
                     options.Transformation.Value.GetStringValue());
                 parameters.Add(parameter);
             }
             return parameters;
         }
 
-        public static IEnumerable<QueryParameter> ToQueryParameters(this QueryParametersV2 options)
+        public static IEnumerable<RequestParameter> ToQueryParameters(this RequestParametersV2 options)
         {
-            var parameters = new List<QueryParameter>
+            var parameters = new List<RequestParameter>
             {
-                new QueryParameter(RequestParameterConstants.Query, options.Query),
-                new QueryParameter(RequestParameterConstants.SourceCode, options.SourceCode),
-                new QueryParameter(RequestParameterConstants.PerPage, options.PerPage.ToString()),
-                new QueryParameter(RequestParameterConstants.Page, options.Page.ToString()),
-                new QueryParameter(RequestParameterConstants.AuthToken, options.ApiKey)
+                new RequestParameter(RequestParameterConstants.Query, options.Query),
+                new RequestParameter(RequestParameterConstants.SourceCode, options.SourceCode),
+                new RequestParameter(RequestParameterConstants.PerPage, options.PerPage.ToString()),
+                new RequestParameter(RequestParameterConstants.Page, options.Page.ToString()),
+                new RequestParameter(RequestParameterConstants.AuthToken, options.ApiKey)
             };
 
             return parameters;
-        }
-
-        public static string ToQueryUri(this QueryParametersV1 options)
-        {
-            var uri = string.Empty;
-            if (options == null) return uri;
-            return uri.SetQueryParams(options);
-        }
-
-        public static string ToQueryUri(this List<QueryParameter> parameters)
-        {
-            if (parameters.Count == 0)
-            {
-                return string.Empty;
-            }
-
-            var uri = new StringBuilder();
-
-            var stringList =
-                parameters.Select(serviceParameter => serviceParameter.Name + "=" + serviceParameter.Value).ToList();
-            uri.Append("?");
-            uri.Append(stringList.First());
-            foreach (var parameter in parameters.Skip(1))
-            {
-                uri.Append("&" + parameter.Name + "=" + parameter.Value);
-            }
-
-            return uri.ToString();
         }
     }
 }

@@ -9,7 +9,7 @@ using NQuandl.Client.Domain.RequestParameters;
 namespace NQuandl.Client.Domain
 {
     /// <summary>
-    /// Class for Consuming Quandl REST API
+    ///     Class for Consuming Quandl REST API
     /// </summary>
     public class QuandlRestClient : IQuandlRestClient
     {
@@ -21,7 +21,6 @@ namespace NQuandl.Client.Domain
             _baseUrl = baseUrl;
         }
 
-     
         public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
         {
             var url = CreateUrl(parameters);

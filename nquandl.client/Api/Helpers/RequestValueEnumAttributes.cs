@@ -2,21 +2,6 @@
 
 namespace NQuandl.Client.Api.Helpers
 {
-    internal class RequestValue : Attribute
-    {
-        private readonly string _value;
-
-        public RequestValue(string value)
-        {
-            _value = value;
-        }
-
-        public string Value
-        {
-            get { return _value; }
-        }
-    }
-
     internal static class GetRequestValueAttribute
     {
         internal static string GetStringValue(this Enum value)

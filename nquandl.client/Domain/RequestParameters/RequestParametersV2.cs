@@ -1,6 +1,6 @@
-﻿namespace NQuandl.Client._OLD.Requests
+﻿namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class QueryParametersV2
+    public class RequestParametersV2
     {
         public string ApiKey { get; set; }
         public int Page { get; set; }

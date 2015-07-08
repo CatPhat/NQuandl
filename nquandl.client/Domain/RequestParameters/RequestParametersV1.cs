@@ -1,9 +1,8 @@
 ﻿using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
 
-namespace NQuandl.Client._OLD.Requests
+namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class QueryParametersV1
+    public class RequestParametersV1
     {
         public string ApiKey { get; set; }
         public SortOrder? SortOrder { get; set; }

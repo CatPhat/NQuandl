@@ -4,7 +4,7 @@
     {
         [RequestValue("asc")] Ascending,
 
-        [RequestValue("desc")] Descending,
+        [RequestValue("desc")] Descending
     }
 
     public enum Exclude
@@ -26,7 +26,7 @@
 
         [RequestValue("quarterly")] Quarterly,
 
-        [RequestValue("annual")] Annual,
+        [RequestValue("annual")] Annual
     }
 
     public enum Transformation
@@ -37,7 +37,7 @@
 
         [RequestValue("cumul")] CumulativeSum,
 
-        [RequestValue("normalize")] Normalize,
+        [RequestValue("normalize")] Normalize
     }
 
     public enum ResponseFormat
@@ -46,6 +46,6 @@
 
         [RequestValue("xml")] XML,
 
-        [RequestValue("csv")] CSV,
+        [RequestValue("csv")] CSV
     }
 }
