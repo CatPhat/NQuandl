@@ -5,10 +5,10 @@ using NQuandl.Client.Entities.Base;
 
 namespace NQuandl.Client.Domain.Queries
 {
-    public class MapEntitiesByDataObjects<TEntity> : IDefineQuery<IEnumerable<TEntity>>
+    public class MapToEntitiesByDataObjects<TEntity> : IDefineQuery<IEnumerable<TEntity>>
         where TEntity : QuandlEntity
     {
-        public MapEntitiesByDataObjects(object[][] dataObjects)
+        public MapToEntitiesByDataObjects(object[][] dataObjects)
         {
             DataObjects = dataObjects;
         }
@@ -16,17 +16,17 @@ namespace NQuandl.Client.Domain.Queries
         public object[][] DataObjects { get; private set; }
     }
 
-    public class HandleMapEntitiesByDataObjects<TEntity> :
-        IHandleQuery<MapEntitiesByDataObjects<TEntity>, IEnumerable<TEntity>> where TEntity : QuandlEntity
+    public class HandleMapToEntitiesByDataObjects<TEntity> :
+        IHandleQuery<MapToEntitiesByDataObjects<TEntity>, IEnumerable<TEntity>> where TEntity : QuandlEntity
     {
         private readonly IMapObjectToEntity<TEntity> _mapper;
 
-        public HandleMapEntitiesByDataObjects(IMapObjectToEntity<TEntity> mapper)
+        public HandleMapToEntitiesByDataObjects(IMapObjectToEntity<TEntity> mapper)
         {
             _mapper = mapper;
         }
 
-        public IEnumerable<TEntity> Handle(MapEntitiesByDataObjects<TEntity> query)
+        public IEnumerable<TEntity> Handle(MapToEntitiesByDataObjects<TEntity> query)
         {
             return query.DataObjects.Select(_mapper.MapEntity);
         }

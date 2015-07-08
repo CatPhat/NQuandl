@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
+using NQuandl.Client.Helpers;
+using NQuandl.Client.Requests;
 
 namespace NQuandl.Client.Domain
 {
@@ -14,9 +17,14 @@ namespace NQuandl.Client.Domain
             _client = client;
         }
 
-        public async Task<string> GetAsync(QuandlRequestParameters requestParameters)
+        public async Task<string> GetAsync(QuandlClientRequestParametersV1 requestParameters)
         {
-            return await _client.DoGetRequestAsync(requestParameters);
+            var quandlRestClientParameters = new QuandlRestClientRequestParameters
+            {
+                PathSegment = requestParameters.PathSegmentParameters.ToPathSegment(),
+                QueryParameters = requestParameters.QueryParameters.ToQueryParameterDictionary()
+            };
+            return await _client.DoGetRequestAsync(quandlRestClientParameters);
         }
     }
 }

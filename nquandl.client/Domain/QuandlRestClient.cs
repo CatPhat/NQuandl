@@ -21,13 +21,13 @@ namespace NQuandl.Client.Domain
         }
 
      
-        public async Task<string> DoGetRequestAsync(QuandlRequestParameters parameters)
+        public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
         {
             var url = CreateUrl(parameters);
             return await url.GetStringAsync();
         }
 
-        private string CreateUrl(QuandlRequestParameters parameters)
+        private string CreateUrl(QuandlRestClientRequestParameters parameters)
         {
             if (string.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
 

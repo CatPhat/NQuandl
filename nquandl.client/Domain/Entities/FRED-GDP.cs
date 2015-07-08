@@ -1,4 +1,5 @@
 ﻿using NQuandl.Client.Entities.Base;
+using NQuandl.Client.Interfaces;
 
 namespace NQuandl.Client.Domain.Entities
 {
@@ -11,7 +12,11 @@ namespace NQuandl.Client.Domain.Entities
         {
             public const string DatabaseCode = "FRED";
             public const string TableCode = "GDP";
-            public static readonly string QuandlCode = string.Format("{0}/{1}", DatabaseCode, TableCode);
+        }
+        
+        public override string QuandlCode
+        {
+            get { return string.Format("{0}/{1}", Constants.DatabaseCode, Constants.TableCode); }
         }
     }
 }

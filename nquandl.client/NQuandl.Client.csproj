@@ -73,11 +73,15 @@
     <Compile Include="Api\IProcessQueries.cs" />
     <Compile Include="Api\IQuandlClient.cs" />
     <Compile Include="Api\IQuandlRestClient.cs" />
-    <Compile Include="Domain\Queries\DeserializeJsonResponseV1.cs" />
+    <Compile Include="Api\IQuandlJsonClient.cs" />
+    <Compile Include="Domain\Mappers\MapFredGdp.cs" />
+    <Compile Include="Domain\Queries\DeserializeToJsonResponseV1.cs" />
     <Compile Include="Domain\Queries\DeserializeToClass.cs" />
+    <Compile Include="Domain\Queries\GetQuandlCodeByEntity.cs" />
     <Compile Include="Domain\Queries\MapEntitiesByDataObjects.cs" />
     <Compile Include="Domain\Queries\GetJsonResponseV1.cs" />
-    <Compile Include="Domain\Queries\GetJsonFredGdp.cs" />
+    <Compile Include="Domain\Queries\RequestEntity.cs" />
+    <Compile Include="Domain\Queries\RequestJsonFredGdp.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
     <Compile Include="Domain\QuandlRequestParameters.cs" />
@@ -147,7 +151,9 @@
     <None Include="_OLD\_Etc\quandl_api_data\master-dataset-response-v2.json" />
     <None Include="_OLD\_Etc\quandl_api_data\metadata_response.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Domain\RequestParameters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

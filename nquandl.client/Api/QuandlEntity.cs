@@ -2,5 +2,7 @@
 {
     public abstract class QuandlEntity
     {
+        public abstract string QuandlCode { get; }
     }
+
 }

@@ -56,7 +56,7 @@ namespace NQuandl.Client.Domain.Queries
         public JsonResponseV1<TEntity> Handle(DeserializeToJsonResponseV1<TEntity> query)
         {
             var response = _queries.Execute(new DeserializeToClass<JsonResponseV1<TEntity>>(query.RawResponse));
-            response.Entities = _queries.Execute(new MapEntitiesByDataObjects<TEntity>(response.Data));
+            response.Entities = _queries.Execute(new MapToEntitiesByDataObjects<TEntity>(response.Data));
 
             return response;
         }

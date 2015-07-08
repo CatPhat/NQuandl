@@ -1,19 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
-using NQuandl.Client.Domain;
+using NQuandl.Client.Domain.Queries;
+using NQuandl.Client.Domain.Responses;
+using NQuandl.Client.Entities.Base;
+using NQuandl.Client.Helpers;
+using NQuandl.Client.Requests;
 
-namespace NQuandl.Client
+namespace NQuandl.Client.Domain
 {
-    public class QuandlJsonClient : QuandlClient
+    public class QuandlJsonClient : IQuandlJsonClient
     {
-        public QuandlJsonClient(IQuandlRestClient client) : base(client)
+        private readonly IQuandlClient _client;
+        private readonly IProcessQueries _queries;
+
+        public QuandlJsonClient(IQuandlClient client, IProcessQueries queries)
         {
+            if (client == null) throw new ArgumentNullException("client");
+            if (queries == null) throw new ArgumentNullException("queries");
+            _client = client;
+            _queries = queries;
         }
 
-        public async Task<>
+        public async Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(QueryParametersV1 queryParameters)
+            where TEntity : QuandlEntity
+        {
+            var quandlCode = _queries.Execute(new GetQuandlCodeByEntity<TEntity>());
+            var quandlClientRequestParameters = new QuandlClientRequestParametersV1
+            {
+                PathSegmentParameters = GetPathSegmentParametersV1(quandlCode),
+                QueryParameters = queryParameters,
+                Format = ResponseFormat.JSON
+            };
+
+            var rawResponse = await _client.GetAsync(quandlClientRequestParameters);
+            return _queries.Execute(new DeserializeToJsonResponseV1<TEntity>(rawResponse));
+        }
+
+        private PathSegmentParametersV1 GetPathSegmentParametersV1(string quandlCode)
+        {
+            var pathSegmentParameters = new PathSegmentParametersV1
+            {
+                ApiVersion = RequestParameterConstants.ApiVersion1,
+                QuandlCode = quandlCode,
+                ResponseFormat = ResponseFormat.JSON.ToString()
+            };
+
+            return pathSegmentParameters;
+        }
     }
 }
