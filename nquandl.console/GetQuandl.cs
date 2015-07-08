@@ -9,15 +9,15 @@ namespace NQuandl.TestConsole
     {
         public void Get()
         {
-            var options = new QueryParametersV1();
+            //var options = new QueryParametersV1();
 
-            var service = new QuandlJsonService("https://quandl.com/api");
-            var result = service.GetAsync<FRED_GDP>(options).Result;
+            //var service = new QuandlJsonService("https://quandl.com/api");
+            //var result = service.GetAsync<FRED_GDP>(options).Result;
 
-            foreach (var entity in result.Entities)
-            {
-                Console.WriteLine(entity.Date + " | " + entity.Value);
-            }
+            //foreach (var entity in result.Entities)
+            //{
+            //    Console.WriteLine(entity.Date + " | " + entity.Value);
+            //}
         }
     }
 }

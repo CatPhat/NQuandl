@@ -19,21 +19,21 @@ namespace NQuandl.TestConsole
             //Console.WriteLine("{0}",new string('.', NQueue.GetQueueStatus().RequestsRemaining));
         }
 
-        public static void PrintTestResponse(TestJsonResponseV2 response)
-        {
-           Console.Clear();
-            var cached = response.CacheResponse;
-            var timeElapsed =  cached.LastRequestTime - cached.FirstRequestTime;
+        //public static void PrintTestResponse(TestJsonResponseV2 response)
+        //{
+        //   Console.Clear();
+        //    var cached = response.CacheResponse;
+        //    var timeElapsed =  cached.LastRequestTime - cached.FirstRequestTime;
 
-            Console.WriteLine();
-            Console.WriteLine("                   Processed: {0}", cached.RequestCount);
-            Console.WriteLine("                Time Elapsed: {0}", timeElapsed);
-            Console.WriteLine("              RequestsPerSec: {0}", cached.RequestsPerSecond);
-            Console.WriteLine("             Est RP10Minutes: {0}", cached.EstimatedRequestsPer10MinutesAtCurrentRate);
-            Console.WriteLine("     Est Average RP10Minutes: {0}", cached.EstimatedAverageRequestsPer10MinutesAtCurrentRate);
-            Console.WriteLine("Average Time Between Requests {0}", cached.AverageTimeBetweenRequests);
-            Console.WriteLine("          Requests Remaining: {0}", cached.RequestsRemaining );
-            Console.WriteLine(" Average Requests Per Second: {0}", cached.AverageRequestsPerSecond);
-        }
+        //    Console.WriteLine();
+        //    Console.WriteLine("                   Processed: {0}", cached.RequestCount);
+        //    Console.WriteLine("                Time Elapsed: {0}", timeElapsed);
+        //    Console.WriteLine("              RequestsPerSec: {0}", cached.RequestsPerSecond);
+        //    Console.WriteLine("             Est RP10Minutes: {0}", cached.EstimatedRequestsPer10MinutesAtCurrentRate);
+        //    Console.WriteLine("     Est Average RP10Minutes: {0}", cached.EstimatedAverageRequestsPer10MinutesAtCurrentRate);
+        //    Console.WriteLine("Average Time Between Requests {0}", cached.AverageTimeBetweenRequests);
+        //    Console.WriteLine("          Requests Remaining: {0}", cached.RequestsRemaining );
+        //    Console.WriteLine(" Average Requests Per Second: {0}", cached.AverageRequestsPerSecond);
+        //}
     }
 }
