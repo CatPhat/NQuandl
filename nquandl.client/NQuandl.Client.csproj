@@ -108,7 +108,6 @@
     <Compile Include="Domain\Responses\JsonResponseV2.cs" />
     <Compile Include="Domain\Entities\FRED-GDP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Api\Helpers\JsonExtensions.cs" />
     <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
   </ItemGroup>
   <ItemGroup>
