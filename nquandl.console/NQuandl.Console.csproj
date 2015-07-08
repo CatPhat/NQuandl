@@ -81,14 +81,6 @@
       <Project>{5fa48fe6-943a-4cbf-88ff-a431887a0a9f}</Project>
       <Name>NQuandl.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NQuandl.Generator\NQuandl.Generator.csproj">
-      <Project>{83a4ad9e-17ba-4bf8-a38d-c0b0794ddb5c}</Project>
-      <Name>NQuandl.Generator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NQuandl.Queue\NQuandl.Queue.csproj">
-      <Project>{a86c33e3-624e-4f02-9f4b-b452c96f4c42}</Project>
-      <Name>NQuandl.Queue</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

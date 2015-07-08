@@ -1,6 +1,6 @@
 ﻿using System;
 using NQuandl.Client;
-using NQuandl.Client.Entities;
+
 
 namespace NQuandl.TestConsole
 {
