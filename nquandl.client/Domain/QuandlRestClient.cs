@@ -14,17 +14,26 @@ namespace NQuandl.Client.Domain
     public class QuandlRestClient : IQuandlRestClient
     {
         private readonly string _baseUrl;
+        private readonly IHttpClient _client;
 
-        public QuandlRestClient(string baseUrl)
+        public QuandlRestClient(string baseUrl, IHttpClient client)
         {
+            if (client == null) throw new ArgumentNullException("client");
             if (string.IsNullOrEmpty(baseUrl)) throw new ArgumentException("baseUrl");
             _baseUrl = baseUrl;
+            _client = client;
         }
 
         public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
         {
-            var url = CreateUrl(parameters);
-            return await url.GetStringAsync();
+            string result;
+            using (var client = _client.HttpClient)
+            {
+                var url = CreateUrl(parameters);
+                result = await client.GetStringAsync(url);
+            }
+
+            return result;
         }
 
         private string CreateUrl(QuandlRestClientRequestParameters parameters)

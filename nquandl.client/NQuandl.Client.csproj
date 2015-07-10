@@ -70,12 +70,15 @@
     <Compile Include="Api\Helpers\QuandlServiceConfiguration.cs" />
     <Compile Include="Api\Helpers\RequestValue.cs" />
     <Compile Include="Api\IDeserializeEntity.cs" />
+    <Compile Include="Api\IHttpClient.cs" />
     <Compile Include="Api\IMapObjectToEntity.cs" />
     <Compile Include="Api\IProcessQueries.cs" />
     <Compile Include="Api\IQuandlClient.cs" />
     <Compile Include="Api\IQuandlRestClient.cs" />
     <Compile Include="Api\IQuandlJsonClient.cs" />
     <Compile Include="CompositionRoot\QueryProcessor.cs" />
+    <Compile Include="CompositionRoot\RegisterQuandlClient.cs" />
+    <Compile Include="Domain\HttpClient.cs" />
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
     <Compile Include="Domain\Queries\DeserializeToJsonResponseV1.cs" />
     <Compile Include="Domain\Queries\DeserializeToClass.cs" />
