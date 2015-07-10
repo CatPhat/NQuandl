@@ -8,15 +8,7 @@ namespace NQuandl.Client.Api
 {
     public interface IHttpClient
     {
-        Url Url { get; set; }
-        bool AutoDispose { get; }
-        HttpClient HttpClient { get; }
-        HttpMessageHandler HttpMessageHandler { get; }
-        ICollection<string> AllowedHttpStatusRanges { get; }
-
-        Task<HttpResponseMessage> SendAsync(HttpMethod verb, HttpContent content, CancellationToken? cancellationToken,
-            HttpCompletionOption completionOption);
-
+        Task<string> GetStringAsync(string url);
         void Dispose();
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
 using NQuandl.Client.Api;
+using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.Domain.RequestParameters;
 
 namespace NQuandl.Client.Domain
@@ -29,23 +30,10 @@ namespace NQuandl.Client.Domain
 
         public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
         {
-            var url = CreateUrl(parameters);
-            return await _client.HttpClient.GetStringAsync(url);
+            var url = parameters.GetUrl(_baseUrl);
+            return await _client.GetStringAsync(url);
         }
 
-        private string CreateUrl(QuandlRestClientRequestParameters parameters)
-        {
-            if (string.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
-
-            var baseUrl = new Url(_baseUrl);
-
-            var url = baseUrl.AppendPathSegment(parameters.PathSegment);
-            if (parameters.QueryParameters.Any())
-            {
-                url = url.SetQueryParams(parameters.QueryParameters);
-            }
-
-            return url;
-        }
+      
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Flurl;
 using NQuandl.Client.Domain.RequestParameters;
 
 namespace NQuandl.Client.Api.Helpers
@@ -110,6 +111,19 @@ namespace NQuandl.Client.Api.Helpers
             };
 
             return parameters;
+        }
+
+        public static string GetUrl(this QuandlRestClientRequestParameters parameters, string baseUrl)
+        {
+            if (string.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
+            
+            var url = baseUrl.AppendPathSegment(parameters.PathSegment);
+            if (parameters.QueryParameters.Any())
+            {
+                url = url.SetQueryParams(parameters.QueryParameters);
+            }
+
+            return url;
         }
     }
 }
