@@ -8,13 +8,13 @@ namespace NQuandl.Client.CompositionRoot
     {
         public static void NQuandlRegisterAll(
             this Container container,
-            IHttpClient httpClient, string baseUrl,
+            string baseUrl,
             IQuandlRestClient quandlRestClient,
             IQuandlClient quandlClient,
             IProcessQueries queryProcessor)
         {
            
-            container.RegisterQuandlRestClient(baseUrl);
+            container.RegisterQuandlRestClient( baseUrl);
             container.RegisterQuandlClient(quandlRestClient);
             container.RegisterQuandlJsonClient(quandlClient, queryProcessor);
             container.RegisterMapper();
@@ -28,11 +28,11 @@ namespace NQuandl.Client.CompositionRoot
             url = @"http://localhost:49832/api";
 #endif
             var container = new Container();
-            var httpClient = container.GetInstance<IHttpClient>();
             var quandlRestClient = container.GetInstance<IQuandlRestClient>();
             var quandlClient = container.GetInstance<IQuandlClient>();
             var queryProcessor = container.GetInstance<IProcessQueries>();
-            container.NQuandlRegisterAll(httpClient, url, quandlRestClient, quandlClient, queryProcessor);
+
+            container.NQuandlRegisterAll(url, quandlRestClient, quandlClient, queryProcessor);
 
             return container.GetInstance<IServiceProvider>();
         }
