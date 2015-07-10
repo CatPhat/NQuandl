@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
-using Flurl.Http;
 using NQuandl.Client.Api;
 using NQuandl.Client.Domain.RequestParameters;
 
@@ -11,29 +10,27 @@ namespace NQuandl.Client.Domain
     /// <summary>
     ///     Class for Consuming Quandl REST API
     /// </summary>
-    public class QuandlRestClient : IQuandlRestClient
+    public class QuandlRestClient : IQuandlRestClient, IDisposable
     {
         private readonly string _baseUrl;
         private readonly IHttpClient _client;
 
-        public QuandlRestClient(string baseUrl, IHttpClient client)
+        public QuandlRestClient(string baseUrl)
         {
-            if (client == null) throw new ArgumentNullException("client");
             if (string.IsNullOrEmpty(baseUrl)) throw new ArgumentException("baseUrl");
             _baseUrl = baseUrl;
-            _client = client;
+            _client = new HttpClient();
+        }
+
+        public void Dispose()
+        {
+            _client.Dispose();
         }
 
         public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
         {
-            string result;
-            using (var client = _client.HttpClient)
-            {
-                var url = CreateUrl(parameters);
-                result = await client.GetStringAsync(url);
-            }
-
-            return result;
+            var url = CreateUrl(parameters);
+            return await _client.HttpClient.GetStringAsync(url);
         }
 
         private string CreateUrl(QuandlRestClientRequestParameters parameters)

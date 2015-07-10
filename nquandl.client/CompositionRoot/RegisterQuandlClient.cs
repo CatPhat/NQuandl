@@ -9,16 +9,11 @@ namespace NQuandl.Client.CompositionRoot
 {
     public static class ContainerRegistrations
     {
-        public static void RegisterHttpClient(this Container container)
-        {
-            container.Register<IHttpClient>(() => new HttpClient());
-        }
-
-        public static void RegisterQuandlRestClient(this Container container, IHttpClient httpClient, string baseUrl)
+        public static void RegisterQuandlRestClient(this Container container, string baseUrl)
         {
 #if DEBUG
             //http://localhost:49832/api
-            container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl, httpClient));
+            container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl));
 #else
             //https://quandl.com/api
             container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl, httpClient));

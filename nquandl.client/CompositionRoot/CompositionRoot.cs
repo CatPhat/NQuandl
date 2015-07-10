@@ -13,8 +13,8 @@ namespace NQuandl.Client.CompositionRoot
             IQuandlClient quandlClient,
             IProcessQueries queryProcessor)
         {
-            container.RegisterHttpClient();
-            container.RegisterQuandlRestClient(httpClient, baseUrl);
+           
+            container.RegisterQuandlRestClient(baseUrl);
             container.RegisterQuandlClient(quandlRestClient);
             container.RegisterQuandlJsonClient(quandlClient, queryProcessor);
             container.RegisterMapper();
