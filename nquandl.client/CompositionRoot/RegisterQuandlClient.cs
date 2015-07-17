@@ -20,14 +20,14 @@ namespace NQuandl.Client.CompositionRoot
 #endif
         }
 
-        public static void RegisterQuandlClient(this Container container, IQuandlRestClient quandlRestClient)
+        public static void RegisterQuandlClient(this Container container)
         {
-            container.Register<IQuandlClient>(() => new QuandlClient(quandlRestClient));
+            container.Register<IQuandlClient>(() => new QuandlClient(container.GetInstance<IQuandlRestClient>()));
         }
 
-        public static void RegisterQuandlJsonClient(this Container container, IQuandlClient quandlClient, IProcessQueries queries)
+        public static void RegisterQuandlJsonClient(this Container container)
         {
-            container.Register<IQuandlJsonClient>(() => new QuandlJsonClient(quandlClient, queries));
+            container.Register<IQuandlJsonClient>(() => new QuandlJsonClient(container.GetInstance<IQuandlClient>(), container.GetInstance<IProcessQueries>()));
         }
 
         public static void RegisterMapper(this Container container)

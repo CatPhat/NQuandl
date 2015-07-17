@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Flurl.Http;
 using NQuandl.Client.Api;
 
 namespace NQuandl.Client.Domain
 {
-    public class HttpClient : IHttpClient
+    public class HttpClient : IHttpClient, IDisposable
     {
         private readonly FlurlClient _client;
 

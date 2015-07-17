@@ -6,21 +6,7 @@ namespace NQuandl.Client.CompositionRoot
 {
     public static class CompositionRoot
     {
-        public static void NQuandlRegisterAll(
-            this Container container,
-            string baseUrl,
-            IQuandlRestClient quandlRestClient,
-            IQuandlClient quandlClient,
-            IProcessQueries queryProcessor)
-        {
-           
-            container.RegisterQuandlRestClient( baseUrl);
-            container.RegisterQuandlClient(quandlRestClient);
-            container.RegisterQuandlJsonClient(quandlClient, queryProcessor);
-            container.RegisterMapper();
-            container.RegisterQueries();
-        }
-
+      
         public static IServiceProvider Bootstrap()
         {
             var url = @"https://quandl.com/api";
@@ -28,13 +14,17 @@ namespace NQuandl.Client.CompositionRoot
             url = @"http://localhost:49832/api";
 #endif
             var container = new Container();
-            var quandlRestClient = container.GetInstance<IQuandlRestClient>();
-            var quandlClient = container.GetInstance<IQuandlClient>();
-            var queryProcessor = container.GetInstance<IProcessQueries>();
-
-            container.NQuandlRegisterAll(url, quandlRestClient, quandlClient, queryProcessor);
-
+            NQuandlRegisterRegisterAll(container, url);
             return container.GetInstance<IServiceProvider>();
+        }
+
+        public static void NQuandlRegisterRegisterAll(this Container container, string url)
+        {   container.RegisterQueries();
+            container.RegisterQuandlRestClient(url);
+            container.RegisterQuandlClient();
+            container.RegisterQuandlJsonClient();
+            container.RegisterMapper();
+        
         }
     }
 

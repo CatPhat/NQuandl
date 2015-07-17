@@ -11,27 +11,26 @@ namespace NQuandl.Client.Domain
     /// <summary>
     ///     Class for Consuming Quandl REST API
     /// </summary>
-    public class QuandlRestClient : IQuandlRestClient, IDisposable
+    public class QuandlRestClient : IQuandlRestClient
     {
         private readonly string _baseUrl;
-        private readonly IHttpClient _client;
+        
 
         public QuandlRestClient(string baseUrl)
         {
             if (string.IsNullOrEmpty(baseUrl)) throw new ArgumentException("baseUrl");
             _baseUrl = baseUrl;
-            _client = new HttpClient();
-        }
-
-        public void Dispose()
-        {
-            _client.Dispose();
         }
 
         public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
         {
             var url = parameters.GetUrl(_baseUrl);
-            return await _client.GetStringAsync(url);
+            string result;
+            using (var client = new HttpClient())
+            {
+                result = await client.GetStringAsync(url); 
+            }
+            return result;
         }
 
       
