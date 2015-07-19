@@ -23,7 +23,7 @@ namespace NQuandl.Client.Domain
                 PathSegment = requestParameters.PathSegmentParameters.ToPathSegment(),
                 QueryParameters = requestParameters.RequestParameters.ToQueryParameterDictionary()
             };
-            return await _client.DoGetRequestAsync(quandlRestClientParameters);
+            return await _client.GetStringAsync(quandlRestClientParameters);
         }
 
         public async Task<string> GetAsync(QuandlClientRequestParametersV2 requestParameters)
@@ -33,7 +33,7 @@ namespace NQuandl.Client.Domain
                 PathSegment = requestParameters.PathSegmentParameters.ToPathSegment(),
                 QueryParameters = requestParameters.RequestParameters.ToQueryParameterDictionary()
             };
-            return await _client.DoGetRequestAsync(quandlRestClientParameters);
+            return await _client.GetStringAsync(quandlRestClientParameters);
         }
     }
 }

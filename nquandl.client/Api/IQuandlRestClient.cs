@@ -5,6 +5,6 @@ namespace NQuandl.Client.Api
 {
     public interface IQuandlRestClient
     {
-        Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters);
+        Task<string> GetStringAsync(QuandlRestClientRequestParameters parameters);
     }
 }

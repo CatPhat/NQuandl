@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.CompositionRoot;
 using NQuandl.Client.Domain.Entities;
@@ -13,11 +14,25 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
-           
-            //var get = new GetV2();
-            //get.GetJsonResponseV2();
-            //Console.WriteLine("done");
-            //Console.ReadLine();
+
+            var requestParameters = new RequestParametersV2
+            {
+                ApiKey = "71RqY1iB-mPYtst-k4vV",
+                Query = "*",
+                SourceCode = "UN",
+                PerPage = 300,
+                Page = 1,
+
+            };
+
+            var factory = CompositionRoot.Bootstrap();
+            var queries = (IProcessQueries) factory.GetService(typeof (IProcessQueries));
+            var result = queries.Execute(new RequestString(requestParameters)).Result;
+            
+            Console.WriteLine(result);
+            Console.WriteLine("done");
+            Console.ReadLine();
+
         }
     }
 

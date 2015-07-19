@@ -16,7 +16,7 @@ namespace NQuandl.Client.CompositionRoot
             container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl));
 #else
             //https://quandl.com/api
-            container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl, httpClient));
+            container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl));
 #endif
         }
 

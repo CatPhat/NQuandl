@@ -15,6 +15,7 @@ namespace NQuandl.Client.CompositionRoot
 #endif
             var container = new Container();
             NQuandlRegisterRegisterAll(container, url);
+            container.RegisterSingle<IServiceProvider>(() => container);
             return container.GetInstance<IServiceProvider>();
         }
 
@@ -27,6 +28,8 @@ namespace NQuandl.Client.CompositionRoot
         
         }
     }
+
+ 
 
 
 }

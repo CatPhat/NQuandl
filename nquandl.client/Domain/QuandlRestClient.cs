@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Flurl;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.Domain.RequestParameters;
@@ -14,7 +14,6 @@ namespace NQuandl.Client.Domain
     public class QuandlRestClient : IQuandlRestClient
     {
         private readonly string _baseUrl;
-        
 
         public QuandlRestClient(string baseUrl)
         {
@@ -22,17 +21,27 @@ namespace NQuandl.Client.Domain
             _baseUrl = baseUrl;
         }
 
-        public async Task<string> DoGetRequestAsync(QuandlRestClientRequestParameters parameters)
+        public async Task<string> GetStringAsync(QuandlRestClientRequestParameters parameters)
         {
-            var url = parameters.GetUrl(_baseUrl);
-            string result;
             using (var client = new HttpClient())
             {
-                result = await client.GetStringAsync(url); 
-            }
-            return result;
-        }
+                client.BaseAddress = new Uri(_baseUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-      
+                try
+                {
+                    var fullResponse = await client.GetAsync(parameters.ToUri());
+                    fullResponse.EnsureSuccessStatusCode();
+                    var response = await fullResponse.Content.ReadAsStringAsync();
+                    return response;
+                }
+                catch(HttpRequestException e)
+                {
+                    throw new Exception(e.Message);
+                }
+            }
+       
+        }
     }
 }
