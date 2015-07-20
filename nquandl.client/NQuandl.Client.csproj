@@ -70,6 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BaseQuandlRequest.cs" />
+    <Compile Include="Api\BaseQuandlRequestV1.cs" />
+    <Compile Include="Api\BaseQuandlRequestV2.cs" />
     <Compile Include="Api\Helpers\QuandlServiceConfiguration.cs" />
     <Compile Include="Api\Helpers\RequestValue.cs" />
     <Compile Include="Api\IDeserializeEntity.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="CompositionRoot\RegisterQuandlClient.cs" />
     <Compile Include="Domain\HttpClient.cs" />
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
+    <Compile Include="Domain\Queries\GetRequestsNeededToDownloadEntireDatasetV2By.cs" />
     <Compile Include="Domain\Queries\DeserializeToJsonResponseV1.cs" />
     <Compile Include="Domain\Queries\DeserializeToClass.cs" />
     <Compile Include="Domain\Queries\DeserializeToJsonResponseV2.cs" />

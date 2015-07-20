@@ -20,8 +20,10 @@ namespace NQuandl.Client.CompositionRoot
         }
 
         public static void NQuandlRegisterRegisterAll(this Container container, string url)
-        {   container.RegisterQueries();
-            container.RegisterQuandlRestClient(url);
+        {   
+            container.RegisterHttpClient(url);
+            container.RegisterQueries();
+            container.RegisterQuandlRestClient();
             container.RegisterQuandlClient();
             container.RegisterQuandlJsonClient();
             container.RegisterMapper();

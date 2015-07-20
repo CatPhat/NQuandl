@@ -27,7 +27,7 @@ namespace NQuandl.TestConsole
 
             var factory = CompositionRoot.Bootstrap();
             var queries = (IProcessQueries) factory.GetService(typeof (IProcessQueries));
-            var result = queries.Execute(new RequestString(requestParameters)).Result;
+            var result = queries.Execute(new GetRequestsNeededToDownloadEntireDatasetV2By("UN")).Result;
             
             Console.WriteLine(result);
             Console.WriteLine("done");

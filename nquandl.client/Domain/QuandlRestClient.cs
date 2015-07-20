@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
@@ -13,35 +12,27 @@ namespace NQuandl.Client.Domain
     /// </summary>
     public class QuandlRestClient : IQuandlRestClient
     {
-        private readonly string _baseUrl;
+        private readonly IHttpClient _client;
 
-        public QuandlRestClient(string baseUrl)
+        public QuandlRestClient(IHttpClient client)
         {
-            if (string.IsNullOrEmpty(baseUrl)) throw new ArgumentException("baseUrl");
-            _baseUrl = baseUrl;
+            if (client == null) throw new ArgumentNullException("client");
+            _client = client;
         }
 
         public async Task<string> GetStringAsync(QuandlRestClientRequestParameters parameters)
         {
-            using (var client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(_baseUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                try
-                {
-                    var fullResponse = await client.GetAsync(parameters.ToUri());
-                    fullResponse.EnsureSuccessStatusCode();
-                    var response = await fullResponse.Content.ReadAsStringAsync();
-                    return response;
-                }
-                catch(HttpRequestException e)
-                {
-                    throw new Exception(e.Message);
-                }
+                var fullResponse = await _client.GetAsync(parameters.ToUri());
+                fullResponse.EnsureSuccessStatusCode();
+                var response = await fullResponse.Content.ReadAsStringAsync();
+                return response;
             }
-       
+            catch (HttpRequestException e)
+            {
+                throw new Exception(e.Message);
+            }
         }
     }
 }

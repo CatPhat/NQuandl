@@ -1,26 +1,16 @@
-﻿//using System;
-//using System.Threading.Tasks;
-//using Flurl.Http;
-//using NQuandl.Client.Api;
+﻿using System;
+using NQuandl.Client.Api;
 
-//namespace NQuandl.Client.Domain
-//{
-//    public class HttpClient : IHttpClient, IDisposable
-//    {
-//        private readonly FlurlClient _client;
+namespace NQuandl.Client.Domain
+{
+    public class HttpClient : System.Net.Http.HttpClient, IHttpClient
+    {
+        public HttpClient(string baseUrl)
+        {
+            if (baseUrl == null) throw new ArgumentNullException("baseUrl");
+            base.BaseAddress = new Uri(baseUrl);
+        }
 
-//        public HttpClient()
-//        {
-//            _client = new FlurlClient();
-//        }
-//        public async Task<string> GetStringAsync(string url)
-//        {
-//            return await _client.HttpClient.GetStringAsync(url);
-//        }
 
-//        public void Dispose()
-//        {
-//            _client.Dispose();
-//        }
-//    }
-//}
+    }
+}
