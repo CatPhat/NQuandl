@@ -20,7 +20,7 @@ namespace NQuandl.Client.Api.Configuration
             }
         }
 
-        public string BaseUrl => _configuration.AppSettings[AppSettingKey.BaseUrl.ToString()] ?? @"https://quandle.com";
+        public string BaseUrl => _configuration.AppSettings[AppSettingKey.BaseUrl.ToString()] ?? @"https://quandl.com";
 
         public string RootUrl
         {
