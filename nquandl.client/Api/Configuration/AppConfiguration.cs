@@ -27,7 +27,7 @@ namespace NQuandl.Client.Api.Configuration
             get
             {
                 var baseUrl = BaseUrl.RemoveTrailingSlash();
-                return $"{BaseUrl}/api";
+                return $"{baseUrl}/api";
             }
         }
     }
