@@ -2,7 +2,7 @@
 
 namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class RequestParametersV1
+    public class RequestParameters
     {
         public string ApiKey { get; set; }
         public SortOrder? SortOrder { get; set; }

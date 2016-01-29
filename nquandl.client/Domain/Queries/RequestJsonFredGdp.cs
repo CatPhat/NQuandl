@@ -9,7 +9,7 @@ namespace NQuandl.Client.Domain.Queries
 {
     public class RequestJsonFredGdp : IDefineQuery<Task<JsonResponseV1<FredGdp>>>
     {
-        public RequestParametersV1 RequestParametersV1 { get; set; }
+        public RequestParameters.RequestParameters RequestParameters { get; set; }
     }
 
     public class HandleRequestJsonFredGdp : IHandleQuery<RequestJsonFredGdp, Task<JsonResponseV1<FredGdp>>>
@@ -24,7 +24,7 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<JsonResponseV1<FredGdp>> Handle(RequestJsonFredGdp query)
         {
-            return await _client.GetAsync<FredGdp>(query.RequestParametersV1);
+            return await _client.GetAsync<FredGdp>(query.RequestParameters);
         }
     }
 }

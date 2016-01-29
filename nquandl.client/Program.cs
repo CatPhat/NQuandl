@@ -15,21 +15,21 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
 
-            var requestParameters = new RequestParametersV2
-            {
-                ApiKey = "71RqY1iB-mPYtst-k4vV",
-                Query = "*",
-                SourceCode = "UN",
-                PerPage = 300,
-                Page = 1,
+            //var requestParameters = new RequestParametersV2
+            //{
+            //    ApiKey = "71RqY1iB-mPYtst-k4vV",
+            //    Query = "*",
+            //    SourceCode = "UN",
+            //    PerPage = 300,
+            //    Page = 1,
 
-            };
+            //};
 
-            var factory = CompositionRoot.Bootstrap();
-            var queries = (IProcessQueries) factory.GetService(typeof (IProcessQueries));
-            var result = queries.Execute(new GetRequestsNeededToDownloadEntireDatasetV2By("UN")).Result;
+            //var factory = CompositionRoot.Bootstrap();
+            //var queries = (IProcessQueries) factory.GetService(typeof (IProcessQueries));
+            //var result = queries.Execute(new GetRequestsNeededToDownloadEntireDatasetV2By("UN")).Result;
             
-            Console.WriteLine(result);
+            //Console.WriteLine(result);
             Console.WriteLine("done");
             Console.ReadLine();
 

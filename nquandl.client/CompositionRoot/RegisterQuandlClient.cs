@@ -17,7 +17,7 @@ namespace NQuandl.Client.CompositionRoot
         {
 #if DEBUG
     //http://localhost:49832/api
-            container.Register<IQuandlRestClient>(() => new QuandlRestClient(baseUrl));
+            container.Register<IQuandlRestClient>(() => new QuandlRestClient(container.GetInstance<IHttpClient>()));
 #else
             //https://quandl.com/api
             container.Register<IQuandlRestClient>(() => new QuandlRestClient(container.GetInstance<IHttpClient>()));
@@ -54,7 +54,7 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToClass<>));
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToJsonResponseV1<>));
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleMapToEntitiesByDataObjects<>));
-            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleRequestJsonResponseV1ByEntity<>));
+            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleRequestJsonResponseByEntity<>));
         }
     }
 }

@@ -23,7 +23,7 @@ namespace NQuandl.Client.Api.Helpers
             return uri;
         }
 
-        public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParametersV1 options)
+        public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParameters options)
         {
             if (options == null) throw new NullReferenceException("options");
             return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
@@ -35,7 +35,7 @@ namespace NQuandl.Client.Api.Helpers
             return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
         }
 
-        public static IEnumerable<RequestParameter> ToQueryParameters(this RequestParametersV1 options)
+        public static IEnumerable<RequestParameter> ToQueryParameters(this RequestParameters options)
         {
             var parameters = new List<RequestParameter>();
 

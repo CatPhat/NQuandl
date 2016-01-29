@@ -16,7 +16,7 @@ namespace NQuandl.Client.Domain
             _client = client;
         }
 
-        public async Task<string> GetAsync(QuandlClientRequestParametersV1 requestParameters)
+        public async Task<string> GetAsync(QuandlClientRequestParameters requestParameters)
         {
             var quandlRestClientParameters = new QuandlRestClientRequestParameters
             {

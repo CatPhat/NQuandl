@@ -21,7 +21,7 @@ namespace NQuandl.Client.Domain
             _queries = queries;
         }
 
-        public async Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(RequestParametersV1 requestParameters)
+        public async Task<JsonResponseV1<TEntity>> GetAsync<TEntity>(RequestParameters.RequestParameters requestParameters)
             where TEntity : QuandlEntity
         {
             var quandlClientRequestParameters = GetQuandlClientRequestParameters<TEntity>(requestParameters);
@@ -29,31 +29,17 @@ namespace NQuandl.Client.Domain
             return _queries.Execute(new DeserializeToJsonResponseV1<TEntity>(rawResponse));
         }
 
-        public async Task<JsonResponseV2> GetAsync(RequestParametersV2 requestParameters)
-        {
-            var quandlClientRequestParameters = GetQuandlClientRequestParameters(requestParameters);
-            var rawResponse = await _client.GetAsync(quandlClientRequestParameters);
-            return _queries.Execute(new DeserializeToJsonResponseV2(rawResponse));
-        }
-
-        public async Task<string> GetStringAsync(RequestParametersV2 requestParameters)
-        {
-            var quandlClientRequestParameters = GetQuandlClientRequestParameters(requestParameters);
-            var rawResponse = await _client.GetAsync(quandlClientRequestParameters);
-            return rawResponse;
-        }
-
-        public async Task<string> GetStringAsync<TEntity>(RequestParametersV1 requestParameters) where TEntity : QuandlEntity
+        public async Task<string> GetStringAsync<TEntity>(RequestParameters.RequestParameters requestParameters) where TEntity : QuandlEntity
         {
             var quandlClientRequestParameters = GetQuandlClientRequestParameters<TEntity>(requestParameters);
             var rawResponse = await _client.GetAsync(quandlClientRequestParameters);
             return rawResponse;
         }
 
-        private QuandlClientRequestParametersV1 GetQuandlClientRequestParameters<TEntity>(RequestParametersV1 requestParameters) where TEntity : QuandlEntity
+        private QuandlClientRequestParameters GetQuandlClientRequestParameters<TEntity>(RequestParameters.RequestParameters requestParameters) where TEntity : QuandlEntity
         {
             var quandlCode = _queries.Execute(new GetQuandlCodeByEntity<TEntity>());
-            var quandlClientRequestParameters = new QuandlClientRequestParametersV1
+            var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
                 PathSegmentParameters = GetPathSegmentParametersV1(quandlCode),
                 RequestParameters = requestParameters,
