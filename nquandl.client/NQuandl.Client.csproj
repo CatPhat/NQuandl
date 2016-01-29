@@ -91,9 +91,7 @@
     <Compile Include="Domain\Queries\RequestJsonFredGdp.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
-    <Compile Include="Domain\RequestParameters\PathSegmentParametersV1.cs" />
-    <Compile Include="Domain\RequestParameters\PathSegmentParametersV2.cs" />
-    <Compile Include="Domain\RequestParameters\QuandlClientRequestParametersV2.cs" />
+    <Compile Include="Domain\RequestParameters\PathSegmentParameters.cs" />
     <Compile Include="Domain\RequestParameters\QuandlRequestParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
@@ -109,8 +107,7 @@
     <Compile Include="Domain\RequestParameters\DateRange.cs" />
     <Compile Include="Api\Helpers\RequestParameterConstants.cs" />
     <Compile Include="Domain\RequestParameters\RequestParameter.cs" />
-    <Compile Include="Domain\RequestParameters\RequestParametersV1.cs" />
-    <Compile Include="Domain\RequestParameters\RequestParametersV2.cs" />
+    <Compile Include="Domain\RequestParameters\RequestParameters.cs" />
     <Compile Include="Domain\Responses\JsonResponse.cs" />
     <Compile Include="Domain\Responses\JsonResponseV1.cs" />
     <Compile Include="Domain\Responses\JsonResponseV2.cs" />

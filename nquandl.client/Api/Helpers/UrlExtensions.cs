@@ -8,7 +8,7 @@ namespace NQuandl.Client.Api.Helpers
 {
     public static class UrlExtensions
     {
-        public static string ToPathSegment(this PathSegmentParametersV1 parameters)
+        public static string ToPathSegment(this PathSegmentParameters parameters)
         {
             var uri = parameters.ApiVersion +
                       "/" + parameters.QuandlCode +
@@ -16,20 +16,7 @@ namespace NQuandl.Client.Api.Helpers
             return uri;
         }
 
-        public static string ToPathSegment(this PathSegmentParametersV2 parameters)
-        {
-            var uri = parameters.ApiVersion + "." + parameters.ResponseFormat.ToLower();
-
-            return uri;
-        }
-
         public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParameters options)
-        {
-            if (options == null) throw new NullReferenceException("options");
-            return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
-        }
-
-        public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParametersV2 options)
         {
             if (options == null) throw new NullReferenceException("options");
             return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
@@ -99,19 +86,7 @@ namespace NQuandl.Client.Api.Helpers
             return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToQueryParameters(this RequestParametersV2 options)
-        {
-            var parameters = new List<RequestParameter>
-            {
-                new RequestParameter(RequestParameterConstants.Query, options.Query),
-                new RequestParameter(RequestParameterConstants.SourceCode, options.SourceCode),
-                new RequestParameter(RequestParameterConstants.PerPage, options.PerPage.ToString()),
-                new RequestParameter(RequestParameterConstants.Page, options.Page.ToString()),
-                new RequestParameter(RequestParameterConstants.AuthToken, options.ApiKey)
-            };
-
-            return parameters;
-        }
+      
 
         public static string ToUrl(this QuandlRestClientRequestParameters parameters, string baseUrl)
         {

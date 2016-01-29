@@ -48,31 +48,9 @@ namespace NQuandl.Client.Domain
             return quandlClientRequestParameters;
         }
 
-        private QuandlClientRequestParametersV2 GetQuandlClientRequestParameters(RequestParametersV2 requestParameters)
+        private PathSegmentParameters GetPathSegmentParametersV1(string quandlCode)
         {
-            var quandlClientRequestParameters = new QuandlClientRequestParametersV2
-            {
-                PathSegmentParameters = GetPathSegmentParametersV2(),
-                RequestParameters = requestParameters,
-                Format = ResponseFormat.JSON
-            };
-            return quandlClientRequestParameters;
-        }
-
-        private PathSegmentParametersV2 GetPathSegmentParametersV2()
-        {
-            var pathSegmentParameters = new PathSegmentParametersV2
-            {
-                ApiVersion = RequestParameterConstants.ApiVersion2,
-                ResponseFormat = ResponseFormat.JSON.ToString()
-            };
-
-            return pathSegmentParameters;
-        }
-
-        private PathSegmentParametersV1 GetPathSegmentParametersV1(string quandlCode)
-        {
-            var pathSegmentParameters = new PathSegmentParametersV1
+            var pathSegmentParameters = new PathSegmentParameters
             {
                 ApiVersion = RequestParameterConstants.ApiVersion1,
                 QuandlCode = quandlCode,

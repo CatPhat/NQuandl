@@ -4,7 +4,7 @@ namespace NQuandl.Client.Domain.RequestParameters
 {
     public class QuandlClientRequestParameters
     {
-        public PathSegmentParametersV1 PathSegmentParameters { get; set; }
+        public PathSegmentParameters PathSegmentParameters { get; set; }
         public ResponseFormat Format { get; set; }
         public RequestParameters RequestParameters { get; set; }
     }

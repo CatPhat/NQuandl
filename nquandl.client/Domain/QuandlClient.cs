@@ -25,15 +25,5 @@ namespace NQuandl.Client.Domain
             };
             return await _client.GetStringAsync(quandlRestClientParameters);
         }
-
-        public async Task<string> GetAsync(QuandlClientRequestParametersV2 requestParameters)
-        {
-            var quandlRestClientParameters = new QuandlRestClientRequestParameters
-            {
-                PathSegment = requestParameters.PathSegmentParameters.ToPathSegment(),
-                QueryParameters = requestParameters.RequestParameters.ToQueryParameterDictionary()
-            };
-            return await _client.GetStringAsync(quandlRestClientParameters);
-        }
     }
 }
