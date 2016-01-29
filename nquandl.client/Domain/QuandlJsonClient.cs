@@ -41,14 +41,14 @@ namespace NQuandl.Client.Domain
             var quandlCode = _queries.Execute(new GetQuandlCodeByEntity<TEntity>());
             var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
-                PathSegmentParameters = GetPathSegmentParametersV1(quandlCode),
+                PathSegmentParameters = GetPathSegmentParameters(quandlCode),
                 RequestParameters = requestParameters,
                 Format = ResponseFormat.JSON
             };
             return quandlClientRequestParameters;
         }
 
-        private PathSegmentParameters GetPathSegmentParametersV1(string quandlCode)
+        private PathSegmentParameters GetPathSegmentParameters(string quandlCode)
         {
             var pathSegmentParameters = new PathSegmentParameters
             {
