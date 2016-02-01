@@ -26,63 +26,61 @@ namespace NQuandl.Client.Api.Helpers
         {
             var parameters = new List<RequestParameter>();
 
-            if (!String.IsNullOrEmpty(options.ApiKey))
+            if (options.Limit.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.AuthToken, options.ApiKey);
+                var parameter = new RequestParameter(RequestParameterConstants.Limit, options.Limit.Value.ToString());
                 parameters.Add(parameter);
             }
-            if (options.SortOrder.HasValue)
-            {
-                var parameter = new RequestParameter(RequestParameterConstants.SortOrder,
-                    options.SortOrder.Value.GetStringValue());
-                parameters.Add(parameter);
-            }
-            if (options.ExcludeHeaders.HasValue)
-            {
-                var parameter = new RequestParameter(RequestParameterConstants.ExcludeHeaders,
-                    options.ExcludeHeaders.Value.GetStringValue());
-                parameters.Add(parameter);
-            }
-            if (options.ExcludeData.HasValue)
-            {
-                var parameter = new RequestParameter(RequestParameterConstants.ExcludeData,
-                    options.ExcludeData.Value.GetStringValue());
-                parameters.Add(parameter);
-            }
+
             if (options.Rows.HasValue)
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Rows, options.Rows.Value.ToString());
                 parameters.Add(parameter);
             }
-            if (options.Frequency.HasValue)
-            {
-                var parameter = new RequestParameter(RequestParameterConstants.Frequency,
-                    options.Frequency.Value.ToString());
-                parameters.Add(parameter);
-            }
-            if (options.DateRange != null)
-            {
-                const string dateFormat = "yyyy-MM-dd";
 
-                var parameter1 = new RequestParameter(RequestParameterConstants.TrimStart,
-                    options.DateRange.TrimStart.ToString(dateFormat));
-                parameters.Add(parameter1);
+            if (options.ColumnIndex.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.ColumnIndex, options.ColumnIndex.Value.ToString());
+                parameters.Add(parameter);
+            }
 
-                var parameter2 = new RequestParameter(RequestParameterConstants.TrimEnd,
-                    options.DateRange.TrimEnd.ToString(dateFormat));
-                parameters.Add(parameter2);
-            }
-            if (options.Column.HasValue)
+            if (options.StartDate.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Column, options.Column.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.StartDate, options.StartDate.Value.ToString("yyyy-mm-dd"));
                 parameters.Add(parameter);
             }
-            if (options.Transformation.HasValue)
+
+            if (options.EndDate.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Transformation,
-                    options.Transformation.Value.GetStringValue());
+                var parameter = new RequestParameter(RequestParameterConstants.EndDate, options.EndDate.Value.ToString("yyyy-mm-dd"));
                 parameters.Add(parameter);
             }
+
+            if (options.Order.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Order,
+                    options.Order.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
+
+            if (options.Collapse.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Collapse, options.Collapse.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
+
+            if (options.Transform.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Transform, options.Transform.Value.GetStringValue());
+                parameters.Add(parameter);
+            }
+
+            if (!string.IsNullOrEmpty(options.ApiKey))
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.ApiKey, options.ApiKey);
+                parameters.Add(parameter);
+            }
+         
             return parameters;
         }
 

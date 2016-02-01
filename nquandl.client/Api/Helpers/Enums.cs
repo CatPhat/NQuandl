@@ -1,36 +1,33 @@
 ﻿namespace NQuandl.Client.Api.Helpers
 {
-    public enum SortOrder
+    public enum Order
     {
         [RequestValue("asc")] Ascending,
 
         [RequestValue("desc")] Descending
     }
 
-    public enum Exclude
-    {
-        [RequestValue("true")] True,
-
-        [RequestValue("false")] False
-    }
-
-    public enum Frequency
+   
+    public enum Collapse
     {
         [RequestValue("none")] None,
-
+        
         [RequestValue("daily")] Daily,
 
         [RequestValue("weekly")] Weekly,
-
+        
         [RequestValue("monthly")] Monthly,
 
         [RequestValue("quarterly")] Quarterly,
 
         [RequestValue("annual")] Annual
+
     }
 
-    public enum Transformation
+    public enum Transform
     {
+        [RequestValue("none")] None,
+
         [RequestValue("diff")] RowOnRowChange,
 
         [RequestValue("rdiff")] RowOnRowPercentageChange,

@@ -52,7 +52,7 @@ namespace NQuandl.Client.Domain
         {
             var pathSegmentParameters = new PathSegmentParameters
             {
-                ApiVersion = RequestParameterConstants.ApiVersion1,
+                ApiVersion = RequestParameterConstants.ApiVersion,
                 QuandlCode = quandlCode,
                 ResponseFormat = ResponseFormat.JSON.ToString()
             };
