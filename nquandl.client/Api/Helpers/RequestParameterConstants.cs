@@ -14,5 +14,8 @@
         public const string Transform = "transform";
         public const string ApiKey = "api_key";
         public const string ApiVersion = "v3";
+        public const string Page = "page";
+        public const string PerPage = "per_page";
+        public const string Query = "query";
     }
 }

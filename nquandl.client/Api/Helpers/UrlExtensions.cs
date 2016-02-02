@@ -16,16 +16,95 @@ namespace NQuandl.Client.Api.Helpers
             return uri;
         }
 
-        public static Dictionary<string, string> ToQueryParameterDictionary(this RequestParameters options)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this DataRequestParameters options)
         {
             if (options == null) throw new NullReferenceException("options");
-            return options.ToQueryParameters().ToDictionary(x => x.Name, x => x.Value);
+            return options.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value);
         }
 
-        public static IEnumerable<RequestParameter> ToQueryParameters(this RequestParameters options)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseMetadataRequestParameters options)
         {
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
+            var parameters = new List<RequestParameter>
+            {
+                new RequestParameter(RequestParameterConstants.DatabaseCode, options.DatabaseCode)
+            };
+            return parameters;
+        }
+
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatasetMetadataRequestParameters options)
+        {
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
+            var parameters = new List<RequestParameter>
+            {
+                new RequestParameter(RequestParameterConstants.DatabaseCode, options.DatabaseCode),
+                new RequestParameter(RequestParameterConstants.DatasetCode, options.DatasetCode)
+            };
+
+            return parameters;
+        }
+
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseListRequestParameters options)
+        {
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
             var parameters = new List<RequestParameter>();
 
+            if (options.PerPage.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.PerPage, options.PerPage.Value.ToString());
+                parameters.Add(parameter);
+            }
+
+            if (options.Page.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
+                parameters.Add(parameter);
+            }
+
+            return parameters;
+        
+        }
+
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseSearchRequestParameters options)
+        {
+            if (options == null) throw new NullReferenceException("options");
+
+            var parameters = new List<RequestParameter>();
+
+            if (!string.IsNullOrEmpty(options.Query))
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Query, options.Query);
+                parameters.Add(parameter);
+            }
+
+            if (options.PerPage.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.PerPage, options.PerPage.Value.ToString());
+                parameters.Add(parameter);
+            }
+            
+            if (options.Page.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
+                parameters.Add(parameter);
+            }
+
+           return parameters;
+        }
+
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DataRequestParameters options)
+        {
+            if (options == null) throw new ArgumentNullException(nameof(options));
+
+            var parameters = new List<RequestParameter>
+            {
+                new RequestParameter(RequestParameterConstants.DatabaseCode, options.DatabaseCode),
+                new RequestParameter(RequestParameterConstants.DatasetCode, options.DatasetCode)
+            };
+            
             if (options.Limit.HasValue)
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Limit, options.Limit.Value.ToString());
@@ -72,12 +151,6 @@ namespace NQuandl.Client.Api.Helpers
             if (options.Transform.HasValue)
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Transform, options.Transform.Value.GetStringValue());
-                parameters.Add(parameter);
-            }
-
-            if (!string.IsNullOrEmpty(options.ApiKey))
-            {
-                var parameter = new RequestParameter(RequestParameterConstants.ApiKey, options.ApiKey);
                 parameters.Add(parameter);
             }
          

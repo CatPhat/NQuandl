@@ -7,12 +7,12 @@ using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
 {
-    public class RequestJsonFredGdp : IDefineQuery<Task<JsonResponseV1<FredGdp>>>
+    public class RequestJsonFredGdp : IDefineQuery<Task<JsonResponse>>
     {
         public RequestParameters.RequestParameters RequestParameters { get; set; }
     }
 
-    public class HandleRequestJsonFredGdp : IHandleQuery<RequestJsonFredGdp, Task<JsonResponseV1<FredGdp>>>
+    public class HandleRequestJsonFredGdp : IHandleQuery<RequestJsonFredGdp, Task<JsonResponse>>
     {
         private readonly IQuandlJsonClient _client;
 
@@ -22,7 +22,7 @@ namespace NQuandl.Client.Domain.Queries
             _client = client;
         }
 
-        public async Task<JsonResponseV1<FredGdp>> Handle(RequestJsonFredGdp query)
+        public async Task<JsonResponse> Handle(RequestJsonFredGdp query)
         {
             return await _client.GetAsync<FredGdp>(query.RequestParameters);
         }

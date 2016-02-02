@@ -91,6 +91,7 @@
     <Compile Include="Domain\Queries\RequestJsonFredGdp.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
+    <Compile Include="Domain\RequestParameters\DataRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\PathSegmentParameters.cs" />
     <Compile Include="Domain\RequestParameters\QuandlRequestParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
@@ -104,13 +105,10 @@
     <Compile Include="Api\IDefineQuery.cs" />
     <Compile Include="Api\IHandleResponse.cs" />
     <Compile Include="Api\Helpers\Enums.cs" />
-    <Compile Include="Domain\RequestParameters\DateRange.cs" />
     <Compile Include="Api\Helpers\RequestParameterConstants.cs" />
     <Compile Include="Domain\RequestParameters\RequestParameter.cs" />
-    <Compile Include="Domain\RequestParameters\RequestParameters.cs" />
-    <Compile Include="Domain\Responses\JsonResponse.cs" />
+    <Compile Include="Domain\Responses\JsonDatabaseListResponse.cs" />
     <Compile Include="Domain\Responses\JsonResponseV1.cs" />
-    <Compile Include="Domain\Responses\JsonResponseV2.cs" />
     <Compile Include="Domain\Entities\FRED-GDP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />

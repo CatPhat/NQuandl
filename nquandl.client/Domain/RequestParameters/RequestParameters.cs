@@ -3,7 +3,7 @@ using NQuandl.Client.Api.Helpers;
 
 namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class RequestParameters
+    public class DataRequestParameters
     {
         // required
         public string DatabaseCode { get; set; }

@@ -6,7 +6,7 @@ using NQuandl.Client.Api;
 namespace NQuandl.Client.Domain.Responses
 {
     [DataContract]
-    public class JsonResponseV1 : JsonResponse
+    public class JsonResponse
     {
         [DataMember(Name = "errors")]
         public Dictionary<string, string> Errors { get; set; }
@@ -63,8 +63,12 @@ namespace NQuandl.Client.Domain.Responses
         public object[][] Data { get; set; }
     }
 
-    public class JsonResponseV1<TEntity> : JsonResponseV1 where TEntity : QuandlEntity
+    public class JsonResponse<TEntity> : JsonResponse where TEntity : QuandlEntity
     {
         public IEnumerable<TEntity> Entities { get; set; }
     }
+
+
+   
+
 }
