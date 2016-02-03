@@ -4,7 +4,7 @@ using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
 {
-    public class DeserializeToJsonResponse : IDefineQuery<JsonResponse>
+    public class DeserializeToJsonResponse : IDefineQuery<JsonDataResponse>
     {
         public DeserializeToJsonResponse(string rawResponse)
         {
@@ -14,7 +14,7 @@ namespace NQuandl.Client.Domain.Queries
         public string RawResponse { get; private set; }
     }
 
-    public class HandleDeserializeToJsonResponse : IHandleQuery<DeserializeToJsonResponse, JsonResponse>
+    public class HandleDeserializeToJsonResponse : IHandleQuery<DeserializeToJsonResponse, JsonDataResponse>
     {
         private readonly IProcessQueries _queries;
 
@@ -23,14 +23,14 @@ namespace NQuandl.Client.Domain.Queries
             _queries = queries;
         }
 
-        public JsonResponse Handle(DeserializeToJsonResponse query)
+        public JsonDataResponse Handle(DeserializeToJsonResponse query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return _queries.Execute(new DeserializeToClass<JsonResponse>(query.RawResponse));
+            return _queries.Execute(new DeserializeToClass<JsonDataResponse>(query.RawResponse));
         }
     }  
     
-    public class DeserializeToJsonResponseV1<TEntity> : IDefineQuery<JsonResponse>
+    public class DeserializeToJsonResponseV1<TEntity> : IDefineQuery<JsonDataResponse>
         where TEntity : QuandlEntity
     {
         public DeserializeToJsonResponseV1(string rawResponse)
@@ -42,7 +42,7 @@ namespace NQuandl.Client.Domain.Queries
     }
 
     public class HandleDeserializeToJsonResponseV1<TEntity> :
-        IHandleQuery<DeserializeToJsonResponseV1<TEntity>, JsonResponse>
+        IHandleQuery<DeserializeToJsonResponseV1<TEntity>, JsonDataResponse>
         where TEntity : QuandlEntity
     {
         private readonly IProcessQueries _queries;
@@ -52,9 +52,9 @@ namespace NQuandl.Client.Domain.Queries
             _queries = queries;
         }
 
-        public JsonResponse Handle(DeserializeToJsonResponseV1<TEntity> query)
+        public JsonDataResponse Handle(DeserializeToJsonResponseV1<TEntity> query)
         {
-            var response = _queries.Execute(new DeserializeToClass<JsonResponse>(query.RawResponse));
+            var response = _queries.Execute(new DeserializeToClass<JsonDataResponse>(query.RawResponse));
             response.Entities = _queries.Execute(new MapToEntitiesByDataObjects<TEntity>(response.Data));
 
             return response;

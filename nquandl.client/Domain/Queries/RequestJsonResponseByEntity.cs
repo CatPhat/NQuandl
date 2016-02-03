@@ -6,7 +6,7 @@ using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
 {
-    public class RequestJsonResponseByEntity<TEntity> : IDefineQuery<Task<JsonResponse>>
+    public class RequestJsonResponseByEntity<TEntity> : IDefineQuery<Task<JsonDataResponse>>
         where TEntity : QuandlEntity
     {
         public RequestJsonResponseByEntity(RequestParameters.RequestParameters queryParameters)
@@ -19,7 +19,7 @@ namespace NQuandl.Client.Domain.Queries
     }
 
     public class HandleRequestJsonResponseByEntity<TEntity> :
-        IHandleQuery<RequestJsonResponseByEntity<TEntity>, Task<JsonResponse>> where TEntity : QuandlEntity
+        IHandleQuery<RequestJsonResponseByEntity<TEntity>, Task<JsonDataResponse>> where TEntity : QuandlEntity
     {
         private readonly IQuandlJsonClient _client;
 
@@ -29,7 +29,7 @@ namespace NQuandl.Client.Domain.Queries
             _client = client;
         }
 
-        public async Task<JsonResponse> Handle(RequestJsonResponseByEntity<TEntity> query)
+        public async Task<JsonDataResponse> Handle(RequestJsonResponseByEntity<TEntity> query)
         {
             if (query == null) throw new ArgumentNullException("query");
             return await _client.GetAsync<TEntity>(query.QueryParameters);

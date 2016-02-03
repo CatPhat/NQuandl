@@ -21,7 +21,7 @@ namespace NQuandl.Client.Domain
             _queries = queries;
         }
 
-        public async Task<JsonResponse> GetAsync<TEntity>(RequestParameters.RequestParameters requestParameters)
+        public async Task<JsonDataResponse> GetAsync<TEntity>(RequestParameters.RequestParameters requestParameters)
             where TEntity : QuandlEntity
         {
             var quandlClientRequestParameters = GetQuandlClientRequestParameters<TEntity>(requestParameters);
