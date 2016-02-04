@@ -1,5 +1,6 @@
 ﻿namespace NQuandl.Client.Domain.Responses
 {
+    
     public class JsonDatabaseListResponse
     {
         public Databases[] databases { get; set; }

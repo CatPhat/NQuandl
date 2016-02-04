@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class DatabaseSearchRequestParameters : QuandlRequestParameterWithApiKey
+    public class DatabaseSearchRequestParameters : QuandlRequestParameters
     {
         // optional
         public string Query { get; set; }

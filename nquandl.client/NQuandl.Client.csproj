@@ -94,7 +94,6 @@
     <Compile Include="Domain\RequestParameters\DataRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\DatasetMetadataRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\PathSegmentParameters.cs" />
-    <Compile Include="Domain\RequestParameters\QuandlRequestParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
     <Compile Include="Api\QuandlEntity.cs" />
@@ -102,7 +101,7 @@
     <Compile Include="Api\Helpers\UrlExtensions.cs" />
     <Compile Include="Api\IDefineResponse.cs" />
     <Compile Include="Api\IHandleQuery.cs" />
-    <Compile Include="Domain\RequestParameters\QuandlRequestParameterWithApiKey.cs" />
+    <Compile Include="Domain\RequestParameters\QuandlRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\QuandlRestClientRequestParameters.cs" />
     <Compile Include="Api\IDefineQuery.cs" />
     <Compile Include="Api\IHandleResponse.cs" />

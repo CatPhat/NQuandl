@@ -20,17 +20,10 @@ namespace NQuandl.Client.Domain
             _client = client;
             _queries = queries;
         }
-
         
-
         public async Task<JsonDatasetResponse<TEntity>> GetAsync<TEntity>(OptionalDataRequestParameters requestParameters = null)
             where TEntity : QuandlEntity
         {
-            if (requestParameters == null)
-            {
-                requestParameters = new OptionalDataRequestParameters();
-            }
-
             var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
             var parameters = new RequiredDataRequestParameters
             {
@@ -39,22 +32,53 @@ namespace NQuandl.Client.Domain
                 OptionalParameters = requestParameters
             };
 
-            var pathSegmentParameters = new PathSegmentParameters
-            {
-                ApiVersion = RequestParameterConstants.ApiVersion,
-                DatabaseCode = parameters.DatabaseCode,
-                DatasetCode = parameters.DatasetCode,
-                ResponseFormat = ResponseFormat.JSON.GetStringValue()
-            };
-
             var quandlClientRequestParameters = new QuandlRestClientRequestParameters
             {
-                PathSegment = pathSegmentParameters.ToPathSegment(),
+                PathSegment = parameters.ToPathSegment(),
                 QueryParameters = parameters.OptionalParameters.ToRequestParameterDictionary()
             };
 
             var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
             return _queries.Execute(new DeserializeToJsonResponse<TEntity>(rawResponse));
+        }
+
+        public async Task<JsonDatabaseListResponse> GetAsync(DatabaseListRequestParameters requestParameters)
+        {
+            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
+            {
+                PathSegment = requestParameters.ToPathSegment(),
+                QueryParameters = requestParameters.ToRequestParameterDictionary()
+            };
+
+            var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
+            var response = _queries.Execute(new DeserializeToClass<JsonDatabaseListResponse>(rawResponse));
+            return response;
+        }
+
+        public async Task<JsonDatabaseMetadataResponse> GetAsync(DatabaseMetadataRequestParameters requestParameters)
+        {
+            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
+            {
+                PathSegment = requestParameters.ToPathSegment(),
+                QueryParameters = requestParameters.ToRequestParameterDictionary()
+            };
+
+            var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
+            var response = _queries.Execute(new DeserializeToClass<JsonDatabaseMetadataResponse>(rawResponse));
+            return response;
+        }
+
+        public async Task<JsonDatabaseSearchResponse> GetAsync(DatabaseSearchRequestParameters requestParameters)
+        {
+            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
+            {
+                PathSegment = requestParameters.ToPathSegment(),
+                QueryParameters = requestParameters.ToRequestParameterDictionary()
+            };
+
+            var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
+            var response = _queries.Execute(new DeserializeToClass<JsonDatabaseSearchResponse>(rawResponse));
+            return response;
         }
     }
 }

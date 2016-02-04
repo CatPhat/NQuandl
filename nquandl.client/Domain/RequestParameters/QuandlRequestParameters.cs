@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using NQuandl.Client.Api.Helpers;
+﻿using NQuandl.Client.Api.Helpers;
 
 namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class QuandlClientRequestParameters
+    public abstract class QuandlRequestParameters
     {
-        public PathSegmentParameters PathSegmentParameters { get; set; }
-        public Dictionary<string,string> RequestParametersDictionary { get; set; }
+        public string ApiKey { get; set; }
+
+        public string ApiVersion => RequestParameterConstants.ApiVersion;
+
+        public ResponseFormat ResponseFormat { get; set; }
     }
 }

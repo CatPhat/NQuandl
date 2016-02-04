@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Client.Domain.RequestParameters
 {
-    public class DatasetMetadataRequestParameters : QuandlRequestParameterWithApiKey
+    public class DatasetMetadataRequestParameters : QuandlRequestParameters
     {
         // required
         public string DatabaseCode { get; set; }
