@@ -21,9 +21,16 @@ namespace NQuandl.Client.Domain
             _queries = queries;
         }
 
-        public async Task<JsonDataResponse<TEntity>> GetAsync<TEntity>(OptionalDataRequestParameters requestParameters)
+        
+
+        public async Task<JsonDatasetResponse<TEntity>> GetAsync<TEntity>(OptionalDataRequestParameters requestParameters = null)
             where TEntity : QuandlEntity
         {
+            if (requestParameters == null)
+            {
+                requestParameters = new OptionalDataRequestParameters();
+            }
+
             var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
             var parameters = new RequiredDataRequestParameters
             {

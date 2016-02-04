@@ -5,70 +5,43 @@ using NQuandl.Client.Api;
 
 namespace NQuandl.Client.Domain.Responses
 {
-    [DataContract]
-    public class JsonDataResponse
+    public class JsonDatasetResponse
     {
-        [DataMember(Name = "errors")]
-        public Dictionary<string, string> Errors { get; set; }
-
-        [DataMember(Name = "id")]
-        public int MetadataId { get; set; }
-
-        [DataMember(Name = "source_name")]
-        public string SourceName { get; set; }
-
-        [DataMember(Name = "source_code")]
-        public string SourceCode { get; set; }
-
-        [DataMember(Name = "code")]
-        public string Code { get; set; }
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
-        [DataMember(Name = "urlize_name")]
-        public string UrlizeName { get; set; }
-
-        [DataMember(Name = "display_url")]
-        public string DisplayUrl { get; set; }
-
-        [DataMember(Name = "description")]
-        public string Descrption { get; set; }
-
-        [DataMember(Name = "updated_at")]
-        public DateTime UpdatedAt { get; set; }
-
-        [DataMember(Name = "frequency")]
-        public string Frequency { get; set; }
-
-        [DataMember(Name = "from_date")]
-        public string FromDate { get; set; }
-
-        [DataMember(Name = "to_date")]
-        public string ToDate { get; set; }
-
-        [DataMember(Name = "column_names")]
-        public string[] ColumnNames { get; set; }
-
-        [DataMember(Name = "_private")]
-        public bool Private { get; set; }
-
-        [DataMember(Name = "type")]
-        public object Type { get; set; }
-
-        [DataMember(Name = "premium")]
-        public bool Premium { get; set; }
-
-        [DataMember(Name = "data")]
-        public object[][] Data { get; set; }
+        public Dataset dataset { get; set; }
     }
 
-    public class JsonDataResponse<TEntity> : JsonDataResponse where TEntity : QuandlEntity
+    public class Dataset
+    {
+        public int id { get; set; }
+        public string dataset_code { get; set; }
+        public string database_code { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public DateTime refreshed_at { get; set; }
+        public string newest_available_date { get; set; }
+        public string oldest_available_date { get; set; }
+        public string[] column_names { get; set; }
+        public string frequency { get; set; }
+        public string type { get; set; }
+        public bool premium { get; set; }
+        public object limit { get; set; }
+        public object transform { get; set; }
+        public object column_index { get; set; }
+        public string start_date { get; set; }
+        public string end_date { get; set; }
+        public object[][] data { get; set; }
+        public object collapse { get; set; }
+        public string order { get; set; }
+        public int database_id { get; set; }
+    }
+
+
+    public class JsonDatasetResponse<TEntity> : JsonDatasetResponse where TEntity : QuandlEntity
     {
         public IEnumerable<TEntity> Entities { get; set; }
     }
 
 
-   
+
 
 }

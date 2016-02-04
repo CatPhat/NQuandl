@@ -4,7 +4,7 @@ using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
 {
-    public class DeserializeToJsonResponse : IDefineQuery<JsonDataResponse>
+    public class DeserializeToJsonResponse : IDefineQuery<JsonDatasetResponse>
     {
         public DeserializeToJsonResponse(string rawResponse)
         {
@@ -14,7 +14,7 @@ namespace NQuandl.Client.Domain.Queries
         public string RawResponse { get; private set; }
     }
 
-    public class HandleDeserializeToJsonResponse : IHandleQuery<DeserializeToJsonResponse, JsonDataResponse>
+    public class HandleDeserializeToJsonResponse : IHandleQuery<DeserializeToJsonResponse, JsonDatasetResponse>
     {
         private readonly IProcessQueries _queries;
 
@@ -23,14 +23,14 @@ namespace NQuandl.Client.Domain.Queries
             _queries = queries;
         }
 
-        public JsonDataResponse Handle(DeserializeToJsonResponse query)
+        public JsonDatasetResponse Handle(DeserializeToJsonResponse query)
         {
             if (query == null) throw new ArgumentNullException("query");
-            return _queries.Execute(new DeserializeToClass<JsonDataResponse>(query.RawResponse));
+            return _queries.Execute(new DeserializeToClass<JsonDatasetResponse>(query.RawResponse));
         }
     }  
     
-    public class DeserializeToJsonResponse<TEntity> : IDefineQuery<JsonDataResponse<TEntity>>
+    public class DeserializeToJsonResponse<TEntity> : IDefineQuery<JsonDatasetResponse<TEntity>>
         where TEntity : QuandlEntity
     {
         public DeserializeToJsonResponse(string rawResponse)
@@ -42,7 +42,7 @@ namespace NQuandl.Client.Domain.Queries
     }
 
     public class HandleDeserializeToJsonResponse<TEntity> :
-        IHandleQuery<DeserializeToJsonResponse<TEntity>, JsonDataResponse<TEntity>>
+        IHandleQuery<DeserializeToJsonResponse<TEntity>, JsonDatasetResponse<TEntity>>
         where TEntity : QuandlEntity
     {
         private readonly IProcessQueries _queries;
@@ -52,10 +52,10 @@ namespace NQuandl.Client.Domain.Queries
             _queries = queries;
         }
 
-        public JsonDataResponse<TEntity> Handle(DeserializeToJsonResponse<TEntity> query)
+        public JsonDatasetResponse<TEntity> Handle(DeserializeToJsonResponse<TEntity> query)
         {
-            var response = _queries.Execute(new DeserializeToClass<JsonDataResponse<TEntity>>(query.RawResponse));
-            response.Entities = _queries.Execute(new MapToEntitiesByDataObjects<TEntity>(response.Data));
+            var response = _queries.Execute(new DeserializeToClass<JsonDatasetResponse<TEntity>>(query.RawResponse));
+            response.Entities = _queries.Execute(new MapToEntitiesByDataObjects<TEntity>(response.dataset.data));
 
             return response;
         }

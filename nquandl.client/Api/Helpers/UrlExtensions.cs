@@ -11,6 +11,7 @@ namespace NQuandl.Client.Api.Helpers
         public static string ToPathSegment(this PathSegmentParameters parameters)
         {
             var uri = parameters.ApiVersion +
+                       "/datasets" +
                       "/" + parameters.DatabaseCode + 
                       "/" + parameters.DatasetCode +
                       "." + parameters.ResponseFormat.ToLower();

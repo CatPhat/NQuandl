@@ -10,7 +10,7 @@ namespace NQuandl.Client.CompositionRoot
         public static IServiceProvider Bootstrap()
         {
             var url = @"https://quandl.com/api";
-#if DEBUG
+#if !DEBUG
             url = @"http://localhost:49832/api";
 #endif
             var container = new Container();
