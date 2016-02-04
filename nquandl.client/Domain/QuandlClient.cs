@@ -16,6 +16,7 @@ namespace NQuandl.Client.Domain
             _client = client;
         }
 
+
        
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Flurl;
+using NQuandl.Client.Domain.QuandlQueries;
 using NQuandl.Client.Domain.RequestParameters;
 using static System.String;
 
@@ -9,66 +10,43 @@ using static System.String;
 namespace NQuandl.Client.Api.Helpers
 {
     public static class UrlExtensions
-    {
-        // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-        public static string ToPathSegment(this RequiredDataRequestParameters parameters)
-        {
-            return
-                $"{parameters.ApiVersion}/datasets/{parameters.DatabaseCode}/{parameters.DatasetCode}.{parameters.ResponseFormat.GetStringValue()}";
-        }
-
-        // https://www.quandl.com/api/v3/databases.json
-        public static string ToPathSegment(this DatabaseListRequestParameters parameters)
-        {
-            return $"{parameters.ApiVersion}/databases.{parameters.ResponseFormat.GetStringValue()}";
-        }
-
-        // https://www.quandl.com/api/v3/databases/WIKI.json
-        public static string ToPathSegment(this DatabaseMetadataRequestParameters parameters)
-        {
-            return $"{parameters.ApiVersion}/databases/{parameters.DatabaseCode}.{parameters.ResponseFormat.GetStringValue()}";
-        }
-
-        // https://www.quandl.com/api/v3/databases.json
-        public static string ToPathSegment(this DatabaseSearchRequestParameters parameters)
-        {
-            return $"{parameters.ApiVersion}/databases.{parameters.ResponseFormat.GetStringValue()}";
-        }
-
+    { 
+      
+     
         // todo: consolidate
-        public static Dictionary<string, string> ToRequestParameterDictionary(this OptionalDataRequestParameters options)
+        public static Dictionary<string, string> ToRequestParameterDictionary<TEntity>(this DatasetBy<TEntity> options) where TEntity : QuandlEntity
         {
             return options?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ?? new Dictionary<string, string>();
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseListRequestParameters options)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseListBy query)
         {
-            return options?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
+            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseMetadataRequestParameters options)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseMetadataBy query)
         {
-            return options?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
+            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseSearchRequestParameters options)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseSearchBy query)
         {
-            return options?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
+            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
         }
         
 
         //end consolidate
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseMetadataRequestParameters options)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseMetadataBy query)
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (query == null) throw new ArgumentNullException(nameof(query));
 
             var parameters = new List<RequestParameter>
             {
-                new RequestParameter(RequestParameterConstants.DatabaseCode, options.DatabaseCode)
+                new RequestParameter(RequestParameterConstants.DatabaseCode, query.DatabaseCode)
             };
             return parameters;
         }
@@ -86,21 +64,21 @@ namespace NQuandl.Client.Api.Helpers
             return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseListRequestParameters options)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseListBy query)
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (query == null) throw new ArgumentNullException(nameof(query));
 
             var parameters = new List<RequestParameter>();
 
-            if (options.PerPage.HasValue)
+            if (query.PerPage.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.PerPage, options.PerPage.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.PerPage, query.PerPage.Value.ToString());
                 parameters.Add(parameter);
             }
 
-            if (options.Page.HasValue)
+            if (query.Page.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.Page, query.Page.Value.ToString());
                 parameters.Add(parameter);
             }
 
@@ -108,85 +86,85 @@ namespace NQuandl.Client.Api.Helpers
         
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseSearchRequestParameters options)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseSearchBy query)
         {
-            if (options == null) throw new NullReferenceException("options");
+            if (query == null) throw new NullReferenceException("options");
 
             var parameters = new List<RequestParameter>();
 
-            if (!IsNullOrEmpty(options.Query))
+            if (!IsNullOrEmpty(query.Query))
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Query, options.Query);
+                var parameter = new RequestParameter(RequestParameterConstants.Query, query.Query);
                 parameters.Add(parameter);
             }
 
-            if (options.PerPage.HasValue)
+            if (query.PerPage.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.PerPage, options.PerPage.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.PerPage, query.PerPage.Value.ToString());
                 parameters.Add(parameter);
             }
             
-            if (options.Page.HasValue)
+            if (query.Page.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Page, options.Page.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.Page, query.Page.Value.ToString());
                 parameters.Add(parameter);
             }
 
            return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this OptionalDataRequestParameters options)
+        public static IEnumerable<RequestParameter> ToRequestParameters<TEntity>(this DatasetBy<TEntity> query) where TEntity : QuandlEntity
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (query == null) throw new ArgumentNullException(nameof(query));
 
             var parameters = new List<RequestParameter>();
             
-            if (options.Limit.HasValue)
+            if (query.Limit.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Limit, options.Limit.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.Limit, query.Limit.Value.ToString());
                 parameters.Add(parameter);
             }
 
-            if (options.Rows.HasValue)
+            if (query.Rows.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Rows, options.Rows.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.Rows, query.Rows.Value.ToString());
                 parameters.Add(parameter);
             }
 
-            if (options.ColumnIndex.HasValue)
+            if (query.ColumnIndex.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.ColumnIndex, options.ColumnIndex.Value.ToString());
+                var parameter = new RequestParameter(RequestParameterConstants.ColumnIndex, query.ColumnIndex.Value.ToString());
                 parameters.Add(parameter);
             }
 
-            if (options.StartDate.HasValue)
+            if (query.StartDate.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.StartDate, options.StartDate.Value.ToString("yyyy-mm-dd"));
+                var parameter = new RequestParameter(RequestParameterConstants.StartDate, query.StartDate.Value.ToString("yyyy-mm-dd"));
                 parameters.Add(parameter);
             }
 
-            if (options.EndDate.HasValue)
+            if (query.EndDate.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.EndDate, options.EndDate.Value.ToString("yyyy-mm-dd"));
+                var parameter = new RequestParameter(RequestParameterConstants.EndDate, query.EndDate.Value.ToString("yyyy-mm-dd"));
                 parameters.Add(parameter);
             }
 
-            if (options.Order.HasValue)
+            if (query.Order.HasValue)
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Order,
-                    options.Order.Value.GetStringValue());
+                    query.Order.Value.GetStringValue());
                 parameters.Add(parameter);
             }
 
-            if (options.Collapse.HasValue)
+            if (query.Collapse.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Collapse, options.Collapse.Value.GetStringValue());
+                var parameter = new RequestParameter(RequestParameterConstants.Collapse, query.Collapse.Value.GetStringValue());
                 parameters.Add(parameter);
             }
 
-            if (options.Transform.HasValue)
+            if (query.Transform.HasValue)
             {
-                var parameter = new RequestParameter(RequestParameterConstants.Transform, options.Transform.Value.GetStringValue());
+                var parameter = new RequestParameter(RequestParameterConstants.Transform, query.Transform.Value.GetStringValue());
                 parameters.Add(parameter);
             }
          

@@ -72,7 +72,10 @@
   <ItemGroup>
     <Compile Include="Api\Helpers\QuandlServiceConfiguration.cs" />
     <Compile Include="Api\Helpers\RequestValue.cs" />
+    <Compile Include="Api\IDefineQuandlQuery.cs" />
+    <Compile Include="Api\IDefineQuandlResult.cs" />
     <Compile Include="Api\IDeserializeEntity.cs" />
+    <Compile Include="Api\IHandleQuandlQuery.cs" />
     <Compile Include="Api\IHttpClient.cs" />
     <Compile Include="Api\IMapObjectToEntity.cs" />
     <Compile Include="Api\IProcessQueries.cs" />
@@ -83,6 +86,10 @@
     <Compile Include="CompositionRoot\RegisterQuandlClient.cs" />
     <Compile Include="Domain\HttpClient.cs" />
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
+    <Compile Include="Domain\QuandlQueries\DatabaseListBy.cs" />
+    <Compile Include="Domain\QuandlQueries\DatabaseMetadataBy.cs" />
+    <Compile Include="Domain\QuandlQueries\DatabaseSearchBy.cs" />
+    <Compile Include="Domain\QuandlQueries\DatasetBy.cs" />
     <Compile Include="Domain\Queries\DeserializeToJsonResponse.cs" />
     <Compile Include="Domain\Queries\DeserializeToClass.cs" />
     <Compile Include="Domain\Queries\MapEntitiesByDataObjects.cs" />
@@ -93,7 +100,6 @@
     <Compile Include="Domain\RequestParameters\DatabaseSearchRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\DataRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\DatasetMetadataRequestParameters.cs" />
-    <Compile Include="Domain\RequestParameters\PathSegmentParameters.cs" />
     <Compile Include="Domain\QuandlJsonClient.cs" />
     <Compile Include="CompositionRoot\CompositionRoot.cs" />
     <Compile Include="Api\QuandlEntity.cs" />

@@ -21,27 +21,6 @@ namespace NQuandl.Client.Domain
             _queries = queries;
         }
         
-        public async Task<JsonDatasetResponse<TEntity>> GetAsync<TEntity>(OptionalDataRequestParameters requestParameters = null)
-            where TEntity : QuandlEntity
-        {
-            var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
-            var parameters = new RequiredDataRequestParameters
-            {
-                DatabaseCode = entity.DatabaseCode,
-                DatasetCode = entity.DatasetCode,
-                OptionalParameters = requestParameters
-            };
-
-            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
-            {
-                PathSegment = parameters.ToPathSegment(),
-                QueryParameters = parameters.OptionalParameters.ToRequestParameterDictionary()
-            };
-
-            var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
-            return _queries.Execute(new DeserializeToJsonResponse<TEntity>(rawResponse));
-        }
-
         public async Task<JsonDatabaseListResponse> GetAsync(DatabaseListRequestParameters requestParameters)
         {
             var quandlClientRequestParameters = new QuandlRestClientRequestParameters
