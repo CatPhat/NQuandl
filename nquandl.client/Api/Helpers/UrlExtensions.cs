@@ -17,7 +17,7 @@ namespace NQuandl.Client.Api.Helpers
             return uri;
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DataRequestParameters options)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this OptionalDataRequestParameters options)
         {
             if (options == null) throw new NullReferenceException("options");
             return options.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value);
@@ -96,15 +96,11 @@ namespace NQuandl.Client.Api.Helpers
            return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DataRequestParameters options)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this OptionalDataRequestParameters options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
 
-            var parameters = new List<RequestParameter>
-            {
-                new RequestParameter(RequestParameterConstants.DatabaseCode, options.DatabaseCode),
-                new RequestParameter(RequestParameterConstants.DatasetCode, options.DatasetCode)
-            };
+            var parameters = new List<RequestParameter>();
             
             if (options.Limit.HasValue)
             {

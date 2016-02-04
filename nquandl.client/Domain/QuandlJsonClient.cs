@@ -21,23 +21,15 @@ namespace NQuandl.Client.Domain
             _queries = queries;
         }
 
-
-        public async Task<JsonDataResponse<TEntity>> GetAsync<TEntity>(DataRequestParameters<TEntity> requestParameters)
+        public async Task<JsonDataResponse<TEntity>> GetAsync<TEntity>(OptionalDataRequestParameters requestParameters)
             where TEntity : QuandlEntity
         {
             var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
-            var parameters = new DataRequestParameters
+            var parameters = new RequiredDataRequestParameters
             {
-                Collapse = requestParameters.Collapse,
-                ColumnIndex = requestParameters.ColumnIndex,
                 DatabaseCode = entity.DatabaseCode,
                 DatasetCode = entity.DatasetCode,
-                EndDate = requestParameters.EndDate,
-                StartDate = requestParameters.StartDate,
-                ApiKey = "XXXXXXX",
-                Limit = requestParameters.Limit,
-                Order = requestParameters.Order,
-                Rows = requestParameters.Rows
+                OptionalParameters = requestParameters
             };
 
             var pathSegmentParameters = new PathSegmentParameters
@@ -51,7 +43,7 @@ namespace NQuandl.Client.Domain
             var quandlClientRequestParameters = new QuandlRestClientRequestParameters
             {
                 PathSegment = pathSegmentParameters.ToPathSegment(),
-                QueryParameters = parameters.ToRequestParameterDictionary()
+                QueryParameters = parameters.OptionalParameters.ToRequestParameterDictionary()
             };
 
             var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
