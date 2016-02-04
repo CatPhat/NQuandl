@@ -36,7 +36,7 @@ namespace NQuandl.Client.Domain.Responses
     }
 
 
-    public class JsonDatasetResponse<TEntity> :  IDefineQuandlResult where TEntity : QuandlEntity
+    public class JsonDatasetResponse<TEntity> : JsonDatasetResponse where TEntity : QuandlEntity
     {
         public IEnumerable<TEntity> Entities { get; set; }
     }

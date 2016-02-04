@@ -25,7 +25,7 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterQueries();
             container.RegisterQuandlRestClient();
             container.RegisterQuandlClient();
-            container.RegisterQuandlJsonClient();
+          
             container.RegisterMapper();
         
         }

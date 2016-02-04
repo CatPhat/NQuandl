@@ -29,14 +29,7 @@ namespace NQuandl.Client.CompositionRoot
             container.Register<IQuandlClient>(() => new QuandlClient(container.GetInstance<IQuandlRestClient>()));
         }
 
-        public static void RegisterQuandlJsonClient(this Container container)
-        {
-            container.Register<IQuandlJsonClient>(
-                () =>
-                    new QuandlJsonClient(container.GetInstance<IQuandlRestClient>(),
-                        container.GetInstance<IProcessQueries>()));
-        }
-
+       
         public static void RegisterMapper(this Container container)
         {
             container.RegisterManyForOpenGeneric(typeof (IMapObjectToEntity<>), typeof (IMapObjectToEntity<>).Assembly);
