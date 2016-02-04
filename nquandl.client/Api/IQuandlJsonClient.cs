@@ -6,9 +6,7 @@ namespace NQuandl.Client.Api
 {
     public interface IQuandlJsonClient
     {
-        Task<JsonDataResponse> GetAsync<TEntity>(DataRequestParameters requestParameters)
+        Task<JsonDataResponse<TEntity>> GetAsync<TEntity>(DataRequestParameters<TEntity> requestParameters)
             where TEntity : QuandlEntity;
-
-        Task<string> GetStringAsync<TEntity>(DataRequestParameters requestParameters) where TEntity : QuandlEntity;
     }
 }

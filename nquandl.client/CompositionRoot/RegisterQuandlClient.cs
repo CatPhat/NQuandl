@@ -33,7 +33,7 @@ namespace NQuandl.Client.CompositionRoot
         {
             container.Register<IQuandlJsonClient>(
                 () =>
-                    new QuandlJsonClient(container.GetInstance<IQuandlClient>(),
+                    new QuandlJsonClient(container.GetInstance<IQuandlRestClient>(),
                         container.GetInstance<IProcessQueries>()));
         }
 
@@ -50,11 +50,10 @@ namespace NQuandl.Client.CompositionRoot
             var assembly = typeof (IHandleQuery<,>).Assembly;
 
             container.RegisterManyForOpenGeneric(typeof (IHandleQuery<,>), assembly);
-            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleGetQuandlCodeByEntity<>));
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToClass<>));
-            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToJsonResponseV1<>));
+            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToJsonResponse<>));
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleMapToEntitiesByDataObjects<>));
-            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleRequestJsonResponseByEntity<>));
+            
         }
     }
 }

@@ -85,10 +85,7 @@
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
     <Compile Include="Domain\Queries\DeserializeToJsonResponse.cs" />
     <Compile Include="Domain\Queries\DeserializeToClass.cs" />
-    <Compile Include="Domain\Queries\GetQuandlCodeByEntity.cs" />
     <Compile Include="Domain\Queries\MapEntitiesByDataObjects.cs" />
-    <Compile Include="Domain\Queries\RequestJsonResponseByEntity.cs" />
-    <Compile Include="Domain\Queries\RequestJsonFredGdp.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
     <Compile Include="Domain\RequestParameters\DatabaseListRequestParameters.cs" />

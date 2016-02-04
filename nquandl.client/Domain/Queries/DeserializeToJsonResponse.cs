@@ -30,10 +30,10 @@ namespace NQuandl.Client.Domain.Queries
         }
     }  
     
-    public class DeserializeToJsonResponseV1<TEntity> : IDefineQuery<JsonDataResponse>
+    public class DeserializeToJsonResponse<TEntity> : IDefineQuery<JsonDataResponse<TEntity>>
         where TEntity : QuandlEntity
     {
-        public DeserializeToJsonResponseV1(string rawResponse)
+        public DeserializeToJsonResponse(string rawResponse)
         {
             RawResponse = rawResponse;
         }
@@ -41,20 +41,20 @@ namespace NQuandl.Client.Domain.Queries
         public string RawResponse { get; private set; }
     }
 
-    public class HandleDeserializeToJsonResponseV1<TEntity> :
-        IHandleQuery<DeserializeToJsonResponseV1<TEntity>, JsonDataResponse>
+    public class HandleDeserializeToJsonResponse<TEntity> :
+        IHandleQuery<DeserializeToJsonResponse<TEntity>, JsonDataResponse<TEntity>>
         where TEntity : QuandlEntity
     {
         private readonly IProcessQueries _queries;
 
-        public HandleDeserializeToJsonResponseV1(IProcessQueries queries)
+        public HandleDeserializeToJsonResponse(IProcessQueries queries)
         {
             _queries = queries;
         }
 
-        public JsonDataResponse Handle(DeserializeToJsonResponseV1<TEntity> query)
+        public JsonDataResponse<TEntity> Handle(DeserializeToJsonResponse<TEntity> query)
         {
-            var response = _queries.Execute(new DeserializeToClass<JsonDataResponse>(query.RawResponse));
+            var response = _queries.Execute(new DeserializeToClass<JsonDataResponse<TEntity>>(query.RawResponse));
             response.Entities = _queries.Execute(new MapToEntitiesByDataObjects<TEntity>(response.Data));
 
             return response;
