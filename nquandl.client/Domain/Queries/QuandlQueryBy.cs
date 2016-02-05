@@ -9,20 +9,20 @@ namespace NQuandl.Client.Domain.Queries
 {
     public class QuandlQueryBy<TResult> : IDefineQuery<Task<TResult>> where TResult : JsonResultWithHttpMessage
     {
-        public QuandlQueryBy(QuandlRestClientRequestParameters requestParameters)
+        public QuandlQueryBy(QuandlClientRequestParameters requestParameters)
         {
             RequestParameters = requestParameters;
         }
 
-        public QuandlRestClientRequestParameters RequestParameters { get; }
+        public QuandlClientRequestParameters RequestParameters { get; }
     }
 
     public class HandleQuandlQueryBy<TResult> : IHandleQuery<QuandlQueryBy<TResult>, Task<TResult>>
         where TResult : JsonResultWithHttpMessage
     {
-        private readonly IQuandlRestClient _client;
+        private readonly IQuandlClient _client;
 
-        public HandleQuandlQueryBy(IQuandlRestClient client)
+        public HandleQuandlQueryBy(IQuandlClient client)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
 

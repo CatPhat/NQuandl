@@ -1,4 +1,5 @@
 ﻿using System;
+using NQuandl.Client.Api;
 using NQuandl.Client.CompositionRoot;
 using NQuandl.Client.Domain;
 using NQuandl.Client.Domain.Entities;
@@ -11,9 +12,8 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
             Bootstrapper.Bootstrap("wRFGnVkQzswRFPKq3yt_");
-
-            var client = new QuandlClient();
-            var result = client.GetAsync(new DatasetBy<FredGdp>()).Result;
+            var queries = (IProcessQueries) Bootstrapper.GetInstance(typeof (IProcessQueries));
+            var result = queries.Execute(new DatasetBy<FredGdp>()).Result;
             foreach (var fredGdp in result.Entities)
             {
                 Console.WriteLine(fredGdp.Value);

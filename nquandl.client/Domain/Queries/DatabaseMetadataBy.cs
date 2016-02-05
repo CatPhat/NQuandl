@@ -35,7 +35,7 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseMetadata> Handle(DatabaseMetadataBy query)
         {
-            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
+            var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
                 PathSegment =
                     $"{query.ApiVersion}/databases/{query.DatabaseCode}.{query.ResponseFormat.GetStringValue()}",

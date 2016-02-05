@@ -26,10 +26,10 @@ namespace NQuandl.Client.Domain.Queries
 
     public class HandleDatabaseSearchBy : IHandleQuery<DatabaseSearchBy, Task<DatabaseSearch>>
     {
-        private readonly IQuandlRestClient _client;
+        private readonly IQuandlClient _client;
         private readonly IProcessQueries _queries;
 
-        public HandleDatabaseSearchBy(IQuandlRestClient client, IProcessQueries queries)
+        public HandleDatabaseSearchBy(IQuandlClient client, IProcessQueries queries)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (queries == null) throw new ArgumentNullException(nameof(queries));
@@ -39,7 +39,7 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseSearch> Handle(DatabaseSearchBy query)
         {
-            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
+            var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
                 PathSegment = $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}",
                 QueryParameters = query.ToRequestParameterDictionary()

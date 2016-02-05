@@ -177,7 +177,7 @@ namespace NQuandl.Client.Api.Helpers
 
       
 
-        public static string ToUrl(this QuandlRestClientRequestParameters parameters, string baseUrl)
+        public static string ToUrl(this QuandlClientRequestParameters parameters, string baseUrl)
         {
             if (IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
             
@@ -190,7 +190,7 @@ namespace NQuandl.Client.Api.Helpers
             return url;
         }
 
-        public static string ToUri(this QuandlRestClientRequestParameters parameters, string apiKey = null)
+        public static string ToUri(this QuandlClientRequestParameters parameters, string apiKey = null)
         {
             if (IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
 

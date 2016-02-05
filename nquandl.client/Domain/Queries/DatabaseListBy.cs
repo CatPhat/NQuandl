@@ -30,7 +30,7 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseList> Handle(DatabaseListBy query)
         {
-            var quandlClientRequestParameters = new QuandlRestClientRequestParameters
+            var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
                 PathSegment = $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}",
                 QueryParameters = query.ToRequestParameterDictionary()

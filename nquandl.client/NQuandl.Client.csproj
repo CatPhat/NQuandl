@@ -77,7 +77,6 @@
     <Compile Include="Api\IMapObjectToEntity.cs" />
     <Compile Include="Api\IProcessQueries.cs" />
     <Compile Include="Api\IQuandlClient.cs" />
-    <Compile Include="Api\IQuandlRestClient.cs" />
     <Compile Include="CompositionRoot\QueryProcessor.cs" />
     <Compile Include="CompositionRoot\RegisterQuandlClient.cs" />
     <Compile Include="Domain\HttpClient.cs" />
@@ -88,7 +87,6 @@
     <Compile Include="Domain\Queries\DatasetBy.cs" />
     <Compile Include="Domain\Queries\QuandlQueryBy.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
-    <Compile Include="Domain\QuandlRestClient.cs" />
     <Compile Include="Domain\RequestParameters\DatabaseListRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\DatabaseMetadataRequestParameters.cs" />
     <Compile Include="Domain\RequestParameters\DatabaseSearchRequestParameters.cs" />
