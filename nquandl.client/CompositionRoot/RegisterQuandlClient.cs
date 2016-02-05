@@ -21,7 +21,7 @@ namespace NQuandl.Client.CompositionRoot
         {
 #if DEBUG
     //http://localhost:49832/api
-            container.Register<IQuandlRestClient>(() => new QuandlRestClient(container.GetInstance<IHttpClient>()));
+            container.Register<IQuandlRestClient>(() => new QuandlRestClient(container.GetInstance<IHttpClient>(), apiKey));
 #else
             //https://quandl.com/api
             container.Register<IQuandlRestClient>(() => new QuandlRestClient(container.GetInstance<IHttpClient>()));

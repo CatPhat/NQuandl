@@ -128,7 +128,9 @@
     <None Include="_Etc\quandl_api_data\master-dataset-response-v2.json" />
     <None Include="_Etc\quandl_api_data\metadata_response.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="_Etc\quandl_api_data\example-header-data.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
