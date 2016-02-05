@@ -1,19 +1,18 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.Queries;
 using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
 
-namespace NQuandl.Client.Domain.QuandlQueries
+namespace NQuandl.Client.Domain.Queries
 {
     // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-    public class DatasetBy<TEntity> : IDefineQuandlQuery<Task<JsonDatasetResponse<TEntity>>>
+    public class DatasetBy<TEntity> : IDefineQuery<Task<DatabaseDataset<TEntity>>>
         where TEntity : QuandlEntity
     {
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
-        public string ApiVersion => RequestParameterConstants.ApiVersion;
 
         public int? Limit { get; set; }
         public int? Rows { get; set; }
@@ -23,23 +22,25 @@ namespace NQuandl.Client.Domain.QuandlQueries
         public Order? Order { get; set; }
         public Collapse? Collapse { get; set; }
         public Transform? Transform { get; set; }
+        public string ApiVersion => RequestParameterConstants.ApiVersion;
     }
 
-    public class HandleDatasetBy<TEntity> : IHandleQuandlQuery<DatasetBy<TEntity>, Task<JsonDatasetResponse<TEntity>>>
+    public class HandleDatasetBy<TEntity> : IHandleQuery<DatasetBy<TEntity>, Task<DatabaseDataset<TEntity>>>
         where TEntity : QuandlEntity
     {
-        private readonly IQuandlRestClient _client;
         private readonly IProcessQueries _queries;
+        private readonly IMapObjectToEntity<TEntity> _mapper;
 
-        public HandleDatasetBy(IQuandlRestClient client, IProcessQueries queries)
+        public HandleDatasetBy(IProcessQueries queries, IMapObjectToEntity<TEntity> mapper)
         {
-            if (client == null) throw new ArgumentNullException(nameof(client));
             if (queries == null) throw new ArgumentNullException(nameof(queries));
-            _client = client;
+            if (mapper == null) throw new ArgumentNullException(nameof(mapper));
+
             _queries = queries;
+            _mapper = mapper;
         }
 
-        public async Task<JsonDatasetResponse<TEntity>> Handle(DatasetBy<TEntity> query)
+        public async Task<DatabaseDataset<TEntity>> Handle(DatasetBy<TEntity> query)
         {
             var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
 
@@ -50,8 +51,10 @@ namespace NQuandl.Client.Domain.QuandlQueries
                 QueryParameters = query.ToRequestParameterDictionary()
             };
 
-            var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
-            return _queries.Execute(new DeserializeToJsonResponse<TEntity>(rawResponse));
+            var result =
+                await _queries.Execute(new QuandlQueryBy<DatabaseDataset<TEntity>>(quandlClientRequestParameters));
+            result.Entities = result.dataset.data.Select(_mapper.MapEntity);
+            return result;
         }
     }
 }

@@ -2,14 +2,13 @@
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.Queries;
 using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
 
-namespace NQuandl.Client.Domain.QuandlQueries
+namespace NQuandl.Client.Domain.Queries
 {
     // https://www.quandl.com/api/v3/databases.json
-    public class DatabaseSearchBy : IDefineQuandlQuery<Task<JsonDatabaseSearchResponse>>
+    public class DatabaseSearchBy : IDefineQuery<Task<DatabaseSearch>>
     {
         public DatabaseSearchBy(string query)
         {
@@ -25,7 +24,7 @@ namespace NQuandl.Client.Domain.QuandlQueries
         public string ApiVersion => RequestParameterConstants.ApiVersion;
     }
 
-    public class HandleDatabaseSearchBy : IHandleQuandlQuery<DatabaseSearchBy, Task<JsonDatabaseSearchResponse>>
+    public class HandleDatabaseSearchBy : IHandleQuery<DatabaseSearchBy, Task<DatabaseSearch>>
     {
         private readonly IQuandlRestClient _client;
         private readonly IProcessQueries _queries;
@@ -38,7 +37,7 @@ namespace NQuandl.Client.Domain.QuandlQueries
             _queries = queries;
         }
 
-        public async Task<JsonDatabaseSearchResponse> Handle(DatabaseSearchBy query)
+        public async Task<DatabaseSearch> Handle(DatabaseSearchBy query)
         {
             var quandlClientRequestParameters = new QuandlRestClientRequestParameters
             {
@@ -46,9 +45,7 @@ namespace NQuandl.Client.Domain.QuandlQueries
                 QueryParameters = query.ToRequestParameterDictionary()
             };
 
-            var rawResponse = await _client.GetStringAsync(quandlClientRequestParameters);
-            var response = _queries.Execute(new DeserializeToClass<JsonDatabaseSearchResponse>(rawResponse));
-            return response;
+            return await _queries.Execute(new QuandlQueryBy<DatabaseSearch>(quandlClientRequestParameters));
         }
     }
 }

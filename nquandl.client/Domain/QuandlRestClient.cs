@@ -22,14 +22,11 @@ namespace NQuandl.Client.Domain
             _apiKey = apiKey;
         }
 
-        public async Task<string> GetStringAsync(QuandlRestClientRequestParameters parameters)
+        public async Task<HttpResponseMessage> GetFullResponseAsync(QuandlRestClientRequestParameters parameters)
         {
             try
             {
-                var fullResponse = await _client.GetAsync(parameters.ToUri(_apiKey));
-                fullResponse.EnsureSuccessStatusCode();
-                var response = await fullResponse.Content.ReadAsStringAsync();
-                return response;
+                return await _client.GetAsync(parameters.ToUri(_apiKey));
             }
             catch (HttpRequestException e)
             {

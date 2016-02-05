@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using NQuandl.Client.Api;
 
 namespace NQuandl.Client.Domain.Responses
 {
-    public class JsonDatasetResponse : IDefineQuandlResult
+    public class DatabaseDataset : JsonResultWithHttpMessage
     {
         public Dataset dataset { get; set; }
     }
@@ -36,12 +35,8 @@ namespace NQuandl.Client.Domain.Responses
     }
 
 
-    public class JsonDatasetResponse<TEntity> : JsonDatasetResponse where TEntity : QuandlEntity
+    public class DatabaseDataset<TEntity> : DatabaseDataset where TEntity : QuandlEntity
     {
         public IEnumerable<TEntity> Entities { get; set; }
     }
-
-
-
-
 }

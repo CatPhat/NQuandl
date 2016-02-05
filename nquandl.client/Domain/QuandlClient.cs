@@ -5,9 +5,9 @@ namespace NQuandl.Client.Domain
 {
     public class QuandlClient : IQuandlClient
     { 
-        public TResult GetAsync<TResult>(IDefineQuandlQuery<TResult> query)
+        public TResult GetAsync<TResult>(IDefineQuery<TResult> query)
         {
-            var handlerType = typeof (IHandleQuandlQuery<,>).MakeGenericType(query.GetType(), typeof (TResult));
+            var handlerType = typeof (IHandleQuery<>).MakeGenericType(query.GetType(), typeof (TResult));
 
             dynamic handler = Bootstrapper.GetInstance(handlerType);
             return handler.Handle((dynamic) query);

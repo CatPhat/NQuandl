@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Linq;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.CompositionRoot;
 using NQuandl.Client.Domain;
 using NQuandl.Client.Domain.Entities;
-using NQuandl.Client.Domain.QuandlQueries;
 using NQuandl.Client.Domain.Queries;
-using NQuandl.Client.Domain.RequestParameters;
-using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.TestConsole
 {
@@ -16,20 +10,17 @@ namespace NQuandl.TestConsole
     {
         private static void Main(string[] args)
         {
+            Bootstrapper.Bootstrap("wRFGnVkQzswRFPKq3yt_");
 
-
-            Bootstrapper.Bootstrap();
-            
-            var client = new QuandlClient("xxxx");
+            var client = new QuandlClient();
             var result = client.GetAsync(new DatasetBy<FredGdp>()).Result;
             foreach (var fredGdp in result.Entities)
             {
                 Console.WriteLine(fredGdp.Value);
             }
-           
+
             Console.WriteLine("done");
             Console.ReadLine();
-
         }
     }
 
@@ -69,7 +60,6 @@ namespace NQuandl.TestConsole
     //        })).Result;
 
 
-
     //        for (var i = 1; i <= 2000; i++)
     //        {
     //            var options = new RequestParametersV2
@@ -83,7 +73,6 @@ namespace NQuandl.TestConsole
 
     //            requests.Add(options);
     //        }
-
 
 
     //        return result;

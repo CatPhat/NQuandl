@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Flurl;
-using NQuandl.Client.Domain.QuandlQueries;
+using Newtonsoft.Json;
+using NQuandl.Client.Domain.Queries;
 using NQuandl.Client.Domain.RequestParameters;
+using NQuandl.Client.Domain.Responses;
 using static System.String;
 
 
@@ -203,6 +207,15 @@ namespace NQuandl.Client.Api.Helpers
             }
 
             return url;
+        }
+
+
+
+        public static async Task<TResult> DeserializeToJsonResultAsync<TResult>(this HttpResponseMessage response) where TResult : JsonResultWithHttpMessage
+        {
+            var result = JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
+            result.HttpResponseMessage = response;
+            return result;
         }
     }
 }

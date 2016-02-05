@@ -72,10 +72,7 @@
   <ItemGroup>
     <Compile Include="Api\Helpers\QuandlServiceConfiguration.cs" />
     <Compile Include="Api\Helpers\RequestValue.cs" />
-    <Compile Include="Api\IDefineQuandlQuery.cs" />
-    <Compile Include="Api\IDefineQuandlResult.cs" />
     <Compile Include="Api\IDeserializeEntity.cs" />
-    <Compile Include="Api\IHandleQuandlQuery.cs" />
     <Compile Include="Api\IHttpClient.cs" />
     <Compile Include="Api\IMapObjectToEntity.cs" />
     <Compile Include="Api\IProcessQueries.cs" />
@@ -85,13 +82,11 @@
     <Compile Include="CompositionRoot\RegisterQuandlClient.cs" />
     <Compile Include="Domain\HttpClient.cs" />
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
-    <Compile Include="Domain\QuandlQueries\DatabaseListBy.cs" />
-    <Compile Include="Domain\QuandlQueries\DatabaseMetadataBy.cs" />
-    <Compile Include="Domain\QuandlQueries\DatabaseSearchBy.cs" />
-    <Compile Include="Domain\QuandlQueries\DatasetBy.cs" />
-    <Compile Include="Domain\Queries\DeserializeToJsonResponse.cs" />
-    <Compile Include="Domain\Queries\DeserializeToClass.cs" />
-    <Compile Include="Domain\Queries\MapEntitiesByDataObjects.cs" />
+    <Compile Include="Domain\Queries\DatabaseListBy.cs" />
+    <Compile Include="Domain\Queries\DatabaseMetadataBy.cs" />
+    <Compile Include="Domain\Queries\DatabaseSearchBy.cs" />
+    <Compile Include="Domain\Queries\DatasetBy.cs" />
+    <Compile Include="Domain\Queries\QuandlQueryBy.cs" />
     <Compile Include="Domain\QuandlClient.cs" />
     <Compile Include="Domain\QuandlRestClient.cs" />
     <Compile Include="Domain\RequestParameters\DatabaseListRequestParameters.cs" />
@@ -112,10 +107,10 @@
     <Compile Include="Api\Helpers\Enums.cs" />
     <Compile Include="Api\Helpers\RequestParameterConstants.cs" />
     <Compile Include="Domain\RequestParameters\RequestParameter.cs" />
-    <Compile Include="Domain\Responses\JsonDatabaseListResponse.cs" />
-    <Compile Include="Domain\Responses\JsonDatabaseMetadataResponse.cs" />
-    <Compile Include="Domain\Responses\JsonDatabaseSearchResponse.cs" />
-    <Compile Include="Domain\Responses\JsonDataResponse.cs" />
+    <Compile Include="Domain\Responses\DatabaseList.cs" />
+    <Compile Include="Domain\Responses\DatabaseMetadata.cs" />
+    <Compile Include="Domain\Responses\DatabaseSearch.cs" />
+    <Compile Include="Domain\Responses\DatabaseDataset.cs" />
     <Compile Include="Domain\Entities\FRED-GDP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
