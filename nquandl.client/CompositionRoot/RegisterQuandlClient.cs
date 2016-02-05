@@ -17,7 +17,7 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterSingle<IHttpClient>(() => new HttpClient(baseUrl));
         }
 
-        public static void RegisterQuandlRestClient(this Container container)
+        public static void RegisterQuandlRestClient(this Container container, string apiKey = null)
         {
 #if DEBUG
     //http://localhost:49832/api

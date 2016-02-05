@@ -186,11 +186,17 @@ namespace NQuandl.Client.Api.Helpers
             return url;
         }
 
-        public static string ToUri(this QuandlRestClientRequestParameters parameters)
+        public static string ToUri(this QuandlRestClientRequestParameters parameters, string apiKey = null)
         {
             if (IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
 
             var url = "api".AppendPathSegment(parameters.PathSegment);
+
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                parameters.QueryParameters.Add(RequestParameterConstants.ApiKey, apiKey);
+            }
+
             if (parameters.QueryParameters.Any())
             {
                 url = url.SetQueryParams(parameters.QueryParameters);
