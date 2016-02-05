@@ -3,7 +3,9 @@ using System.Linq;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
 using NQuandl.Client.CompositionRoot;
+using NQuandl.Client.Domain;
 using NQuandl.Client.Domain.Entities;
+using NQuandl.Client.Domain.QuandlQueries;
 using NQuandl.Client.Domain.Queries;
 using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
@@ -16,10 +18,10 @@ namespace NQuandl.TestConsole
         {
 
 
-
-            var factory = CompositionRoot.Bootstrap();
-            var client = (IQuandlJsonClient)factory.GetService(typeof(IQuandlJsonClient));
-            var result = client.GetAsync<FredGdp>().Result;
+            Bootstrapper.Bootstrap();
+            
+            var client = new QuandlClient("xxxx");
+            var result = client.GetAsync(new DatasetBy<FredGdp>()).Result;
             foreach (var fredGdp in result.Entities)
             {
                 Console.WriteLine(fredGdp.Value);

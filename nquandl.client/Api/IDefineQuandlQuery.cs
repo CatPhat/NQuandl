@@ -3,6 +3,5 @@
     public interface IDefineQuandlQuery<TQuandlResult>
     {
         string ApiVersion { get; }
-       
     }
 }

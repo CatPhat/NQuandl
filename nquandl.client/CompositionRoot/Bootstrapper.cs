@@ -4,19 +4,26 @@ using SimpleInjector;
 
 namespace NQuandl.Client.CompositionRoot
 {
-    public static class CompositionRoot
+    public static class Bootstrapper
     {
-      
-        public static IServiceProvider Bootstrap()
+        private static Container Container;
+
+        
+
+        public static void Bootstrap()
         {
             var url = @"https://quandl.com/api";
 #if !DEBUG
             url = @"http://localhost:49832/api";
 #endif
-            var container = new Container();
-            NQuandlRegisterRegisterAll(container, url);
-            container.RegisterSingle<IServiceProvider>(() => container);
-            return container.GetInstance<IServiceProvider>();
+            Container = new Container();
+            NQuandlRegisterRegisterAll(Container, url);
+            Container.Verify();
+        }
+
+        public static object GetInstance(Type serviceType)
+        {
+            return Container.GetInstance(serviceType);
         }
 
         public static void NQuandlRegisterRegisterAll(this Container container, string url)
@@ -24,10 +31,8 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterHttpClient(url);
             container.RegisterQueries();
             container.RegisterQuandlRestClient();
-            container.RegisterQuandlClient();
-          
+            //container.RegisterQuandlClient();
             container.RegisterMapper();
-        
         }
     }
 

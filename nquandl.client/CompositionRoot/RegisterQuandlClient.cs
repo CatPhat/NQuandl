@@ -1,5 +1,9 @@
-﻿using NQuandl.Client.Api;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using NQuandl.Client.Api;
 using NQuandl.Client.Domain;
+using NQuandl.Client.Domain.QuandlQueries;
 using NQuandl.Client.Domain.Queries;
 using SimpleInjector;
 using SimpleInjector.Extensions;
@@ -24,10 +28,12 @@ namespace NQuandl.Client.CompositionRoot
 #endif
         }
 
-        public static void RegisterQuandlClient(this Container container)
-        {
-            container.Register<IQuandlClient>(() => new QuandlClient(container.GetInstance<IQuandlRestClient>()));
-        }
+        
+
+        //public static void RegisterQuandlClient(this Container container)
+        //{
+        //    container.Register<IQuandlClient>(() => new QuandlClient(container.GetInstance<IQuandlRestClient>()));
+        //}
 
        
         public static void RegisterMapper(this Container container)
@@ -46,7 +52,14 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToClass<>));
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDeserializeToJsonResponse<>));
             container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleMapToEntitiesByDataObjects<>));
-            
+
+
+           
+            container.RegisterOpenGeneric(typeof(IHandleQuandlQuery<,>), typeof(HandleDatasetBy<>));
+       
+
+         
+
         }
     }
 }
