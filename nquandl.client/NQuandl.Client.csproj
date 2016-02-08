@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.13.5.0\lib\net40-client\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Flurl, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Flurl.1.0.8\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
@@ -52,6 +56,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -81,6 +86,7 @@
     <Compile Include="CompositionRoot\RegisterQuandlClient.cs" />
     <Compile Include="Domain\HttpClient.cs" />
     <Compile Include="Domain\Mappers\MapFredGdp.cs" />
+    <Compile Include="Domain\Queries\DatabaseDatasetListBy.cs" />
     <Compile Include="Domain\Queries\DatabaseListBy.cs" />
     <Compile Include="Domain\Queries\DatabaseMetadataBy.cs" />
     <Compile Include="Domain\Queries\DatabaseSearchBy.cs" />
@@ -105,11 +111,13 @@
     <Compile Include="Api\Helpers\Enums.cs" />
     <Compile Include="Api\Helpers\RequestParameterConstants.cs" />
     <Compile Include="Domain\RequestParameters\RequestParameter.cs" />
+    <Compile Include="Domain\Responses\DatabaseDatasetList.cs" />
     <Compile Include="Domain\Responses\DatabaseList.cs" />
     <Compile Include="Domain\Responses\DatabaseMetadata.cs" />
     <Compile Include="Domain\Responses\DatabaseSearch.cs" />
     <Compile Include="Domain\Responses\DatabaseDataset.cs" />
     <Compile Include="Domain\Entities\FRED-GDP.cs" />
+    <Compile Include="Domain\Responses\JsonResultWithHttpMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
   </ItemGroup>

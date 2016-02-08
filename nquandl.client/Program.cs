@@ -12,12 +12,14 @@ namespace NQuandl.TestConsole
         private static void Main(string[] args)
         {
             Bootstrapper.Bootstrap("wRFGnVkQzswRFPKq3yt_");
-            var queries = (IProcessQueries) Bootstrapper.GetInstance(typeof (IProcessQueries));
-            var result = queries.Execute(new DatasetBy<FredGdp>()).Result;
-            foreach (var fredGdp in result.Entities)
-            {
-                Console.WriteLine(fredGdp.Value);
-            }
+            var queries = Bootstrapper.GetQueryProcessor();
+            //var result = queries.Execute(new DatasetBy<FredGdp>()).Result;
+            //foreach (var fredGdp in result.Entities)
+            //{
+            //    Console.WriteLine(fredGdp.Value);
+            //}
+
+            var result = queries.Execute(new DatabaseDatasetListBy("YC")).Result;
 
             Console.WriteLine("done");
             Console.ReadLine();
