@@ -1,4 +1,5 @@
 ﻿using System;
+using NQuandl.Client.Api;
 using SimpleInjector;
 
 namespace NQuandl.Client.CompositionRoot
@@ -21,6 +22,11 @@ namespace NQuandl.Client.CompositionRoot
         public static object GetInstance(Type serviceType)
         {
             return Container.GetInstance(serviceType);
+        }
+
+        public static IProcessQueries GetQueryProcessor()
+        {
+            return (IProcessQueries) GetInstance(typeof (IProcessQueries));
         }
 
         public static void NQuandlRegisterRegisterAll(this Container container, string url, string apiKey = null)
