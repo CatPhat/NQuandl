@@ -1,12 +1,5 @@
-﻿using System.Net.Http;
-
-namespace NQuandl.Client.Domain.Responses
+﻿namespace NQuandl.Client.Domain.Responses
 {
-    public abstract class JsonResultWithHttpMessage
-    {
-        public HttpResponseMessage HttpResponseMessage { get; set; }
-    }
-
     public class DatabaseList : JsonResultWithHttpMessage
     {
         public Databases[] databases { get; set; }
