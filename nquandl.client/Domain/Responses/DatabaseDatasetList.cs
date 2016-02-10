@@ -4,7 +4,7 @@ using CsvHelper.Configuration;
 
 namespace NQuandl.Client.Domain.Responses
 {
-    public class DatabaseDatasetList : JsonResultWithHttpMessage
+    public class DatabaseDatasetList : ResponseWithHttpMessage
     {
         public IEnumerable<DatabaseDatasetCsvRow> Datasets { get; set; }
     }

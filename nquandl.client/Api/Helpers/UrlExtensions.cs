@@ -211,7 +211,7 @@ namespace NQuandl.Client.Api.Helpers
 
 
 
-        public static async Task<TResult> DeserializeToJsonResultAsync<TResult>(this HttpResponseMessage response) where TResult : JsonResultWithHttpMessage
+        public static async Task<TResult> DeserializeToJsonResultAsync<TResult>(this HttpResponseMessage response) where TResult : ResponseWithHttpMessage
         {
             var result = JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
             result.HttpResponseMessage = response;

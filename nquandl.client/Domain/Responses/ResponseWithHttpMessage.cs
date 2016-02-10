@@ -2,7 +2,7 @@
 
 namespace NQuandl.Client.Domain.Responses
 {
-    public abstract class JsonResultWithHttpMessage
+    public abstract class ResponseWithHttpMessage
     {
         public HttpResponseMessage HttpResponseMessage { get; set; }
     }

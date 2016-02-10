@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Client.Domain.Responses
 {
-    public class DatabaseList : JsonResultWithHttpMessage
+    public class DatabaseList : ResponseWithHttpMessage
     {
         public Databases[] databases { get; set; }
         public Meta meta { get; set; }

@@ -7,7 +7,7 @@ using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
 {
-    public class QuandlQueryBy<TResult> : IDefineQuery<Task<TResult>> where TResult : JsonResultWithHttpMessage
+    public class QuandlQueryBy<TResult> : IDefineQuery<Task<TResult>> where TResult : ResponseWithHttpMessage
     {
         public QuandlQueryBy(QuandlClientRequestParameters requestParameters)
         {
@@ -18,7 +18,7 @@ namespace NQuandl.Client.Domain.Queries
     }
 
     public class HandleQuandlQueryBy<TResult> : IHandleQuery<QuandlQueryBy<TResult>, Task<TResult>>
-        where TResult : JsonResultWithHttpMessage
+        where TResult : ResponseWithHttpMessage
     {
         private readonly IQuandlClient _client;
 

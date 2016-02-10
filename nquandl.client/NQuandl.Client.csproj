@@ -118,7 +118,7 @@
     <Compile Include="Domain\Responses\DatabaseSearch.cs" />
     <Compile Include="Domain\Responses\DatabaseDataset.cs" />
     <Compile Include="Domain\Entities\FRED-GDP.cs" />
-    <Compile Include="Domain\Responses\JsonResultWithHttpMessage.cs" />
+    <Compile Include="Domain\Responses\ResponseWithHttpMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="_Etc\quandl_api_data\UNDATA-metadata-dataset-response-v2.json" />
   </ItemGroup>
