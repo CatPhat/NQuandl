@@ -10,14 +10,14 @@ namespace NQuandl.Client.Domain.Queries
     // https://www.quandl.com/api/v3/databases/WIKI.json
     public class DatabaseMetadataBy : IDefineQuery<Task<DatabaseMetadata>>
     {
-        public DatabaseMetadataBy(string databaseCode, string datasetCode)
+        public DatabaseMetadataBy(string databaseCode)
         {
             DatabaseCode = databaseCode;
-            DatasetCode = datasetCode;
+         
         }
 
         public string DatabaseCode { get; }
-        public string DatasetCode { get; private set; }
+     
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
 
         public string ApiVersion => RequestParameterConstants.ApiVersion;
@@ -37,8 +37,7 @@ namespace NQuandl.Client.Domain.Queries
         {
             var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
-                PathSegment =
-                    $"{query.ApiVersion}/databases/{query.DatabaseCode}.{query.ResponseFormat.GetStringValue()}",
+                PathSegment = query.ToPathSegment(),
                 QueryParameters = query.ToRequestParameterDictionary()
             };
 

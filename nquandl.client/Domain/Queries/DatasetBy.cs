@@ -42,12 +42,11 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseDataset<TEntity>> Handle(DatasetBy<TEntity> query)
         {
-            var entity = (TEntity) Activator.CreateInstance(typeof (TEntity));
+            
 
             var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
-                PathSegment =
-                    $"{query.ApiVersion}/datasets/{entity.DatabaseCode}/{entity.DatasetCode}.{query.ResponseFormat.GetStringValue()}",
+                PathSegment = query.ToPathSegment(),
                 QueryParameters = query.ToRequestParameterDictionary()
             };
 

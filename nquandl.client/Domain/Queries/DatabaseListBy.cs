@@ -32,7 +32,7 @@ namespace NQuandl.Client.Domain.Queries
         {
             var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
-                PathSegment = $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}",
+                PathSegment = query.ToPathSegment(),
                 QueryParameters = query.ToRequestParameterDictionary()
             };
 

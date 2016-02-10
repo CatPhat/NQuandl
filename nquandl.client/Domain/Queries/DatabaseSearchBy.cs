@@ -10,15 +10,11 @@ namespace NQuandl.Client.Domain.Queries
     // https://www.quandl.com/api/v3/databases.json
     public class DatabaseSearchBy : IDefineQuery<Task<DatabaseSearch>>
     {
-        public DatabaseSearchBy(string query)
-        {
-            Query = query;
-        }
-
+        
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
 
         // optional
-        public string Query { get; private set; }
+        public string Query { get; set; }
         public int? PerPage { get; set; }
         public int? Page { get; set; }
         public string ApiVersion => RequestParameterConstants.ApiVersion;
@@ -41,7 +37,7 @@ namespace NQuandl.Client.Domain.Queries
         {
             var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
-                PathSegment = $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}",
+                PathSegment = query.ToPathSegment(),
                 QueryParameters = query.ToRequestParameterDictionary()
             };
 

@@ -14,7 +14,7 @@ using NQuandl.Client.Domain.Responses;
 namespace NQuandl.Client.Domain.Queries
 {
     // https://www.quandl.com/api/v3/databases/:database_code/codes
-    // https://www.quandl.com/api/v3/databases/YC/codes.json
+    // https://www.quandl.com/api/v3/databases/YC/codes
     // Returns a .ZIP with a csv containing a list of dataset codes and descriptions
     public class DatabaseDatasetListBy : IDefineQuery<Task<DatabaseDatasetList>>
     {
@@ -24,7 +24,6 @@ namespace NQuandl.Client.Domain.Queries
         }
 
         public string DatabaseCode { get; }
-        public ResponseFormat ResponseFormat => ResponseFormat.JSON; //doesn't really seem to make a difference in the response
         public string ApiVersion => RequestParameterConstants.ApiVersion;
     }
 
@@ -46,7 +45,7 @@ namespace NQuandl.Client.Domain.Queries
         {
             var quandlClientRequestParameters = new QuandlClientRequestParameters
             {
-                PathSegment = $"{query.ApiVersion}/databases/{query.DatabaseCode}/codes.{query.ResponseFormat.GetStringValue()}",
+                PathSegment = query.ToPathSegment(),
                 QueryParameters = new Dictionary<string, string>()
             };
 

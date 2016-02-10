@@ -14,9 +14,41 @@ using static System.String;
 namespace NQuandl.Client.Api.Helpers
 {
     public static class UrlExtensions
-    { 
+    {
+
+
+        // https://www.quandl.com/api/v3/databases/:database_code/codes
+        public static string ToPathSegment(this DatabaseDatasetListBy query)
+        {
+            return $"{query.ApiVersion}/databases/{query.DatabaseCode}/codes";
+        }
+
+        // https://www.quandl.com/api/v3/databases.json
+        public static string ToPathSegment(this DatabaseListBy query)
+        {
+            return $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}";
+        }
+
+        // https://www.quandl.com/api/v3/databases/WIKI.json
+        public static string ToPathSegment(this DatabaseMetadataBy query)
+        {
+            return $"{query.ApiVersion}/databases/{query.DatabaseCode}.{query.ResponseFormat.GetStringValue()}";
+        }
+        
+        // https://www.quandl.com/api/v3/databases.json
+        public static string ToPathSegment(this DatabaseSearchBy query)
+        {
+            return $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}";
+        }
+
+        // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
+        public static string ToPathSegment<TEntity>(this DatasetBy<TEntity> query) where TEntity : QuandlEntity
+        {
+            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity));
+            return $"{query.ApiVersion}/datasets/{entity.DatabaseCode}/{entity.DatasetCode}.{query.ResponseFormat.GetStringValue()}";
+        }
+
       
-     
         // todo: consolidate
         public static Dictionary<string, string> ToRequestParameterDictionary<TEntity>(this DatasetBy<TEntity> options) where TEntity : QuandlEntity
         {
