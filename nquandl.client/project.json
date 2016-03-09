@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0-*",
+  "description": "nquandl.client Class Library",
+  "authors": [ "USER9" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "net461": {
+      "dependencies": {
+        "CsvHelper": "1.0.0-*",
+        "Flurl": "1.0.10",
+        "Flurl.Http": "0.7.0"
+      },
+      "frameworkAssemblies": {
+        "System.configuration": "4.0.0.0",
+        "System.IO.Compression": "4.0.0.0",
+        "System.Net.Http": "4.0.0.0"
+      }
+    }
+  },
+  "dependencies": {
+    "Newtonsoft.Json": "8.0.2",
+    "SimpleInjector": "3.1.2",
+    "SimpleInjector.Extensions.LifetimeScoping": "3.1.2"
+  }
+}

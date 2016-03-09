@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net461": {
+      "bin": {
+        "assembly": "../../lib/net461/CsvHelper.dll"
+      }
+    }
+  }
+}
