@@ -53,12 +53,6 @@
     <Compile Include="ToPathSegmentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NQuandl.Client\NQuandl.Client.csproj">
-      <Project>{5fa48fe6-943a-4cbf-88ff-a431887a0a9f}</Project>
-      <Name>NQuandl.Client</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

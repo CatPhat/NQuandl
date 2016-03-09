@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.Client", "NQuandl.Client\NQuandl.Client.csproj", "{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.Console", "NQuandl.Console\NQuandl.Console.csproj", "{05FCAF61-D450-49ED-B031-F0B300BE36B2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.client-test", "NQuandl.client-test\NQuandl.client-test.csproj", "{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nquandl.client", "..\..\Visual Studio 2015\Projects\net core\nquandl\nquandl.client\nquandl.client.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
