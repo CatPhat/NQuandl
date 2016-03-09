@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
@@ -13,11 +12,10 @@ namespace NQuandl.Client.Domain.Queries
         public DatabaseMetadataBy(string databaseCode)
         {
             DatabaseCode = databaseCode;
-         
         }
 
         public string DatabaseCode { get; }
-     
+
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
 
         public string ApiVersion => RequestParameterConstants.ApiVersion;
@@ -35,13 +33,7 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseMetadata> Handle(DatabaseMetadataBy query)
         {
-            var quandlClientRequestParameters = new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-
-            return await _queries.Execute(new QuandlQueryBy<DatabaseMetadata>(quandlClientRequestParameters));
+            return await _queries.Execute(new QuandlQueryBy<DatabaseMetadata>(query.ToQuandlClientRequestParameters()));
         }
     }
 }

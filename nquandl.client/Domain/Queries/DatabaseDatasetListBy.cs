@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
@@ -29,8 +26,8 @@ namespace NQuandl.Client.Domain.Queries
 
     public class HandleDatabaseDatasetListBy : IHandleQuery<DatabaseDatasetListBy, Task<DatabaseDatasetList>>
     {
-        private readonly IProcessQueries _queries;
         private readonly IQuandlClient _client;
+        private readonly IProcessQueries _queries;
 
         public HandleDatabaseDatasetListBy(IProcessQueries queries, IQuandlClient client)
         {
@@ -43,18 +40,12 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseDatasetList> Handle(DatabaseDatasetListBy query)
         {
-            var quandlClientRequestParameters = new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = new Dictionary<string, string>()
-            };
+            var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());
 
-            var fullResponse = await _client.GetFullResponseAsync(quandlClientRequestParameters);
-            
 
             var zipStream = await fullResponse.Content.ReadAsStreamAsync();
             var zipArchive = new ZipArchive(zipStream);
-          
+
             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
             var csv = new CsvReader(csvFile);
 
@@ -72,10 +63,6 @@ namespace NQuandl.Client.Domain.Queries
             };
 
             return databaseDatasetList;
-
-
-
-
         }
     }
 }

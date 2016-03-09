@@ -10,7 +10,7 @@ namespace NQuandl.Client.CompositionRoot
     {
         public static void RegisterHttpClient(this Container container, string baseUrl)
         {
-            container.RegisterSingle<IHttpClient>(() => new HttpClient(baseUrl));
+            container.Register<IHttpClient>(() => new HttpClient(baseUrl));
         }
 
         public static void RegisterQuandlRestClient(this Container container, string apiKey = null)
@@ -34,21 +34,21 @@ namespace NQuandl.Client.CompositionRoot
 
         public static void RegisterMapper(this Container container)
         {
-            container.RegisterManyForOpenGeneric(typeof (IMapObjectToEntity<>), typeof (IMapObjectToEntity<>).Assembly);
+            container.RegisterCollection(typeof (IMapObjectToEntity<>), typeof (IMapObjectToEntity<>).Assembly);
         }
 
         //todo: openGeneric registrations can probably be consolidated to a single simple injector api call
         public static void RegisterQueries(this Container container)
         {
-            container.RegisterSingle<IProcessQueries, QueryProcessor>();
+            container.Register<IProcessQueries, QueryProcessor>();
 
             var assembly = typeof (IHandleQuery<,>).Assembly;
 
-            container.RegisterManyForOpenGeneric(typeof (IHandleQuery<,>), assembly);
+            container.RegisterCollection(typeof (IHandleQuery<,>), assembly);
 
 
-            container.RegisterOpenGeneric(typeof (IHandleQuery<,>), typeof (HandleDatasetBy<>));
-            container.RegisterOpenGeneric(typeof(IHandleQuery<,>), typeof(HandleQuandlQueryBy<>));
+            container.RegisterCollection(typeof (IHandleQuery<,>), typeof (HandleDatasetBy<>));
+            container.RegisterCollection(typeof(IHandleQuery<,>), typeof(HandleQuandlQueryBy<>));
         }
     }
 }

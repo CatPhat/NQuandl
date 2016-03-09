@@ -30,13 +30,7 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseList> Handle(DatabaseListBy query)
         {
-            var quandlClientRequestParameters = new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-
-            return await _queries.Execute(new QuandlQueryBy<DatabaseList>(quandlClientRequestParameters));
+            return await _queries.Execute(new QuandlQueryBy<DatabaseList>(query.ToQuandlClientRequestParameters()));
         }
     }
 }

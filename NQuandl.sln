@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nquandl.client", "..\..\Visual Studio 2015\Projects\net core\nquandl\nquandl.client\nquandl.client.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E78A6625-A805-460D-BED0-0DF43A2E7CE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39B0A59C-6C99-481A-B8F0-5A9A8B5768C9}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nquandl.client", "nquandl.client\nquandl.client.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +25,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 	EndGlobalSection
 EndGlobal

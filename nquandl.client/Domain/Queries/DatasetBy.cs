@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
@@ -28,8 +27,8 @@ namespace NQuandl.Client.Domain.Queries
     public class HandleDatasetBy<TEntity> : IHandleQuery<DatasetBy<TEntity>, Task<DatabaseDataset<TEntity>>>
         where TEntity : QuandlEntity
     {
-        private readonly IProcessQueries _queries;
         private readonly IMapObjectToEntity<TEntity> _mapper;
+        private readonly IProcessQueries _queries;
 
         public HandleDatasetBy(IProcessQueries queries, IMapObjectToEntity<TEntity> mapper)
         {
@@ -42,16 +41,9 @@ namespace NQuandl.Client.Domain.Queries
 
         public async Task<DatabaseDataset<TEntity>> Handle(DatasetBy<TEntity> query)
         {
-            
-
-            var quandlClientRequestParameters = new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-
             var result =
-                await _queries.Execute(new QuandlQueryBy<DatabaseDataset<TEntity>>(quandlClientRequestParameters));
+                await
+                    _queries.Execute(new QuandlQueryBy<DatabaseDataset<TEntity>>(query.ToQuandlClientRequestParameters()));
             result.Entities = result.dataset.data.Select(_mapper.MapEntity);
             return result;
         }

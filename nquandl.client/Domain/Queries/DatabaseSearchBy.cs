@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using NQuandl.Client.Api;
 using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
 using NQuandl.Client.Domain.Responses;
 
 namespace NQuandl.Client.Domain.Queries
@@ -10,7 +9,6 @@ namespace NQuandl.Client.Domain.Queries
     // https://www.quandl.com/api/v3/databases.json
     public class DatabaseSearchBy : IDefineQuery<Task<DatabaseSearch>>
     {
-        
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
 
         // optional
@@ -22,26 +20,18 @@ namespace NQuandl.Client.Domain.Queries
 
     public class HandleDatabaseSearchBy : IHandleQuery<DatabaseSearchBy, Task<DatabaseSearch>>
     {
-        private readonly IQuandlClient _client;
         private readonly IProcessQueries _queries;
 
-        public HandleDatabaseSearchBy(IQuandlClient client, IProcessQueries queries)
+        public HandleDatabaseSearchBy(IProcessQueries queries)
         {
-            if (client == null) throw new ArgumentNullException(nameof(client));
             if (queries == null) throw new ArgumentNullException(nameof(queries));
-            _client = client;
+
             _queries = queries;
         }
 
         public async Task<DatabaseSearch> Handle(DatabaseSearchBy query)
         {
-            var quandlClientRequestParameters = new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-
-            return await _queries.Execute(new QuandlQueryBy<DatabaseSearch>(quandlClientRequestParameters));
+            return await _queries.Execute(new QuandlQueryBy<DatabaseSearch>(query.ToQuandlClientRequestParameters()));
         }
     }
 }

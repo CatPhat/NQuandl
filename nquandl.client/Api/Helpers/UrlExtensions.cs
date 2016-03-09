@@ -15,6 +15,51 @@ namespace NQuandl.Client.Api.Helpers
 {
     public static class UrlExtensions
     {
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseDatasetListBy query)
+        {
+            return new QuandlClientRequestParameters
+            {
+                PathSegment = query.ToPathSegment(),
+                QueryParameters = new Dictionary<string, string>()
+            };
+        }
+
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseListBy query)
+        {
+            return new QuandlClientRequestParameters
+            {
+                PathSegment = query.ToPathSegment(),
+                QueryParameters = query.ToRequestParameterDictionary()
+            };
+        }
+
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseMetadataBy query)
+        {
+            return new QuandlClientRequestParameters
+            {
+                PathSegment = query.ToPathSegment(),
+                QueryParameters = query.ToRequestParameterDictionary()
+            };
+        }
+
+
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseSearchBy query)
+        {
+            return new QuandlClientRequestParameters
+            {
+                PathSegment = query.ToPathSegment(),
+                QueryParameters = query.ToRequestParameterDictionary()
+            };
+        }
+
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters<TEntity>(this DatasetBy<TEntity> query) where TEntity : QuandlEntity
+        {
+            return new QuandlClientRequestParameters
+            {
+                PathSegment = query.ToPathSegment(),
+                QueryParameters = query.ToRequestParameterDictionary()
+            };
+        }
 
 
         // https://www.quandl.com/api/v3/databases/:database_code/codes
