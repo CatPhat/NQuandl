@@ -5,6 +5,11 @@
       "bin": {
         "assembly": "../../lib/net461/CsvHelper.dll"
       }
+    },
+    "dnx451": {
+      "bin": {
+        "assembly": "../../lib/dnx451/CsvHelper.dll"
+      }
     }
   }
 }

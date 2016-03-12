@@ -47,8 +47,8 @@ namespace NQuandl.Client.CompositionRoot
             container.RegisterCollection(typeof (IHandleQuery<,>), assembly);
 
 
-            container.RegisterCollection(typeof (IHandleQuery<,>), typeof (HandleDatasetBy<>));
-            container.RegisterCollection(typeof(IHandleQuery<,>), typeof(HandleQuandlQueryBy<>));
+            //container.RegisterCollection(typeof (IHandleQuery<,>), typeof (HandleDatasetBy<>).Assembly);
+            //container.RegisterCollection(typeof(IHandleQuery<,>), typeof(HandleQuandlQueryBy<>));
         }
     }
 }

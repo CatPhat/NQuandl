@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "nquandl.console Console Application",
+  "authors": [ "USER9" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+  },
+
+  "commands": {
+    "nquandl.console": "nquandl.console"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "dependencies": {
+        "nquandl.client": "1.0.0-*"
+      }
+    }
+  }
+}
