@@ -6,7 +6,7 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "dnx46": {
+    "dnx451": {
       "dependencies": {
        
         "CsvHelper": "1.0.0-*",

@@ -1,4 +1,5 @@
-﻿using NQuandl.Client.Api;
+﻿using System;
+using NQuandl.Client.Api;
 using SimpleInjector;
 
 namespace NQuandl.Client.CompositionRoot
@@ -28,6 +29,8 @@ namespace NQuandl.Client.CompositionRoot
             return container;
         }
 
+      
+
         public static IProcessQueries GetQueryProcessor(this Container container)
         {
             return (IProcessQueries) container.GetInstance(typeof (IProcessQueries));
@@ -37,8 +40,7 @@ namespace NQuandl.Client.CompositionRoot
         {
             if (_container == null)
             {
-                _container = new Container();
-                Configure(_container);
+                Configure();
             }
             var queries = _container.GetQueryProcessor();
             return queries.Execute(query);
