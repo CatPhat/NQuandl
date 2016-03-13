@@ -13,11 +13,11 @@ namespace nquandl.console
         {
             Bootstrapper.Bootstrap();
             var queries = Bootstrapper.GetQueryProcessor();
-            var result = queries.Execute(new DatabaseDatasetListBy("UN")).Result;
+            var result = queries.Execute(new DatabaseListBy()).Result;
 
-            foreach (var databaseDatasetCsvRow in result.Datasets)
+            foreach (var databaseDatasetCsvRow in result.databases)
             {
-                Console.WriteLine(databaseDatasetCsvRow.DatabaseCode);
+                Console.WriteLine(databaseDatasetCsvRow.database_code);
             }
             Console.ReadLine();
 

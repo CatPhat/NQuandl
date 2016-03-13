@@ -6,34 +6,37 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "dnx451": {
+    "dnx46": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
-        "CsvHelper": "2.13.5",
-      
+       
+        "CsvHelper": "1.0.0-*",
+        "System.Reflection.TypeExtensions": "4.1.0-beta-23516"
       },
       "frameworkAssemblies": {
-        "System": "4.0.0.0",
-        "System.Runtime": "4.0.10.0",
+        "System.Runtime": "4.0.0",
+
+        "System.Collections": "4.0.0.0",
         "System.IO": "4.0.0",
         "System.IO.Compression": "4.0.0.0",
-      "System.Linq.Expressions": "4.0.0.0",
-
+        "System.Linq.Expressions": "4.0.0.0",
         "System.Net.Http": "4.0.0.0",
-        "System.Linq": "4.0.0.0"
-
+        "System.Linq": "4.0.0.0",
+        "System.Linq.Queryable": "4.0.0.0"
       }
-    }
+    },
+   
 
   },
   "dependencies": {
-   
+
+    "NuSpec.ReferenceGenerator": "1.4.2",
     "Newtonsoft.Json": "8.0.2",
     "SimpleInjector": "3.1.2",
     "SimpleInjector.Extensions.LifetimeScoping": "3.1.2",
 
     "Flurl": "1.0.10",
     "Flurl.Http": "0.7.0"
-    
+
+
   }
 }

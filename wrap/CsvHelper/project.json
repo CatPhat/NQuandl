@@ -1,14 +1,9 @@
 {
   "version": "1.0.0-*",
   "frameworks": {
-    "net461": {
+    "net451": {
       "bin": {
-        "assembly": "../../lib/net461/CsvHelper.dll"
-      }
-    },
-    "dnx451": {
-      "bin": {
-        "assembly": "../../lib/dnx451/CsvHelper.dll"
+        "assembly": "../../lib/net451/CsvHelper.dll"
       }
     }
   }

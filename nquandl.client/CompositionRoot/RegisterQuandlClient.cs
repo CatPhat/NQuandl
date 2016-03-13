@@ -43,10 +43,10 @@ namespace NQuandl.Client.CompositionRoot
             container.Register<IProcessQueries, QueryProcessor>();
 
             var assembly = typeof (IHandleQuery<,>).Assembly;
-
-            container.RegisterCollection(typeof (IHandleQuery<,>), assembly);
-
-
+            var assemblies = container.GetTypesToRegister(typeof (IHandleQuery<,>), new[] { assembly });
+            container.Register(typeof (IHandleQuery<,>), assemblies);
+            container.RegisterConditional(typeof(IHandleQuery<,>),  typeof(HandleQuandlQueryBy<>), c => !c.Handled);
+            //container.RegisterCollection(typeof(IHandleQuery<,>), new[] { assembly });
             //container.RegisterCollection(typeof (IHandleQuery<,>), typeof (HandleDatasetBy<>).Assembly);
             //container.RegisterCollection(typeof(IHandleQuery<,>), typeof(HandleQuandlQueryBy<>));
         }
