@@ -1,32 +1,47 @@
-﻿using System;
-using NQuandl.Client.Api;
+﻿using NQuandl.Client.Api;
 using SimpleInjector;
 
 namespace NQuandl.Client.CompositionRoot
 {
     public static class Bootstrapper
     {
-        private static Container Container;
+        private static Container _container;
 
-        public static void Bootstrap(string apiKey = null)
+        public static Container Configure(Container container = null, string apiKey = null)
         {
             var url = @"https://quandl.com/api";
 #if !DEBUG
             url = @"http://localhost:49832/api";
 #endif
-            Container = new Container();
-            NQuandlRegisterRegisterAll(Container, url, apiKey);
-            Container.Verify();
+            var nullContainer = container == null;
+            if (nullContainer)
+            {
+                container = new Container();
+            }
+            container.NQuandlRegisterRegisterAll(url, apiKey);
+
+            if (nullContainer)
+            {
+                container.Verify();
+            }
+            _container = container;
+            return container;
         }
 
-        public static object GetInstance(Type serviceType)
+        public static IProcessQueries GetQueryProcessor(this Container container)
         {
-            return Container.GetInstance(serviceType);
+            return (IProcessQueries) container.GetInstance(typeof (IProcessQueries));
         }
 
-        public static IProcessQueries GetQueryProcessor()
+        public static TResult Execute<TResult>(this IDefineQuery<TResult> query)
         {
-            return (IProcessQueries) GetInstance(typeof (IProcessQueries));
+            if (_container == null)
+            {
+                _container = new Container();
+                Configure(_container);
+            }
+            var queries = _container.GetQueryProcessor();
+            return queries.Execute(query);
         }
 
         public static void NQuandlRegisterRegisterAll(this Container container, string url, string apiKey = null)
