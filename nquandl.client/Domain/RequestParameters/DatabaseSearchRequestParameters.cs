@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Domain.RequestParameters
+﻿namespace NQuandl.Domain.RequestParameters
 {
     public class DatabaseSearchRequestParameters : QuandlRequestParameters
     {

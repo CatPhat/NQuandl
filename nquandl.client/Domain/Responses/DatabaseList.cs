@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Domain.Responses
+﻿namespace NQuandl.Domain.Responses
 {
     public class DatabaseList : ResponseWithHttpMessage
     {

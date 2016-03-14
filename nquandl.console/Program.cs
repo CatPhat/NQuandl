@@ -1,6 +1,6 @@
 ﻿using System;
 using NQuandl.Client.CompositionRoot;
-using NQuandl.Client.Domain.Queries;
+using NQuandl.Domain.Queries;
 
 namespace nquandl.console
 {

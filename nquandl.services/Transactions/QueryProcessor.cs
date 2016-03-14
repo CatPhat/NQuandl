@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
-using NQuandl.Client.Api;
+using JetBrains.Annotations;
+using NQuandl.Api;
 using SimpleInjector;
 
-namespace NQuandl.Client.CompositionRoot
+namespace NQuandl.Services.Transactions
 {
-    internal sealed class QueryProcessor : IProcessQueries
+    [UsedImplicitly]
+    sealed class QueryProcessor : IProcessQueries
     {
         private readonly Container _container;
 
@@ -20,5 +22,9 @@ namespace NQuandl.Client.CompositionRoot
             dynamic handler = _container.GetInstance(handlerType);
             return handler.Handle((dynamic) query);
         }
+
+        
     }
+
+   
 }

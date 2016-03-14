@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.Responses;
+using NQuandl.Api;
+using NQuandl.Api.Helpers;
+using NQuandl.Domain.Responses;
 
-namespace NQuandl.Client.Domain.Queries
+namespace NQuandl.Domain.Queries
 {
     // https://www.quandl.com/api/v3/databases.json
     public class DatabaseSearchBy : IDefineQuery<Task<DatabaseSearch>>
@@ -16,6 +16,8 @@ namespace NQuandl.Client.Domain.Queries
         public int? PerPage { get; set; }
         public int? Page { get; set; }
         public string ApiVersion => RequestParameterConstants.ApiVersion;
+
+       
     }
 
     public class HandleDatabaseSearchBy : IHandleQuery<DatabaseSearchBy, Task<DatabaseSearch>>

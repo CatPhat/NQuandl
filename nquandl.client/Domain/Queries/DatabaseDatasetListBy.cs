@@ -1,14 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using CsvHelper;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.Responses;
+using NQuandl.Api;
+using NQuandl.Api.Helpers;
+using NQuandl.Domain.Responses;
 
-namespace NQuandl.Client.Domain.Queries
+namespace NQuandl.Domain.Queries
 {
     // https://www.quandl.com/api/v3/databases/:database_code/codes
     // https://www.quandl.com/api/v3/databases/YC/codes
@@ -38,6 +40,7 @@ namespace NQuandl.Client.Domain.Queries
             _client = client;
         }
 
+        //todo move zip reader to .services
         public async Task<DatabaseDatasetList> Handle(DatabaseDatasetListBy query)
         {
             var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());

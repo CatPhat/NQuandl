@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using NQuandl.Client.Domain.RequestParameters;
+using NQuandl.Domain.RequestParameters;
 
-namespace NQuandl.Client.Api
+namespace NQuandl.Api
 {
     public interface IQuandlClient
     {

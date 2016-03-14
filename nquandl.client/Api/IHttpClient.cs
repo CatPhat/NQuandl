@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NQuandl.Client.Api
+namespace NQuandl.Api
 {
     public interface IHttpClient
     {

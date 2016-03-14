@@ -1,7 +1,7 @@
 ﻿using System;
-using NQuandl.Client.Api.Helpers;
+using NQuandl.Api.Helpers;
 
-namespace NQuandl.Client.Domain.RequestParameters
+namespace NQuandl.Domain.RequestParameters
 {
     public class DataRequestParameters
     {

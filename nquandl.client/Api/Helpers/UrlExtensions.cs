@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Flurl;
 using Newtonsoft.Json;
-using NQuandl.Client.Domain.Queries;
-using NQuandl.Client.Domain.RequestParameters;
-using NQuandl.Client.Domain.Responses;
-using static System.String;
+using NQuandl.Domain.Queries;
+using NQuandl.Domain.RequestParameters;
+using NQuandl.Domain.Responses;
+using Flurl;
+using System.Linq;
 
-
-namespace NQuandl.Client.Api.Helpers
+namespace NQuandl.Api.Helpers
 {
     public static class UrlExtensions
     {
@@ -173,7 +171,7 @@ namespace NQuandl.Client.Api.Helpers
 
             var parameters = new List<RequestParameter>();
 
-            if (!IsNullOrEmpty(query.Query))
+            if (!String.IsNullOrEmpty(query.Query))
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Query, query.Query);
                 parameters.Add(parameter);
@@ -256,7 +254,7 @@ namespace NQuandl.Client.Api.Helpers
 
         public static string ToUrl(this QuandlClientRequestParameters parameters, string baseUrl)
         {
-            if (IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
+            if (String.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
             
             var url = baseUrl.AppendPathSegment(parameters.PathSegment);
             if (parameters.QueryParameters.Any())
@@ -269,7 +267,7 @@ namespace NQuandl.Client.Api.Helpers
 
         public static string ToUri(this QuandlClientRequestParameters parameters, string apiKey = null)
         {
-            if (IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
+            if (String.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
 
             var url = "api".AppendPathSegment(parameters.PathSegment);
 

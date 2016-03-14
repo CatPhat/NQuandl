@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using NQuandl.Client.Api;
+using NQuandl.Api;
 
-namespace NQuandl.Client.Domain.Responses
+namespace NQuandl.Domain.Responses
 {
     public class DatabaseDataset : ResponseWithHttpMessage
     {

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
+using NQuandl.Api;
+using NQuandl.Api.Configuration;
+using NQuandl.Api.Helpers;
+using NQuandl.Domain.RequestParameters;
 
-namespace NQuandl.Client.Domain
+namespace NQuandl.Services.Quandl
 {
     /// <summary>
     ///     Class for Consuming Quandl REST API
@@ -13,20 +14,23 @@ namespace NQuandl.Client.Domain
     public class QuandlClient : IQuandlClient
     {
         private readonly IHttpClient _client;
-        private readonly string _apiKey;
+        private readonly AppConfiguration _configuration;
+     
 
-        public QuandlClient(IHttpClient client, string apiKey = null)
+        public QuandlClient(IHttpClient client, AppConfiguration configuration)
         {
             if (client == null) throw new ArgumentNullException("client");
+            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
             _client = client;
-            _apiKey = apiKey;
+            _configuration = configuration;
+           
         }
 
         public async Task<HttpResponseMessage> GetFullResponseAsync(QuandlClientRequestParameters parameters)
         {
             try
             {
-                return await _client.GetAsync(parameters.ToUri(_apiKey));
+                return await _client.GetAsync(parameters.ToUri(_configuration.ApiKey));
             }
             catch (HttpRequestException e)
             {

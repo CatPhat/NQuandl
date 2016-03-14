@@ -1,22 +1,13 @@
 ﻿{
-  "supports": {
-    "net46.app": {},
-    "uwp.10.0.app": {},
+  "version": "1.0.0-*",
+  "description": "nquandl.serviceQueue Class Library",
+  "authors": [ "USER9" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
 
-  },
-  "dependencies": {
-    "Microsoft.NETCore": "5.0.0",
-    "Microsoft.NETCore.Portable.Compatibility": "1.0.0"
-  },
   "frameworks": {
-    "dnx451": {
-      "dependencies": {
-
-        "Hangfire": "1.5.3",
-        "Hangfire.Redis.StackExchange": "1.5.3-rc"
-
-      },
-      "imports": "portable-net452+win81"
-    }
+    "net451": { }
+  
   }
 }

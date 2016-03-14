@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NQuandl.Client.Api.Helpers
+namespace NQuandl.Api.Helpers
 {
     internal static class GetRequestValueAttribute
     {

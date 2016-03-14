@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.RequestParameters;
-using NQuandl.Client.Domain.Responses;
+using NQuandl.Api;
+using NQuandl.Api.Helpers;
+using NQuandl.Domain.RequestParameters;
+using NQuandl.Domain.Responses;
 
-namespace NQuandl.Client.Domain.Queries
+namespace NQuandl.Domain.Queries
 {
     public class QuandlQueryBy<TResult> : IDefineQuery<Task<TResult>> where TResult : ResponseWithHttpMessage
     {

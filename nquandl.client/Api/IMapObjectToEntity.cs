@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Client.Api
+﻿namespace NQuandl.Api
 {
     public interface IMapObjectToEntity<TEntity> where TEntity : QuandlEntity
     {

@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace NQuandl.Client.Domain.Responses
+namespace NQuandl.Domain.Responses
 {
     public abstract class ResponseWithHttpMessage
     {

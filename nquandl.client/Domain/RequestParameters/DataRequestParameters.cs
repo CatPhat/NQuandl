@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
+using NQuandl.Api;
+using NQuandl.Api.Helpers;
 
-namespace NQuandl.Client.Domain.RequestParameters
+namespace NQuandl.Domain.RequestParameters
 {
     public class RequiredDataRequestParameters : QuandlRequestParameters
     {

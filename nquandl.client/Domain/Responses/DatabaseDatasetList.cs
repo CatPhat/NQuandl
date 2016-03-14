@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CsvHelper.Configuration;
 
-namespace NQuandl.Client.Domain.Responses
+namespace NQuandl.Domain.Responses
 {
     public class DatabaseDatasetList : ResponseWithHttpMessage
     {
@@ -16,7 +16,7 @@ namespace NQuandl.Client.Domain.Responses
         public string DatasetCode { get; set; }
         public string DatasetDescription { get; set; }
     }
-
+    //todo should be moved to .services
     //http://joshclose.github.io/CsvHelper/
     public sealed class DatabaseDatasetCsvRowMapper: CsvClassMap<DatabaseDatasetCsvRow>
     {

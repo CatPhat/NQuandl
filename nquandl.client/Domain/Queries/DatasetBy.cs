@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using NQuandl.Client.Api;
-using NQuandl.Client.Api.Helpers;
-using NQuandl.Client.Domain.Responses;
+using NQuandl.Api;
+using NQuandl.Api.Helpers;
+using NQuandl.Domain.Responses;
+using System.Linq;
 
-namespace NQuandl.Client.Domain.Queries
+namespace NQuandl.Domain.Queries
 {
     // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
     public class DatasetBy<TEntity> : IDefineQuery<Task<DatabaseDataset<TEntity>>>
