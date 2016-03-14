@@ -130,18 +130,6 @@ namespace NQuandl.Api.Helpers
             return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatasetMetadataRequestParameters options)
-        {
-            if (options == null) throw new ArgumentNullException(nameof(options));
-
-            var parameters = new List<RequestParameter>
-            {
-                new RequestParameter(RequestParameterConstants.DatabaseCode, options.DatabaseCode),
-                new RequestParameter(RequestParameterConstants.DatasetCode, options.DatasetCode)
-            };
-
-            return parameters;
-        }
 
         public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseListBy query)
         {
