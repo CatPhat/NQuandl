@@ -41,20 +41,16 @@ namespace NQuandl.Domain.Queries
         //todo move zip reader to .services
         public async Task<DatabaseDatasetList> Handle(DatabaseDatasetListBy query)
         {
-            //var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());
+            var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());
+            var zipStream = await fullResponse.Content.ReadAsStreamAsync();
 
-
-            //var zipStream = await fullResponse.Content.ReadAsStreamAsync();
-
-            var zipStream = File.OpenRead(
-                @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
             var zipArchive = new ZipArchive(zipStream);
 
             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
             var datasets = await _mapper.MapToDataset(csvFile);
             var databaseDatasetList = new DatabaseDatasetList
             {
-                HttpResponseMessage = null,
+                HttpResponseMessage = fullResponse,
                 Datasets = datasets
             };
 
