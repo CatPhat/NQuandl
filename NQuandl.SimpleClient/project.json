@@ -1,0 +1,21 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "NQuandl.SimpleClient Class Library",
+  "authors": [ "USER9" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+
+    
+    "dnx451": {
+      "dependencies": {}
+    },
+
+  },
+  "dependencies": {
+    "NQuandl.Domain": "1.0.0-*",
+    "NQuandl.Services": "1.0.0-*",
+    "SimpleInjector": "3.1.2"
+  }
+}

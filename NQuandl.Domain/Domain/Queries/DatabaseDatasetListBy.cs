@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using CsvHelper;
+using JetBrains.Annotations;
 using NQuandl.Api;
 using NQuandl.Api.Helpers;
 using NQuandl.Domain.Responses;
@@ -29,15 +29,18 @@ namespace NQuandl.Domain.Queries
     public class HandleDatabaseDatasetListBy : IHandleQuery<DatabaseDatasetListBy, Task<DatabaseDatasetList>>
     {
         private readonly IQuandlClient _client;
-        private readonly IProcessQueries _queries;
+        private readonly IMapCsvStream _mapper;
 
-        public HandleDatabaseDatasetListBy(IProcessQueries queries, IQuandlClient client)
+
+        public HandleDatabaseDatasetListBy( IQuandlClient client, IMapCsvStream mapper)
         {
-            if (queries == null) throw new ArgumentNullException(nameof(queries));
+        
             if (client == null) throw new ArgumentNullException(nameof(client));
+            if (mapper == null) throw new ArgumentNullException(nameof(mapper));
 
-            _queries = queries;
+
             _client = client;
+            _mapper = mapper;
         }
 
         //todo move zip reader to .services
@@ -50,19 +53,11 @@ namespace NQuandl.Domain.Queries
             var zipArchive = new ZipArchive(zipStream);
 
             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
-            var csv = new CsvReader(csvFile);
-
-            csv.Configuration.HasHeaderRecord = false;
-            csv.Configuration.SkipEmptyRecords = true;
-            csv.Configuration.ThrowOnBadData = true;
-            csv.Configuration.IgnoreHeaderWhiteSpace = true;
-            csv.Configuration.RegisterClassMap<DatabaseDatasetCsvRowMapper>();
-
-            var csvRecords = csv.GetRecords<DatabaseDatasetCsvRow>().ToList();
+            var datasets = await _mapper.MapToDataset(csvFile);
             var databaseDatasetList = new DatabaseDatasetList
             {
                 HttpResponseMessage = fullResponse,
-                Datasets = csvRecords
+                Datasets = datasets
             };
 
             return databaseDatasetList;

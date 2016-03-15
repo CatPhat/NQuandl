@@ -10,7 +10,7 @@ namespace NQuandl.Services.CompositionRoot
 {
     public static class CompositionRoot
     {
-        public static void ComposeRoot(this Container container, RootCompositionSettings settings)
+        public static void ComposeRoot(this Container container, RootCompositionSettings settings = null)
         {
             settings = settings ?? new RootCompositionSettings();
 
@@ -18,7 +18,8 @@ namespace NQuandl.Services.CompositionRoot
             container.RegisterConfiguration();
             container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
             container.RegisterHttpClient();
-            container.RegisterQuandlMapper(settings.QuandlMapperAssemblies);
+            container.RegisterQuandlJsonMapper(settings.QuandlJsonMapperAssemblies);
+            container.RegisterQuandlCsvMapper(settings.QuandlCsvMapperAssemblies);
             container.RegisterQuandlClient();
         }
     }

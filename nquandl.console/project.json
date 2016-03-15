@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "nquandl.console Console Application",
   "authors": [ "USER9" ],
@@ -11,6 +11,8 @@
   },
 
   "dependencies": {
+    "NQuandl.Domain": "1.0.0-*",
+    "NQuandl.SimpleClient": "1.0.0-*",
   },
 
   "commands": {
@@ -20,13 +22,9 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
-        "nquandl.client": "",
-
-        "Microsoft.CSharp": "4.0.1-beta-23516",
-        "System.Collections": "4.0.11-beta-23516",
-
-        "System.Linq": "4.0.1-beta-23516",
-        "System.Threading": "4.0.11-beta-23516"
+   
+     
+       
       }
     }
     

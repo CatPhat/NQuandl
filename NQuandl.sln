@@ -11,11 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nquandl.client.nuspec = nquandl.client.nuspec
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Domain", "nquandl.client\NQuandl.Domain.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nquandl.console", "nquandl.console\nquandl.console.xproj", "{81320399-8AB2-43A9-876D-0CA9F8285969}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Services", "nquandl.services\NQuandl.Services.xproj", "{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Services", "NQuandl.Services\NQuandl.Services.xproj", "{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.SimpleClient", "NQuandl.SimpleClient\NQuandl.SimpleClient.xproj", "{A4EA89CC-6940-4A29-8F13-B273E134827F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{95BCA6D3-E31F-45D2-8AB9-9DC1CD67FC1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.Services.UnitTests", "tests\NQuandl.Services.UnitTests\NQuandl.Services.UnitTests.csproj", "{7EE9E928-9A2E-412D-B13D-0869920800BA}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Domain", "NQuandl.Domain\NQuandl.Domain.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81320399-8AB2-43A9-876D-0CA9F8285969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81320399-8AB2-43A9-876D-0CA9F8285969}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81320399-8AB2-43A9-876D-0CA9F8285969}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,13 +37,27 @@ Global
 		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EE9E928-9A2E-412D-B13D-0869920800BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EE9E928-9A2E-412D-B13D-0869920800BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EE9E928-9A2E-412D-B13D-0869920800BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EE9E928-9A2E-412D-B13D-0869920800BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3260FD84-8A32-41C4-8F44-DA571ABEADED} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 		{81320399-8AB2-43A9-876D-0CA9F8285969} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{A4EA89CC-6940-4A29-8F13-B273E134827F} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{7EE9E928-9A2E-412D-B13D-0869920800BA} = {95BCA6D3-E31F-45D2-8AB9-9DC1CD67FC1D}
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 	EndGlobalSection
 EndGlobal

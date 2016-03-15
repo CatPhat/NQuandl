@@ -1,6 +1,7 @@
 ﻿using System;
-using NQuandl.Client.CompositionRoot;
+
 using NQuandl.Domain.Queries;
+using NQuandl.SimpleClient;
 
 namespace nquandl.console
 {
@@ -9,13 +10,20 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
 
-            var result = new DatabaseListBy().Execute();
+            var result = new DatabaseDatasetListBy("UN").Execute();
+            var result2 = new DatabaseSearchBy().Execute();
            
 
-            foreach (var databaseDatasetCsvRow in result.Result.databases)
+            foreach (var databaseDatasetCsvRow in result.Result.Datasets)
             {
-                Console.WriteLine(databaseDatasetCsvRow.database_code);
-                Console.WriteLine(databaseDatasetCsvRow.description);
+                Console.WriteLine(databaseDatasetCsvRow.DatasetCode);
+                Console.WriteLine(databaseDatasetCsvRow.DatasetDescription);
+            }
+
+            foreach (var searchDatabase in result2.Result.databases)
+            {
+                Console.WriteLine(searchDatabase.name);
+                Console.WriteLine(searchDatabase.description);
             }
 
            

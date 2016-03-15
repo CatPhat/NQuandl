@@ -1,11 +1,17 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "nquandl.services Class Library",
+  "description": "NQuandl.Services Class Library",
   "authors": [ "USER9" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
+    "net451": {
+      "dependencies": {
+        "simpleinjector": "3.1.0",
+        "SimpleInjector.Extensions.LifetimeScoping": "3.1.0"
+      }
+    },
     "dnx451": {
       "dependencies": {
         "SimpleInjector": "3.1.2",
@@ -14,6 +20,6 @@
     },
   },
   "dependencies": {
-    "nquandl.client": "1.0.0-*"
+    "NQuandl.Domain": "1.0.0-*"
   }
 }
