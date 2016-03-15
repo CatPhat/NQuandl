@@ -6,7 +6,7 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "net451": { "frameworkAssemblies": {"System.Configuration": "4.0.0.0"}},
+   
     "dnx451": {
       "frameworkAssemblies": { 
         "System.Configuration": "4.0.0.0" }

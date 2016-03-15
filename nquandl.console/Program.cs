@@ -10,8 +10,8 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
 
-            var result = new DatabaseDatasetListBy("UN").Execute();
-            var result2 = new DatabaseSearchBy().Execute();
+            var result = new DatabaseDatasetListBy("YC").Execute();
+            //var result2 = new DatabaseSearchBy().Execute();
            
 
             foreach (var databaseDatasetCsvRow in result.Result.Datasets)
@@ -20,11 +20,11 @@ namespace nquandl.console
                 Console.WriteLine(databaseDatasetCsvRow.DatasetDescription);
             }
 
-            foreach (var searchDatabase in result2.Result.databases)
-            {
-                Console.WriteLine(searchDatabase.name);
-                Console.WriteLine(searchDatabase.description);
-            }
+            //foreach (var searchDatabase in result2.Result.databases)
+            //{
+            //    Console.WriteLine(searchDatabase.name);
+            //    Console.WriteLine(searchDatabase.description);
+            //}
 
            
             Console.WriteLine("done");

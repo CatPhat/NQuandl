@@ -12,10 +12,10 @@ namespace NQuandl.Services.Quandl.Mapper
             container.RegisterCollection(typeof (IMapObjectToEntity<>), assemblies);
         }
 
-        public static void RegisterQuandlCsvMapper(this Container container, params Assembly[] assemblies)
+        public static void RegisterQuandlCsvMapper(this Container container)
         {
-            assemblies = assemblies ?? new[] { Assembly.GetAssembly(typeof(IMapCsvStream)) };
-            container.Register(typeof(IMapCsvStream), assemblies);
+           
+            container.Register<IMapCsvStream, MapCsvStream>();
         }
     }
 }

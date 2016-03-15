@@ -19,7 +19,7 @@ namespace NQuandl.Services.CompositionRoot
             container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
             container.RegisterHttpClient();
             container.RegisterQuandlJsonMapper(settings.QuandlJsonMapperAssemblies);
-            container.RegisterQuandlCsvMapper(settings.QuandlCsvMapperAssemblies);
+            container.RegisterQuandlCsvMapper();
             container.RegisterQuandlClient();
         }
     }

@@ -2,10 +2,6 @@
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using JetBrains.Annotations;
 using NQuandl.Api;
 using NQuandl.Api.Helpers;
 using NQuandl.Domain.Responses;
@@ -32,9 +28,8 @@ namespace NQuandl.Domain.Queries
         private readonly IMapCsvStream _mapper;
 
 
-        public HandleDatabaseDatasetListBy( IQuandlClient client, IMapCsvStream mapper)
+        public HandleDatabaseDatasetListBy(IQuandlClient client, IMapCsvStream mapper)
         {
-        
             if (client == null) throw new ArgumentNullException(nameof(client));
             if (mapper == null) throw new ArgumentNullException(nameof(mapper));
 
@@ -46,17 +41,20 @@ namespace NQuandl.Domain.Queries
         //todo move zip reader to .services
         public async Task<DatabaseDatasetList> Handle(DatabaseDatasetListBy query)
         {
-            var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());
+            //var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());
 
 
-            var zipStream = await fullResponse.Content.ReadAsStreamAsync();
+            //var zipStream = await fullResponse.Content.ReadAsStreamAsync();
+
+            var zipStream = File.OpenRead(
+                @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
             var zipArchive = new ZipArchive(zipStream);
 
             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
             var datasets = await _mapper.MapToDataset(csvFile);
             var databaseDatasetList = new DatabaseDatasetList
             {
-                HttpResponseMessage = fullResponse,
+                HttpResponseMessage = null,
                 Datasets = datasets
             };
 

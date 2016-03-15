@@ -6,12 +6,7 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "net451": {
-      "dependencies": {
-        "simpleinjector": "3.1.0",
-        "SimpleInjector.Extensions.LifetimeScoping": "3.1.0"
-      }
-    },
+   
     "dnx451": {
       "dependencies": {
         "SimpleInjector": "3.1.2",
