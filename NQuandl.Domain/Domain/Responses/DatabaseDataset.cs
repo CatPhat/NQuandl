@@ -4,7 +4,7 @@ using NQuandl.Api;
 
 namespace NQuandl.Domain.Responses
 {
-    public class DatabaseDataset : ResponseWithHttpMessage
+    public class DatabaseDataset : ResponseWithRawHttpContent
     {
         public Dataset dataset { get; set; }
     }

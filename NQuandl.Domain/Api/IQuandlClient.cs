@@ -1,11 +1,11 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NQuandl.Domain.RequestParameters;
+using NQuandl.Domain.Responses;
 
 namespace NQuandl.Api
 {
     public interface IQuandlClient
     {
-        Task<HttpResponseMessage> GetFullResponseAsync(QuandlClientRequestParameters parameters);
+        Task<RawHttpContent> GetFullResponseAsync(QuandlClientRequestParameters parameters);
     }
 }

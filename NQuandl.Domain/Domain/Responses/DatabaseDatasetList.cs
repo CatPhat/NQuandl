@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NQuandl.Domain.Responses
 {
-    public class DatabaseDatasetList : ResponseWithHttpMessage
+    public class DatabaseDatasetList : ResponseWithRawHttpContent
     {
         public IEnumerable<DatabaseDatasetCsvRow> Datasets { get; set; }
     }

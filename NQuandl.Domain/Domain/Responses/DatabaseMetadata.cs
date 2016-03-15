@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Domain.Responses
 {
-    public class DatabaseMetadata : ResponseWithHttpMessage
+    public class DatabaseMetadata : ResponseWithRawHttpContent
     {
         public Database database { get; set; }
     }

@@ -1,9 +1,17 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
 
 namespace NQuandl.Domain.Responses
 {
-    public abstract class ResponseWithHttpMessage
+    public abstract class ResponseWithRawHttpContent
     {
-        public HttpResponseMessage HttpResponseMessage { get; set; }
+        public RawHttpContent RawHttpContent { get; set; }
+    }
+
+    public class RawHttpContent
+    {
+        public string StatusCode { get; set; }
+        public bool IsStatusSuccessCode { get; set; }
+        public Stream Content { get; set; }
     }
 }

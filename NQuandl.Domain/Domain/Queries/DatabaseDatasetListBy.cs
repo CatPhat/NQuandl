@@ -42,18 +42,15 @@ namespace NQuandl.Domain.Queries
         public async Task<DatabaseDatasetList> Handle(DatabaseDatasetListBy query)
         {
             var fullResponse = await _client.GetFullResponseAsync(query.ToQuandlClientRequestParameters());
-            var zipStream = await fullResponse.Content.ReadAsStreamAsync();
-
-            var zipArchive = new ZipArchive(zipStream);
-
+            var zipArchive = new ZipArchive(fullResponse.Content);
             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
             var datasets = await _mapper.MapToDataset(csvFile);
             var databaseDatasetList = new DatabaseDatasetList
             {
-                HttpResponseMessage = fullResponse,
+                RawHttpContent = fullResponse,
                 Datasets = datasets
             };
-
+            
             return databaseDatasetList;
         }
     }

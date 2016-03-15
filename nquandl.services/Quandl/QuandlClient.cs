@@ -5,6 +5,7 @@ using NQuandl.Api;
 using NQuandl.Api.Configuration;
 using NQuandl.Api.Helpers;
 using NQuandl.Domain.RequestParameters;
+using NQuandl.Domain.Responses;
 
 namespace NQuandl.Services.Quandl
 {
@@ -26,11 +27,17 @@ namespace NQuandl.Services.Quandl
            
         }
 
-        public async Task<HttpResponseMessage> GetFullResponseAsync(QuandlClientRequestParameters parameters)
+        public async Task<RawHttpContent> GetFullResponseAsync(QuandlClientRequestParameters parameters)
         {
             try
             {
-                return await _client.GetAsync(parameters.ToUri(_configuration.ApiKey));
+                var response = await _client.GetAsync(parameters.ToUri(_configuration.ApiKey));
+                return new RawHttpContent
+                {
+                    Content = await response.Content.ReadAsStreamAsync(),
+                    IsStatusSuccessCode = response.IsSuccessStatusCode,
+                    StatusCode = response.StatusCode.ToString()
+                };
             }
             catch (HttpRequestException e)
             {

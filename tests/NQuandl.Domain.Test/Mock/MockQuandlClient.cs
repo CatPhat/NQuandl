@@ -10,13 +10,9 @@ namespace NQuandl.Domain.Test.Mock
 {
     public class MockDatabaseDatasetListByQuandlClient : IQuandlClient
     {
-        public Task<HttpResponseMessage> GetFullResponseAsync(QuandlClientRequestParameters parameters)
+        public Task<RawHttpContent> GetFullResponseAsync(QuandlClientRequestParameters parameters)
         {
-            var stream = File.OpenRead(
-                @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
-            var response = new HttpResponseMessage();
-            response.Content.CopyToAsync(stream);
-            return Task.FromResult(response);
+            throw new System.NotImplementedException();
         }
     }
 
