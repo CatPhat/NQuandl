@@ -1,5 +1,6 @@
 ﻿using System;
 using NQuandl.Api;
+using NQuandl.Api.Transactions;
 using SimpleInjector;
 
 namespace NQuandl.SimpleClient

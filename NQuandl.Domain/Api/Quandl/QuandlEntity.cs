@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Api
+﻿namespace NQuandl.Api.Quandl
 {
     public abstract class QuandlEntity
     {

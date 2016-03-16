@@ -1,6 +1,6 @@
 using System;
 
-namespace NQuandl.Api.Helpers
+namespace NQuandl.Api.Quandl.Helpers
 {
     internal class RequestValue : Attribute
     {

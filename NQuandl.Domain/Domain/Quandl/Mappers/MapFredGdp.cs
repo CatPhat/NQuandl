@@ -1,4 +1,5 @@
 ﻿using NQuandl.Api;
+using NQuandl.Api.Quandl;
 using NQuandl.Domain.Quandl.Entities;
 
 namespace NQuandl.Domain.Quandl.Mappers

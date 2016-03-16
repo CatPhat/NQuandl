@@ -1,6 +1,7 @@
 ﻿using System;
 using NQuandl.Api;
 using NQuandl.Api.Configuration;
+using NQuandl.Api.Quandl;
 
 namespace NQuandl.Services.HttpClient
 {

@@ -1,4 +1,4 @@
-﻿using NQuandl.Api.Helpers;
+﻿using NQuandl.Api.Quandl.Helpers;
 
 namespace NQuandl.Domain.Quandl.RequestParameters
 {

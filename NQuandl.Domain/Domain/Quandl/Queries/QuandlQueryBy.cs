@@ -3,6 +3,8 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NQuandl.Api;
+using NQuandl.Api.Quandl;
+using NQuandl.Api.Transactions;
 using NQuandl.Domain.Quandl.RequestParameters;
 using NQuandl.Domain.Quandl.Responses;
 

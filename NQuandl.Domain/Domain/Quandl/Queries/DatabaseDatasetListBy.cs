@@ -3,7 +3,9 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using NQuandl.Api;
-using NQuandl.Api.Helpers;
+using NQuandl.Api.Quandl;
+using NQuandl.Api.Quandl.Helpers;
+using NQuandl.Api.Transactions;
 using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Queries

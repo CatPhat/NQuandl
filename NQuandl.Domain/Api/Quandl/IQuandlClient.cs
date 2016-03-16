@@ -2,7 +2,7 @@
 using NQuandl.Domain.Quandl.RequestParameters;
 using NQuandl.Domain.Quandl.Responses;
 
-namespace NQuandl.Api
+namespace NQuandl.Api.Quandl
 {
     public interface IQuandlClient
     {

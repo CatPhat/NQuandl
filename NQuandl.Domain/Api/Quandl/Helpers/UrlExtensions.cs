@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Flurl;
 using System.Linq;
+using Flurl;
 using NQuandl.Domain.Quandl.Queries;
 using NQuandl.Domain.Quandl.RequestParameters;
 
-namespace NQuandl.Api.Helpers
+namespace NQuandl.Api.Quandl.Helpers
 {
     public static class UrlExtensions
     {

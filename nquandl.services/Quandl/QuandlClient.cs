@@ -3,7 +3,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using NQuandl.Api;
 using NQuandl.Api.Configuration;
-using NQuandl.Api.Helpers;
+using NQuandl.Api.Quandl;
+using NQuandl.Api.Quandl.Helpers;
 using NQuandl.Domain.Quandl.RequestParameters;
 using NQuandl.Domain.Quandl.Responses;
 

@@ -1,4 +1,5 @@
 ﻿using NQuandl.Api;
+using NQuandl.Api.Quandl;
 using SimpleInjector;
 
 namespace NQuandl.Services.HttpClient

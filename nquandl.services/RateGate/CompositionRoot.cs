@@ -1,5 +1,6 @@
 ﻿using System;
 using NQuandl.Api;
+using NQuandl.Api.Quandl;
 using SimpleInjector;
 
 namespace NQuandl.Services.RateGate

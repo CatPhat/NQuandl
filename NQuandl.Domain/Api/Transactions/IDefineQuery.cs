@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Api
+﻿namespace NQuandl.Api.Transactions
 {
     public interface IDefineQuery<TResult>
     {

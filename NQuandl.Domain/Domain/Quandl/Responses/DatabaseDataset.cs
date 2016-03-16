@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NQuandl.Api;
+using NQuandl.Api.Quandl;
 
 namespace NQuandl.Domain.Quandl.Responses
 {

@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using NQuandl.Domain.Quandl.Responses;
 
-namespace NQuandl.Api
+namespace NQuandl.Api.Quandl
 {
     public interface IMapCsvStream
     {

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using JetBrains.Annotations;
 using NQuandl.Api;
+using NQuandl.Api.Transactions;
 using SimpleInjector;
 
 namespace NQuandl.Services.Transactions

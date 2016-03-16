@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using NQuandl.Api;
+using NQuandl.Api.Quandl;
 using SimpleInjector;
 
 namespace NQuandl.Services.Quandl.Mapper

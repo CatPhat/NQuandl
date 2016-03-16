@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 using NQuandl.Api;
+using NQuandl.Api.Quandl;
 
 namespace NQuandl.Services.RateGate
 {
