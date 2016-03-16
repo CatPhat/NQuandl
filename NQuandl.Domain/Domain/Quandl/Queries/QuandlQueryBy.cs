@@ -3,11 +3,10 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NQuandl.Api;
-using NQuandl.Api.Helpers;
-using NQuandl.Domain.RequestParameters;
-using NQuandl.Domain.Responses;
+using NQuandl.Domain.Quandl.RequestParameters;
+using NQuandl.Domain.Quandl.Responses;
 
-namespace NQuandl.Domain.Queries
+namespace NQuandl.Domain.Quandl.Queries
 {
     public class QuandlQueryBy<TResult> : IDefineQuery<Task<TResult>> where TResult : ResponseWithRawHttpContent
     {

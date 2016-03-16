@@ -1,6 +1,6 @@
 ﻿using NQuandl.Api;
 
-namespace NQuandl.Domain.Entities
+namespace NQuandl.Domain.Quandl.Entities
 {
     public class FredGdp : QuandlEntity
     {

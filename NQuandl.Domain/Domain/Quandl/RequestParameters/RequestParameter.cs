@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Domain.RequestParameters
+﻿namespace NQuandl.Domain.Quandl.RequestParameters
 {
     public class RequestParameter
     {

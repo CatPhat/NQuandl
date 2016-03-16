@@ -1,7 +1,7 @@
 ﻿using NQuandl.Api;
-using NQuandl.Domain.Entities;
+using NQuandl.Domain.Quandl.Entities;
 
-namespace NQuandl.Domain.Mappers
+namespace NQuandl.Domain.Quandl.Mappers
 {
     public class MapFredGdp : IMapObjectToEntity<FredGdp>
     {

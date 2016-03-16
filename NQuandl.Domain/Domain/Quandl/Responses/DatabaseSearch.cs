@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NQuandl.Domain.Responses
+﻿namespace NQuandl.Domain.Quandl.Responses
 {
     public class DatabaseSearch : ResponseWithRawHttpContent
     {

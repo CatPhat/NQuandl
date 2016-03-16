@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using NQuandl.Domain.Queries;
-using NQuandl.Domain.RequestParameters;
-using NQuandl.Domain.Responses;
 using Flurl;
 using System.Linq;
+using NQuandl.Domain.Quandl.Queries;
+using NQuandl.Domain.Quandl.RequestParameters;
 
 namespace NQuandl.Api.Helpers
 {

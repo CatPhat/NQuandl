@@ -3,8 +3,8 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NQuandl.Api;
-using NQuandl.Domain.RequestParameters;
-using NQuandl.Domain.Responses;
+using NQuandl.Domain.Quandl.RequestParameters;
+using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Test.Mock
 {

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using NQuandl.Api;
-using NQuandl.Domain.Queries;
+using NQuandl.Domain.Quandl.Queries;
 using SimpleInjector;
 
 namespace NQuandl.Services.Transactions

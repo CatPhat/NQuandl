@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NQuandl.Domain.RequestParameters
+namespace NQuandl.Domain.Quandl.RequestParameters
 {
     public class QuandlClientRequestParameters
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using NQuandl.Api;
 
-namespace NQuandl.Domain.Responses
+namespace NQuandl.Domain.Quandl.Responses
 {
     public class DatabaseDataset : ResponseWithRawHttpContent
     {

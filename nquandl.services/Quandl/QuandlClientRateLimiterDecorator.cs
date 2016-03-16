@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api;
-using NQuandl.Domain.RequestParameters;
-using NQuandl.Domain.Responses;
+using NQuandl.Domain.Quandl.RequestParameters;
+using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Services.Quandl
 {

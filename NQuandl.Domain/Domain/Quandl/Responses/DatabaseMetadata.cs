@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Domain.Responses
+﻿namespace NQuandl.Domain.Quandl.Responses
 {
     public class DatabaseMetadata : ResponseWithRawHttpContent
     {

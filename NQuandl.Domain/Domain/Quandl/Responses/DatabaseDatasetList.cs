@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-
-namespace NQuandl.Domain.Responses
+namespace NQuandl.Domain.Quandl.Responses
 {
     public class DatabaseDatasetList : ResponseWithRawHttpContent
     {

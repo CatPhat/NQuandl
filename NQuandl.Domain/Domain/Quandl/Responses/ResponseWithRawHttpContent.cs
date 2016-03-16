@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace NQuandl.Domain.Responses
+namespace NQuandl.Domain.Quandl.Responses
 {
     public abstract class ResponseWithRawHttpContent
     {

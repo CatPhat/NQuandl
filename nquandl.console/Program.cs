@@ -1,6 +1,6 @@
 ﻿using System;
-using NQuandl.Domain.Entities;
-using NQuandl.Domain.Queries;
+using NQuandl.Domain.Quandl.Entities;
+using NQuandl.Domain.Quandl.Queries;
 using NQuandl.SimpleClient;
 
 namespace nquandl.console

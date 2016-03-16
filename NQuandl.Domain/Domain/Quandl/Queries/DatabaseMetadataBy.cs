@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using NQuandl.Api;
 using NQuandl.Api.Helpers;
-using NQuandl.Domain.Responses;
+using NQuandl.Domain.Quandl.Responses;
 
-namespace NQuandl.Domain.Queries
+namespace NQuandl.Domain.Quandl.Queries
 {
     // https://www.quandl.com/api/v3/databases/WIKI.json
     public class DatabaseMetadataBy : IDefineQuery<Task<DatabaseMetadata>>

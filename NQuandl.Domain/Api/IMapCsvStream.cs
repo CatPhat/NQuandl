@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using NQuandl.Domain.Responses;
+using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Api
 {

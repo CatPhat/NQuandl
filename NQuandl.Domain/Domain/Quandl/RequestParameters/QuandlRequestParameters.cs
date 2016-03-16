@@ -1,6 +1,6 @@
 ﻿using NQuandl.Api.Helpers;
 
-namespace NQuandl.Domain.RequestParameters
+namespace NQuandl.Domain.Quandl.RequestParameters
 {
     public abstract class QuandlRequestParameters
     {
