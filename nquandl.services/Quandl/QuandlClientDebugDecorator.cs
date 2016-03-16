@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using NQuandl.Api;
 using NQuandl.Api.Helpers;
@@ -30,28 +26,64 @@ namespace NQuandl.Services.Quandl
                 case "api/v3/databases/YC/codes":
                     return GetDatabaseDatasetListByYC();
 
+                case "api/v3/databases.json?query=stock%2Bprice":
+                    return GetDatabaseSearchByStockPrice();
+
+                case "api/v3/databases.json":
+                    return GetDatabaseListBy();
+
+                case "api/v3/databases/YC.json?database_code=YC":
+                    return GetDatabaseMetadataByYC();
+
+                case "api/v3/datasets/FRED/GDP.json":
+                    return GetDatasetByFredGdp();
             }
             return null;
+        }
 
+        private Task<RawHttpContent> GetDatasetByFredGdp()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatasetFredGdp.json");
+        }
+
+        private Task<RawHttpContent> GetDatabaseMetadataByYC()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseMetadataYC.json");
+        }
+
+        private Task<RawHttpContent> GetDatabaseListBy()
+        {
+            return GetStreamFromFile(@"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseList.json");
+        }
+
+        private Task<RawHttpContent> GetDatabaseSearchByStockPrice()
+        {
+           return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseSearchStockPrice.json");
         }
 
         private Task<RawHttpContent> GetDatabaseDatasetListByYC()
         {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
+        }
+
+        private Task<RawHttpContent> GetStreamFromFile(string filePath)
+        {
             var response = new RawHttpContent();
-           
-            var stream = File.OpenRead(
-            @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
+
+            var stream = File.OpenRead(filePath);
 
             response.Content = stream;
             response.IsStatusSuccessCode = true;
             response.StatusCode = "test";
-
-         
-        
             return Task.FromResult(response);
-            
         }
     }
-
-    
 }

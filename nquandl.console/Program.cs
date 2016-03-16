@@ -1,5 +1,5 @@
 ﻿using System;
-
+using NQuandl.Domain.Entities;
 using NQuandl.Domain.Queries;
 using NQuandl.SimpleClient;
 
@@ -9,26 +9,65 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
+            GetDatasetByFredGdp();
 
+
+            Console.WriteLine("done");
+            Console.ReadLine();
+        }
+
+        private static void GetDatasetByFredGdp()
+        {
+            var result = new DatasetBy<FredGdp>().Execute();
+
+            foreach (var fredGdp in result.Result.Entities)
+            {
+                Console.WriteLine(fredGdp.Date);
+                Console.WriteLine(fredGdp.Value);
+            }
+        }
+
+        private static void GetDatabaseMetadataBy()
+        {
+            var result = new DatabaseMetadataBy("YC").Execute();
+
+            Console.WriteLine(result.Result.database.description);
+        }
+
+        private static void GetDatabaseDatasetList()
+        {
             var result = new DatabaseDatasetListBy("YC").Execute();
-            //var result2 = new DatabaseSearchBy().Execute();
-           
 
             foreach (var databaseDatasetCsvRow in result.Result.Datasets)
             {
                 Console.WriteLine(databaseDatasetCsvRow.DatasetCode);
                 Console.WriteLine(databaseDatasetCsvRow.DatasetDescription);
             }
+        }
 
-            //foreach (var searchDatabase in result2.Result.databases)
-            //{
-            //    Console.WriteLine(searchDatabase.name);
-            //    Console.WriteLine(searchDatabase.description);
-            //}
+        private static void GetDatabaseSearchBy()
+        {
+            var result2 = new DatabaseSearchBy
+            {
+                Query = @"stock+price".ToLowerInvariant()
+            }.Execute();
 
-           
-            Console.WriteLine("done");
-            Console.ReadLine();
+            foreach (var searchDatabase in result2.Result.databases)
+            {
+                Console.WriteLine(searchDatabase.name);
+                Console.WriteLine(searchDatabase.description);
+            }
+        }
+
+        private static void GetDatabaseListBy()
+        {
+            var result3 = new DatabaseListBy().Execute();
+
+            foreach (var databasese in result3.Result.databases)
+            {
+                Console.WriteLine(databasese.database_code);
+                Console.WriteLine(databasese.description);
+            }
         }
     }
 }

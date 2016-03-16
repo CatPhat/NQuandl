@@ -9,7 +9,7 @@ namespace NQuandl.Services.Quandl.Mapper
         public static void RegisterQuandlJsonMapper(this Container container, params Assembly[] assemblies)
         {
             assemblies = assemblies ?? new[] {Assembly.GetAssembly(typeof (IMapObjectToEntity<>))};
-            container.RegisterCollection(typeof (IMapObjectToEntity<>), assemblies);
+            container.Register(typeof (IMapObjectToEntity<>), assemblies);
         }
 
         public static void RegisterQuandlCsvMapper(this Container container)
