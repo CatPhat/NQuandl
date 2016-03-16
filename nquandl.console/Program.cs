@@ -10,6 +10,9 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
             GetDatasetByFredGdp();
+            GetDatasetByFredGdp();
+            GetDatasetByFredGdp();
+            GetDatasetByFredGdp();
 
 
             Console.WriteLine("done");

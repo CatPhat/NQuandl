@@ -8,7 +8,10 @@ namespace NQuandl.Services.Quandl
         public static void RegisterQuandlClient(this Container container)
         {
             container.Register<IQuandlClient, QuandlClient>();
+           
             container.RegisterDecorator<IQuandlClient, QuandlClientDebugDecorator>();
+            container.RegisterDecorator<IQuandlClient, QuandlClientRateLimiterDecorator>();
+
         }
     }
 }

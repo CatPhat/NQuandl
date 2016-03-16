@@ -3,6 +3,7 @@ using NQuandl.Services.Configuration;
 using NQuandl.Services.HttpClient;
 using NQuandl.Services.Quandl;
 using NQuandl.Services.Quandl.Mapper;
+using NQuandl.Services.RateGate;
 using NQuandl.Services.Transactions;
 using SimpleInjector;
 
@@ -21,6 +22,7 @@ namespace NQuandl.Services.CompositionRoot
             container.RegisterQuandlJsonMapper(settings.QuandlJsonMapperAssemblies);
             container.RegisterQuandlCsvMapper();
             container.RegisterQuandlClient();
+            container.RegisterRateGate();
         }
     }
 }
