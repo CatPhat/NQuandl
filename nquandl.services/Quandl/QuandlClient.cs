@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using NQuandl.Api.Configuration;
 using NQuandl.Api.Quandl;
 using NQuandl.Api.Quandl.Helpers;
@@ -33,11 +30,15 @@ namespace NQuandl.Services.Quandl
         public async Task<ResultStringWithQuandlResponseInfo> GetStringAsync(QuandlClientRequestParameters parameters)
         {
             var response = await GetHttpResponse(parameters);
-            return new ResultStringWithQuandlResponseInfo
+            using (var sr = new StreamReader(response.ContentStream))
             {
-                QuandlClientResponseInfo = response.GetResponseInfo(),
-                ContentString = await response.Content.ReadAsStringAsync()
-            };
+                return new ResultStringWithQuandlResponseInfo
+                {
+                    QuandlClientResponseInfo = response.GetResponseInfo(),
+                    ContentString = await sr.ReadToEndAsync()
+                };
+            }
+          
         }
 
         public async Task<ResultStreamWithQuandlResponseInfo> GetStreamAsync(QuandlClientRequestParameters parameters)
@@ -45,8 +46,8 @@ namespace NQuandl.Services.Quandl
             var response = await GetHttpResponse(parameters);
             return new ResultStreamWithQuandlResponseInfo
             {
-                QuandlClientResponseInfo =  response.GetResponseInfo(),
-                ContentStream = await response.Content.ReadAsStreamAsync()
+                QuandlClientResponseInfo = response.GetResponseInfo(),
+                ContentStream = response.ContentStream
             };
         }
 
@@ -55,15 +56,13 @@ namespace NQuandl.Services.Quandl
             where TResult : ResultWithQuandlResponseInfo
         {
             var response = await GetHttpResponse(parameters);
-
-            var stream = await response.Content.ReadAsStreamAsync();
-            var result = stream.DeserializeToEntity<TResult>();
+            
+            var result = response.ContentStream.DeserializeToEntity<TResult>();
             result.QuandlClientResponseInfo = response.GetResponseInfo();
             return result;
-
         }
 
-        private async Task<HttpResponseMessage> GetHttpResponse(QuandlClientRequestParameters parameters)
+        private async Task<HttpClientResponse> GetHttpResponse(QuandlClientRequestParameters parameters)
         {
             try
             {
@@ -74,7 +73,5 @@ namespace NQuandl.Services.Quandl
                 throw new Exception(e.Message);
             }
         }
-
-       
     }
 }

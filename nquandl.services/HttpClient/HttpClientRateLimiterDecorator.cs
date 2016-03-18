@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
+using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Services.HttpClient
 {
@@ -23,7 +24,7 @@ namespace NQuandl.Services.HttpClient
         public Uri BaseAddress { get; set; }
         public TimeSpan Timeout { get; set; }
 
-        public async Task<HttpResponseMessage> GetAsync(string requestUri)
+        public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
             _rateGate.WaitToProceed();
             return await _httpClientFactory().GetAsync(requestUri);

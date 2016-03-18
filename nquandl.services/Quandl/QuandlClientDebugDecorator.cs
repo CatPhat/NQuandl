@@ -48,7 +48,7 @@ namespace NQuandl.Services.Quandl
         {
             var uri = parameters.ToUri();
             Console.WriteLine(uri);
-            switch (uri)
+             switch (uri)
             {
                 case "api/v3/databases/YC/codes":
                     return GetDatabaseDatasetListByYC();

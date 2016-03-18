@@ -13,9 +13,7 @@ namespace nquandl.console
         {
 
             GetDatabaseMetadataBy();
-            GetDatabaseMetadataBy();
-            GetDatabaseMetadataBy();
-            GetDatabaseMetadataBy();
+          
 
             Console.WriteLine("done");
             Console.ReadLine();

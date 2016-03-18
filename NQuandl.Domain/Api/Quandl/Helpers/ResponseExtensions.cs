@@ -21,30 +21,25 @@ namespace NQuandl.Api.Quandl.Helpers
             }
         }
 
-        public static QuandlClientResponseInfo GetResponseInfo(this HttpResponseMessage response)
+        public static QuandlClientResponseInfo GetResponseInfo(this HttpClientResponse response)
         {
-            if (response.Headers == null)
-            {
-                return null;
-            }
-            var headers = response.Headers.ToDictionary(httpHeader => httpHeader.Key, httpHeader => httpHeader.Value);
-
+         
             const string rateLimitKey = "X-RateLimit-Limit";
             const string rateLimitRemainingKey = "X-RateLimit-Remaining";
 
             int? rateLimit = null;
-            if (headers.ContainsKey(rateLimitKey))
+            if (response.ResponseHeaders.ContainsKey(rateLimitKey))
             {
-                var rateLimitString = headers.FirstOrDefault(x => x.Key == rateLimitKey).Value.FirstOrDefault();
+                var rateLimitString = response.ResponseHeaders.FirstOrDefault(x => x.Key == rateLimitKey).Value.FirstOrDefault();
                 int temp;
                 int.TryParse(rateLimitString, out temp);
                 rateLimit = temp;
             }
 
             int? rateLimitRemaining = null;
-            if (headers.ContainsKey(rateLimitRemainingKey))
+            if (response.ResponseHeaders.ContainsKey(rateLimitRemainingKey))
             {
-                var rateLimitString = headers.FirstOrDefault(x => x.Key == rateLimitRemainingKey).Value.FirstOrDefault();
+                var rateLimitString = response.ResponseHeaders.FirstOrDefault(x => x.Key == rateLimitRemainingKey).Value.FirstOrDefault();
                 int temp;
                 int.TryParse(rateLimitString, out temp);
                 rateLimitRemaining = temp;
@@ -53,9 +48,9 @@ namespace NQuandl.Api.Quandl.Helpers
 
             return new QuandlClientResponseInfo
             {
-                IsStatusSuccessCode = response.IsSuccessStatusCode,
-                StatusCode = response.StatusCode.ToString(),
-                ResponseHeaders = headers,
+                IsStatusSuccessCode = response.IsStatusSuccessCode,
+                StatusCode = response.StatusCode,
+                ResponseHeaders = response.ResponseHeaders,
                 RateLimit = rateLimit,
                 RateLimitRemaining = rateLimitRemaining
             };
