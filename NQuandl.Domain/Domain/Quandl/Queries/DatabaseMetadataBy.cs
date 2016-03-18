@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NQuandl.Api;
+using NQuandl.Api.Quandl;
 using NQuandl.Api.Quandl.Helpers;
 using NQuandl.Api.Transactions;
 using NQuandl.Domain.Quandl.Responses;
@@ -24,17 +26,18 @@ namespace NQuandl.Domain.Quandl.Queries
 
     public class HandleDatabaseMetadataBy : IHandleQuery<DatabaseMetadataBy, Task<DatabaseMetadata>>
     {
-        private readonly IProcessQueries _queries;
+        private readonly IQuandlClient _client;
 
-        public HandleDatabaseMetadataBy(IProcessQueries queries)
+
+        public HandleDatabaseMetadataBy([NotNull] IQuandlClient client)
         {
-            if (queries == null) throw new ArgumentNullException(nameof(queries));
-            _queries = queries;
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            _client = client;
         }
 
         public async Task<DatabaseMetadata> Handle(DatabaseMetadataBy query)
         {
-            return await _queries.Execute(new QuandlQueryBy<DatabaseMetadata>(query.ToQuandlClientRequestParameters()));
+            return await _client.GetAsync<DatabaseMetadata>(query.ToQuandlClientRequestParameters()); ;
         }
     }
 }

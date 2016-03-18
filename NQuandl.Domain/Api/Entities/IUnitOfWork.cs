@@ -28,18 +28,5 @@ namespace NQuandl.Api.Entities
         ///     changes.
         /// </returns>
         Task<int> SaveChangesAsync();
-
-        /// <summary>
-        ///     Asynchronously revert all current data changes to the last known state of the underlying data store.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        [UsedImplicitly]
-        Task DiscardChangesAsync();
-
-        /// <summary>
-        ///     Revert all current data changes to the last known state of the underlying data store.
-        /// </summary>
-        [UsedImplicitly]
-        void DiscardChanges();
     }
 }

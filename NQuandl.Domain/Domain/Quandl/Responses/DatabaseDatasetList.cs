@@ -2,7 +2,7 @@
 
 namespace NQuandl.Domain.Quandl.Responses
 {
-    public class DatabaseDatasetList : ResponseWithRawHttpContent
+    public class DatabaseDatasetList : ResultWithQuandlResponseInfo
     {
         public IEnumerable<DatabaseDatasetCsvRow> Datasets { get; set; }
     }

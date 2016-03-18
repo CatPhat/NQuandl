@@ -15,8 +15,8 @@ namespace NQuandl.Services.Transactions
             container.RegisterSingleton<IProcessQueries, QueryProcessor>();
             container.Register(typeof (IHandleQuery<,>), assemblies);
             
-            container.RegisterConditional(typeof (IHandleQuery<,>), typeof (HandleQuandlQueryBy<>), c => !c.Handled);
-            container.RegisterConditional(typeof (IHandleQuery<,>), typeof (HandleDatasetBy<>), c => !c.Handled);
+            //container.RegisterConditional(typeof (IHandleQuery<,>), typeof (HandleQuandlQueryBy<>), c => !c.Handled);
+            container.RegisterConditional(typeof (IHandleQuery<,>), typeof (HandleDatasetByEntity<>), c => !c.Handled);
          
 
 

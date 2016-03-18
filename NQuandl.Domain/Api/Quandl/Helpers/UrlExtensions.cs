@@ -46,7 +46,16 @@ namespace NQuandl.Api.Quandl.Helpers
             };
         }
 
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters<TEntity>(this DatasetBy<TEntity> query) where TEntity : QuandlEntity
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatasetBy query)
+        {
+            return new QuandlClientRequestParameters
+            {
+                PathSegment = query.ToPathSegment(),
+                QueryParameters = query.ToRequestParameterDictionary()
+            };
+        }
+
+        public static QuandlClientRequestParameters ToQuandlClientRequestParameters<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
         {
             return new QuandlClientRequestParameters
             {
@@ -81,17 +90,29 @@ namespace NQuandl.Api.Quandl.Helpers
         }
 
         // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-        public static string ToPathSegment<TEntity>(this DatasetBy<TEntity> query) where TEntity : QuandlEntity
+        public static string ToPathSegment(this DatasetBy query)
         {
-            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity));
-            return $"{query.ApiVersion}/datasets/{entity.DatabaseCode}/{entity.DatasetCode}.{query.ResponseFormat.GetStringValue()}";
+            return $"{query.ApiVersion}/datasets/{query.DatabaseCode}/{query.DatasetCode}.{query.ResponseFormat.GetStringValue()}";
+        }
+
+        // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
+        public static string ToPathSegment<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
+        {
+            return query.ToDatasetBy().ToPathSegment();
         }
 
       
         // todo: consolidate
-        public static Dictionary<string, string> ToRequestParameterDictionary<TEntity>(this DatasetBy<TEntity> options) where TEntity : QuandlEntity
+        public static Dictionary<string, string> ToRequestParameterDictionary(this DatasetBy query)
         {
-            return options?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ?? new Dictionary<string, string>();
+            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
+                   new Dictionary<string, string>();
+        } 
+
+
+        public static Dictionary<string, string> ToRequestParameterDictionary<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
+        {
+            return query.ToDatasetBy().ToRequestParameterDictionary();
         }
 
         public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseListBy query)
@@ -176,12 +197,12 @@ namespace NQuandl.Api.Quandl.Helpers
            return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters<TEntity>(this DatasetBy<TEntity> query) where TEntity : QuandlEntity
+        public static IEnumerable<RequestParameter> ToRequestParameters(this DatasetBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
             var parameters = new List<RequestParameter>();
-            
+
             if (query.Limit.HasValue)
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Limit, query.Limit.Value.ToString());
@@ -230,10 +251,31 @@ namespace NQuandl.Api.Quandl.Helpers
                 var parameter = new RequestParameter(RequestParameterConstants.Transform, query.Transform.Value.GetStringValue());
                 parameters.Add(parameter);
             }
-         
+
             return parameters;
+        } 
+
+        public static IEnumerable<RequestParameter> ToRequestParameters<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
+        {
+            return query.ToDatasetBy().ToRequestParameters();
         }
 
+        public static DatasetBy ToDatasetBy<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
+        {
+            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity));
+            var datasetBy = new DatasetBy(entity.DatabaseCode, entity.DatasetCode)
+            {
+                Collapse = query.Collapse,
+                ColumnIndex = query.ColumnIndex,
+                EndDate = query.EndDate,
+                StartDate = query.StartDate,
+                Limit = query.Limit,
+                Order = query.Order,
+                Rows = query.Rows
+            };
+
+            return datasetBy;
+        }
       
 
         public static string ToUrl(this QuandlClientRequestParameters parameters, string baseUrl)

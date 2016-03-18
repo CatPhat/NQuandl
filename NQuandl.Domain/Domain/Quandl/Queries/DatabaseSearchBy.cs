@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NQuandl.Api;
+using JetBrains.Annotations;
+using NQuandl.Api.Quandl;
 using NQuandl.Api.Quandl.Helpers;
 using NQuandl.Api.Transactions;
 using NQuandl.Domain.Quandl.Responses;
@@ -17,24 +18,22 @@ namespace NQuandl.Domain.Quandl.Queries
         public int? PerPage { get; set; }
         public int? Page { get; set; }
         public string ApiVersion => RequestParameterConstants.ApiVersion;
-
-       
     }
 
     public class HandleDatabaseSearchBy : IHandleQuery<DatabaseSearchBy, Task<DatabaseSearch>>
     {
-        private readonly IProcessQueries _queries;
+        private readonly IQuandlClient _client;
 
-        public HandleDatabaseSearchBy(IProcessQueries queries)
+
+        public HandleDatabaseSearchBy([NotNull] IQuandlClient client)
         {
-            if (queries == null) throw new ArgumentNullException(nameof(queries));
-
-            _queries = queries;
+            if (client == null) throw new ArgumentNullException(nameof(client));
+            _client = client;
         }
 
         public async Task<DatabaseSearch> Handle(DatabaseSearchBy query)
         {
-            return await _queries.Execute(new QuandlQueryBy<DatabaseSearch>(query.ToQuandlClientRequestParameters()));
+            return await _client.GetAsync<DatabaseSearch>(query.ToQuandlClientRequestParameters());
         }
     }
 }

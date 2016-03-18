@@ -9,19 +9,20 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Test.Mock
 {
-    public class MockDatabaseDatasetListByQuandlClient : IQuandlClient
-    {
-        public Task<RawHttpContent> GetFullResponseAsync(QuandlClientRequestParameters parameters)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+    //public class MockDatabaseDatasetListByQuandlClient : IQuandlClient
+    //{
+       
+    //    public Task<QuandlClientResponse> GetAsync(QuandlClientRequestParameters parameters)
+    //    {
+    //        throw new System.NotImplementedException();
+    //    }
+    //}
 
-    public class MockMapCsvStreamMapper : IMapCsvStream
-    {
-        public Task<IEnumerable<DatabaseDatasetCsvRow>> MapToDataset(StreamReader stream)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+    //public class MockMapCsvStreamMapper : IMapCsvStream
+    //{
+    //    public Task<IEnumerable<DatabaseDatasetCsvRow>> MapToDataset(StreamReader stream)
+    //    {
+    //        throw new System.NotImplementedException();
+    //    }
+    //}
 }

@@ -9,27 +9,6 @@ namespace NQuandl.Api.Entities
     /// </summary>
     public interface IWriteEntities : IUnitOfWork, IReadEntities
     {
-        /// <summary>
-        ///     Inform an underlying relational data store to return a single writable entity instance.
-        /// </summary>
-        /// <typeparam name="TEntity">
-        ///     Type of the entity instance that the underlying relational data store
-        ///     should return.
-        /// </typeparam>
-        /// <param name="firstKeyValue">
-        ///     First or only primary key value of the entity instance that the
-        ///     underlying relational data store should return.
-        /// </param>
-        /// <param name="otherKeyValues">
-        ///     Other components of a composite primary key not identified in the
-        ///     firstKeyValue argument.
-        /// </param>
-        /// <returns>
-        ///     A single writable entity instance whose primary key matches the argument value(s), if one
-        ///     exists in the underlying relational data store.
-        ///     Otherwise, null.
-        /// </returns>
-        TEntity Get<TEntity>(object firstKeyValue, params object[] otherKeyValues) where TEntity : Entity;
 
         /// <summary>
         ///     Asynchronously inform an underlying relational data store to return a single writable entity instance.
@@ -52,18 +31,6 @@ namespace NQuandl.Api.Entities
         /// </returns>
         Task<TEntity> GetAsync<TEntity>(object firstKeyValue, params object[] otherKeyValues) where TEntity : Entity;
 
-        /// <summary>
-        ///     Inform an underlying relational data store to return a set of writable entity instances.
-        /// </summary>
-        /// <typeparam name="TEntity">
-        ///     Type of the entity instances that the underlying relational data store
-        ///     should return.
-        /// </typeparam>
-        /// <returns>
-        ///     IQueryable for set of writable TEntity instances from an underlying relational data
-        ///     store.
-        /// </returns>
-        IQueryable<TEntity> Get<TEntity>() where TEntity : Entity;
 
         /// <summary>
         ///     Inform the underlying relational data store that a new entity instance should be added to a set
@@ -107,35 +74,6 @@ namespace NQuandl.Api.Entities
         /// </param>
         void Update<TEntity>(TEntity entity) where TEntity : Entity;
 
-        /// <summary>
-        ///     Inform the underlying relational data store to replace the data state of an entity instance with
-        ///     the values currently saved in the underlying relational data store.
-        /// </summary>
-        /// <typeparam name="TEntity">
-        ///     Type of the entity instance set that the entity instance to be reloaded
-        ///     is part of.
-        /// </typeparam>
-        /// <param name="entity">
-        ///     Entity instance whose data state will be replaced using the values currently
-        ///     saved in the underlying relational data store.
-        /// </param>
-        [UsedImplicitly]
-        void Reload<TEntity>(TEntity entity) where TEntity : Entity;
 
-        /// <summary>
-        ///     Asynchronously inform the underlying relational data store to replace the data state of an entity instance with
-        ///     the values currently saved in the underlying relational data store.
-        /// </summary>
-        /// <typeparam name="TEntity">
-        ///     Type of the entity instance set that the entity instance to be reloaded
-        ///     is part of.
-        /// </typeparam>
-        /// <param name="entity">
-        ///     Entity instance whose data state will be replaced using the values currently
-        ///     saved in the underlying relational data store.
-        /// </param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        [UsedImplicitly]
-        Task ReloadAsync<TEntity>(TEntity entity) where TEntity : Entity;
     }
 }

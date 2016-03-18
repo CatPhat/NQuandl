@@ -5,7 +5,7 @@ using NQuandl.Api.Quandl;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
-    public class DatabaseDataset : ResponseWithRawHttpContent
+    public class DatabaseDataset : ResultWithQuandlResponseInfo
     {
         public Dataset dataset { get; set; }
     }

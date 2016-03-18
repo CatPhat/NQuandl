@@ -29,15 +29,15 @@ namespace NQuandl.Domain.Test
             Assert.Equal(0, sum);
         }
 
-        [Fact]
-        public void DatabaseDatasetListByTest()
-        {
-            //System.Diagnostics.Debugger.Launch();
-            var query = new DatabaseDatasetListBy("UN");
-            var handler = new HandleDatabaseDatasetListBy(new MockDatabaseDatasetListByQuandlClient(), new MockMapCsvStreamMapper());
-            var result = handler.Handle(query).Result;
-            Assert.Equal(1, 0);
+        //[Fact]
+        //public void DatabaseDatasetListByTest()
+        //{
+        //    //System.Diagnostics.Debugger.Launch();
+        //    var query = new DatabaseDatasetListBy("UN");
+        //    var handler = new HandleDatabaseDatasetListBy(new MockDatabaseDatasetListByQuandlClient(), new MockMapCsvStreamMapper());
+        //    var result = handler.Handle(query).Result;
+        //    Assert.Equal(1, 0);
 
-        }
+        //}
     }
 }

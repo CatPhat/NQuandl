@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
@@ -9,15 +10,9 @@ using NQuandl.Domain.Quandl.Responses;
 namespace NQuandl.Domain.Quandl.Queries
 {
     // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-    public class DatasetBy : IDefineQuery<Task<DatabaseDataset>>
-
+    public class DatasetByEntity<TEntity> : IDefineQuery<Task<DatabaseDataset<TEntity>>>
+        where TEntity : QuandlEntity
     {
-        public DatasetBy(string databaseCode, string datasetCode)
-        {
-            DatabaseCode = databaseCode;
-            DatasetCode = datasetCode;
-        }
-
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
 
         public int? Limit { get; set; }
@@ -28,27 +23,32 @@ namespace NQuandl.Domain.Quandl.Queries
         public Order? Order { get; set; }
         public Collapse? Collapse { get; set; }
         public Transform? Transform { get; set; }
-
-        public string DatabaseCode { get; private set; }
-        public string DatasetCode { get; private set; }
         public string ApiVersion => RequestParameterConstants.ApiVersion;
     }
 
-    public class HandleDatasetBy : IHandleQuery<DatasetBy, Task<DatabaseDataset>>
-
+    public class HandleDatasetByEntity<TEntity> : IHandleQuery<DatasetByEntity<TEntity>, Task<DatabaseDataset<TEntity>>>
+        where TEntity : QuandlEntity
     {
         private readonly IQuandlClient _client;
+        private readonly IMapObjectToEntity<TEntity> _mapper;
 
 
-        public HandleDatasetBy([NotNull] IQuandlClient client)
+        public HandleDatasetByEntity([NotNull] IQuandlClient client, IMapObjectToEntity<TEntity> mapper)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));
+
+            if (mapper == null) throw new ArgumentNullException(nameof(mapper));
+
+
             _client = client;
+            _mapper = mapper;
         }
 
-        public async Task<DatabaseDataset> Handle(DatasetBy query)
+        public async Task<DatabaseDataset<TEntity>> Handle(DatasetByEntity<TEntity> query)
         {
-            return await _client.GetAsync<DatabaseDataset>(query.ToQuandlClientRequestParameters());
+            var result = await _client.GetAsync<DatabaseDataset<TEntity>>(query.ToQuandlClientRequestParameters());
+            result.Entities = result.dataset.data.Select(_mapper.MapEntity);
+            return result;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Flurl.Util;
 using NQuandl.Domain.Quandl.Entities;
 using NQuandl.Domain.Quandl.Queries;
 using NQuandl.SimpleClient;
@@ -9,19 +11,29 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            GetDatasetByFredGdp();
-            GetDatasetByFredGdp();
-            GetDatasetByFredGdp();
-            GetDatasetByFredGdp();
 
+            GetDatabaseDatasetList();
 
             Console.WriteLine("done");
             Console.ReadLine();
         }
 
-        private static void GetDatasetByFredGdp()
+        private static void GetDatasetBy(string databaseCode, string datasetCode)
         {
-            var result = new DatasetBy<FredGdp>().Execute();
+            var result = new DatasetBy(databaseCode, datasetCode).Execute().Result;
+
+            foreach (var keyValues in result.dataset.ToKeyValuePairs())
+            {
+                Console.WriteLine("key: " + keyValues.Key + " value: " + keyValues.Value);
+                Console.WriteLine();
+            }
+         
+         
+        }
+
+        private static void GetDatasetByEntityFredGdp()
+        {
+            var result = new DatasetByEntity<FredGdp>().Execute();
 
             foreach (var fredGdp in result.Result.Entities)
             {

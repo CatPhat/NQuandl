@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Domain.Quandl.Responses
 {
-    public class DatabaseSearch : ResponseWithRawHttpContent
+    public class DatabaseSearch : ResultWithQuandlResponseInfo
     {
         public SearchDatabase[] databases { get; set; }
         public SearchMetadata meta { get; set; }

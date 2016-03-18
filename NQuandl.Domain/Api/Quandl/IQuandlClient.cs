@@ -6,6 +6,11 @@ namespace NQuandl.Api.Quandl
 {
     public interface IQuandlClient
     {
-        Task<RawHttpContent> GetFullResponseAsync(QuandlClientRequestParameters parameters);
+        Task<ResultStringWithQuandlResponseInfo> GetStringAsync(QuandlClientRequestParameters parameters);
+        Task<ResultStreamWithQuandlResponseInfo> GetStreamAsync(QuandlClientRequestParameters parameters);
+
+        Task<TResult> GetAsync<TResult>(
+            QuandlClientRequestParameters parameters)
+            where TResult : ResultWithQuandlResponseInfo;
     }
 }
