@@ -1,35 +1,47 @@
-﻿using System;
-using NQuandl.Api;
-using NQuandl.Api.Transactions;
+﻿using NQuandl.Api.Transactions;
 using SimpleInjector;
 
 namespace NQuandl.SimpleClient
 {
     public static class QueryExtensions
     {
+
+        private static readonly Container Container;
+
         static QueryExtensions()
         {
-            Bootstrapper.Bootstrap();
+            Container = Bootstrapper.Bootstrap();
         }
 
-        private static IProcessQueries _queries;
-
-        public static void RegisterQueryExtensions(this Container container)
-        {
-            var queries = container.GetQueryProcessor();
-           
-            _queries = queries;
-        }
+   
 
 
         public static TResult Execute<TResult>(this IDefineQuery<TResult> query)
         {
-            return _queries.Execute(query);
+            return new ExecuteQuery(Container).Execute(query);
         }
 
-        public static IProcessQueries GetQueryProcessor(this Container container)
+      
+    }
+
+    public class ExecuteQuery
+    {
+        private readonly IProcessQueries _queries;
+
+        public ExecuteQuery(Container container)
+        {
+            _queries = GetQueryProcessor(container);
+        }
+
+        public IProcessQueries GetQueryProcessor(Container container)
         {
             return container.GetInstance<IProcessQueries>();
         }
+
+        public TResult Execute<TResult>(IDefineQuery<TResult> query)
+        {
+            return _queries.Execute(query);
+        }
+
     }
 }

@@ -6,8 +6,6 @@ namespace NQuandl.Domain.Quandl.Responses
     {
         public string StatusCode { get; set; }
         public bool IsStatusSuccessCode { get; set; }
-        public int? RateLimit { get; set; }
-        public int? RateLimitRemaining { get; set; }
         public Dictionary<string, IEnumerable<string>> ResponseHeaders { get; set; }
     }
 }

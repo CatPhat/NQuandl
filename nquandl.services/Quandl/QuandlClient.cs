@@ -66,7 +66,7 @@ namespace NQuandl.Services.Quandl
         {
             try
             {
-                return await _client.GetAsync(parameters.ToUri(_configuration.ApiKey));
+                return await _client.GetAsync(parameters.ToUri(_configuration.ApiKey)).ConfigureAwait(false);
             }
             catch (HttpRequestException e)
             {

@@ -12,7 +12,7 @@ namespace NQuandl.Services.Transactions
         {
             assemblies = assemblies ?? new[] {Assembly.GetAssembly(typeof (IHandleQuery<,>))};
 
-            container.RegisterSingleton<IProcessQueries, QueryProcessor>();
+            container.Register<IProcessQueries, QueryProcessor>(Lifestyle.Singleton);
             container.Register(typeof (IHandleQuery<,>), assemblies);
             
             //container.RegisterConditional(typeof (IHandleQuery<,>), typeof (HandleQuandlQueryBy<>), c => !c.Handled);

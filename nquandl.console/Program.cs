@@ -1,5 +1,6 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Flurl.Util;
 using NQuandl.Domain.Quandl.Entities;
 using NQuandl.Domain.Quandl.Queries;
@@ -11,13 +12,20 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
+            var taskList = new List<Worker>();
+            for (var i = 0; i < 1000; i++)
+            {
+               
+                taskList.Add(new Worker());
+            }
 
-            GetDatabaseMetadataBy();
-          
-
+            Parallel.ForEach(taskList, x => x.DoWork().Wait());
+           
+            //Task.WaitAll(taskList.ToArray());
             Console.WriteLine("done");
             Console.ReadLine();
         }
+
 
         private static void GetDatasetBy(string databaseCode, string datasetCode)
         {
@@ -28,8 +36,6 @@ namespace nquandl.console
                 Console.WriteLine("key: " + keyValues.Key + " value: " + keyValues.Value);
                 Console.WriteLine();
             }
-         
-         
         }
 
         private static void GetDatasetByEntityFredGdp()
@@ -42,6 +48,7 @@ namespace nquandl.console
                 Console.WriteLine(fredGdp.Value);
             }
         }
+
 
         private static void GetDatabaseMetadataBy()
         {
@@ -84,6 +91,18 @@ namespace nquandl.console
                 Console.WriteLine(databasese.database_code);
                 Console.WriteLine(databasese.description);
             }
+        }
+    }
+
+    public class Worker
+    {
+        public Task DoWork()
+        {
+            var result = new DatabaseMetadataBy("YC");
+            Console.WriteLine("GUI Execute");
+           result.Execute();
+            return Task.FromResult(0);
+
         }
     }
 }

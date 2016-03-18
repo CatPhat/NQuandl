@@ -8,7 +8,10 @@ namespace NQuandl.Services.HttpClient
         public static void RegisterHttpClient(this Container container)
         {
             container.RegisterSingleton<IHttpClient, HttpClient>();
-            container.RegisterDecorator<IHttpClient, HttpClientRateLimiterDecorator>();
+            container.RegisterDecorator<IHttpClient, HttpClientDebugDecorator>(Lifestyle.Transient);
+            container.RegisterDecorator<IHttpClient, HttpClientRateLimiterDecorator>(Lifestyle.Transient);
+            container.RegisterDecorator<IHttpClient, HttpClientTaskQueueDecorator>(Lifestyle.Transient);
+            container.RegisterDecorator<IHttpClient, HttpClientLoggerDecorator>(Lifestyle.Transient);
         }
     }
 }

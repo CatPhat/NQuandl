@@ -1,9 +1,11 @@
 ﻿using System;
 using NQuandl.Services.Configuration;
 using NQuandl.Services.HttpClient;
+using NQuandl.Services.Logger;
 using NQuandl.Services.Quandl;
 using NQuandl.Services.Quandl.Mapper;
 using NQuandl.Services.RateGate;
+using NQuandl.Services.TaskQueue;
 using NQuandl.Services.Transactions;
 using SimpleInjector;
 
@@ -23,6 +25,8 @@ namespace NQuandl.Services.CompositionRoot
             container.RegisterQuandlCsvMapper();
             container.RegisterQuandlClient();
             container.RegisterRateGate();
+            container.RegisterLogger();
+            container.RegisterTaskQueue();
         }
     }
 }

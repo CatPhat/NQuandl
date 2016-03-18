@@ -5,13 +5,14 @@ namespace NQuandl.SimpleClient
 {
     public static class Bootstrapper
     {
-        public static void Bootstrap()
+        public static Container Bootstrap()
         {
             var container = new Container();
             container.ComposeRoot();
            
             container.Verify();
-            container.RegisterQueryExtensions();
+
+            return container;
         }
     }
 }
