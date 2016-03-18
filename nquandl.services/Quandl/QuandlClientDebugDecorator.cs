@@ -1,105 +1,116 @@
-﻿//using System;
-//using System.IO;
-//using System.Threading.Tasks;
-//using NQuandl.Api;
-//using NQuandl.Api.Quandl;
-//using NQuandl.Api.Quandl.Helpers;
-//using NQuandl.Domain.Quandl.RequestParameters;
-//using NQuandl.Domain.Quandl.Responses;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using NQuandl.Api.Quandl;
+using NQuandl.Api.Quandl.Helpers;
+using NQuandl.Domain.Quandl.RequestParameters;
+using NQuandl.Domain.Quandl.Responses;
 
-//namespace NQuandl.Services.Quandl
-//{
-//    public class QuandlClientDebugDecorator : IQuandlClient
-//    {
-//        private readonly IQuandlClient _client;
+namespace NQuandl.Services.Quandl
+{
+    public class QuandlClientDebugDecorator : IQuandlClient
+    {
+        private readonly IQuandlClient _client;
 
-//        public QuandlClientDebugDecorator(IQuandlClient client)
-//        {
-//            _client = client;
-//        }
+        public QuandlClientDebugDecorator(IQuandlClient client)
+        {
+            _client = client;
+        }
 
-//        public Task<QuandlClientResponse> GetAsync(QuandlClientRequestParameters parameters)
-//        {
-//            var uri = parameters.ToUri();
-//            Console.WriteLine(uri);
-//            switch (uri)
-//            {
-//                case "api/v3/databases/YC/codes":
-//                    return GetDatabaseDatasetListByYC();
+        public async Task<ResultStringWithQuandlResponseInfo> GetStringAsync(QuandlClientRequestParameters parameters)
+        {
+            var result = new ResultStringWithQuandlResponseInfo();
+            var response = await GetAsync(parameters);
 
-//                case "api/v3/databases.json?query=stock%2Bprice":
-//                    return GetDatabaseSearchByStockPrice();
+            using (var sr = new StreamReader(response.ContentStream))
+            {
+                result.ContentString = await sr.ReadToEndAsync();
+                return result;
+            }
+        }
 
-//                case "api/v3/databases.json":
-//                    return GetDatabaseListBy();
+        public async Task<ResultStreamWithQuandlResponseInfo> GetStreamAsync(QuandlClientRequestParameters parameters)
+        {
+            return await GetAsync(parameters);
+        }
 
-//                case "api/v3/databases/YC.json?database_code=YC":
-//                    return GetDatabaseMetadataByYC();
+        public async Task<TResult> GetAsync<TResult>(QuandlClientRequestParameters parameters)
+            where TResult : ResultWithQuandlResponseInfo
+        {
+            var response = await GetAsync(parameters);
+            var result = response.ContentStream.DeserializeToEntity<TResult>();
+            result.QuandlClientResponseInfo = response.QuandlClientResponseInfo;
 
-//                case "api/v3/datasets/FRED/GDP.json":
-//                    return GetDatasetByFredGdp();
-//            }
-//            return null;
-//        }
+            return result;
+        }
 
-//        private Task<QuandlClientResponse> GetDatasetByFredGdp()
-//        {
-//            return
-//                GetStreamFromFile(
-//                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatasetFredGdp.json");
-//        }
+        public Task<ResultStreamWithQuandlResponseInfo> GetAsync(QuandlClientRequestParameters parameters)
+        {
+            var uri = parameters.ToUri();
+            Console.WriteLine(uri);
+            switch (uri)
+            {
+                case "api/v3/databases/YC/codes":
+                    return GetDatabaseDatasetListByYC();
 
-//        private Task<QuandlClientResponse> GetDatabaseMetadataByYC()
-//        {
-//            return
-//                GetStreamFromFile(
-//                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseMetadataYC.json");
-//        }
+                case "api/v3/databases.json?query=stock%2Bprice":
+                    return GetDatabaseSearchByStockPrice();
 
-//        private Task<QuandlClientResponse> GetDatabaseListBy()
-//        {
-//            return GetStreamFromFile(@"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseList.json");
-//        }
+                case "api/v3/databases.json":
+                    return GetDatabaseListBy();
 
-//        private Task<QuandlClientResponse> GetDatabaseSearchByStockPrice()
-//        {
-//           return
-//                GetStreamFromFile(
-//                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseSearchStockPrice.json");
-//        }
+                case "api/v3/databases/YC.json?database_code=YC":
+                    return GetDatabaseMetadataByYC();
 
-//        private Task<QuandlClientResponse> GetDatabaseDatasetListByYC()
-//        {
-//            return
-//                GetStreamFromFile(
-//                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
-//        }
+                case "api/v3/datasets/FRED/GDP.json":
+                    return GetDatasetByFredGdp();
+            }
+            return null;
+        }
 
-//        private Task<QuandlClientResponse> GetStreamFromFile(string filePath)
-//        {
-//            var response = new QuandlClientResponse();
+        private Task<ResultStreamWithQuandlResponseInfo> GetDatasetByFredGdp()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatasetFredGdp.json");
+        }
 
-//            var stream = File.OpenRead(filePath);
+        private Task<ResultStreamWithQuandlResponseInfo> GetDatabaseMetadataByYC()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseMetadataYC.json");
+        }
 
-//            response.ContentStream = stream;
-//            response.IsStatusSuccessCode = true;
-//            response.StatusCode = "test";
-//            return Task.FromResult(response);
-//        }
+        private Task<ResultStreamWithQuandlResponseInfo> GetDatabaseListBy()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseList.json");
+        }
 
-//        public Task<ResultStringWithQuandlResponseInfo> GetStringAsync(QuandlClientRequestParameters parameters)
-//        {
-//            throw new NotImplementedException();
-//        }
+        private Task<ResultStreamWithQuandlResponseInfo> GetDatabaseSearchByStockPrice()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseSearchStockPrice.json");
+        }
 
-//        public Task<ResultStreamWithQuandlResponseInfo> GetStreamAsync(QuandlClientRequestParameters parameters)
-//        {
-//            throw new NotImplementedException();
-//        }
+        private Task<ResultStreamWithQuandlResponseInfo> GetDatabaseDatasetListByYC()
+        {
+            return
+                GetStreamFromFile(
+                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
+        }
 
-//        public Task<TResult> GetAsync<TResult>(QuandlClientRequestParameters parameters) where TResult : ResultWithQuandlResponseInfo
-//        {
-//            throw new NotImplementedException();
-//        }
-//    }
-//}
+        private Task<ResultStreamWithQuandlResponseInfo> GetStreamFromFile(string filePath)
+        {
+            var response = new ResultStreamWithQuandlResponseInfo();
+
+            var stream = File.OpenRead(filePath);
+
+            response.ContentStream = stream;
+            return Task.FromResult(response);
+        }
+    }
+}

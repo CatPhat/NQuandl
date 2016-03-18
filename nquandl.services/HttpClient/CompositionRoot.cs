@@ -1,5 +1,4 @@
-﻿using NQuandl.Api;
-using NQuandl.Api.Quandl;
+﻿using NQuandl.Api.Quandl;
 using SimpleInjector;
 
 namespace NQuandl.Services.HttpClient
@@ -9,6 +8,7 @@ namespace NQuandl.Services.HttpClient
         public static void RegisterHttpClient(this Container container)
         {
             container.RegisterSingleton<IHttpClient, HttpClient>();
+            container.RegisterDecorator<IHttpClient, HttpClientRateLimiterDecorator>();
         }
     }
 }

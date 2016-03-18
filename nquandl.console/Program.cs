@@ -12,7 +12,10 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
 
-            GetDatabaseDatasetList();
+            GetDatabaseMetadataBy();
+            GetDatabaseMetadataBy();
+            GetDatabaseMetadataBy();
+            GetDatabaseMetadataBy();
 
             Console.WriteLine("done");
             Console.ReadLine();
