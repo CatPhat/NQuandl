@@ -17,18 +17,10 @@ namespace nquandl.console
             var taskList = new List<Worker>();
             for (var i = 0; i < 10000; i++)
             {
-
-
-               Task.Run(() => new Worker().DoWork());
-               Task.Run(() => new Worker().DoWork());
-               Task.Run(() => new Worker().DoWork());
-             
-            
-          
-            
+                new Worker().DoWork();
             }
 
-           
+          //  Parallel.ForEach(taskList, x => x.DoWork());
            
             //Task.WaitAll(taskList.ToArray());
             NonBlockingConsole.WriteLine("Done");
@@ -117,7 +109,7 @@ namespace nquandl.console
             var databases = new List<DatabaseList>();
             var query = new DatabaseMetadataBy("YC");
              var response = await query.Execute();
-             //NonBlockingConsole.WriteLine("Done: " + response.database.name);
+             NonBlockingConsole.WriteLine("Done: " + response.database.name);
         }
     }
 }

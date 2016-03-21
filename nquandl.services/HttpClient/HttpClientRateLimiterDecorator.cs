@@ -26,7 +26,7 @@ namespace NQuandl.Services.HttpClient
 
         public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
-            _rateGate.WaitToProceed();
+            await _rateGate.WaitToProceedAsync();
             return await _httpClientFactory().GetAsync(requestUri);
         }
     }

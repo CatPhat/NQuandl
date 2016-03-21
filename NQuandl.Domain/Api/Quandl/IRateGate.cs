@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace NQuandl.Api.Quandl
 {
@@ -39,5 +40,7 @@ namespace NQuandl.Api.Quandl
         ///     Blocks the current thread indefinitely until allowed to proceed.
         /// </summary>
         void WaitToProceed();
+
+        Task WaitToProceedAsync();
     }
 }

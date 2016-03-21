@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
+using System.Threading.Tasks;
 using NQuandl.Api;
 using NQuandl.Api.Quandl;
 
@@ -118,6 +119,28 @@ namespace NQuandl.Services.RateGate
             return entered;
         }
 
+        public async Task<bool> WaitToProceedAsync(int millisecondsTimeout)
+        {
+            // Check the arguments.
+            if (millisecondsTimeout < -1)
+                throw new ArgumentOutOfRangeException("millisecondsTimeout");
+
+            CheckDisposed();
+
+            // Block until we can enter the semaphore or until the timeout expires.
+            var entered = await _semaphore.WaitAsync(millisecondsTimeout);
+
+            // If we entered the semaphore, compute the corresponding exit time 
+            // and add it to the queue.
+            if (entered)
+            {
+                var timeToExit = unchecked(Environment.TickCount + TimeUnitMilliseconds);
+                _exitTimes.Enqueue(timeToExit);
+            }
+
+            return entered;
+        }
+
         /// <summary>
         ///     Blocks the current thread until allowed to proceed or until the
         ///     specified timeout elapses.
@@ -135,6 +158,11 @@ namespace NQuandl.Services.RateGate
         public void WaitToProceed()
         {
             WaitToProceed(Timeout.Infinite);
+        }
+
+        public async Task WaitToProceedAsync()
+        {
+           await WaitToProceedAsync(Timeout.Infinite);
         }
 
         // Callback for the exit timer that exits the semaphore based on exit times 

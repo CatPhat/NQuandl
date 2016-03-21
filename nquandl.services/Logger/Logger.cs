@@ -106,7 +106,7 @@ namespace NQuandl.Services.Logger
         private void Log(string logMessage)
         {
             var now = DateTime.Now;
-            NonBlockingConsole.WriteLine(string.Format("{0} {1} {2}", now.ToLocalTime(), now.Ticks,
+            NonBlockingConsole.WriteLine(string.Format("{0} {1} {2}", now, now.Ticks,
                 logMessage));
         }
     }
