@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
@@ -13,6 +11,15 @@ namespace NQuandl.Services.HttpClient
     {
         private readonly Func<IHttpClient> _httpFactory;
         private readonly ILogger _logger;
+
+        public HttpClientLoggerDecorator([NotNull] Func<IHttpClient> httpFactory, ILogger logger)
+        {
+            if (httpFactory == null) throw new ArgumentNullException(nameof(httpFactory));
+
+            _httpFactory = httpFactory;
+            _logger = logger;
+        }
+
         private int InboundRequests { get; set; }
         private int CompletedRequests { get; set; }
 
@@ -20,20 +27,12 @@ namespace NQuandl.Services.HttpClient
         {
             get { return InboundRequests - CompletedRequests; }
         }
-        public HttpClientLoggerDecorator([NotNull] Func<IHttpClient> httpFactory, [NotNull] ILogger logger)
-        {
-            if (httpFactory == null) throw new ArgumentNullException(nameof(httpFactory));
-            if (logger == null) throw new ArgumentNullException(nameof(logger));
-            _httpFactory = httpFactory;
-            _logger = logger;
-        }
 
         public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
-           
-            _logger.Write("+1 reguest");
+            _logger.AddInboundRequest(requestUri);
             var result = await _httpFactory().GetAsync(requestUri);
-            _logger.Write("completed.");
+            _logger.AddCompletedRequest(requestUri);
             return result;
         }
     }

@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Flurl.Util;
 using NQuandl.Domain.Quandl.Entities;
 using NQuandl.Domain.Quandl.Queries;
+using NQuandl.Domain.Quandl.Responses;
+using NQuandl.Services.Logger;
 using NQuandl.SimpleClient;
 
 namespace nquandl.console
@@ -15,14 +17,18 @@ namespace nquandl.console
             var taskList = new List<Worker>();
             for (var i = 0; i < 1000; i++)
             {
-               
-                taskList.Add(new Worker());
+
+
+               Task.Run(() => new Worker().DoWork());
+               Task.Run(() => new Worker().DoWork());
+               Task.Run(() => new Worker().DoWork());
+               Task.Run(() => new Worker().DoWork());
             }
 
-            Parallel.ForEach(taskList, x => x.DoWork().Wait());
+           
            
             //Task.WaitAll(taskList.ToArray());
-            Console.WriteLine("done");
+            NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
 
@@ -98,11 +104,17 @@ namespace nquandl.console
     {
         public Task DoWork()
         {
-            var result = new DatabaseMetadataBy("YC");
-            Console.WriteLine("GUI Execute");
-           result.Execute();
-            return Task.FromResult(0);
+            
+            return Task.FromResult(Work());
 
+        }
+
+        public async Task Work()
+        {
+            var databases = new List<DatabaseList>();
+            var query = new DatabaseMetadataBy("YC");
+             var response = await query.Execute();
+             NonBlockingConsole.WriteLine("Done: " + response.database.name);
         }
     }
 }

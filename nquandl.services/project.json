@@ -6,15 +6,22 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-   
+
     "dnx451": {
       "dependencies": {
         "SimpleInjector": "3.1.2",
-        "SimpleInjector.Extensions.LifetimeScoping": "3.1.2"
+        "SimpleInjector.Extensions.LifetimeScoping": "3.1.2",
+        "Microsoft.Tpl.Dataflow": "4.5.24"
+      },
+      "frameworkAssemblies": {
+        "System.Runtime": "4.0.10.0",
+        "System.Threading": "4.0.0.0",
+        "System.Threading.Tasks": "4.0.0.0"
       }
     },
   },
   "dependencies": {
     "NQuandl.Domain": "1.0.0-*"
+    
   }
 }

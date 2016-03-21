@@ -14,34 +14,38 @@ namespace NQuandl.Services.HttpClient
     public class HttpClientDebugDecorator : IHttpClient
     {
         private readonly Func<IHttpClient> _httpFactory;
-        public HttpClientDebugDecorator([NotNull] Func<IHttpClient> httpFactory)
+        private readonly IHttpResponseCache _cache;
+
+        public HttpClientDebugDecorator([NotNull] Func<IHttpClient> httpFactory, [NotNull] IHttpResponseCache cache)
         {
             if (httpFactory == null) throw new ArgumentNullException(nameof(httpFactory));
+            if (cache == null) throw new ArgumentNullException(nameof(cache));
             _httpFactory = httpFactory;
+            _cache = cache;
         }
 
      
 
-        public Task<HttpClientResponse> GetAsync(string requestUri)
+        public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
-          
-            Console.WriteLine(requestUri);
+
+
             switch (requestUri)
             {
                 case "api/v3/databases/YC/codes":
-                    return GetDatabaseDatasetListByYC();
+                    return await GetDatabaseDatasetListByYC();
 
                 case "api/v3/databases.json?query=stock%2Bprice":
-                    return GetDatabaseSearchByStockPrice();
+                    return await GetDatabaseSearchByStockPrice();
 
                 case "api/v3/databases.json":
-                    return GetDatabaseListBy();
+                    return await GetDatabaseListBy();
 
                 case "api/v3/databases/YC.json?database_code=YC":
-                    return GetDatabaseMetadataByYC();
+                    return await _cache.GetDatabaseMetadataByYc();
 
                 case "api/v3/datasets/FRED/GDP.json":
-                    return GetDatasetByFredGdp();
+                    return await GetDatasetByFredGdp();
             }
             return null;
         }
