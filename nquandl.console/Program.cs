@@ -15,14 +15,17 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
             var taskList = new List<Worker>();
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < 10000; i++)
             {
 
 
                Task.Run(() => new Worker().DoWork());
                Task.Run(() => new Worker().DoWork());
                Task.Run(() => new Worker().DoWork());
-               Task.Run(() => new Worker().DoWork());
+             
+            
+          
+            
             }
 
            
@@ -114,7 +117,7 @@ namespace nquandl.console
             var databases = new List<DatabaseList>();
             var query = new DatabaseMetadataBy("YC");
              var response = await query.Execute();
-             NonBlockingConsole.WriteLine("Done: " + response.database.name);
+             //NonBlockingConsole.WriteLine("Done: " + response.database.name);
         }
     }
 }

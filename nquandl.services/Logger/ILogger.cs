@@ -1,10 +1,14 @@
-﻿namespace NQuandl.Services.Logger
+﻿using System;
+using System.Threading.Tasks;
+
+namespace NQuandl.Services.Logger
 {
     public interface ILogger
     {
 
-        void AddInboundRequest(string request);
-        void AddCompletedRequest(string request);
+        Task AddInboundRequest(InboundRequestLogEntry entry);
+        Task AddCompletedRequest(CompletedRequestLogEntry entry);
         void Write(string logMessage);
+        Task AddCompletedRequestDuration(TimeSpan timeSpan);
     }
 }

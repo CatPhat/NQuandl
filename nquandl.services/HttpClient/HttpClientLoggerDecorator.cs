@@ -30,9 +30,13 @@ namespace NQuandl.Services.HttpClient
 
         public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
-            _logger.AddInboundRequest(requestUri);
+            var inboundEntry = new InboundRequestLogEntry {InboundRequestUri = requestUri, StartTime = DateTime.Now};
+            await _logger.AddInboundRequest(inboundEntry);
             var result = await _httpFactory().GetAsync(requestUri);
-            _logger.AddCompletedRequest(requestUri);
+            await _logger.AddCompletedRequest(new CompletedRequestLogEntry
+            {
+                InboundRequestLogEntry = inboundEntry,
+            });
             return result;
         }
     }

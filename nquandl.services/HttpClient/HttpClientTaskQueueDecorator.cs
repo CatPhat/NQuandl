@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using System.Timers;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
 using NQuandl.Domain.Quandl.Responses;
@@ -13,20 +16,36 @@ namespace NQuandl.Services.HttpClient
     {
         private readonly BufferBlock<string> _bufferBlock;
         private readonly Func<IHttpClient> _httpFactory;
+        private readonly ILogger _logger;
         private readonly TransformBlock<string, HttpClientResponse> _transformBlock;
 
 
-        public HttpClientTaskQueueDecorator([NotNull] Func<IHttpClient> httpFactory, [NotNull] ITaskQueue taskQueue)
+        public HttpClientTaskQueueDecorator([NotNull] Func<IHttpClient> httpFactory, [NotNull] ITaskQueue taskQueue,
+            [NotNull] ILogger logger)
         {
             if (httpFactory == null) throw new ArgumentNullException(nameof(httpFactory));
             if (taskQueue == null) throw new ArgumentNullException(nameof(taskQueue));
+            if (logger == null) throw new ArgumentNullException(nameof(logger));
 
             _httpFactory = httpFactory;
+            _logger = logger;
 
 
             _bufferBlock = new BufferBlock<string>();
             _transformBlock =
-                new TransformBlock<string, HttpClientResponse>(async item => await _httpFactory().GetAsync(item));
+                new TransformBlock<string, HttpClientResponse>(async item =>
+                {
+                    
+                    NonBlockingConsole.WriteLine("Bufferblock count: " + _bufferBlock.Count);
+                    var timer = new Stopwatch();
+                    timer.Start();
+                    var response = await _httpFactory().GetAsync(item);
+                    timer.Stop();
+                    await _logger.AddCompletedRequestDuration(timer.Elapsed);
+                    
+                
+                    return response;
+                });
 
             _bufferBlock.LinkTo(_transformBlock);
         }
@@ -34,10 +53,7 @@ namespace NQuandl.Services.HttpClient
         public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
             await _bufferBlock.SendAsync(requestUri);
-            NonBlockingConsole.WriteLine("BufferBlockCount: " + _bufferBlock.Count);
-            NonBlockingConsole.WriteLine("TransformBlockCount: " + _transformBlock.InputCount);
             var response = await _transformBlock.ReceiveAsync();
-            NonBlockingConsole.WriteLine("TransformBlockCount: " + _transformBlock.InputCount);
             return response;
 
         }
