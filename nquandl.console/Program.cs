@@ -15,7 +15,7 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
             var taskList = new List<Worker>();
-            for (var i = 0; i < 10000; i++)
+            for (var i = 0; i < 1; i++)
             {
                 new Worker().DoWork();
             }

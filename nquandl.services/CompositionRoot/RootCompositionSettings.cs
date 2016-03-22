@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Microsoft.Framework.Configuration;
 
 namespace NQuandl.Services.CompositionRoot
 {
@@ -7,5 +8,6 @@ namespace NQuandl.Services.CompositionRoot
         public Assembly[] QueryHandlerAssemblies { get; set; }
         public Assembly[] QuandlJsonMapperAssemblies { get; set; }
         public Assembly[] QuandlCsvMapperAssemblies { get; set; }
+        public IConfigurationSection Configuration { get; set; }
     }
 }

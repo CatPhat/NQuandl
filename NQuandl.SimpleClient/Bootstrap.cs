@@ -1,4 +1,7 @@
-﻿using NQuandl.Services.CompositionRoot;
+﻿
+
+using Microsoft.Framework.Configuration;
+using NQuandl.Services.CompositionRoot;
 using SimpleInjector;
 
 namespace NQuandl.SimpleClient
@@ -8,8 +11,16 @@ namespace NQuandl.SimpleClient
         public static Container Bootstrap()
         {
             var container = new Container();
-            container.ComposeRoot();
-           
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile(@"App_Data\config.json");
+
+
+
+            var rootCompositionSettings = new RootCompositionSettings
+            {
+                Configuration = builder.Build().GetSection("AppSettings")
+            };
+            container.ComposeRoot(rootCompositionSettings);
             container.Verify();
 
             return container;

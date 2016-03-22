@@ -18,7 +18,7 @@ namespace NQuandl.Services.CompositionRoot
             settings = settings ?? new RootCompositionSettings();
 
             container.Register<IServiceProvider>(() => container, Lifestyle.Singleton);
-            container.RegisterConfiguration();
+            container.RegisterConfiguration(settings.Configuration);
             container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
             container.RegisterHttpClient();
             container.RegisterQuandlJsonMapper(settings.QuandlJsonMapperAssemblies);

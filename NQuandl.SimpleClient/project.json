@@ -16,6 +16,10 @@
   "dependencies": {
     "NQuandl.Domain": "1.0.0-*",
     "NQuandl.Services": "1.0.0-*",
-    "SimpleInjector": "3.1.2"
+    "SimpleInjector": "3.1.2",
+    "Microsoft.Framework.Configuration": "1.0.0-beta8",
+    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8"
+ 
+    
   }
 }
