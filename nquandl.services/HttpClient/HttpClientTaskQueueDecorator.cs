@@ -36,7 +36,7 @@ namespace NQuandl.Services.HttpClient
                 new TransformBlock<string, HttpClientResponse>(async item =>
                 {
                     
-                    NonBlockingConsole.WriteLine("Bufferblock count: " + _bufferBlock.Count);
+                  
                     var timer = new Stopwatch();
                     timer.Start();
                     var response = await _httpFactory().GetAsync(item);

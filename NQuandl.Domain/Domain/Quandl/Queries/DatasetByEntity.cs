@@ -47,7 +47,11 @@ namespace NQuandl.Domain.Quandl.Queries
         public async Task<DatabaseDataset<TEntity>> Handle(DatasetByEntity<TEntity> query)
         {
             var result = await _client.GetAsync<DatabaseDataset<TEntity>>(query.ToQuandlClientRequestParameters());
-            result.Entities = result.dataset.data.Select(_mapper.MapEntity);
+            if (result.QuandlClientResponseInfo.IsStatusSuccessCode)
+            {
+                result.Entities = result.dataset.data.Select(_mapper.MapEntity);
+            }
+            
             return result;
         }
     }

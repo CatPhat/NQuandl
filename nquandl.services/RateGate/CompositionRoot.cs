@@ -8,7 +8,7 @@ namespace NQuandl.Services.RateGate
     {
         public static void RegisterRateGate(this Container container)
         {
-            container.Register<IRateGate>(() => new RateGate(1, TimeSpan.FromMilliseconds(1000)), Lifestyle.Singleton);
+            container.Register<IRateGate>(() => new RateGate(2000, TimeSpan.FromMinutes(10)), Lifestyle.Singleton);
         }
     }
 }

@@ -19,14 +19,32 @@ namespace NQuandl.Api.Quandl.Helpers
             }
         }
 
+        public static TResult DeserializeToEntity<TResult>(this string responseString)
+        {
+            return JsonConvert.DeserializeObject<TResult>(responseString);
+        }
+
         public static QuandlClientResponseInfo GetResponseInfo(this HttpClientResponse response)
         {
-            return new QuandlClientResponseInfo
+            var info = new QuandlClientResponseInfo
             {
                 IsStatusSuccessCode = response.IsStatusSuccessCode,
                 StatusCode = response.StatusCode,
-                ResponseHeaders = response.ResponseHeaders
+                ResponseHeaders = response.ResponseHeaders,
+                QuandlErrorResponse = new QuandlErrorResponse()
             };
+
+            if (response.IsStatusSuccessCode) return info;
+
+
+            var serializer = new JsonSerializer();
+            using (var sr = new StreamReader(response.ContentStream))
+            using (var jsonTextReader = new JsonTextReader(sr))
+            {
+                info.QuandlErrorResponse = serializer.Deserialize<QuandlErrorResponse>(jsonTextReader);
+            }
+
+            return info;
         }
     }
 }

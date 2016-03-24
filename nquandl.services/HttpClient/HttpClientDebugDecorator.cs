@@ -28,71 +28,65 @@ namespace NQuandl.Services.HttpClient
 
         public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
-
-
-            switch (requestUri)
-            {
-                case "api/v3/databases/YC/codes":
-                    return await GetDatabaseDatasetListByYC();
-
-                case "api/v3/databases.json?query=stock%2Bprice":
-                    return await GetDatabaseSearchByStockPrice();
-
-                case "api/v3/databases.json":
-                    return await GetDatabaseListBy();
-
-                case "api/v3/databases/YC.json?database_code=YC":
-                    return await _cache.GetDatabaseMetadataByYc();
-
-                case "api/v3/datasets/FRED/GDP.json":
-                    return await GetDatasetByFredGdp();
-            }
-            return null;
+            return await GetHttpClientResponseFromUri(requestUri);
         }
 
-        private Task<HttpClientResponse> GetDatasetByFredGdp()
+     
+        private Task<FileStream> GetStreamFromFile(string filePath)
         {
-            return
-                GetStreamFromFile(
-                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatasetFredGdp.json");
-        }
-
-        private Task<HttpClientResponse> GetDatabaseMetadataByYC()
-        {
-            return
-                GetStreamFromFile(
-                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseMetadataYC.json");
-        }
-
-        private Task<HttpClientResponse> GetDatabaseListBy()
-        {
-            return
-                GetStreamFromFile(
-                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseList.json");
-        }
-
-        private Task<HttpClientResponse> GetDatabaseSearchByStockPrice()
-        {
-            return
-                GetStreamFromFile(
-                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\DatabaseSearchStockPrice.json");
-        }
-
-        private Task<HttpClientResponse> GetDatabaseDatasetListByYC()
-        {
-            return
-                GetStreamFromFile(
-                    @"C:\Users\USER9\Documents\GitHub\NQuandl\tests\NQuandl.Domain.Test\_etc\YC-datasets-codes.zip");
-        }
-
-        private Task<HttpClientResponse> GetStreamFromFile(string filePath)
-        {
-            var response = new HttpClientResponse();
-
+          
             var stream = File.OpenRead(filePath);
 
-            response.ContentStream = stream;
-            return Task.FromResult(response);
+            return Task.FromResult(stream);
+        }
+
+        private async Task<HttpClientResponse> GetHttpClientResponseFromUri(string uri)
+        {
+            var fileName = GetFileNameFromUri(uri);
+            var fullFilePathFromFileName = GetFullFilePathFromFileName(fileName, "json");
+
+            if (CheckIfFileExists(fullFilePathFromFileName))
+            {
+                var stream = await GetStreamFromFile(fullFilePathFromFileName);
+                return new HttpClientResponse
+                {
+                    ContentStream = stream,
+                    IsStatusSuccessCode = true,
+                    StatusCode = "DEBUG OK"
+                };
+            }
+            var debugNotFoundFilePath = GetFullFilePathFromFileName("debug_404.json", "json");
+            var debugStream = await GetStreamFromFile(debugNotFoundFilePath);
+            return new HttpClientResponse
+            {
+                ContentStream = debugStream,
+                IsStatusSuccessCode = false,
+                StatusCode = "DEBUG 404"
+            };
+        }
+
+
+        private string GetFileNameFromUri(string uri)
+        {
+            var fileName = uri;
+            fileName = Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c, '_'));
+            return fileName;
+        }
+
+        private string GetFullFilePathFromFileName(string fileName, string directory)
+        {
+            const string fileBasePath = @"C:\Users\USER9\Documents\quandl_data\output";
+            return string.Format(fileBasePath + "\\" + directory + "\\" + fileName);
+        }
+
+        private bool CheckIfFileExists(string fullFileName)
+        {
+            return File.Exists(fullFileName);
+        }
+
+        private void WriteToFile(string response, string fullFileName)
+        {
+            File.WriteAllText(fullFileName, response);
         }
     }
 }

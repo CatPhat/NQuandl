@@ -56,8 +56,9 @@ namespace NQuandl.Services.Quandl
             where TResult : ResultWithQuandlResponseInfo
         {
             var response = await GetHttpResponse(parameters);
-            
-            var result = response.ContentStream.DeserializeToEntity<TResult>();
+            var result = !response.IsStatusSuccessCode ? Activator.CreateInstance<TResult>() : response.ContentStream.DeserializeToEntity<TResult>();
+
+
             result.QuandlClientResponseInfo = response.GetResponseInfo();
             return result;
         }
@@ -66,7 +67,7 @@ namespace NQuandl.Services.Quandl
         {
             try
             {
-                return await _client.GetAsync(parameters.ToUri(_configuration.ApiKey)).ConfigureAwait(false);
+                return await _client.GetAsync(parameters.ToUri(_configuration.ApiKey));
             }
             catch (HttpRequestException e)
             {

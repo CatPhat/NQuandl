@@ -9,6 +9,6 @@ namespace NQuandl.Domain.Quandl.Queries
 {
     public class AllDatabaseDatasetsBy : IDefineQuery<Task<IEnumerable<Dataset>>>
     {
-
+        
     }
 }

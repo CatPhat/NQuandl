@@ -7,5 +7,6 @@ namespace NQuandl.Domain.Quandl.Responses
         public string StatusCode { get; set; }
         public bool IsStatusSuccessCode { get; set; }
         public Dictionary<string, IEnumerable<string>> ResponseHeaders { get; set; }
+        public QuandlErrorResponse QuandlErrorResponse { get; set; }
     }
 }

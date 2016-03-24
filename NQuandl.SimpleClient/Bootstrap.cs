@@ -14,13 +14,12 @@ namespace NQuandl.SimpleClient
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile(@"App_Data\config.json");
 
-
-
             var rootCompositionSettings = new RootCompositionSettings
             {
                 Configuration = builder.Build().GetSection("AppSettings")
             };
-            container.ComposeRoot(rootCompositionSettings);
+            //container.ComposeRoot(rootCompositionSettings);
+            container.ComposeRoot();
             container.Verify();
 
             return container;

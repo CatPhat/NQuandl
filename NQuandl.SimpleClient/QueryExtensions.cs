@@ -1,4 +1,6 @@
-﻿using NQuandl.Api.Transactions;
+﻿using NQuandl.Api.Quandl;
+using NQuandl.Api.Transactions;
+using NQuandl.Services.Quandl;
 using SimpleInjector;
 
 namespace NQuandl.SimpleClient
@@ -13,7 +15,10 @@ namespace NQuandl.SimpleClient
             Container = Bootstrapper.Bootstrap();
         }
 
-   
+        public static IQuandlClient GetQuandlClient()
+        {
+            return Container.GetInstance<IQuandlClient>();
+        }
 
 
         public static TResult Execute<TResult>(this IDefineQuery<TResult> query)
