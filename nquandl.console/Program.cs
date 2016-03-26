@@ -7,6 +7,7 @@ using NQuandl.Domain.Quandl.Entities;
 using NQuandl.Domain.Quandl.Queries;
 using NQuandl.Domain.Quandl.Responses;
 using NQuandl.Services.Logger;
+using NQuandl.Services.PostgresEF7.Models;
 using NQuandl.SimpleClient;
 
 namespace nquandl.console
@@ -15,28 +16,36 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            var result = new GetAllDatabaseListsBy().Execute().Result;
-
-            var databaseList = new List<Databases>();
-            foreach (var resultDbList in result)
+            var db = new QuandlContext();
+            using (db)
             {
-                databaseList.AddRange(resultDbList.databases);
+               
+
+                for (int i = 0; i < 20; i++)
+                {
+                    var database = new QuandlDatabase
+                    {
+                        Name = "Test" + i,
+                        Description = "Test Description" + i,
+                        Datasets = new List<QuandlDataset>()
+                    };
+
+                    for (int j = 0; j < 10; j++)
+                    {
+                        var dataset = new QuandlDataset
+                        {
+                            Name = "TestDataset" + j,
+                            Description = "TestDescription" + j
+                        };
+
+                        database.Datasets.Add(dataset);
+                    }
+
+                    db.Add(database);
+                }
+
+                db.SaveChanges();
             }
-
-            foreach (var source in databaseList.OrderBy(x => x.datasets_count))
-            {
-                Console.WriteLine("DB Name: " + source.name);
-                Console.WriteLine("DB CODE: "+ source.database_code);
-                Console.WriteLine("Dataset Cound: " + source.datasets_count);
-                double daysToDownload = source.datasets_count/50000.00;
-                Console.WriteLine("Days to Download: " + daysToDownload);
-            }
-
-            Console.WriteLine("Total Datasets: " + databaseList.Sum(x => x.datasets_count));
-            Console.WriteLine("Total Days to Download (premium): " + databaseList.Sum(x => x.datasets_count) / 720000);
-            //  Parallel.ForEach(taskList, x => x.DoWork());
-
-            //Task.WaitAll(taskList.ToArray());
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }

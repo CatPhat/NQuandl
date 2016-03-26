@@ -9,11 +9,11 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Queries
 {
-    public class GetAllDatabaseListsBy : IDefineQuery<Task<IEnumerable<DatabaseList>>>
+    public class GetAllDatabaseListsBy : IDefineQuery<Task<IEnumerable<Databases>>>
     {
     }
 
-    public class HandleGetAllDatabaseListsBy : IHandleQuery<GetAllDatabaseListsBy, Task<IEnumerable<DatabaseList>>>
+    public class HandleGetAllDatabaseListsBy : IHandleQuery<GetAllDatabaseListsBy, Task<IEnumerable<Databases>>>
     {
         private readonly IQuandlClient _client;
 
@@ -23,23 +23,23 @@ namespace NQuandl.Domain.Quandl.Queries
             _client = client;
         }
 
-        public async Task<IEnumerable<DatabaseList>> Handle(GetAllDatabaseListsBy query)
+        public async Task<IEnumerable<Databases>> Handle(GetAllDatabaseListsBy query)
         {
             var databaseListQuery1 = new DatabaseListBy {Page = 1};
             var databaseListResponse1 =
                 await _client.GetAsync<DatabaseList>(databaseListQuery1.ToQuandlClientRequestParameters());
 
-            var databaseLists = new List<DatabaseList> {databaseListResponse1};
+            var databaseList = new List<Databases>();
             for (var i = 2; i <= databaseListResponse1.meta.total_pages; i++)
             {
                 var response =
                     await
                         _client.GetAsync<DatabaseList>(new DatabaseListBy {Page = i}.ToQuandlClientRequestParameters());
 
-                databaseLists.Add(response);
+                databaseList.AddRange(response.databases);
             }
-
-            return databaseLists;
+            
+            return databaseList;
         }
     }
 }

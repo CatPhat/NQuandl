@@ -26,7 +26,7 @@ namespace NQuandl.Services.Quandl.Mapper
                     DatabaseCode = splitCode[0],
                     DatasetCode = splitCode[1],
                     DatasetDescription = columns[1]
-                }).ToList();
+                });
             stream.Close();
             return datasets;
         }
