@@ -17,11 +17,11 @@ namespace NQuandl.Services.Transactions
         }
 
         [DebuggerStepThrough]
-        public TResult Execute<TResult>(IDefineQuery<TResult> query)
+        public TResult Execute<TResult>(IDefineQuandlRequest<TResult> quandlRequest)
         {
-            var handlerType = typeof (IHandleQuery<,>).MakeGenericType(query.GetType(), typeof (TResult));
+            var handlerType = typeof (IHandleQuandlRequest<,>).MakeGenericType(quandlRequest.GetType(), typeof (TResult));
             dynamic handler = _container.GetInstance(handlerType);
-            return handler.Handle((dynamic) query);
+            return handler.Handle((dynamic) quandlRequest);
         }
 
         

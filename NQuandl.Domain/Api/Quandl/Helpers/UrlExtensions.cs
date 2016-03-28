@@ -2,132 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using Flurl;
-using NQuandl.Domain.Quandl.Queries;
 using NQuandl.Domain.Quandl.RequestParameters;
+using NQuandl.Domain.Quandl.Requests;
 
 namespace NQuandl.Api.Quandl.Helpers
 {
     public static class UrlExtensions
     {
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseDatasetListBy query)
-        {
-            return new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = new Dictionary<string, string>()
-            };
-        }
-
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseListBy query)
-        {
-            return new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-        }
-
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseMetadataBy query)
-        {
-            return new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-        }
-
-
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatabaseSearchBy query)
-        {
-            return new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-        }
-
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters(this DatasetBy query)
-        {
-            return new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-        }
-
-        public static QuandlClientRequestParameters ToQuandlClientRequestParameters<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
-        {
-            return new QuandlClientRequestParameters
-            {
-                PathSegment = query.ToPathSegment(),
-                QueryParameters = query.ToRequestParameterDictionary()
-            };
-        }
-
-
-        // https://www.quandl.com/api/v3/databases/:database_code/codes
-        public static string ToPathSegment(this DatabaseDatasetListBy query)
-        {
-            return $"{query.ApiVersion}/databases/{query.DatabaseCode}/codes";
-        }
-
+      
         // https://www.quandl.com/api/v3/databases.json
-        public static string ToPathSegment(this DatabaseListBy query)
-        {
-            return $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}";
-        }
-
-        // https://www.quandl.com/api/v3/databases/WIKI.json
-        public static string ToPathSegment(this DatabaseMetadataBy query)
-        {
-            return $"{query.ApiVersion}/databases/{query.DatabaseCode}.{query.ResponseFormat.GetStringValue()}";
-        }
-        
-        // https://www.quandl.com/api/v3/databases.json
-        public static string ToPathSegment(this DatabaseSearchBy query)
+        public static string ToPathSegment(this RequestDatabaseSearchBy query)
         {
             return $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}";
         }
 
         // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-        public static string ToPathSegment(this DatasetBy query)
+        public static string ToPathSegment(this RequestDatasetBy query)
         {
             return $"{query.ApiVersion}/datasets/{query.DatabaseCode}/{query.DatasetCode}.{query.ResponseFormat.GetStringValue()}";
         }
 
-        // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-        public static string ToPathSegment<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
-        {
-            return query.ToDatasetBy().ToPathSegment();
-        }
-
-      
+    
         // todo: consolidate
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatasetBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetBy query)
         {
             return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
         } 
 
-
-        public static Dictionary<string, string> ToRequestParameterDictionary<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
-        {
-            return query.ToDatasetBy().ToRequestParameterDictionary();
-        }
-
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseListBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseListBy query)
         {
             return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseMetadataBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseMetadataBy query)
         {
             return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this DatabaseSearchBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseSearchBy query)
         {
             return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
                    new Dictionary<string, string>();
@@ -136,7 +51,7 @@ namespace NQuandl.Api.Quandl.Helpers
 
         //end consolidate
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseMetadataBy query)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatabaseMetadataBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -148,7 +63,7 @@ namespace NQuandl.Api.Quandl.Helpers
         }
 
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseListBy query)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatabaseListBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -170,7 +85,7 @@ namespace NQuandl.Api.Quandl.Helpers
         
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatabaseSearchBy query)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatabaseSearchBy query)
         {
             if (query == null) throw new NullReferenceException("options");
 
@@ -197,7 +112,7 @@ namespace NQuandl.Api.Quandl.Helpers
            return parameters;
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this DatasetBy query)
+        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatasetBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -255,29 +170,7 @@ namespace NQuandl.Api.Quandl.Helpers
             return parameters;
         } 
 
-        public static IEnumerable<RequestParameter> ToRequestParameters<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
-        {
-            return query.ToDatasetBy().ToRequestParameters();
-        }
-
-        public static DatasetBy ToDatasetBy<TEntity>(this DatasetByEntity<TEntity> query) where TEntity : QuandlEntity
-        {
-            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity));
-            var datasetBy = new DatasetBy(entity.DatabaseCode, entity.DatasetCode)
-            {
-                Collapse = query.Collapse,
-                ColumnIndex = query.ColumnIndex,
-                EndDate = query.EndDate,
-                StartDate = query.StartDate,
-                Limit = query.Limit,
-                Order = query.Order,
-                Rows = query.Rows
-            };
-
-            return datasetBy;
-        }
       
-
         public static string ToUrl(this QuandlClientRequestParameters parameters, string baseUrl)
         {
             if (String.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");

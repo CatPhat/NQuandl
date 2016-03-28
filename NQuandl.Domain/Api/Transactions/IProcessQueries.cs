@@ -2,6 +2,6 @@
 {
     public interface IProcessQueries
     {
-        TResult Execute<TResult>(IDefineQuery<TResult> query);
+        TResult Execute<TResult>(IDefineQuandlRequest<TResult> quandlRequest);
     }
 }

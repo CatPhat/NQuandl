@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
-using NQuandl.Domain.Quandl.Queries;
+using NQuandl.Domain.Quandl.Requests;
 using NQuandl.Domain.Quandl.Responses;
 using NQuandl.SimpleClient;
 
@@ -57,7 +57,7 @@ namespace NQuandl.WebApi.Controllers
         [Route("dataset_list/{databaseCode}/{startIndex:int}/{endIndex:int}/{orderBy}")]
         public async Task<JsonResult> Get(string databaseCode, int startIndex, int endIndex, string orderBy)
         {
-            var result = await new DatabaseDatasetListBy(databaseCode).Execute();
+            var result = await new RequestDatabaseDatasetListBy(databaseCode).Execute();
 
             var results = new List<DatabaseDatasetCsvRow>();
 

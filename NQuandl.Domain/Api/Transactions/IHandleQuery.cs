@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Api.Transactions
 {
-    public interface IHandleQuery<in TQuery, out TResult> where TQuery : IDefineQuery<TResult>
+    public interface IHandleQuandlRequest<in TQuery, out TResult> where TQuery : IDefineQuandlRequest<TResult>
     {
         TResult Handle(TQuery query);
     }

@@ -21,9 +21,9 @@ namespace NQuandl.SimpleClient
         }
 
 
-        public static TResult Execute<TResult>(this IDefineQuery<TResult> query)
+        public static TResult Execute<TResult>(this IDefineQuandlRequest<TResult> quandlRequest)
         {
-            return new ExecuteQuery(Container).Execute(query);
+            return new ExecuteQuery(Container).Execute(quandlRequest);
         }
 
       
@@ -43,9 +43,9 @@ namespace NQuandl.SimpleClient
             return container.GetInstance<IProcessQueries>();
         }
 
-        public TResult Execute<TResult>(IDefineQuery<TResult> query)
+        public TResult Execute<TResult>(IDefineQuandlRequest<TResult> quandlRequest)
         {
-            return _queries.Execute(query);
+            return _queries.Execute(quandlRequest);
         }
 
     }
