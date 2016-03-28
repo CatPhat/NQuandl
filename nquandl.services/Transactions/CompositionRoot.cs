@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
-using NQuandl.Api;
 using NQuandl.Api.Transactions;
-using NQuandl.Domain.Quandl.Requests;
 using SimpleInjector;
 
 namespace NQuandl.Services.Transactions
@@ -14,12 +12,6 @@ namespace NQuandl.Services.Transactions
 
             container.Register<IProcessQueries, QueryProcessor>(Lifestyle.Singleton);
             container.Register(typeof (IHandleQuandlRequest<,>), assemblies);
-            
-            //container.RegisterConditional(typeof (IHandleQuery<,>), typeof (HandleQuandlQueryBy<>), c => !c.Handled);
-            container.RegisterConditional(typeof (IHandleQuandlRequest<,>), typeof (HandleDatasetByEntity<>), c => !c.Handled);
-         
-
-
         }
     }
 }

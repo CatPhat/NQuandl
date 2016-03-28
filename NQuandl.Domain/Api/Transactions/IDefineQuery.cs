@@ -11,7 +11,7 @@ namespace NQuandl.Api.Transactions
     {
         public string ApiVersion => RequestParameterConstants.ApiVersion;
         public ResponseFormat ResponseFormat => ResponseFormat.JSON;
-
+        public string ApiKey { get; set; }
 
         public string Uri => ToUri();
 

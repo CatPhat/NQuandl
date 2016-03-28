@@ -10,35 +10,7 @@ namespace NQuandl.Api.Quandl.Helpers
     public static class UrlExtensions
     {
     
-        // todo: consolidate
-        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetBy query)
-        {
-            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
-                   new Dictionary<string, string>();
-        } 
-
-        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseListBy query)
-        {
-            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
-                   new Dictionary<string, string>();
-        }
-
         public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseMetadataBy query)
-        {
-            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
-                   new Dictionary<string, string>();
-        }
-
-        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseSearchBy query)
-        {
-            return query?.ToRequestParameters().ToDictionary(x => x.Name, x => x.Value) ??
-                   new Dictionary<string, string>();
-        }
-        
-
-        //end consolidate
-
-        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatabaseMetadataBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -46,11 +18,11 @@ namespace NQuandl.Api.Quandl.Helpers
             {
                 new RequestParameter(RequestParameterConstants.DatabaseCode, query.DatabaseCode)
             };
-            return parameters;
+            return parameters.ToDictionary(query.ApiKey);
         }
 
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatabaseListBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseListBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -68,17 +40,17 @@ namespace NQuandl.Api.Quandl.Helpers
                 parameters.Add(parameter);
             }
 
-            return parameters;
-        
+            return parameters.ToDictionary(query.ApiKey);
+
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatabaseSearchBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseSearchBy query)
         {
             if (query == null) throw new NullReferenceException("options");
 
             var parameters = new List<RequestParameter>();
 
-            if (!String.IsNullOrEmpty(query.Query))
+            if (!string.IsNullOrEmpty(query.Query))
             {
                 var parameter = new RequestParameter(RequestParameterConstants.Query, query.Query);
                 parameters.Add(parameter);
@@ -96,10 +68,10 @@ namespace NQuandl.Api.Quandl.Helpers
                 parameters.Add(parameter);
             }
 
-           return parameters;
+            return parameters.ToDictionary(query.ApiKey);
         }
 
-        public static IEnumerable<RequestParameter> ToRequestParameters(this RequestDatasetBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
@@ -154,13 +126,21 @@ namespace NQuandl.Api.Quandl.Helpers
                 parameters.Add(parameter);
             }
 
-            return parameters;
-        } 
+            return parameters.ToDictionary(query.ApiKey);
+        }
 
+        public static Dictionary<string, string> ToDictionary(this List<RequestParameter> requestParameters, string apiKey)
+        {
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                requestParameters.Add(new RequestParameter(RequestParameterConstants.ApiKey, apiKey));
+            }
+            return requestParameters.ToDictionary(x => x.Name, x => x.Value);
+        }
       
         public static string ToUrl(this QuandlClientRequestParameters parameters, string baseUrl)
         {
-            if (String.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
+            if (string.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
             
             var url = baseUrl.AppendPathSegment(parameters.PathSegment);
             if (parameters.QueryParameters.Any())

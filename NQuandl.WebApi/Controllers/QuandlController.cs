@@ -22,35 +22,35 @@ namespace NQuandl.WebApi.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/database_list/startIndex/endIndex/orderBy
-        [Route("database_list/{startIndex:int}/{endIndex:int}/{orderBy}")]
-        public async Task<JsonResult> Get(int startIndex, int endIndex, string orderBy)
-        {
-            var result = await new GetAllDatabaseListsBy().Execute();
+        //// GET: api/database_list/startIndex/endIndex/orderBy
+        //[Route("database_list/{startIndex:int}/{endIndex:int}/{orderBy}")]
+        //public async Task<JsonResult> Get(int startIndex, int endIndex, string orderBy)
+        //{
+        //    var result = await new GetAllDatabaseListsBy().Execute();
 
-            switch (orderBy.ToLowerInvariant())
-            {
-                case "count":
-                    result = result.OrderByDescending(x => x.datasets_count);
-                    break;
+        //    switch (orderBy.ToLowerInvariant())
+        //    {
+        //        case "count":
+        //            result = result.OrderByDescending(x => x.datasets_count);
+        //            break;
 
-                default:
-                    result = result.OrderBy(x => x.name);
-                    break;
-            }
+        //        default:
+        //            result = result.OrderBy(x => x.name);
+        //            break;
+        //    }
             
-            var results = new List<Databases>();
-            for (var i = startIndex; i <= endIndex; i++)
-            {
-                var db = result.ElementAtOrDefault(i);
-                if (db != null)
-                {
-                    results.Add(db);
-                }
+        //    var results = new List<Databases>();
+        //    for (var i = startIndex; i <= endIndex; i++)
+        //    {
+        //        var db = result.ElementAtOrDefault(i);
+        //        if (db != null)
+        //        {
+        //            results.Add(db);
+        //        }
               
-            }
-            return new JsonResult(results);
-        }
+        //    }
+        //    return new JsonResult(results);
+        //}
 
 
         // GET: api/datasets_list/databaseCode/startIndex/endIndex/orderBy
