@@ -7,7 +7,7 @@ using SimpleInjector;
 namespace NQuandl.Services.Transactions
 {
     [UsedImplicitly]
-    sealed class QueryProcessor : IProcessQueries
+    sealed class QueryProcessor : IExecuteQuandlRequests
     {
         private readonly Container _container;
 

@@ -10,7 +10,7 @@ namespace NQuandl.Services.Transactions
         {
             assemblies = assemblies ?? new[] {Assembly.GetAssembly(typeof (IHandleQuandlRequest<,>))};
 
-            container.Register<IProcessQueries, QueryProcessor>(Lifestyle.Singleton);
+            container.Register<IExecuteQuandlRequests, QueryProcessor>(Lifestyle.Singleton);
             container.Register(typeof (IHandleQuandlRequest<,>), assemblies);
         }
     }

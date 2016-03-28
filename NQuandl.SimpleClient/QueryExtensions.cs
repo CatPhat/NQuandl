@@ -31,16 +31,16 @@ namespace NQuandl.SimpleClient
 
     public class ExecuteQuery
     {
-        private readonly IProcessQueries _queries;
+        private readonly IExecuteQuandlRequests _queries;
 
         public ExecuteQuery(Container container)
         {
             _queries = GetQueryProcessor(container);
         }
 
-        public IProcessQueries GetQueryProcessor(Container container)
+        public IExecuteQuandlRequests GetQueryProcessor(Container container)
         {
-            return container.GetInstance<IProcessQueries>();
+            return container.GetInstance<IExecuteQuandlRequests>();
         }
 
         public TResult Execute<TResult>(IDefineQuandlRequest<TResult> quandlRequest)

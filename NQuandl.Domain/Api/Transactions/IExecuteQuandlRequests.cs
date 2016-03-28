@@ -1,6 +1,6 @@
 ﻿namespace NQuandl.Api.Transactions
 {
-    public interface IProcessQueries
+    public interface IExecuteQuandlRequests
     {
         TResult Execute<TResult>(IDefineQuandlRequest<TResult> quandlRequest);
     }
