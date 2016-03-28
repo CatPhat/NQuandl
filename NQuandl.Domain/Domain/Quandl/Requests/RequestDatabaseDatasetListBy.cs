@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
-using NQuandl.Api.Quandl.Helpers;
 using NQuandl.Api.Transactions;
-using NQuandl.Domain.Quandl.RequestParameters;
 using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
@@ -24,7 +21,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
 
         public string DatabaseCode { get; }
-      
+
         public override string ToUri()
         {
             var pathSegment = $"{ApiVersion}/databases/{DatabaseCode}/codes";
@@ -32,7 +29,8 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
-    public class HandleDatabaseDatasetListBy : IHandleQuandlRequest<RequestDatabaseDatasetListBy, Task<DatabaseDatasetList>>
+    public class HandleDatabaseDatasetListBy :
+        IHandleQuandlRequest<RequestDatabaseDatasetListBy, Task<DatabaseDatasetList>>
     {
         private readonly IQuandlClient _client;
         private readonly IMapCsvStream _mapper;
@@ -60,7 +58,7 @@ namespace NQuandl.Domain.Quandl.Requests
                 QuandlClientResponseInfo = quandlResponse.QuandlClientResponseInfo,
                 Datasets = datasets
             };
-            
+
             return databaseDatasetList;
         }
     }

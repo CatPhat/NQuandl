@@ -47,6 +47,7 @@ namespace NQuandl.Domain.Quandl.Requests
 
     {
         private readonly IQuandlClient _client;
+
         public HandleRequestDatasetBy([NotNull] IQuandlClient client)
         {
             if (client == null) throw new ArgumentNullException(nameof(client));

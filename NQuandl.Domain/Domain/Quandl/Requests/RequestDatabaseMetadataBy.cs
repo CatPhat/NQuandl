@@ -20,7 +20,7 @@ namespace NQuandl.Domain.Quandl.Requests
 
         public string DatabaseCode { get; }
 
-        
+
         public override string ToUri()
         {
             return new QuandlClientRequestParameters
@@ -31,7 +31,8 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
-    public class HandleRequestDatabaseMetadataBy : IHandleQuandlRequest<RequestDatabaseMetadataBy, Task<DatabaseMetadata>>
+    public class HandleRequestDatabaseMetadataBy :
+        IHandleQuandlRequest<RequestDatabaseMetadataBy, Task<DatabaseMetadata>>
     {
         private readonly IQuandlClient _client;
 
