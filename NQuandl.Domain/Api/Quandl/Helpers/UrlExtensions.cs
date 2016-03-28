@@ -9,19 +9,6 @@ namespace NQuandl.Api.Quandl.Helpers
 {
     public static class UrlExtensions
     {
-      
-        // https://www.quandl.com/api/v3/databases.json
-        public static string ToPathSegment(this RequestDatabaseSearchBy query)
-        {
-            return $"{query.ApiVersion}/databases.{query.ResponseFormat.GetStringValue()}";
-        }
-
-        // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-        public static string ToPathSegment(this RequestDatasetBy query)
-        {
-            return $"{query.ApiVersion}/datasets/{query.DatabaseCode}/{query.DatasetCode}.{query.ResponseFormat.GetStringValue()}";
-        }
-
     
         // todo: consolidate
         public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetBy query)
@@ -186,14 +173,9 @@ namespace NQuandl.Api.Quandl.Helpers
 
         public static string ToUri(this QuandlClientRequestParameters parameters, string apiKey = null)
         {
-            if (String.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
+            if (string.IsNullOrEmpty(parameters.PathSegment)) throw new ArgumentException("Missing PathSegment");
 
             var url = "api".AppendPathSegment(parameters.PathSegment);
-
-            if (!string.IsNullOrEmpty(apiKey))
-            {
-                parameters.QueryParameters.Add(RequestParameterConstants.ApiKey, apiKey);
-            }
 
             if (parameters.QueryParameters.Any())
             {
@@ -202,14 +184,5 @@ namespace NQuandl.Api.Quandl.Helpers
 
             return url;
         }
-
-
-
-        //public static async Task<TResult> DeserializeToJsonResultAsync<TResult>(this HttpResponseMessage response) where TResult : ResponseWithRawHttpContent
-        //{
-        //    var result = JsonConvert.DeserializeObject<TResult>(await response.Content.ReadAsStringAsync());
-        //    result.HttpResponseMessage = response;
-        //    return result;
-        //}
     }
 }
