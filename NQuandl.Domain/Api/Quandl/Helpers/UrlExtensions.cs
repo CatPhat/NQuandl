@@ -71,7 +71,7 @@ namespace NQuandl.Api.Quandl.Helpers
             return parameters.ToDictionary(query.ApiKey);
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetDataBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 
