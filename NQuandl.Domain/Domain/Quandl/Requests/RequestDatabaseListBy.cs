@@ -9,10 +9,24 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
 {
-    // https://www.quandl.com/api/v3/databases.json
+    /// <summary>
+    /// Description: You can download a list of all databases on Quandl, along with their respective metadata, by making this call. 
+    /// Databases are returned 100 results at a time.
+    /// URL Template: https://www.quandl.com/api/v3/databases
+    /// URL Example: https://www.quandl.com/api/v3/databases.json?per_page=3
+    /// </summary>
     public class RequestDatabaseListBy : BaseQuandlRequest<Task<JsonResultDatabaseList>>
     {
+        /// <summary>
+        /// Required: False.
+        /// Description: The number of results per page that will be returned.
+        /// </summary>
         public int? PerPage { get; set; }
+
+        /// <summary>
+        /// Required: False.
+        /// Description: The current page of total available pages you wish to view.
+        /// </summary>
         public int? Page { get; set; }
 
         public override string ToUri()
