@@ -11,7 +11,7 @@ namespace NQuandl.Domain.Quandl.Requests
 {
     /// <summary>
     /// Requests Quandl Dataset Data
-    /// Example URL: https://www.quandl.com/api/v3/datasets/WIKI/FB.json
+    /// Example URL: https://www.quandl.com/api/v3/datasets/:database_code/:dataset_code/data
     /// <returns>JsonResultDatasetData</returns>
     /// </summary>
     public class RequestDatasetDataBy : BaseQuandlRequest<Task<JsonResultDatasetData>>
@@ -104,7 +104,7 @@ namespace NQuandl.Domain.Quandl.Requests
         {
             return new QuandlClientRequestParameters
             {
-                PathSegment = $"{ApiVersion}/datasets/{DatabaseCode}/{DatasetCode}.{ResponseFormat.GetStringValue()}",
+                PathSegment = $"{ApiVersion}/datasets/{DatabaseCode}/{DatasetCode}/data.{ResponseFormat.GetStringValue()}",
                 QueryParameters = this.ToRequestParameterDictionary()
             }.ToUri();
         }
