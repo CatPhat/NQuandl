@@ -9,12 +9,32 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
 {
-    // https://www.quandl.com/api/v3/databases.json
+    /// <summary>
+    /// Description: You can search for specific databases on Quandl by making the following API request. 
+    /// The API will return databases related to your query. 
+    /// Databases are returned 100 results at a time.
+    /// URL Template: https://www.quandl.com/api/v3/databases
+    /// URL Example: https://www.quandl.com/api/v3/databases.json?query=stock+price&per_page=1&page=1
+    /// </summary>
     public class RequestDatabaseSearchBy : BaseQuandlRequest<Task<JsonResultDatabaseSearch>>
     {
-        // optional
+        /// <summary>
+        /// Required: False.
+        /// Description: You can retrieve all databases related to a search term using the query parameter. 
+        /// Multiple search terms should be separated by a + character.
+        /// </summary>
         public string Query { get; set; }
+
+        /// <summary>
+        /// Required: False.
+        /// Description: The number of results per page that will be returned.
+        /// </summary>
         public int? PerPage { get; set; }
+
+        /// <summary>
+        /// Required: False.
+        /// Description: The current page of total available pages you wish to view.
+        /// </summary>
         public int? Page { get; set; }
 
         public override string ToUri()
@@ -27,6 +47,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
+    [UsedImplicitly]
     public class HandleRequestDatabaseSearchBy : IHandleQuandlRequest<RequestDatabaseSearchBy, Task<JsonResultDatabaseSearch>>
     {
         private readonly IQuandlClient _client;
