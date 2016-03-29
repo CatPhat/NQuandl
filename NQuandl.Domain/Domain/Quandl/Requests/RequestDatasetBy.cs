@@ -9,13 +9,13 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
 {
-    // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
+    /// <summary>
+    /// Requests Quandl Dataset Data
+    /// Example URL: https://www.quandl.com/api/v3/datasets/WIKI/FB.json
+    /// <returns>JsonResultDatasetData</returns>
+    /// </summary>
     public class RequestDatasetDataBy : BaseQuandlRequest<Task<JsonResultDatasetData>>
-
     {
-        /// <summary>
-        /// <returns>JsonResultDatasetData</returns>
-        /// </summary>
         /// <param name="databaseCode">
         /// Required: True.
         /// Description: Each database on Quandl has a unique database code. 
