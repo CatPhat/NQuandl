@@ -110,6 +110,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
+    [UsedImplicitly]
     public class HandleRequestDatasetDataBy : IHandleQuandlRequest<RequestDatasetDataBy, Task<JsonResultDatasetData>>
 
     {
