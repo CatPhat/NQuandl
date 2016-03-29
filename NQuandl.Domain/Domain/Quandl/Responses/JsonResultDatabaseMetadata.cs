@@ -1,7 +1,10 @@
-﻿namespace NQuandl.Domain.Quandl.Responses
+﻿using Newtonsoft.Json;
+
+namespace NQuandl.Domain.Quandl.Responses
 {
     public class JsonResultDatabaseMetadata : ResultWithQuandlResponseInfo
     {
-        public JsonDatabaseMetadata Metadata { get; set; }
+        [JsonProperty("database")]
+        public JsonDatabaseMetadata DatabaseMetadata { get; set; }
     }
 }
