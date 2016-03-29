@@ -39,6 +39,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
+    [UsedImplicitly]
     public class HandleRequestDatabaseListBy : IHandleQuandlRequest<RequestDatabaseListBy, Task<JsonResultDatabaseList>>
     {
         private readonly IQuandlClient _client;
