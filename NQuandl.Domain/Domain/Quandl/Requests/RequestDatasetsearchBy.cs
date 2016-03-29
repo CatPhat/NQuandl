@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
@@ -11,7 +9,6 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
 {
-
     /// <summary>
     /// Description: You can search for individual datasets on Quandl by making the following API request. 
     /// The API will return datasets related to your query, as well as datasets that belong to databases related to your query. 
@@ -62,7 +59,8 @@ namespace NQuandl.Domain.Quandl.Requests
     }
 
     [UsedImplicitly]
-    public class HandleRequestDatasetSearchBy : IHandleQuandlRequest<RequestDatasetSearchBy, Task<JsonResultDatasetSearch>>
+    public class HandleRequestDatasetSearchBy :
+        IHandleQuandlRequest<RequestDatasetSearchBy, Task<JsonResultDatasetSearch>>
     {
         private readonly IQuandlClient _client;
 
