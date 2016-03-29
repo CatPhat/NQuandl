@@ -1,8 +1,13 @@
-﻿namespace NQuandl.Domain.Quandl.Responses
+﻿using Newtonsoft.Json;
+
+namespace NQuandl.Domain.Quandl.Responses
 {
     public class JsonResultDatabaseSearch : ResultWithQuandlResponseInfo
     {
-        public JsonSearchDatabase[] Databases { get; set; }
-        public JsonSearchMetadata Metadata { get; set; }
+        [JsonProperty("databases")]
+        public JsonDatabaseSearch[] JsonDatabaseSearchDatabases { get; set; }
+
+        [JsonProperty("meta")]
+        public JsonDatabaseSearchMetadata JsonDatabaseSearchMetadata { get; set; }
     }
 }

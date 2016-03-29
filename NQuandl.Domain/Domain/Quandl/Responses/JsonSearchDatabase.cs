@@ -1,14 +1,31 @@
-﻿namespace NQuandl.Domain.Quandl.Responses
+﻿using Newtonsoft.Json;
+
+namespace NQuandl.Domain.Quandl.Responses
 {
-    public class JsonSearchDatabase
+    public class JsonDatabaseSearch
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string database_code { get; set; }
-        public string description { get; set; }
-        public int datasets_count { get; set; }
-        public long downloads { get; set; }
-        public bool premium { get; set; }
-        public string image { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("database_code")]
+        public string DatabaseCode { get; set; }
+
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        [JsonProperty("datasets_count")]
+        public int DatasetsCount { get; set; }
+
+        [JsonProperty("downloads")]
+        public long Downloads { get; set; }
+
+        [JsonProperty("premium")]
+        public bool Premium { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
     }
 }
