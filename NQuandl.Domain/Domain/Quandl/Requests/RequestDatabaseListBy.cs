@@ -10,7 +10,7 @@ using NQuandl.Domain.Quandl.Responses;
 namespace NQuandl.Domain.Quandl.Requests
 {
     // https://www.quandl.com/api/v3/databases.json
-    public class RequestDatabaseListBy : BaseQuandlRequest<Task<DatabaseList>>
+    public class RequestDatabaseListBy : BaseQuandlRequest<Task<JsonResultDatabaseList>>
     {
         public int? PerPage { get; set; }
         public int? Page { get; set; }
@@ -25,7 +25,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
-    public class HandleRequestDatabaseListBy : IHandleQuandlRequest<RequestDatabaseListBy, Task<DatabaseList>>
+    public class HandleRequestDatabaseListBy : IHandleQuandlRequest<RequestDatabaseListBy, Task<JsonResultDatabaseList>>
     {
         private readonly IQuandlClient _client;
 
@@ -36,9 +36,9 @@ namespace NQuandl.Domain.Quandl.Requests
             _client = client;
         }
 
-        public async Task<DatabaseList> Handle(RequestDatabaseListBy query)
+        public async Task<JsonResultDatabaseList> Handle(RequestDatabaseListBy query)
         {
-            return await _client.GetAsync<DatabaseList>(query.ToUri());
+            return await _client.GetAsync<JsonResultDatabaseList>(query.ToUri());
         }
     }
 }

@@ -2,12 +2,7 @@ using System;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
-    public class DatabaseDataset : ResultWithQuandlResponseInfo
-    {
-        public Dataset dataset { get; set; }
-    }
-
-    public class Dataset
+    public class JsonDatabaseDataset
     {
         public int id { get; set; }
         public string dataset_code { get; set; }

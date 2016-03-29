@@ -10,7 +10,7 @@ using NQuandl.Domain.Quandl.Responses;
 namespace NQuandl.Domain.Quandl.Requests
 {
     // https://www.quandl.com/api/v3/databases/WIKI.json
-    public class RequestDatabaseMetadataBy : BaseQuandlRequest<Task<DatabaseMetadata>>
+    public class RequestDatabaseMetadataBy : BaseQuandlRequest<Task<JsonResultDatabaseMetadata>>
     {
         public RequestDatabaseMetadataBy([NotNull] string databaseCode)
         {
@@ -32,7 +32,7 @@ namespace NQuandl.Domain.Quandl.Requests
     }
 
     public class HandleRequestDatabaseMetadataBy :
-        IHandleQuandlRequest<RequestDatabaseMetadataBy, Task<DatabaseMetadata>>
+        IHandleQuandlRequest<RequestDatabaseMetadataBy, Task<JsonResultDatabaseMetadata>>
     {
         private readonly IQuandlClient _client;
 
@@ -42,9 +42,9 @@ namespace NQuandl.Domain.Quandl.Requests
             _client = client;
         }
 
-        public async Task<DatabaseMetadata> Handle(RequestDatabaseMetadataBy query)
+        public async Task<JsonResultDatabaseMetadata> Handle(RequestDatabaseMetadataBy query)
         {
-            return await _client.GetAsync<DatabaseMetadata>(query.ToUri());
+            return await _client.GetAsync<JsonResultDatabaseMetadata>(query.ToUri());
         }
     }
 }

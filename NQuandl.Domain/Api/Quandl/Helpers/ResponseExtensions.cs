@@ -31,7 +31,7 @@ namespace NQuandl.Api.Quandl.Helpers
                 IsStatusSuccessCode = response.IsStatusSuccessCode,
                 StatusCode = response.StatusCode,
                 ResponseHeaders = response.ResponseHeaders,
-                QuandlErrorResponse = new QuandlErrorResponse()
+                JsonQuandlErrorResponse = new JsonQuandlErrorResponse()
             };
 
             if (response.IsStatusSuccessCode) return info;
@@ -41,7 +41,7 @@ namespace NQuandl.Api.Quandl.Helpers
             using (var sr = new StreamReader(response.ContentStream))
             using (var jsonTextReader = new JsonTextReader(sr))
             {
-                info.QuandlErrorResponse = serializer.Deserialize<QuandlErrorResponse>(jsonTextReader);
+                info.JsonQuandlErrorResponse = serializer.Deserialize<JsonQuandlErrorResponse>(jsonTextReader);
             }
 
             return info;

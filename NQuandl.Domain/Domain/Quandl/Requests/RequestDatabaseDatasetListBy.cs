@@ -12,7 +12,7 @@ namespace NQuandl.Domain.Quandl.Requests
     // https://www.quandl.com/api/v3/databases/:database_code/codes
     // https://www.quandl.com/api/v3/databases/YC/codes
     // Returns a .ZIP with a csv containing a list of dataset codes and descriptions
-    public class RequestDatabaseDatasetListBy : BaseQuandlRequest<Task<DatabaseDatasetList>>
+    public class RequestDatabaseDatasetListBy : BaseQuandlRequest<Task<CsvResultDatabaseDatasetList>>
     {
         public RequestDatabaseDatasetListBy([NotNull] string databaseCode)
         {
@@ -30,7 +30,7 @@ namespace NQuandl.Domain.Quandl.Requests
     }
 
     public class HandleDatabaseDatasetListBy :
-        IHandleQuandlRequest<RequestDatabaseDatasetListBy, Task<DatabaseDatasetList>>
+        IHandleQuandlRequest<RequestDatabaseDatasetListBy, Task<CsvResultDatabaseDatasetList>>
     {
         private readonly IQuandlClient _client;
         private readonly IMapCsvStream _mapper;
@@ -47,13 +47,13 @@ namespace NQuandl.Domain.Quandl.Requests
         }
 
         //todo move zip reader to .services
-        public async Task<DatabaseDatasetList> Handle(RequestDatabaseDatasetListBy query)
+        public async Task<CsvResultDatabaseDatasetList> Handle(RequestDatabaseDatasetListBy query)
         {
             var quandlResponse = await _client.GetStreamAsync(query.ToUri());
             var zipArchive = new ZipArchive(quandlResponse.ContentStream);
             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
             var datasets = await _mapper.MapToDataset(csvFile);
-            var databaseDatasetList = new DatabaseDatasetList
+            var databaseDatasetList = new CsvResultDatabaseDatasetList
             {
                 QuandlClientResponseInfo = quandlResponse.QuandlClientResponseInfo,
                 Datasets = datasets

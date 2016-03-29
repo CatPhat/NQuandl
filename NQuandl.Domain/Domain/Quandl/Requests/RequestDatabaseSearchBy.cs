@@ -10,7 +10,7 @@ using NQuandl.Domain.Quandl.Responses;
 namespace NQuandl.Domain.Quandl.Requests
 {
     // https://www.quandl.com/api/v3/databases.json
-    public class RequestDatabaseSearchBy : BaseQuandlRequest<Task<DatabaseSearch>>
+    public class RequestDatabaseSearchBy : BaseQuandlRequest<Task<JsonResultDatabaseSearch>>
     {
         // optional
         public string Query { get; set; }
@@ -27,7 +27,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
-    public class HandleRequestDatabaseSearchBy : IHandleQuandlRequest<RequestDatabaseSearchBy, Task<DatabaseSearch>>
+    public class HandleRequestDatabaseSearchBy : IHandleQuandlRequest<RequestDatabaseSearchBy, Task<JsonResultDatabaseSearch>>
     {
         private readonly IQuandlClient _client;
 
@@ -38,9 +38,9 @@ namespace NQuandl.Domain.Quandl.Requests
             _client = client;
         }
 
-        public async Task<DatabaseSearch> Handle(RequestDatabaseSearchBy query)
+        public async Task<JsonResultDatabaseSearch> Handle(RequestDatabaseSearchBy query)
         {
-            return await _client.GetAsync<DatabaseSearch>(query.ToUri());
+            return await _client.GetAsync<JsonResultDatabaseSearch>(query.ToUri());
         }
     }
 }

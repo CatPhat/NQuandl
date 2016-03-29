@@ -10,7 +10,7 @@ namespace NQuandl.Services.Quandl.Mapper
 {
     public class MapCsvStream : IMapCsvStream
     {
-        public async Task<IEnumerable<DatabaseDatasetCsvRow>> MapToDataset(StreamReader stream)
+        public async Task<IEnumerable<CsvDatabaseDataset>> MapToDataset(StreamReader stream)
         {
             var result = await stream.ReadToEndAsync();
 
@@ -20,7 +20,7 @@ namespace NQuandl.Services.Quandl.Mapper
                 into columns
                 where columns.Length == 2
                 let splitCode = columns[0].Split('/')
-                select new DatabaseDatasetCsvRow
+                select new CsvDatabaseDataset
                 {
                     QuandlCode = columns[0],
                     DatabaseCode = splitCode[0],

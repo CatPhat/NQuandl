@@ -59,7 +59,7 @@ namespace NQuandl.WebApi.Controllers
         {
             var result = await new RequestDatabaseDatasetListBy(databaseCode).Execute();
 
-            var results = new List<DatabaseDatasetCsvRow>();
+            var results = new List<CsvDatabaseDataset>();
 
             for (int i = startIndex; i <= endIndex; i++)
             {

@@ -7,6 +7,6 @@ namespace NQuandl.Api.Quandl
 {
     public interface IMapCsvStream
     {
-        Task<IEnumerable<DatabaseDatasetCsvRow>> MapToDataset(StreamReader stream);
+        Task<IEnumerable<CsvDatabaseDataset>> MapToDataset(StreamReader stream);
     }
 }
