@@ -9,11 +9,19 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
 {
-    // https://www.quandl.com/api/v3/databases/:database_code/codes
-    // https://www.quandl.com/api/v3/databases/YC/codes
-    // Returns a .ZIP with a csv containing a list of dataset codes and descriptions
+
+    /// <summary>
+    /// Description: You can download a list of all dataset codes in a database in a single call, by appending /codes to your database request.
+    /// URL Template: https://www.quandl.com/api/v3/databases/:database_code/codes
+    /// URL Example: https://www.quandl.com/api/v3/databases/YC/codes
+    /// </summary>
     public class RequestDatabaseDatasetListBy : BaseQuandlRequest<Task<CsvResultDatabaseDatasetList>>
     {
+        /// <summary> 
+        /// </summary>
+        /// <param name="databaseCode"> 
+        /// The unique database code on Quandl (ex. YC)
+        /// </param>
         public RequestDatabaseDatasetListBy([NotNull] string databaseCode)
         {
             if (databaseCode == null) throw new ArgumentNullException(nameof(databaseCode));
