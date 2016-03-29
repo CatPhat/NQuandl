@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Flurl;
+using JetBrains.Annotations;
 using NQuandl.Domain.Quandl.RequestParameters;
 using NQuandl.Domain.Quandl.Requests;
 
@@ -67,6 +68,17 @@ namespace NQuandl.Api.Quandl.Helpers
                 var parameter = new RequestParameter(RequestParameterConstants.Page, query.Page.Value.ToString());
                 parameters.Add(parameter);
             }
+
+            return parameters.ToDictionary(query.ApiKey);
+        }
+
+        public static Dictionary<string, string> ToRequestParameterDictionary(
+            [NotNull] this RequestDatasetMetadataBy query)
+        {
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+            var parameters = new List<RequestParameter>();
 
             return parameters.ToDictionary(query.ApiKey);
         }

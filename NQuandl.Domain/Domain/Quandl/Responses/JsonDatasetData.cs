@@ -12,7 +12,7 @@ namespace NQuandl.Domain.Quandl.Responses
 
         [JsonProperty("column_index")]
         public int? ColumnIndex { get; set; }
-        
+
         [JsonProperty("column_names")]
         public string[] ColumnNames { get; set; }
 
@@ -20,7 +20,7 @@ namespace NQuandl.Domain.Quandl.Responses
         public string StartDate { get; set; }
 
         [JsonProperty("end_date")]
-        public string end_date { get; set; }
+        public string EndDate { get; set; }
 
         [JsonProperty("frequency")]
         public string Frequency { get; set; }
