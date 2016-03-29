@@ -9,9 +9,20 @@ using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Domain.Quandl.Requests
 {
-    // https://www.quandl.com/api/v3/databases/WIKI.json
+    /// <summary>
+    /// Description: This call returns descriptive metadata for the specified database.
+    /// URL Template: https://www.quandl.com/api/v3/databases/:database_code
+    /// URL Example: https://www.quandl.com/api/v3/databases/WIKI.json
+    /// </summary>
     public class RequestDatabaseMetadataBy : BaseQuandlRequest<Task<JsonResultDatabaseMetadata>>
     {
+
+        /// <summary> 
+        /// </summary>
+        /// <param name="databaseCode">
+        /// Required: True.
+        /// Description: The unique database code on Quandl (ex. WIKI).
+        /// </param>
         public RequestDatabaseMetadataBy([NotNull] string databaseCode)
         {
             if (databaseCode == null) throw new ArgumentNullException(nameof(databaseCode));
