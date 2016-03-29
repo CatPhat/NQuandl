@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using NQuandl.Api;
-using NQuandl.Api.Quandl;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
@@ -33,11 +30,5 @@ namespace NQuandl.Domain.Quandl.Responses
         public object collapse { get; set; }
         public string order { get; set; }
         public int database_id { get; set; }
-    }
-
-
-    public class DatabaseDataset<TEntity> : DatabaseDataset where TEntity : QuandlEntity
-    {
-        public IEnumerable<TEntity> Entities { get; set; }
     }
 }

@@ -21,7 +21,6 @@ namespace NQuandl.Services.CompositionRoot
             container.RegisterConfiguration(settings.Configuration);
             container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
             container.RegisterHttpClient();
-            container.RegisterQuandlJsonMapper(settings.QuandlJsonMapperAssemblies);
             container.RegisterQuandlCsvMapper();
             container.RegisterQuandlClient();
             container.RegisterRateGate();

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
@@ -16,11 +15,5 @@ namespace NQuandl.Domain.Quandl.Responses
     public class ResultStreamWithQuandlResponseInfo : ResultWithQuandlResponseInfo
     {
         public Stream ContentStream { get; set; }
-    }
-
-    public class ResultEntityWithQuandlResponseInfo<TResult> : ResultWithQuandlResponseInfo
-        where TResult : ResultWithQuandlResponseInfo
-    {
-        public TResult Result { get; set; }
     }
 }
