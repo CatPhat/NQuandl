@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
-    
-    public class JsonResultDatasetSearch
+    public class JsonResultDatasetSearch : ResultWithQuandlResponseInfo
     {
         [JsonProperty("datasets")]
         public JsonDatasetSearchDataset[] JsonSearchDatasets { get; set; }
 
         [JsonProperty("meta")]
-        public JsonDatasetSearchMetadata Metadata { get; set; }
+        public JsonDatasetSearchMetadata JsonSearchMetadata { get; set; }
     }
 }

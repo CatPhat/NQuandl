@@ -73,6 +73,41 @@ namespace NQuandl.Api.Quandl.Helpers
         }
 
         public static Dictionary<string, string> ToRequestParameterDictionary(
+            [NotNull] this RequestDatasetSearchBy query)
+        {
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+            var parameters = new List<RequestParameter>();
+
+            if (!string.IsNullOrEmpty(query.DatabaseCode))
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.DatabaseCode, query.DatabaseCode);
+                parameters.Add(parameter);
+            }
+
+            if (!string.IsNullOrEmpty(query.Query))
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Query, query.Query);
+                parameters.Add(parameter);
+            }
+
+            if (query.PerPage.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.PerPage, query.PerPage.Value.ToString());
+                parameters.Add(parameter);
+            }
+
+            if (query.Page.HasValue)
+            {
+                var parameter = new RequestParameter(RequestParameterConstants.Page, query.Page.Value.ToString());
+                parameters.Add(parameter);
+            }
+
+            return parameters.ToDictionary(query.ApiKey);
+        }
+
+        public static Dictionary<string, string> ToRequestParameterDictionary(
             [NotNull] this RequestDatasetMetadataBy query)
         {
             if (query == null)
