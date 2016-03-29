@@ -83,6 +83,24 @@ namespace NQuandl.Api.Quandl.Helpers
             return parameters.ToDictionary(query.ApiKey);
         }
 
+        public static Dictionary<string, string> ToRequestParameterDictionary(
+            [NotNull] this RequestDatasetDataAndMetadataBy query)
+        {
+            if (query == null)
+                throw new ArgumentNullException(nameof(query));
+
+            return new RequestDatasetDataBy(query.DatabaseCode, query.DatasetCode)
+            {
+                Limit = query.Limit,
+                ApiKey = query.ApiKey,
+                Collapse = query.Collapse,
+                ColumnIndex = query.ColumnIndex,
+                EndDate = query.EndDate,
+                StartDate = query.StartDate,
+                Order = query.Order
+            }.ToRequestParameterDictionary();
+        }
+
         public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetDataBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
