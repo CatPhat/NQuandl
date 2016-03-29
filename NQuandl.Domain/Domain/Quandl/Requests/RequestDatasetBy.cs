@@ -10,7 +10,7 @@ using NQuandl.Domain.Quandl.Responses;
 namespace NQuandl.Domain.Quandl.Requests
 {
     // https://www.quandl.com/api/v3/datasets/WIKI/FB.json
-    public class RequestDatasetBy : BaseQuandlRequest<Task<ResponseDatabaseDataset>>
+    public class RequestDatasetBy : BaseQuandlRequest<Task<JsonResultDatabaseDataset>>
 
     {
         public RequestDatasetBy([NotNull] string databaseCode, [NotNull] string datasetCode)
@@ -43,7 +43,7 @@ namespace NQuandl.Domain.Quandl.Requests
         }
     }
 
-    public class HandleRequestDatasetBy : IHandleQuandlRequest<RequestDatasetBy, Task<ResponseDatabaseDataset>>
+    public class HandleRequestDatasetBy : IHandleQuandlRequest<RequestDatasetBy, Task<JsonResultDatabaseDataset>>
 
     {
         private readonly IQuandlClient _client;
@@ -54,9 +54,9 @@ namespace NQuandl.Domain.Quandl.Requests
             _client = client;
         }
 
-        public async Task<ResponseDatabaseDataset> Handle(RequestDatasetBy query)
+        public async Task<JsonResultDatabaseDataset> Handle(RequestDatasetBy query)
         {
-            return await _client.GetAsync<ResponseDatabaseDataset>(query.ToUri());
+            return await _client.GetAsync<JsonResultDatabaseDataset>(query.ToUri());
         }
     }
 }
