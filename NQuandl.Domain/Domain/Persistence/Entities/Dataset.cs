@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using NQuandl.Api.Persistence;
+using NQuandl.Api.Persistence.Entities;
 
 namespace NQuandl.Domain.Persistence.Entities
 {
@@ -11,6 +13,9 @@ namespace NQuandl.Domain.Persistence.Entities
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime RefreshedAt { get; set; }
+
+        public List<string> ColumnNames { get; set; }
         public dynamic Data { get; set; }
     }
 }

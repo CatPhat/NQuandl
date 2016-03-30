@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace NQuandl.Api.Transactions
+namespace NQuandl.Api.Persistence.Transactions
 {
-    public interface IProcessCommands
+    public interface IExecuteCommands
     {
         Task Execute(IDefineCommand command);
     }

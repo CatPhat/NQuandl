@@ -6,11 +6,11 @@ using SimpleInjector;
 namespace NQuandl.Services.Transactions
 {
     [UsedImplicitly]
-    internal sealed class QueryExecutor : IExecuteQuandlRequests
+    internal sealed class RequestExecutor : IExecuteQuandlRequests
     {
         private readonly Container _container;
 
-        public QueryExecutor(Container container)
+        public RequestExecutor(Container container)
         {
             _container = container;
         }

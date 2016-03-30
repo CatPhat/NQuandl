@@ -1,7 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 
-namespace NQuandl.Api.Persistence
+namespace NQuandl.Api.Persistence.Entities
 {
     /// <summary>
     ///     A single unit of relational data that can be identified by a primary key.

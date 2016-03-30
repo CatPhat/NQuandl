@@ -1,4 +1,5 @@
 ﻿using NQuandl.Api.Persistence;
+using NQuandl.Api.Persistence.Entities;
 
 namespace NQuandl.Domain.Persistence.Entities
 {

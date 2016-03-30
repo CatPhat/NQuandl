@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Api.Persistence
+﻿namespace NQuandl.Api.Persistence.Entities
 {
     public abstract class Entity
     {
