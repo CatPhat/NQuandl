@@ -1,17 +1,16 @@
 ﻿using System.Diagnostics;
 using JetBrains.Annotations;
-using NQuandl.Api;
 using NQuandl.Api.Transactions;
 using SimpleInjector;
 
 namespace NQuandl.Services.Transactions
 {
     [UsedImplicitly]
-    sealed class QueryProcessor : IExecuteQuandlRequests
+    internal sealed class QueryExecutor : IExecuteQuandlRequests
     {
         private readonly Container _container;
 
-        public QueryProcessor(Container container)
+        public QueryExecutor(Container container)
         {
             _container = container;
         }
@@ -23,9 +22,5 @@ namespace NQuandl.Services.Transactions
             dynamic handler = _container.GetInstance(handlerType);
             return handler.Handle((dynamic) quandlRequest);
         }
-
-        
     }
-
-   
 }

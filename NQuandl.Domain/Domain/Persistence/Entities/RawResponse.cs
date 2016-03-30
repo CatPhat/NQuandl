@@ -2,9 +2,9 @@
 
 namespace NQuandl.Domain.Persistence.Entities
 {
-    public class JsonResponse : EntityWithId<int>
+    public class RawResponse : EntityWithId<int>
     {
         public string RequestUri { get; set; }
-        public string RawJsonResponse { get; set; }
+        public string ResponseContent { get; set; }
     }
 }

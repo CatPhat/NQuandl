@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using NQuandl.Domain.Quandl.Requests;
 using NQuandl.Services.Logger;
 using NQuandl.Services.PostgresEF7.Models;
+using NQuandl.SimpleClient;
 
 namespace nquandl.console
 {
@@ -9,34 +11,39 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            var db = new QuandlContext();
-            using (db)
-            {
-                for (var i = 0; i < 20; i++)
-                {
-                    var database = new QuandlDatabase
-                    {
-                        Name = "Test" + i,
-                        Description = "Test Description" + i,
-                        Datasets = new List<QuandlDataset>()
-                    };
+            //var db = new QuandlContext();
+            //using (db)
+            //{
+            //    for (var i = 0; i < 20; i++)
+            //    {
+            //        var database = new QuandlDatabase
+            //        {
+            //            Name = "Test" + i,
+            //            Description = "Test Description" + i,
+            //            Datasets = new List<QuandlDataset>()
+            //        };
 
-                    for (var j = 0; j < 10; j++)
-                    {
-                        var dataset = new QuandlDataset
-                        {
-                            Name = "TestDataset" + j,
-                            Description = "TestDescription" + j
-                        };
+            //        for (var j = 0; j < 10; j++)
+            //        {
+            //            var dataset = new QuandlDataset
+            //            {
+            //                Name = "TestDataset" + j,
+            //                Description = "TestDescription" + j
+            //            };
 
-                        database.Datasets.Add(dataset);
-                    }
+            //            database.Datasets.Add(dataset);
+            //        }
 
-                    db.Add(database);
-                }
+            //        db.Add(database);
+            //    }
 
-                db.SaveChanges();
-            }
+            //    db.SaveChanges();
+            //}
+
+            var query = new RequestDatasetDataAndMetadataBy("WSJ","BCCPR");
+            var result = query.Execute();
+            dynamic testObject = result.Result.DataAndMetadata.Data;
+   
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
