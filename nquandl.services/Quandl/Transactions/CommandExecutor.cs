@@ -2,17 +2,16 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Persistence.Transactions;
-using NQuandl.Api.Transactions;
 using SimpleInjector;
 
-namespace NQuandl.Services.Transactions
+namespace NQuandl.Services.Quandl.Transactions
 {
     [UsedImplicitly]
-    internal sealed class CommandExector : IExecuteCommands
+    internal sealed class CommandExecutor : IExecuteCommands
     {
         private readonly Container _container;
 
-        public CommandExector(Container container)
+        public CommandExecutor(Container container)
         {
             _container = container;
         }

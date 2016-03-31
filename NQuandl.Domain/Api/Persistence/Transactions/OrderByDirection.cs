@@ -1,4 +1,4 @@
-﻿namespace NQuandl.Api.Transactions
+﻿namespace NQuandl.Api.Persistence.Transactions
 {
     public enum OrderByDirection
     {

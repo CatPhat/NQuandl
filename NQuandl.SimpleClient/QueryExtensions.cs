@@ -1,7 +1,11 @@
-﻿using NQuandl.Api.Quandl;
+﻿using System.Threading.Tasks;
+using NQuandl.Api.Persistence.Transactions;
+using NQuandl.Api.Quandl;
 using NQuandl.Api.Transactions;
 using NQuandl.Services.Quandl;
 using SimpleInjector;
+using SimpleInjector.Diagnostics;
+using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace NQuandl.SimpleClient
 {
@@ -20,6 +24,15 @@ namespace NQuandl.SimpleClient
             return Container.GetInstance<IQuandlClient>();
         }
 
+        public static async Task Execute<TCommand>(this TCommand command) where TCommand : IDefineCommand
+        {
+            using (Container.BeginExecutionContextScope())
+            {
+                var commands  = Container.GetInstance<IExecuteCommands>();
+                await commands.Execute(command);
+            }
+           
+        }
 
         public static TResult Execute<TResult>(this IDefineQuandlRequest<TResult> quandlRequest)
         {

@@ -13,7 +13,7 @@
       "dependencies": {
         "EntityFramework.Commands": "7.0.0-rc1-final",
         "EntityFramework.Relational": "7.0.0-rc1-final",
-        "EntityFramework7.Npgsql": "3.1.0-rc1-3",
+        "EntityFramework7.Npgsql": "3.1.0-rc1-3"
    
       }
 
@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "NQuandl.Domain": "1.0.0-*",
-    "SimpleInjector": "3.1.2"
+    "SimpleInjector": "3.1.2",
+    "SimpleInjector.Extensions.ExecutionContextScoping": "3.1.2"
+ 
   }
 }

@@ -7,6 +7,8 @@ namespace NQuandl.Services.CompositionRoot
     {
         public Assembly[] QueryHandlerAssemblies { get; set; }
         public Assembly[] QuandlCsvMapperAssemblies { get; set; }
+        public Assembly[] CommandHandlerAssemblies { get; set; }
+        public Assembly[] QuandlRequestHandlerAssemblies { get; set; }
         public IConfigurationSection Configuration { get; set; }
     }
 }

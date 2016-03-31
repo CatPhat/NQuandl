@@ -15,7 +15,7 @@ namespace NQuandl.Domain.Persistence.Entities
         public DateTime EndDate { get; set; }
         public DateTime RefreshedAt { get; set; }
 
-        public List<string> ColumnNames { get; set; }
-        public dynamic Data { get; set; }
+        //public string[] ColumnNames { get; set; }
+        public string Data { get; set; }
     }
 }

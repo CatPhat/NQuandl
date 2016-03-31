@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NQuandl.Domain.Persistence.Commands;
 using NQuandl.Domain.Quandl.Requests;
 using NQuandl.Services.Logger;
 using NQuandl.Services.PostgresEF7.Models;
@@ -11,38 +12,19 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            //var db = new QuandlContext();
-            //using (db)
-            //{
-            //    for (var i = 0; i < 20; i++)
-            //    {
-            //        var database = new QuandlDatabase
-            //        {
-            //            Name = "Test" + i,
-            //            Description = "Test Description" + i,
-            //            Datasets = new List<QuandlDataset>()
-            //        };
+            var command = new CreateRawResponse
+            {
+                Content = "test Content",
+                Uri = "testURI"
+            };
 
-            //        for (var j = 0; j < 10; j++)
-            //        {
-            //            var dataset = new QuandlDataset
-            //            {
-            //                Name = "TestDataset" + j,
-            //                Description = "TestDescription" + j
-            //            };
-
-            //            database.Datasets.Add(dataset);
-            //        }
-
-            //        db.Add(database);
-            //    }
-
-            //    db.SaveChanges();
-            //}
-
-            var query = new RequestDatasetDataAndMetadataBy("WSJ","BCCPR");
-            var result = query.Execute();
-            dynamic testObject = result.Result.DataAndMetadata.Data;
+            var command2 = new CreateRawResponse
+            {
+                Content = "test content 2",
+                Uri = "testUri2"
+            };
+            command.Execute().Wait();
+            command2.Execute().Wait();
    
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();

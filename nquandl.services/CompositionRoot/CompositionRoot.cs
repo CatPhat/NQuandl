@@ -2,12 +2,14 @@
 using NQuandl.Services.Configuration;
 using NQuandl.Services.HttpClient;
 using NQuandl.Services.Logger;
+using NQuandl.Services.PostgresEF7.CompositionRoot;
 using NQuandl.Services.Quandl;
 using NQuandl.Services.Quandl.Mapper;
+using NQuandl.Services.Quandl.Transactions;
 using NQuandl.Services.RateGate;
 using NQuandl.Services.TaskQueue;
-using NQuandl.Services.Transactions;
 using SimpleInjector;
+using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace NQuandl.Services.CompositionRoot
 {
@@ -16,16 +18,23 @@ namespace NQuandl.Services.CompositionRoot
         public static void ComposeRoot(this Container container, RootCompositionSettings settings = null)
         {
             settings = settings ?? new RootCompositionSettings();
+       
+
 
             container.Register<IServiceProvider>(() => container, Lifestyle.Singleton);
             container.RegisterConfiguration(settings.Configuration);
-            container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
+            container.RegisterQuandlRequestTransactions(settings.QuandlRequestHandlerAssemblies);
             container.RegisterHttpClient();
             container.RegisterQuandlCsvMapper();
             container.RegisterQuandlClient();
             container.RegisterRateGate();
             container.RegisterLogger();
             container.RegisterTaskQueue();
+
+      
+            container.RegisterEntityFramework();
+            container.RegisterCommandTransactions(settings.CommandHandlerAssemblies);
+            container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
         }
     }
 }

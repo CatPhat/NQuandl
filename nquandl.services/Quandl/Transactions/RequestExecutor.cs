@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using NQuandl.Api.Transactions;
 using SimpleInjector;
 
-namespace NQuandl.Services.Transactions
+namespace NQuandl.Services.Quandl.Transactions
 {
     [UsedImplicitly]
     internal sealed class RequestExecutor : IExecuteQuandlRequests

@@ -2,11 +2,6 @@
 
 namespace NQuandl.Api.Transactions
 {
-    public interface IDefineQuandlRequest<TResult>
-    {
-        string Uri { get; }
-    }
-
     public abstract class BaseQuandlRequest<TResult> : IDefineQuandlRequest<TResult>
     {
         public string ApiVersion => RequestParameterConstants.ApiVersion;

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "NQuandl.Services Class Library",
   "authors": [ "USER9" ],
@@ -24,7 +24,7 @@
   "dependencies": {
     "NQuandl.Domain": "1.0.0-*",
     "Microsoft.Framework.Configuration": "1.0.0-beta8",
-    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8"
-
+    "Microsoft.Framework.Configuration.Json": "1.0.0-beta8",
+    "NQuandl.Services.PostgresEF7": "1.0.0-*"
   }
 }
