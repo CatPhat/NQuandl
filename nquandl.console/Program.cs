@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NQuandl.Domain.Persistence;
 using NQuandl.Domain.Persistence.Commands;
 using NQuandl.Domain.Quandl.Requests;
 using NQuandl.Services.Logger;
@@ -25,6 +26,10 @@ namespace nquandl.console
             };
             command.Execute().Wait();
             command2.Execute().Wait();
+
+            var query = new RawResponsesBy();
+
+            query.ExecuteQuery().Wait();
    
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();

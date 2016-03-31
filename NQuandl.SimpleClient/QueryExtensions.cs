@@ -31,8 +31,19 @@ namespace NQuandl.SimpleClient
                 var commands  = Container.GetInstance<IExecuteCommands>();
                 await commands.Execute(command);
             }
-           
         }
+
+
+        public static TResult ExecuteQuery<TResult>(this IDefineQuery<TResult> query)
+        {
+            using (Container.BeginExecutionContextScope())
+            {
+                var queries = Container.GetInstance<IExecuteQueries>();
+                var result = queries.Execute(query);
+                return result;
+            }
+        }
+
 
         public static TResult Execute<TResult>(this IDefineQuandlRequest<TResult> quandlRequest)
         {
