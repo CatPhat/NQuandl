@@ -14,7 +14,7 @@ namespace NQuandl.Domain.Quandl.Requests
     /// Example URL: https://www.quandl.com/api/v3/datasets/:database_code/:dataset_code/data
     /// <returns>JsonResultDatasetData</returns>
     /// </summary>
-    public class RequestDatasetDataBy : BaseQuandlRequest<Task<JsonResultDatasetData>>
+    public class RequestDatasetBy : BaseQuandlRequest<Task<JsonResultDataset>>
     {
         /// <param name="databaseCode">
         /// Required: True.
@@ -27,7 +27,7 @@ namespace NQuandl.Domain.Quandl.Requests
         /// For example, to access the dataset named Apple Inc. (AAPL) use the dataset code AAPL. 
         /// The dataset code must be used in combination with the database code, for example, to retrieve the dataset named Apple, use WIKI/AAPL.
         /// </param>
-        public RequestDatasetDataBy([NotNull] string databaseCode, [NotNull] string datasetCode)
+        public RequestDatasetBy([NotNull] string databaseCode, [NotNull] string datasetCode)
         {
             if (databaseCode == null)
                 throw new ArgumentNullException(nameof(databaseCode));
@@ -111,7 +111,7 @@ namespace NQuandl.Domain.Quandl.Requests
     }
 
     [UsedImplicitly]
-    public class HandleRequestDatasetDataBy : IHandleQuandlRequest<RequestDatasetDataBy, Task<JsonResultDatasetData>>
+    public class HandleRequestDatasetDataBy : IHandleQuandlRequest<RequestDatasetBy, Task<JsonResultDataset>>
 
     {
         private readonly IQuandlClient _client;
@@ -123,9 +123,9 @@ namespace NQuandl.Domain.Quandl.Requests
             _client = client;
         }
 
-        public async Task<JsonResultDatasetData> Handle(RequestDatasetDataBy query)
+        public async Task<JsonResultDataset> Handle(RequestDatasetBy query)
         {
-            return await _client.GetAsync<JsonResultDatasetData>(query.ToUri());
+            return await _client.GetAsync<JsonResultDataset>(query.ToUri());
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NQuandl.Services.PostgresEF7
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(
-                "Host=192.168.1.2;Username=postgres;Password=postgres;Database=nquandl");
+                "Host=192.168.43.191;Username=postgres;Password=postgres;Database=nquandl;MINPOOLSIZE=10;MAXPOOLSIZE=40;Connection Lifetime=0;");
         }
 
         #region Model Creation
@@ -87,6 +87,7 @@ namespace NQuandl.Services.PostgresEF7
         {
             if (Entry(entity).State == EntityState.Detached)
                 Set<TEntity>().Add(entity);
+           
         }
 
         public void Update<TEntity>(TEntity entity) where TEntity : Entity

@@ -22,7 +22,7 @@ namespace NQuandl.Domain.Quandl.Responses
         public string Description { get; set; }
 
         [JsonProperty("refreshed_at")]
-        public DateTime RefreshedAt { get; set; }
+        public DateTime? RefreshedAt { get; set; }
 
         [JsonProperty("newest_available_date")]
         public string NewestAvailableDate { get; set; }

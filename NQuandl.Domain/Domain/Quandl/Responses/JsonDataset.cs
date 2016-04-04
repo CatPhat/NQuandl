@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
-    public class JsonDatasetData
+    public class JsonDataset
     {
         [JsonProperty("limit")]
         public int? Limit { get; set; }

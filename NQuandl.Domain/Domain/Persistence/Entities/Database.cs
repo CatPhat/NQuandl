@@ -1,4 +1,4 @@
-﻿using NQuandl.Api.Persistence;
+﻿using System.Collections.Generic;
 using NQuandl.Api.Persistence.Entities;
 
 namespace NQuandl.Domain.Persistence.Entities
@@ -12,5 +12,7 @@ namespace NQuandl.Domain.Persistence.Entities
         public long Downloads { get; set; }
         public bool Premium { get; set; }
         public string Image { get; set; }
+
+        public virtual List<Dataset> Datasets { get; set; }
     }
 }

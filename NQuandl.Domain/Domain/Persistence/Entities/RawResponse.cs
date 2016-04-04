@@ -1,4 +1,4 @@
-﻿using NQuandl.Api.Persistence;
+﻿using System;
 using NQuandl.Api.Persistence.Entities;
 
 namespace NQuandl.Domain.Persistence.Entities
@@ -7,5 +7,6 @@ namespace NQuandl.Domain.Persistence.Entities
     {
         public string RequestUri { get; set; }
         public string ResponseContent { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

@@ -11,7 +11,23 @@ namespace NQuandl.Services.Logger
         static NonBlockingConsole()
         {
             var thread = new Thread(
-                () => { while (true) Console.WriteLine(m_Queue.Take()); });
+                () =>
+                {
+                    while (true)
+                    {
+                        var value = m_Queue.Take();
+                        if (value == "clear")
+                        {
+                            Console.Clear();
+                        }
+                        else
+                        {
+                            Console.WriteLine(value);
+                        }
+
+                       
+                    }
+                });
             thread.IsBackground = true;
             thread.Start();
         }

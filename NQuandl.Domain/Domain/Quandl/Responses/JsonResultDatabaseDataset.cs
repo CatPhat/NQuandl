@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
-    public class JsonResultDatasetData : ResultWithQuandlResponseInfo
+    public class JsonResultDataset : ResultWithQuandlResponseInfo
     {
         [JsonProperty("dataset_data")]
-        public JsonDatasetData JsonDatasetData { get; set; }
+        public JsonDataset Dataset { get; set; }
     }
 }

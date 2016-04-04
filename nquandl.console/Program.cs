@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using NQuandl.Api.Quandl.Helpers;
 using NQuandl.Domain.Persistence;
 using NQuandl.Domain.Persistence.Commands;
+using NQuandl.Domain.Persistence.Entities;
 using NQuandl.Domain.Quandl.Requests;
+using NQuandl.Domain.Quandl.Responses;
 using NQuandl.Services.Logger;
 using NQuandl.Services.PostgresEF7.Models;
 using NQuandl.SimpleClient;
@@ -13,26 +20,180 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            var command = new CreateRawResponse
-            {
-                Content = "test Content",
-                Uri = "testURI"
-            };
 
-            var command2 = new CreateRawResponse
-            {
-                Content = "test content 2",
-                Uri = "testUri2"
-            };
-            command.Execute().Wait();
-            command2.Execute().Wait();
+            //new UpdateRawResponses().ExecuteCommand().Wait();
+            //var databasePage1 = new RequestDatabaseListBy {Page = 1}.ExecuteRequest().Result;
 
-            var query = new RawResponsesBy();
+            //for (int page = 1; page <= databasePage1.Metadata.total_pages.Value; page++)
+            //{
+            //    var page1 = page;
+            //    Task.Run(() =>
+            //    {
 
-            query.ExecuteQuery().Wait();
-   
+            //        var request = new RequestDatabaseListBy {Page = page1};
+            //        var stopwatch = new Stopwatch();
+
+            //        NonBlockingConsole.WriteLine("Starting " + request.ToUri());
+            //        stopwatch.Start();
+            //        var response = request.ExecuteRequest().Result;
+            //        new GetDatasetsByDatabase().Get(response).Wait();
+            //        stopwatch.Stop();
+            //        NonBlockingConsole.WriteLine("Finished " + request.ToUri() + "Duration:  " + request.ToUri());
+
+            //    });
+            //}
+
+            new GetAllDatasetsFromFiles().Get().Wait();
+
+
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
+        }
+
+    
+   
+    }
+
+    
+
+    public class GetAllDatasetsFromFiles
+    {
+        public async Task Get()
+        {
+
+            var d = new DirectoryInfo(@"C:\Users\USER9\Documents\quandl_data\output\json");
+            var files = d.GetFiles("*.json");
+            var options = new ParallelOptions { MaxDegreeOfParallelism = 4 };
+       
+           
+            Parallel.ForEach(files,options, async file =>
+            {
+                string fileContent;
+                using (StreamReader sr = File.OpenText(file.FullName))
+                {
+                    fileContent = await sr.ReadToEndAsync();
+                }
+
+                var createRawResponse = new CreateRawResponse
+                {
+
+                    Uri = "UnknownDataset",
+                    Content = fileContent
+                };
+
+                await createRawResponse.ExecuteCommand();
+
+
+            } );
+
+            //foreach (var file in files)
+            //{
+            //    var stream = new MemoryStream();
+            //    await GetStreamFromFile(file.FullName, stream);
+
+            //    using(stream)
+            //    using (var sr = new StreamReader(stream))
+            //    {
+            //        var fileContent = await sr.ReadToEndAsync();
+            //        var createRawResponse = new CreateRawResponse
+            //        {
+
+            //            Uri = "N\\A",
+            //            Content = fileContent
+            //        };
+
+            //        await createRawResponse.ExecuteCommand();
+            //    }
+
+            //}
+
+
+
+        }
+
+
+        private async Task GetStreamFromFile(string filePath, Stream stream)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                await fileStream.CopyToAsync(stream);
+            }
+            stream.Seek(0, SeekOrigin.Begin);
+        }
+
+    }
+
+    public class GetDatasetsByDatabase
+    {
+        public async Task Get(JsonResultDatabaseList databases)
+        {
+            foreach (var jsonDatabaseListDatabase in databases.Databases)
+            {
+                var requestDatasetList = new RequestDatabaseDatasetListBy(jsonDatabaseListDatabase.DatabaseCode);
+                var datasetList = await requestDatasetList.ExecuteRequest();
+
+                var datasets = GetCsvRows(datasetList.Datasets);
+                foreach (var dataset in datasets)
+                {
+                    await new GetDatasetAndSaveToDb().ExecuteTask(dataset.DatabaseCode, dataset.DatasetCode);
+                }
+
+
+                // Parallel.ForEach(datasets, dataset =>
+                //{
+                //    new GetDatasetAndSaveToDb().ExecuteTask(dataset.DatabaseCode, dataset.DatasetCode);
+                //});
+                datasetList.Datasets.Dispose();
+            }
+        }
+
+        private static IEnumerable<CsvDatabaseDataset> GetCsvRows(StreamReader stream)
+        {
+
+            string line;
+            while ((line = stream.ReadLine()) != null)
+            {
+                var columns = line.Split(',');
+                var splitQuandlCode = columns[0].Split('/');
+
+                var dataset = new CsvDatabaseDataset
+                {
+                    DatabaseCode = splitQuandlCode[0],
+                    DatasetCode = splitQuandlCode[1],
+                    QuandlCode = columns[0],
+                    DatasetDescription = columns[1]
+                };
+                yield return dataset;
+            }
+
+
+
+        }
+
+    }
+
+
+    public class GetDatasetAndSaveToDb
+    {
+        public Task ExecuteTask(string databaseCode, string datasetCode)
+        {
+            var task = Get(databaseCode, datasetCode);
+            return Task.FromResult(task);
+        }
+
+        private async Task Get(string databaseCode, string datasetCode)
+        {
+            var requestDataset = new RequestDatasetDataAndMetadataBy(databaseCode, datasetCode);
+            var datasetResponse = await requestDataset.GetString();
+            if (!string.IsNullOrEmpty(datasetResponse.ContentString))
+            {
+                var createRawResponse = new CreateRawResponse
+                {
+                    Content = datasetResponse.ContentString,
+                    Uri = requestDataset.ToUri()
+                };
+                await createRawResponse.ExecuteCommand();
+            }
         }
     }
 

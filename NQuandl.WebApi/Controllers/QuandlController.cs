@@ -54,24 +54,24 @@ namespace NQuandl.WebApi.Controllers
 
 
         // GET: api/datasets_list/databaseCode/startIndex/endIndex/orderBy
-        [Route("dataset_list/{databaseCode}/{startIndex:int}/{endIndex:int}/{orderBy}")]
-        public async Task<JsonResult> Get(string databaseCode, int startIndex, int endIndex, string orderBy)
-        {
-            var result = await new RequestDatabaseDatasetListBy(databaseCode).Execute();
+        //[Route("dataset_list/{databaseCode}/{startIndex:int}/{endIndex:int}/{orderBy}")]
+        //public async Task<JsonResult> Get(string databaseCode, int startIndex, int endIndex, string orderBy)
+        //{
+        //    var result = await new RequestDatabaseDatasetListBy(databaseCode).ExecuteRequest();
 
-            var results = new List<CsvDatabaseDataset>();
+        //    var results = new List<CsvDatabaseDataset>();
 
-            for (int i = startIndex; i <= endIndex; i++)
-            {
-                var dataset = result.Datasets.ElementAtOrDefault(i);
-                if (dataset != null)
-                {
-                    results.Add(dataset);
-                }
-            }
+        //    for (int i = startIndex; i <= endIndex; i++)
+        //    {
+        //        var dataset = result.Datasets.ElementAtOrDefault(i);
+        //        if (dataset != null)
+        //        {
+        //            results.Add(dataset);
+        //        }
+        //    }
 
-            return new JsonResult(results);
-        }
+        //    return new JsonResult(results);
+        //}
 
         // GET api/values/5
         [HttpGet("{id}")]

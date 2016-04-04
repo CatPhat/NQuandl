@@ -34,6 +34,7 @@ namespace NQuandl.Domain.Persistence.Commands
 
             _entities.Create(rawResponse);
             await _entities.SaveChangesAsync();
+           
         }
     }
 }

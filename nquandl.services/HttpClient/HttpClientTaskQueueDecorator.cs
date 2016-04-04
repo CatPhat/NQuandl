@@ -41,7 +41,7 @@ namespace NQuandl.Services.HttpClient
                     timer.Start();
                     var response = await _httpFactory().GetAsync(item);
                     timer.Stop();
-                    await _logger.AddCompletedRequestDuration(timer.Elapsed);
+                    
                     
                 
                     return response;

@@ -9,6 +9,6 @@ namespace NQuandl.Services.Logger
         Task AddInboundRequest(InboundRequestLogEntry entry);
         Task AddCompletedRequest(CompletedRequestLogEntry entry);
         void Write(string logMessage);
-        Task AddCompletedRequestDuration(TimeSpan timeSpan);
+    
     }
 }

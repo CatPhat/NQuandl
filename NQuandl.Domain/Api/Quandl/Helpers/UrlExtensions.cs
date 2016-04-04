@@ -124,7 +124,7 @@ namespace NQuandl.Api.Quandl.Helpers
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            return new RequestDatasetDataBy(query.DatabaseCode, query.DatasetCode)
+            return new RequestDatasetBy(query.DatabaseCode, query.DatasetCode)
             {
                 Limit = query.Limit,
                 ApiKey = query.ApiKey,
@@ -136,7 +136,7 @@ namespace NQuandl.Api.Quandl.Helpers
             }.ToRequestParameterDictionary();
         }
 
-        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetDataBy query)
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatasetBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
 

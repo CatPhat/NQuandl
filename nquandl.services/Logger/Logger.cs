@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using System.Timers;
 
 namespace NQuandl.Services.Logger
 {
@@ -16,96 +19,126 @@ namespace NQuandl.Services.Logger
 
     public class CompletedRequestLogEntry
     {
-        public InboundRequestLogEntry InboundRequestLogEntry { get; set; }
+        public string CompletedRequestUri { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+
+        public TimeSpan Duration => EndTime - StartTime;
     }
 
     public class Logger : ILogger
     {
-        private static int InboundRequests;
-        private static int CompletedRequests;
-        private readonly ActionBlock<CompletedRequestLogEntry> _completedActionBlock;
-        private readonly BufferBlock<CompletedRequestLogEntry> _completedRequestBlock;
-        private readonly ActionBlock<InboundRequestLogEntry> _inboundActionBlock;
 
-        private readonly BufferBlock<InboundRequestLogEntry> _inboundRequestBlock;
+        private static int _completedRequestCounter;
 
-        private readonly BufferBlock<TimeSpan> _timeSpansBufferBlock;
-        private readonly ActionBlock<TimeSpan> _timeSpansActionBlock;
+        private readonly BufferBlock<InboundRequestLogEntry> _inboundRequests;
+        private readonly ActionBlock<InboundRequestLogEntry> _inboundRequestsActionBlock; 
+        private readonly BufferBlock<CompletedRequestLogEntry> _completedRequests;
+        private readonly ActionBlock<CompletedRequestLogEntry> _completedRequestsActionBlock;
 
-        private readonly BlockingCollection<TimeSpan> _timeSpans;
+        private readonly ConcurrentQueue<InboundRequestLogEntry> _inboundQueue;
+        private ConcurrentQueue<CompletedRequestLogEntry> _completedQueue;
 
-        private TimeSpan GetAverageTimeSpan(int multiplier = 1)
-        {
-            return TimeSpan.FromMilliseconds(_timeSpans.Any() ? _timeSpans.Average(x => x.TotalMilliseconds*multiplier) : 0);
-        }
+        private readonly Stopwatch _appTimer;
 
         public Logger()
         {
-            _timeSpans = new BlockingCollection<TimeSpan>();
-            _inboundRequestBlock = new BufferBlock<InboundRequestLogEntry>();
-            _completedRequestBlock = new BufferBlock<CompletedRequestLogEntry>();
+            //_completedRequestCounter = 0;
+            //_appTimer = new Stopwatch();
+            //_appTimer.Start();
+
+            //var timer = new System.Timers.Timer { Interval = 1000};
+            //timer.Elapsed += TimerOnElapsed;
+            ////timer.Enabled = true;
 
 
-            _inboundActionBlock = new ActionBlock<InboundRequestLogEntry>(item =>
-            {
-                InboundRequests = InboundRequests + 1;
-                Log("Inbound Requests: " + InboundRequests);
-            }, new ExecutionDataflowBlockOptions {MaxDegreeOfParallelism = 1});
+            //_inboundQueue = new ConcurrentQueue<InboundRequestLogEntry>();
+            //_completedQueue = new ConcurrentQueue<CompletedRequestLogEntry>();
+            //_inboundRequests = new BufferBlock<InboundRequestLogEntry>();
+            //_completedRequests = new BufferBlock<CompletedRequestLogEntry>();
 
-            _completedActionBlock = new ActionBlock<CompletedRequestLogEntry>(item =>
-            {
-                CompletedRequests = CompletedRequests + 1;
-                var remaining = InboundRequests - CompletedRequests;
-                NonBlockingConsole.WriteLine("-------------------------------");
-                Log("Completed Request: " + item.InboundRequestLogEntry.InboundRequestUri);
-                Log("Requests Remaining: " + remaining);
-                Log("Estimated Time Left: " + GetAverageTimeSpan(remaining));
-                NonBlockingConsole.WriteLine("-------------------------------");
-            }, new ExecutionDataflowBlockOptions {MaxDegreeOfParallelism = 1, BoundedCapacity = 1});
-
-          
-            _timeSpansBufferBlock = new BufferBlock<TimeSpan>();
-            _timeSpansActionBlock = new ActionBlock<TimeSpan>(item =>
-            {
-                Log("Request Duration: " + item);
-                _timeSpans.Add(item);
-                Log("Average Request Duration: " + GetAverageTimeSpan());
-
-            }
-                , new ExecutionDataflowBlockOptions {MaxDegreeOfParallelism = 1});
-
-            _inboundRequestBlock.LinkTo(_inboundActionBlock);
-            _completedRequestBlock.LinkTo(_completedActionBlock);
-            _timeSpansBufferBlock.LinkTo(_timeSpansActionBlock);
-
+            //_inboundRequestsActionBlock = new ActionBlock<InboundRequestLogEntry>(x =>
+            //{
+            //    _inboundQueue.Enqueue(x);
+            //});
            
+            //_completedRequestsActionBlock = new ActionBlock<CompletedRequestLogEntry>(item =>
+            //{
+            //    InboundRequestLogEntry inboundRequest;
+            //    _inboundQueue.TryDequeue(out inboundRequest);
+            //    _completedQueue.Enqueue(item);
+            //    IncrementCompletedRequestCounter();
+            //});
+
+            //_inboundRequests.LinkTo(_inboundRequestsActionBlock);
+            //_completedRequests.LinkTo(_completedRequestsActionBlock);
+
+        }
+
+
+        private int CompletedRequestsFromTheLastSecond
+        {
+            get { return _completedQueue.Count(x => x.EndTime >= DateTime.Now - TimeSpan.FromSeconds(1)); }
+        } 
+
+        private static int IncrementCompletedRequestCounter()
+        {
+            return Interlocked.Increment(ref _completedRequestCounter);
+        }
+
+        private void TimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+           
+            NonBlockingConsole.WriteLine("clear");
+            Log("Time Elapsed: " + _appTimer.Elapsed);
+            Log("Inbound Requests: " + _inboundQueue.Count);
+            Log("Average Duration: " + GetAverageTimeSpan());
+            Log("Completed Requests: " + _completedRequestCounter);
+
+            if (!_completedQueue.Any())
+                return;
+            var lastRequest = _completedQueue.Last();
+            Log("Completed Requests Per Second: " + CompletedRequestsFromTheLastSecond);
+            Log("Last Completed Request: " + lastRequest.CompletedRequestUri);
+            Log("Last Completed Request: " + lastRequest.EndTime);
+
+            if (_completedQueue.Count <= 10000)
+                return;
+            for (int i = 0; i <= _completedQueue.Count - 10000; i++)
+            {
+                CompletedRequestLogEntry completedRequest;
+                _completedQueue.TryDequeue(out completedRequest);
+            }
         }
 
 
         public async Task AddInboundRequest(InboundRequestLogEntry entry)
         {
-            await _inboundRequestBlock.SendAsync(entry);
+            await _inboundRequests.SendAsync(entry);
         }
 
         public async Task AddCompletedRequest(CompletedRequestLogEntry entry)
         {
-            await _completedRequestBlock.SendAsync(entry);
+            await _completedRequests.SendAsync(entry);
         }
 
-        public async Task AddCompletedRequestDuration(TimeSpan timeSpan)
-        {
-            await _timeSpansBufferBlock.SendAsync(timeSpan);
-        }
-
-
+       
         public void Write(string logMessage)
         {
             Log(logMessage);
         }
 
+        private TimeSpan GetAverageTimeSpan()
+        {
+
+            return
+                TimeSpan.FromMilliseconds(_completedQueue.Any() ? _completedQueue.Average(x => x.Duration.TotalMilliseconds) : 0);
+        }
+
         private void Log(string logMessage)
         {
             var now = DateTime.Now;
+            
             NonBlockingConsole.WriteLine(string.Format("{0} {1} {2}", now, now.Ticks,
                 logMessage));
         }

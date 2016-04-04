@@ -8,7 +8,7 @@ namespace NQuandl.Api.Quandl.Helpers
     {
         public static TResult DeserializeToEntity<TResult>(this
             Stream stream)
-            where TResult : ResultWithQuandlResponseInfo
+           
         {
             var serializer = new JsonSerializer();
             using (var sr = new StreamReader(stream))
@@ -46,5 +46,7 @@ namespace NQuandl.Api.Quandl.Helpers
 
             return info;
         }
+
+
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Api.Quandl;
-using NQuandl.Api.Quandl.Helpers;
-using NQuandl.Domain.Quandl.RequestParameters;
 using NQuandl.Domain.Quandl.Responses;
 
 namespace NQuandl.Services.HttpClient
@@ -14,30 +11,30 @@ namespace NQuandl.Services.HttpClient
     public class HttpClientDebugDecorator : IHttpClient
     {
         private readonly Func<IHttpClient> _httpFactory;
-        private readonly IHttpResponseCache _cache;
 
-        public HttpClientDebugDecorator([NotNull] Func<IHttpClient> httpFactory, [NotNull] IHttpResponseCache cache)
+
+        public HttpClientDebugDecorator([NotNull] Func<IHttpClient> httpFactory)
         {
-            if (httpFactory == null) throw new ArgumentNullException(nameof(httpFactory));
-            if (cache == null) throw new ArgumentNullException(nameof(cache));
+            if (httpFactory == null)
+                throw new ArgumentNullException(nameof(httpFactory));
+
             _httpFactory = httpFactory;
-            _cache = cache;
         }
 
-     
 
         public async Task<HttpClientResponse> GetAsync(string requestUri)
         {
             return await GetHttpClientResponseFromUri(requestUri);
         }
 
-     
-        private Task<FileStream> GetStreamFromFile(string filePath)
-        {
-          
-            var stream = File.OpenRead(filePath);
 
-            return Task.FromResult(stream);
+        private async Task GetStreamFromFile(string filePath, Stream stream)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                await fileStream.CopyToAsync(stream);
+            }
+            stream.Seek(0, SeekOrigin.Begin);
         }
 
         private async Task<HttpClientResponse> GetHttpClientResponseFromUri(string uri)
@@ -47,7 +44,8 @@ namespace NQuandl.Services.HttpClient
 
             if (CheckIfFileExists(fullFilePathFromFileName))
             {
-                var stream = await GetStreamFromFile(fullFilePathFromFileName);
+                var stream = new MemoryStream();
+                await GetStreamFromFile(fullFilePathFromFileName, stream);
                 return new HttpClientResponse
                 {
                     ContentStream = stream,
@@ -56,7 +54,9 @@ namespace NQuandl.Services.HttpClient
                 };
             }
             var debugNotFoundFilePath = GetFullFilePathFromFileName("debug_404.json", "json");
-            var debugStream = await GetStreamFromFile(debugNotFoundFilePath);
+            var debugStream = new MemoryStream();
+
+           //await GetStreamFromFile(debugNotFoundFilePath, debugStream);
             return new HttpClientResponse
             {
                 ContentStream = debugStream,
@@ -65,6 +65,18 @@ namespace NQuandl.Services.HttpClient
             };
         }
 
+        private Task<MemoryStream> GetMemoryStreamFromBytes(byte[] bytes)
+        {
+            var memoryStream = new MemoryStream();
+            memoryStream.WriteAsync(bytes, 0, bytes.Length);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return Task.FromResult(memoryStream);
+        }
+
+        private static byte[] GetBytesFromFile(string filePath)
+        {
+            return File.ReadAllBytes(filePath);
+        }
 
         private string GetFileNameFromUri(string uri)
         {

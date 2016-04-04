@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
 
 namespace NQuandl.Domain.Quandl.Responses
 {
     public class CsvResultDatabaseDatasetList : ResultWithQuandlResponseInfo
     {
-        public IEnumerable<CsvDatabaseDataset> Datasets { get; set; }
+        public StreamReader Datasets { get; set; }
     }
 }

@@ -18,7 +18,8 @@ namespace NQuandl.Services.Quandl
 
         public QuandlClient(IHttpClient client)
         {
-            if (client == null) throw new ArgumentNullException("client");
+            if (client == null)
+                throw new ArgumentNullException("client");
 
             _client = client;
         }
@@ -26,14 +27,24 @@ namespace NQuandl.Services.Quandl
         public async Task<ResultStringWithQuandlResponseInfo> GetStringAsync(string uri)
         {
             var response = await GetHttpResponse(uri);
-            using (var sr = new StreamReader(response.ContentStream))
-            {
+
+            if (!response.IsStatusSuccessCode)
                 return new ResultStringWithQuandlResponseInfo
                 {
-                    QuandlClientResponseInfo = response.GetResponseInfo(),
-                    ContentString = await sr.ReadToEndAsync()
+                    QuandlClientResponseInfo = response.GetResponseInfo()
                 };
+
+            string contentString;
+            using (var sr = new StreamReader(response.ContentStream))
+            {
+                contentString = await sr.ReadToEndAsync();
             }
+
+            return new ResultStringWithQuandlResponseInfo
+            {
+                QuandlClientResponseInfo = response.GetResponseInfo(),
+                ContentString = contentString
+            };
         }
 
         public async Task<ResultStreamWithQuandlResponseInfo> GetStreamAsync(string uri)
@@ -51,9 +62,16 @@ namespace NQuandl.Services.Quandl
             where TResult : ResultWithQuandlResponseInfo
         {
             var response = await GetHttpResponse(uri);
-            var result = !response.IsStatusSuccessCode
-                ? Activator.CreateInstance<TResult>()
-                : response.ContentStream.DeserializeToEntity<TResult>();
+
+            TResult result;
+            if (response.IsStatusSuccessCode)
+            {
+                result = response.ContentStream.DeserializeToEntity<TResult>();
+            }
+            else
+            {
+                result = (TResult) Activator.CreateInstance(typeof (TResult));
+            }
 
 
             result.QuandlClientResponseInfo = response.GetResponseInfo();

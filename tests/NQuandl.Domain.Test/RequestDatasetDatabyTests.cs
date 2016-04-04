@@ -3,7 +3,7 @@ using Xunit;
 
 namespace NQuandl.Domain.Test
 {
-    public class RequestDatasetDatabyTests
+    public class RequestDatasetbyTests
     {
         [Fact]
         public void PassingTest()
@@ -21,11 +21,11 @@ namespace NQuandl.Domain.Test
 
 
         [Fact]
-        public void RequestDatasetDataBy_Uri_Should_Be_Valid_By_QuandlCode()
+        public void RequestDatasetBy_Uri_Should_Be_Valid_By_QuandlCode()
         {
             const string databaseCode = "WIKI";
             const string datasetCode = "AAPL";
-            var request = new RequestDatasetDataBy(databaseCode, datasetCode);
+            var request = new RequestDatasetBy(databaseCode, datasetCode);
 
             Assert.Equal(request.ToUri(), $"api/v3/datasets/{databaseCode}/{datasetCode}/data.json");
         }
