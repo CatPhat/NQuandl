@@ -47,6 +47,11 @@ namespace NQuandl.SimpleClient
         }
 
 
+        public static IReadEntities GetReadEntities()
+        {
+            return Container.GetInstance<IReadEntities>();
+        }
+
         public static TResult ExecuteRequest<TResult>(this IDefineQuandlRequest<TResult> quandlRequest)
         {
             return new ExecuteQuery(Container).Execute(quandlRequest);

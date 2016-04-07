@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Data.Entity;
-using NQuandl.Api.Persistence.Entities;
+using NQuandl.Domain.Persistence.Api.Entities;
 using NQuandl.Services.PostgresEF7.Models.ModelCreation;
 
 namespace NQuandl.Services.PostgresEF7

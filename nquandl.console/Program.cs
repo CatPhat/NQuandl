@@ -8,6 +8,7 @@ using NQuandl.Api.Quandl.Helpers;
 using NQuandl.Domain.Persistence;
 using NQuandl.Domain.Persistence.Commands;
 using NQuandl.Domain.Persistence.Entities;
+using NQuandl.Domain.Persistence.Queries;
 using NQuandl.Domain.Quandl.Requests;
 using NQuandl.Domain.Quandl.Responses;
 using NQuandl.Services.Logger;
@@ -21,29 +22,10 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
 
-            //new UpdateRawResponses().ExecuteCommand().Wait();
-            //var databasePage1 = new RequestDatabaseListBy {Page = 1}.ExecuteRequest().Result;
 
-            //for (int page = 1; page <= databasePage1.Metadata.total_pages.Value; page++)
-            //{
-            //    var page1 = page;
-            //    Task.Run(() =>
-            //    {
 
-            //        var request = new RequestDatabaseListBy {Page = page1};
-            //        var stopwatch = new Stopwatch();
 
-            //        NonBlockingConsole.WriteLine("Starting " + request.ToUri());
-            //        stopwatch.Start();
-            //        var response = request.ExecuteRequest().Result;
-            //        new GetDatasetsByDatabase().Get(response).Wait();
-            //        stopwatch.Stop();
-            //        NonBlockingConsole.WriteLine("Finished " + request.ToUri() + "Duration:  " + request.ToUri());
-
-            //    });
-            //}
-
-            new GetAllDatasetsFromFiles().Get().Wait();
+            new GetAllDatabaseDatasetListEntriesFromFiles().Get().Wait();
 
 
             NonBlockingConsole.WriteLine("Done");
@@ -54,6 +36,117 @@ namespace nquandl.console
    
     }
 
+
+    public class GetAllDatabaseDatasetListEntriesFromFiles
+    {
+        public async Task Get()
+        {
+            var dbList1 = await new RequestDatabaseListBy {Page = 1}.ExecuteRequest();
+            for (int page = 1; page <= dbList1.Metadata.total_pages.Value; page++)
+            {
+                var dbList = await new RequestDatabaseListBy {Page = page}.ExecuteRequest();
+
+                foreach (var databaseListDatabase in dbList.Databases.OrderByDescending(x => x.DatabaseCode))
+                {
+                    NonBlockingConsole.WriteLine("Starting Database Code: " + databaseListDatabase.DatabaseCode);
+                    var datasetsList = await new RequestDatabaseDatasetListBy(databaseListDatabase.DatabaseCode).ExecuteRequest();
+                    var rows = GetCsvRows(datasetsList.Datasets);
+
+                    var database = await new DatabaseBy(databaseListDatabase.DatabaseCode).ExecuteQuery();
+                    var datasetsCount =
+                        await new DatabaseDatasetListEntryCountBy(databaseListDatabase.DatabaseCode).ExecuteQuery();
+             
+                    if (datasetsCount != database.DatasetsCount && datasetsCount <= database.DatasetsCount)
+                    {
+                        NonBlockingConsole.WriteLine("Count does not match: " + databaseListDatabase.DatabaseCode);
+                        NonBlockingConsole.WriteLine("Count in Database Table: " + database.DatasetsCount);
+                        NonBlockingConsole.WriteLine("Count in DbListEntries: " + datasetsCount);
+                        Parallel.ForEach(rows, new ParallelOptions {MaxDegreeOfParallelism = 3}, async row =>
+                        {
+                            var entity = await new DatabaseDatasetListEntryBy(row.QuandlCode).ExecuteQuery();
+
+                            if (entity == null)
+                            {
+                                var createEntry = new CreateDatabaseDatasetListEntry(new DatabaseDatasetListEntry
+                                {
+                                    DatabaseCode = row.DatabaseCode,
+                                    DatasetCode = row.DatasetCode,
+                                    Description = row.DatasetDescription,
+                                    QuandlCode = row.QuandlCode
+                                });
+                                //NonBlockingConsole.WriteLine("Adding: " + createEntry.Entry.QuandlCode + " " + new DateTime());
+                                await createEntry.ExecuteCommand();
+                            }
+
+                        });
+                    }
+                    else
+                    {
+                        NonBlockingConsole.WriteLine("Count Matches: " + databaseListDatabase.DatabaseCode);
+                    }
+
+            
+                    NonBlockingConsole.WriteLine("Finished Database Code: " + databaseListDatabase.DatabaseCode);
+                }
+            }
+
+
+        }
+
+
+        public async Task GetMCX()
+        {
+            var dbList = await new RequestDatabaseDatasetListBy("MCX").ExecuteRequest();
+            var rows = GetCsvRows(dbList.Datasets);
+            foreach (var csvDatabaseDataset in rows)
+            {
+                Console.WriteLine("Quandlcode: " + csvDatabaseDataset.QuandlCode);
+                Console.WriteLine("Database Code: " + csvDatabaseDataset.DatabaseCode);
+                Console.WriteLine("Dataset Code: " + csvDatabaseDataset.DatasetCode);
+                Console.WriteLine("Description: " + csvDatabaseDataset.DatasetDescription);
+            }
+        }
+
+        private static IEnumerable<CsvDatabaseDataset> GetCsvRows(StreamReader stream)
+        {
+
+            string line;
+            while ((line = stream.ReadLine()) != null)
+            {
+                var columnZeroIndex = line.IndexOf(',');
+
+                var quandlCode = line.Substring(0, columnZeroIndex);
+                var description = line.Substring(columnZeroIndex + 1);
+                var splitQuandlCode = quandlCode.Split('/');
+
+                var dataset = new CsvDatabaseDataset
+                {
+                    DatabaseCode = splitQuandlCode[0],
+                    DatasetCode = splitQuandlCode[1],
+                    QuandlCode = quandlCode,
+                    DatasetDescription = description
+                };
+                yield return dataset;
+            }
+
+
+
+        }
+    }
+
+    public class GetAllDatasetsFromRawResponses
+    {
+        public async Task Get()
+        {
+            var entities = QueryExtensions.GetReadEntities();
+            var rawResponses = entities.Query<RawResponse>();
+
+            foreach (var rawResponse in rawResponses)
+            {
+                rawResponse.ResponseContent.DeserializeToEntity<JsonResultDatasetDataAndMetadata>();
+            }
+        }
+    }
     
 
     public class GetAllDatasetsFromFiles

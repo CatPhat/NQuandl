@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.Entity;
-using NQuandl.Domain.Persistence.Entities;
+using NQuandl.Domain.Persistence.Domain.Entities;
+
 
 namespace NQuandl.Services.PostgresEF7.Models.ModelCreation
 {
@@ -43,6 +44,8 @@ namespace NQuandl.Services.PostgresEF7.Models.ModelCreation
                 .IsRequired();
 
             modelBuilder.Entity<DatasetColumnName>().HasKey(x => x.Id);
+
+            modelBuilder.Entity<DatabaseDatasetListEntry>().HasKey(x => x.Id);
         }
     }
 }

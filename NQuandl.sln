@@ -27,6 +27,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Services.PostgresEF
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.WebApi", "NQuandl.WebApi\NQuandl.WebApi.xproj", "{C24DAB64-16FF-4F77-A214-4CFE8647683B}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Domain.Persistence", "NQuandl.Domain.Persistence\NQuandl.Domain.Persistence.xproj", "{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,5 +79,6 @@ Global
 		{C254C72B-26CE-41BB-B97C-7E965C3EBB1B} = {95BCA6D3-E31F-45D2-8AB9-9DC1CD67FC1D}
 		{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 		{C24DAB64-16FF-4F77-A214-4CFE8647683B} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 	EndGlobalSection
 EndGlobal
