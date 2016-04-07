@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace NQuandl.Domain.Persistence.Api.Entities
 {
@@ -24,13 +25,16 @@ namespace NQuandl.Domain.Persistence.Api.Entities
         public virtual bool Equals(EntityWithId<TId> other)
         {
             // instance is never equal to null
-            if (other == null) return false;
+            if (other == null)
+                return false;
 
             // when references are equal, they are the same object
-            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(this, other))
+                return true;
 
             // when either object is transient or the id's are not equal, return false
-            if (IsTransient(this) || IsTransient(other) || !Equals(Id, other.Id)) return false;
+            if (IsTransient(this) || IsTransient(other) || !Equals(Id, other.Id))
+                return false;
 
             // when the id's are equal and neither object is transient
             // return true when one can be cast to the other

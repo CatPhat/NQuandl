@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using NQuandl.Api.Persistence.Entities;
+﻿using NQuandl.Domain.Persistence.Api.Entities;
 using NQuandl.Services.PostgresEF7.Models.ModelCreation;
 using SimpleInjector;
 using SimpleInjector.Extensions.ExecutionContextScoping;
@@ -22,8 +21,6 @@ namespace NQuandl.Services.PostgresEF7.CompositionRoot
             container.AddRegistration(typeof (IReadEntities), contextRegistration);
 
             //container.Options.DefaultScopedLifestyle = lifestyle;
-
-           
         }
     }
 }

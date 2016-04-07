@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using NQuandl.Api.Persistence.Transactions;
+using NQuandl.Domain.Persistence.Api.Transactions;
 using SimpleInjector;
 
 namespace NQuandl.Services.Quandl.Transactions

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using NQuandl.Domain.Persistence.Api.Entities;
 using NQuandl.Domain.Persistence.Api.Transactions;
 using NQuandl.Domain.Persistence.Domain.Entities;

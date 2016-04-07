@@ -1,19 +1,16 @@
 ﻿using System.Threading.Tasks;
-using NQuandl.Api.Persistence.Entities;
-using NQuandl.Api.Persistence.Transactions;
 using NQuandl.Api.Quandl;
 using NQuandl.Api.Transactions;
+using NQuandl.Domain.Persistence.Api.Entities;
+using NQuandl.Domain.Persistence.Api.Transactions;
 using NQuandl.Domain.Quandl.Responses;
-using NQuandl.Services.Quandl;
 using SimpleInjector;
-using SimpleInjector.Diagnostics;
 using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace NQuandl.SimpleClient
 {
     public static class QueryExtensions
     {
-
         private static readonly Container Container;
 
         static QueryExtensions()
@@ -57,26 +54,24 @@ namespace NQuandl.SimpleClient
             return new ExecuteQuery(Container).Execute(quandlRequest);
         }
 
-        public static async Task<ResultStringWithQuandlResponseInfo> GetString<TResult>(this BaseQuandlRequest<TResult> request)
+        public static async Task<ResultStringWithQuandlResponseInfo> GetString<TResult>(
+            this BaseQuandlRequest<TResult> request)
         {
             var client = Container.GetInstance<IQuandlClient>();
             return await client.GetStringAsync(request.ToUri());
         }
-
-      
     }
 
     public class ExecuteCommand
     {
-      
         private readonly Container _container;
 
         public ExecuteCommand(Container container)
         {
             _container = container;
-        
         }
-        public async Task Execute<TCommand>( TCommand command) where TCommand : IDefineCommand
+
+        public async Task Execute<TCommand>(TCommand command) where TCommand : IDefineCommand
         {
             using (_container.BeginExecutionContextScope())
             {
@@ -87,13 +82,11 @@ namespace NQuandl.SimpleClient
 
         public async Task SaveChangesAsync()
         {
-
             using (_container.BeginExecutionContextScope())
             {
                 var db = _container.GetInstance<IWriteEntities>();
                 await db.SaveChangesAsync();
             }
-       
         }
     }
 
@@ -115,6 +108,5 @@ namespace NQuandl.SimpleClient
         {
             return _queries.Execute(quandlRequest);
         }
-
     }
 }
