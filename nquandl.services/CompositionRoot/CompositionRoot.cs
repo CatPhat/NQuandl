@@ -30,8 +30,6 @@ namespace NQuandl.Services.CompositionRoot
 
 
             container.RegisterEntityFramework();
-            container.RegisterCommandTransactions(settings.CommandHandlerAssemblies);
-            container.RegisterQueryTransactions(settings.QueryHandlerAssemblies);
         }
     }
 }

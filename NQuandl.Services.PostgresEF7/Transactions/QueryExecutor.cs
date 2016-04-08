@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using NQuandl.Domain.Persistence.Api.Transactions;
 using SimpleInjector;
 
-namespace NQuandl.Services.Quandl.Transactions
+namespace NQuandl.Services.PostgresEF7.Transactions
 {
     [UsedImplicitly]
     internal sealed class QueryExecutor : IExecuteQueries
