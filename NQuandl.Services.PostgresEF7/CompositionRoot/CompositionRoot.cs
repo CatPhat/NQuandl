@@ -16,7 +16,6 @@ namespace NQuandl.Services.PostgresEF7.CompositionRoot
             var lifestyle = new ExecutionContextScopeLifestyle();
             var contextRegistration = lifestyle.CreateRegistration<EntityDbContext>(container);
             //container.AddRegistration(typeof (EntityDbContext), contextRegistration);
-            container.AddRegistration(typeof (IUnitOfWork), contextRegistration);
             container.AddRegistration(typeof (IWriteEntities), contextRegistration);
             container.AddRegistration(typeof (IReadEntities), contextRegistration);
 

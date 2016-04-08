@@ -6,7 +6,7 @@ namespace NQuandl.Domain.Persistence.Api.Entities
     /// <summary>
     /// Informs an underlying relational data store to accept or return sets of writeable entity instances.
     /// </summary>
-    public interface IWriteEntities : IUnitOfWork, IReadEntities
+    public interface IWriteEntities :  IReadEntities
     {
         /// <summary>
         /// Inform an underlying relational data store to return a single writable entity instance.
@@ -73,6 +73,9 @@ namespace NQuandl.Domain.Persistence.Api.Entities
         /// <param name="entity">Entity instance whose data state may be different from that of the
         /// underlying relational data store.</param>
         void Update<TEntity>(TEntity entity) where TEntity : Entity;
+
+
+        Task SaveChangesAsync();
 
     }
 }

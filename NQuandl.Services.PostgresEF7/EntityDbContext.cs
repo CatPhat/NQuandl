@@ -11,11 +11,7 @@ namespace NQuandl.Services.PostgresEF7
 {
     public class EntityDbContext : DbContext, IWriteEntities
     {
-        public Task<int> SaveChangesAsync()
-        {
-            return base.SaveChangesAsync();
-        }
-
+        
         // todo move to interface
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,15 +33,6 @@ namespace NQuandl.Services.PostgresEF7
         #endregion
 
         #region Queries
-
-        public IQueryable<TEntity> EagerLoad<TEntity>(IQueryable<TEntity> query,
-            Expression<Func<TEntity, object>> expression) where TEntity : Entity
-        {
-            // Include will eager load data into the query
-            if (query != null && expression != null)
-                query = query.Include(expression);
-            return query;
-        }
 
         public IQueryable<TEntity> Query<TEntity>() where TEntity : Entity
         {
@@ -94,6 +81,11 @@ namespace NQuandl.Services.PostgresEF7
         {
             var entry = Entry(entity);
             entry.State = EntityState.Modified;
+        }
+
+        public Task SaveChangesAsync()
+        {
+           return base.SaveChangesAsync();
         }
 
         public void Delete<TEntity>(TEntity entity) where TEntity : Entity
