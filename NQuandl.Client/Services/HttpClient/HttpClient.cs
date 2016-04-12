@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using NQuandl.Client.Api.Configuration;
 using NQuandl.Client.Api.Quandl;
 using NQuandl.Client.Domain.Responses;
+using NQuandl.Client.Services.Configuration;
 
 namespace NQuandl.Client.Services.HttpClient
 {
     public class HttpClient : System.Net.Http.HttpClient, IHttpClient
     {
-        private readonly AppConfiguration _configuration;
-
-        public HttpClient(AppConfiguration configuration)
+        public HttpClient(IHttpClientConfiguration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-            _configuration = configuration;
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
 
-            BaseAddress = new Uri(_configuration.BaseUrl);
+            BaseAddress = new Uri(configuration.BaseUrl);
         }
 
-#pragma warning disable 108,114
-        public async Task<HttpClientResponse> GetAsync(string requestUri)
-#pragma warning restore 108,114
+
+        public new async Task<HttpClientResponse> GetAsync(string requestUri)
         {
             var result = await base.GetAsync(requestUri);
 

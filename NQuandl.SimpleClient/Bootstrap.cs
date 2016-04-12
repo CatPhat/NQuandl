@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Microsoft.Framework.Configuration;
+using Microsoft.Extensions.Configuration;
 using NQuandl.Client.Api.Transactions;
 using NQuandl.Client.SimpleInjector.Extensions;
 using NQuandl.PostgresEF7.Api.Transactions;
@@ -19,8 +19,8 @@ namespace NQuandl.SimpleClient
             Container = new Container();
 
             var builder = new ConfigurationBuilder()
-                //.SetBasePath(appEnv.ApplicationBasePath)
                 .AddJsonFile(@"App_Data\config.json");
+
 
             _configuration = builder.Build();
             ComposeRoot(Container);
@@ -49,7 +49,7 @@ namespace NQuandl.SimpleClient
 
             var packages = new IPackage[]
             {
-                new Client.SimpleInjector.HttpClient.Package(),
+                new Client.SimpleInjector.HttpClient.Package(_configuration.GetHttpClientConfiguration()),
                 new Client.SimpleInjector.Logger.Package(),
                 new Client.SimpleInjector.Quandl.Package(),
                 new Client.SimpleInjector.RateGate.Package(),

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Policy;
+using System.Threading.Tasks;
 using NQuandl.Client.Api.Quandl;
 using NQuandl.Client.Api.Transactions;
 using NQuandl.Client.Domain.Responses;
+using NQuandl.Npgsql.Api;
 using NQuandl.PostgresEF7.Api.Entities;
 using NQuandl.PostgresEF7.Api.Transactions;
 using SimpleInjector;
@@ -33,6 +35,10 @@ namespace NQuandl.SimpleClient
             await new ExecuteCommand(Container).SaveChangesAsync();
         }
 
+        public static IExecuteRawSql GetSql()
+        {
+            return Container.GetInstance<IExecuteRawSql>();
+        }
        
         public static TResult ExecuteQuery<TResult>(this IDefineQuery<TResult> query)
         {

@@ -17,11 +17,11 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            //var repository = QueryExtensions.GetRepository();
-            //var list = repository.Query(
-            //    "select * from database_datasets where quandl_code = 'ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A';");
+            var repository = SimpleClientExtensions.GetSql();
+            var list = repository.ExecuteQuery(
+                "select * from database_datasets where quandl_code = 'ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A';");
 
-            //NonBlockingConsole.WriteLine("Done");
+            NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
     }
@@ -118,19 +118,19 @@ namespace nquandl.console
         }
     }
 
-    public class GetAllDatasetsFromRawResponses
-    {
-        public async Task Get()
-        {
-            var entities = QueryExtensions.GetReadEntities();
-            var rawResponses = entities.Query<RawResponse>();
+    //public class GetAllDatasetsFromRawResponses
+    //{
+    //    public async Task Get()
+    //    {
+    //        var entities = QueryExtensions.GetReadEntities();
+    //        var rawResponses = entities.Query<RawResponse>();
 
-            foreach (var rawResponse in rawResponses)
-            {
-                rawResponse.ResponseContent.DeserializeToEntity<JsonResultDatasetDataAndMetadata>();
-            }
-        }
-    }
+    //        foreach (var rawResponse in rawResponses)
+    //        {
+    //            rawResponse.ResponseContent.DeserializeToEntity<JsonResultDatasetDataAndMetadata>();
+    //        }
+    //    }
+    //}
 
 
     public class GetAllDatasetsFromFiles

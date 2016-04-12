@@ -1,6 +1,7 @@
 ﻿{
-  "AppSettings": {
-    "ApiKey": "ABC123"
+  "nquandl.client": {
+    //"ApiKey": "ABC123",
+    "BaseUrl": "https://www.quandl.com/"
   } 
  
 }
