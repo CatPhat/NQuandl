@@ -17,9 +17,44 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            var repository = SimpleClientExtensions.GetSql();
-            var list = repository.ExecuteQuery(
+            Task.Run(() =>
+            {
+                var reader3 =
+                    SimpleClientExtensions.GetSql()
+                        .ExecuteQuery("select * from database_datasets where database_code = 'FED'");
+
+                foreach (var dataRecord in reader3)
+                {
+                    NonBlockingConsole.WriteLine(dataRecord.GetString(0) + " " + dataRecord.GetString(1) + " " +
+                                                 dataRecord.GetString(2));
+
+
+                }
+            });
+
+            Task.Run((() =>
+            {
+                var reader2 = SimpleClientExtensions.GetSql().ExecuteQuery("select * from database_datasets where database_code = 'BOJ'");
+
+                foreach (var dataRecord in reader2)
+                {
+                    NonBlockingConsole.WriteLine(dataRecord.GetString(0) + " " + dataRecord.GetString(1) + " " + dataRecord.GetString(2));
+
+
+                }
+
+            }));
+            var reader = SimpleClientExtensions.GetSql().ExecuteQuery(
                 "select * from database_datasets where quandl_code = 'ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A';");
+
+            foreach (var dataRecord in reader)
+            {
+                NonBlockingConsole.WriteLine(dataRecord.GetString(0));
+            }
+
+          
+       
+
 
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
