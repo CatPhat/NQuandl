@@ -13,23 +13,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nquandl.console", "nquandl.console\nquandl.console.xproj", "{81320399-8AB2-43A9-876D-0CA9F8285969}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Services", "NQuandl.Services\NQuandl.Services.xproj", "{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Client.SimpleInjector", "NQuandl.Client.SimpleInjector\NQuandl.Client.SimpleInjector.xproj", "{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.SimpleClient", "NQuandl.SimpleClient\NQuandl.SimpleClient.xproj", "{A4EA89CC-6940-4A29-8F13-B273E134827F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{95BCA6D3-E31F-45D2-8AB9-9DC1CD67FC1D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Domain", "NQuandl.Domain\NQuandl.Domain.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Client", "NQuandl.Client\NQuandl.Client.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Domain.Test", "tests\NQuandl.Domain.Test\NQuandl.Domain.Test.xproj", "{C254C72B-26CE-41BB-B97C-7E965C3EBB1B}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Client.Test", "tests\NQuandl.Client.Test\NQuandl.Client.Test.xproj", "{C254C72B-26CE-41BB-B97C-7E965C3EBB1B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Services.PostgresEF7", "NQuandl.Services.PostgresEF7\NQuandl.Services.PostgresEF7.xproj", "{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.PostgresEF7.SimpleInjector", "NQuandl.PostgresEF7.SimpleInjector\NQuandl.PostgresEF7.SimpleInjector.xproj", "{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.WebApi", "NQuandl.WebApi\NQuandl.WebApi.xproj", "{C24DAB64-16FF-4F77-A214-4CFE8647683B}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Domain.Persistence", "NQuandl.Domain.Persistence\NQuandl.Domain.Persistence.xproj", "{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.PostgresEF7", "NQuandl.PostgresEF7\NQuandl.PostgresEF7.xproj", "{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Services.Npgsql", "NQuandl.Services.Npgsql\NQuandl.Services.Npgsql.xproj", "{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Npgsql", "NQuandl.Npgsql\NQuandl.Npgsql.xproj", "{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Npgsql.SimpleInjector", "NQuandl.Npgsql.SimpleInjector\NQuandl.Npgsql.SimpleInjector.xproj", "{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,10 @@ Global
 		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,5 +93,6 @@ Global
 		{C24DAB64-16FF-4F77-A214-4CFE8647683B} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
 	EndGlobalSection
 EndGlobal

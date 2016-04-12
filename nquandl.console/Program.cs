@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using NQuandl.Api.Quandl.Helpers;
-using NQuandl.Domain.Persistence.Domain.Commands;
-using NQuandl.Domain.Persistence.Domain.Entities;
-using NQuandl.Domain.Persistence.Domain.Queries;
-using NQuandl.Domain.Quandl.Requests;
-using NQuandl.Domain.Quandl.Responses;
-using NQuandl.Services.Logger;
+using NQuandl.Client.Domain.Requests;
+using NQuandl.Client.Domain.Responses;
+using NQuandl.Client.Services.Logger;
+using NQuandl.PostgresEF7.Domain.Commands;
+using NQuandl.PostgresEF7.Domain.Entities;
+using NQuandl.PostgresEF7.Domain.Queries;
 using NQuandl.SimpleClient;
 
 namespace nquandl.console
@@ -18,10 +17,11 @@ namespace nquandl.console
     {
         public static void Main(string[] args)
         {
-            new GetAllDatabaseDatasetListEntriesFromFiles().Get().Wait();
+            //var repository = QueryExtensions.GetRepository();
+            //var list = repository.Query(
+            //    "select * from database_datasets where quandl_code = 'ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A';");
 
-
-            NonBlockingConsole.WriteLine("Done");
+            //NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
     }

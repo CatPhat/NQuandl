@@ -2,6 +2,7 @@
 
 using Microsoft.Framework.Configuration;
 using NQuandl.Services.CompositionRoot;
+using NQuandl.Services.Npgsql.CompositionRoot;
 using SimpleInjector;
 
 namespace NQuandl.SimpleClient
@@ -19,7 +20,9 @@ namespace NQuandl.SimpleClient
             //    Configuration = builder.Build().GetSection("AppSettings")
             //};
             //container.ComposeRoot(rootCompositionSettings);
+
             container.ComposeRoot();
+            container.RegisterNpsqlServices();
             container.Verify();
 
             return container;

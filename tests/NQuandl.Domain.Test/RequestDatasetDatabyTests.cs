@@ -1,4 +1,4 @@
-﻿using NQuandl.Domain.Quandl.Requests;
+﻿using NQuandl.Domain.Requests;
 using Xunit;
 
 namespace NQuandl.Domain.Test

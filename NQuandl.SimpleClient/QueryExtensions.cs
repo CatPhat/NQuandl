@@ -1,15 +1,14 @@
 ﻿using System.Threading.Tasks;
-using NQuandl.Api.Quandl;
-using NQuandl.Api.Transactions;
-using NQuandl.Domain.Persistence.Api.Entities;
-using NQuandl.Domain.Persistence.Api.Transactions;
-using NQuandl.Domain.Quandl.Responses;
+using NQuandl.Client.Api.Quandl;
+using NQuandl.Client.Api.Transactions;
+using NQuandl.Client.Domain.Responses;
+using NQuandl.PostgresEF7.Api.Entities;
+using NQuandl.PostgresEF7.Api.Transactions;
 using SimpleInjector;
-using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace NQuandl.SimpleClient
 {
-    public static class QueryExtensions
+    public static class QueryExtensionse
     {
         private static readonly Container Container;
 
@@ -33,6 +32,7 @@ namespace NQuandl.SimpleClient
             await new ExecuteCommand(Container).SaveChangesAsync();
         }
 
+       
         public static TResult ExecuteQuery<TResult>(this IDefineQuery<TResult> query)
         {
             using (Container.BeginExecutionContextScope())

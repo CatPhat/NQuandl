@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
-using NQuandl.Domain.Quandl.Requests;
-using NQuandl.Domain.Quandl.Responses;
 using NQuandl.SimpleClient;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
