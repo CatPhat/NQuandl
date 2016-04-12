@@ -5,16 +5,17 @@ using NQuandl.Client.Domain.Responses;
 using NQuandl.PostgresEF7.Api.Entities;
 using NQuandl.PostgresEF7.Api.Transactions;
 using SimpleInjector;
+using SimpleInjector.Extensions.ExecutionContextScoping;
 
 namespace NQuandl.SimpleClient
 {
-    public static class QueryExtensionse
+    public static class SimpleClientExtensions
     {
         private static readonly Container Container;
 
-        static QueryExtensions()
+        static SimpleClientExtensions()
         {
-            Container = Bootstrapper.Bootstrap();
+            Container = new Bootstrapper().Container;
         }
 
         public static IQuandlClient GetQuandlClient()

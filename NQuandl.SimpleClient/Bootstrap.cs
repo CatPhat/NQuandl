@@ -1,31 +1,65 @@
-﻿
-
+﻿using System.Reflection;
 using Microsoft.Framework.Configuration;
-using NQuandl.Services.CompositionRoot;
-using NQuandl.Services.Npgsql.CompositionRoot;
+using NQuandl.Client.Api.Transactions;
+using NQuandl.Client.SimpleInjector.Extensions;
+using NQuandl.PostgresEF7.Api.Transactions;
 using SimpleInjector;
+using SimpleInjector.Extensions.ExecutionContextScoping;
+using SimpleInjector.Packaging;
 
 namespace NQuandl.SimpleClient
 {
-    public static class Bootstrapper
+    public class Bootstrapper
     {
-        public static Container Bootstrap()
+        private readonly IConfigurationRoot _configuration;
+        public readonly Container Container;
+
+        public Bootstrapper()
         {
-            var container = new Container();
-            var builder = new ConfigurationBuilder();
-            //builder.AddJsonFile(@"App_Data\config.json");
+            Container = new Container();
 
-            //var rootCompositionSettings = new RootCompositionSettings
-            //{
-            //    Configuration = builder.Build().GetSection("AppSettings")
-            //};
-            //container.ComposeRoot(rootCompositionSettings);
+            var builder = new ConfigurationBuilder()
+                //.SetBasePath(appEnv.ApplicationBasePath)
+                .AddJsonFile(@"App_Data\config.json");
 
-            container.ComposeRoot();
-            container.RegisterNpsqlServices();
-            container.Verify();
+            _configuration = builder.Build();
+            ComposeRoot(Container);
+        }
 
-            return container;
+
+        private void ComposeRoot(Container container)
+        {
+            container.Options.DefaultScopedLifestyle = new ExecutionContextScopeLifestyle();
+            Assembly[] requestHandlerAssemblies =
+            {
+                typeof (IHandleQuandlRequest<,>).Assembly,
+                GetType().Assembly
+            };
+            Assembly[] commandHandlerAssemblies =
+            {
+                typeof (IHandleCommand<>).Assembly,
+                GetType().Assembly
+            };
+            Assembly[] queryHandlerAssemblies =
+            {
+                typeof (IHandleQuery<,>).Assembly,
+                GetType().Assembly
+            };
+
+
+            var packages = new IPackage[]
+            {
+                new Client.SimpleInjector.HttpClient.Package(),
+                new Client.SimpleInjector.Logger.Package(),
+                new Client.SimpleInjector.Quandl.Package(),
+                new Client.SimpleInjector.RateGate.Package(),
+                new Client.SimpleInjector.TaskQueue.Package(),
+                new Client.SimpleInjector.Transactions.Package(requestHandlerAssemblies),
+                new Npgsql.SimpleInjector.Package()
+            };
+
+            Container.RegisterPackages(packages);
+            Container.Verify(VerificationOption.VerifyAndDiagnose);
         }
     }
 }

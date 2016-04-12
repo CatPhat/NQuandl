@@ -24,6 +24,7 @@
     "Microsoft.Framework.Configuration": "1.0.0-beta8",
     "Microsoft.Framework.Configuration.Json": "1.0.0-beta8",
     "NQuandl.PostgresEF7": "1.0.0-*",
-    "NQuandl.PostgresEF7.SimpleInjector": "1.0.0-*"
+    "NQuandl.PostgresEF7.SimpleInjector": "1.0.0-*",
+    "NQuandl.Npgsql.SimpleInjector": "1.0.0-*"
   }
 }
