@@ -1,4 +1,4 @@
-﻿using NQuandl.PostgresEF7.Api.Entities;
+using NQuandl.PostgresEF7.Api.Entities;
 using NQuandl.PostgresEF7.Services;
 using NQuandl.PostgresEF7.Services.Models.ModelCreation;
 using SimpleInjector;
@@ -7,11 +7,6 @@ using SimpleInjector.Packaging;
 
 namespace NQuandl.PostgresEF7.SimpleInjector.EntityFramework
 {
-    public static class CompositionRoot
-    {
-        public static void RegisterEntityFramework(this Container container) {}
-    }
-
     public class Package : IPackage
     {
         public void RegisterServices(Container container)
