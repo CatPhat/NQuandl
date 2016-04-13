@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
+using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
@@ -12,7 +13,6 @@ namespace NQuandl.Npgsql.Services
     public class ExecuteRawSql : IExecuteRawSql
     {
         private readonly IConfigureConnection _configuration;
-      
 
 
         public ExecuteRawSql([NotNull] IConfigureConnection _configuration)
@@ -20,7 +20,6 @@ namespace NQuandl.Npgsql.Services
             if (_configuration == null)
                 throw new ArgumentNullException(nameof(_configuration));
             this._configuration = _configuration;
-      
         }
 
         public IEnumerable<IDataRecord> ExecuteQuery(string query)
@@ -35,15 +34,31 @@ namespace NQuandl.Npgsql.Services
                     {
                         yield return reader;
                     }
-                  
                 }
+                cmd.Connection.Close();
             }
-
-
-
-
-
         }
+
+        public IObservable<IDataRecord> ExecuteQueryAsync(string query)
+        {
+            return Observable.Create<IDataRecord>(async obs =>
+            {
+                using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
+                using (var cmd = new NpgsqlCommand(query, connection))
+                {
+                    await cmd.Connection.OpenAsync();
+                    using (var reader = cmd.ExecuteReaderAsync())
+                    {
+                        var result = await reader;
+                        while (await result.ReadAsync())
+                        {
+                            obs.OnNext(result);
+                        }
+                    }
+                }
+            });
+        }
+
 
         public async Task ExecuteCommand(string command)
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
@@ -9,5 +10,6 @@ namespace NQuandl.Npgsql.Api
     {
         IEnumerable<IDataRecord> ExecuteQuery(string query);
         Task ExecuteCommand(string command);
+        IObservable<IDataRecord> ExecuteQueryAsync(string query);
     }
 }
