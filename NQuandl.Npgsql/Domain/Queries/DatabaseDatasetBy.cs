@@ -4,7 +4,6 @@ using JetBrains.Annotations;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Entities;
-using NQuandl.Npgsql.Services.Mappers;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
@@ -28,8 +27,8 @@ namespace NQuandl.Npgsql.Domain.Queries
 
     public class HandleDatabaseDatasetBy : IHandleQuery<DatabaseDatasetBy, IObservable<DatabaseDataset>>
     {
-        private readonly IExecuteRawSql _sql;
         private readonly IMapDataRecordToEntity<DatabaseDataset> _mapper;
+        private readonly IExecuteRawSql _sql;
 
         public HandleDatabaseDatasetBy([NotNull] IExecuteRawSql sql,
             [NotNull] IMapDataRecordToEntity<DatabaseDataset> mapper)
