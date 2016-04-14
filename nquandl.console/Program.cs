@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
@@ -70,12 +71,25 @@ namespace nquandl.console
             //       record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
             //                                              record.GetString(2)));
 
-            var query = new DatabaseDatasetBy("ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A");
-            var handler = new HandleDatabaseDatasetBy(new ExecuteRawSql(new PostgresConnection()), new DatabaseDatasetMapper());
-            var result = handler.Handle(query).Result;
+          
+         
+            for (int i = 0; i < 10000; i++)
+            {
+                var offset = i*20;
+                var limit = 20;
+                var query = new DatabaseDatasetsByDatabaseCode("SF1") {Limit = limit, Offset = offset};
+                var handler = new HandleDatabaseDatasetsByDatabaseCode(new ExecuteRawSql(new PostgresConnection()), new DatabaseDatasetMapper());
+                var result = handler.Handle(query);
+                
+                result.Subscribe(x => NonBlockingConsole.WriteLine("Offset "+ offset + " | " + x.DatabaseCode + " " + x.DatasetCode + " " +
+                                             x.QuandlCode), onError: (exception =>
+                                             {
+                                                 throw new Exception(exception.Message);
+                                             }));
+            }
 
-            NonBlockingConsole.WriteLine(result.Description);
-
+           
+           
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
