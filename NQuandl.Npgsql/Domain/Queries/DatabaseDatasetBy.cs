@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Entities;
+using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
-    public class DatabaseDatasetBy : IDefineQuery<IObservable<DatabaseDataset>>
+    public class DatabaseDatasetBy : IDefineQuery<Task<DatabaseDataset>>
     {
         public DatabaseDatasetBy(string quandlCode)
         {
@@ -25,7 +30,7 @@ namespace NQuandl.Npgsql.Domain.Queries
         public string QuandlCode { get; set; }
     }
 
-    public class HandleDatabaseDatasetBy : IHandleQuery<DatabaseDatasetBy, IObservable<DatabaseDataset>>
+    public class HandleDatabaseDatasetBy : IHandleQuery<DatabaseDatasetBy, Task<DatabaseDataset>>
     {
         private readonly IMapDataRecordToEntity<DatabaseDataset> _mapper;
         private readonly IExecuteRawSql _sql;
@@ -41,26 +46,24 @@ namespace NQuandl.Npgsql.Domain.Queries
             _mapper = mapper;
         }
 
-        public IObservable<DatabaseDataset> Handle(DatabaseDatasetBy query)
+        public async Task<DatabaseDataset> Handle(DatabaseDatasetBy query)
         {
             var quandlCode = !string.IsNullOrEmpty(query.QuandlCode)
                 ? query.QuandlCode
                 : $"{query.DatabaseCode}/{query.DatabaseCode}";
 
             quandlCode = quandlCode.ToUpperInvariant();
-            var queryString = $"select * from {_mapper.AttributeMetadata.TableName} " +
-                              $"where {_mapper.AttributeMetadata.PropertyNameAttributeDictionary[nameof(DatabaseDataset.QuandlCode)]} " +
-                              $"= {quandlCode}";
+            var columnNames = _mapper.GetColumnNames();
+            var queryString = $"select {columnNames} " +
+                              $"from {_mapper.GetTableName()} " +
+                              $"where {_mapper.GetColumnNameByPropertyName(dataset => dataset.QuandlCode)} " +
+                              $"= '{quandlCode}'";
             var response = _sql.ExecuteQueryAsync(queryString);
 
-            return Observable.Create<DatabaseDataset>(
-                obs =>
-                    response.Subscribe(record =>
-                    {
-                        var databaseDataset = _mapper.ToEntity(record);
-                        obs.OnNext(databaseDataset);
-                        obs.OnCompleted();
-                    }));
+            var task = response.FirstOrDefaultAsync();
+            return _mapper.ToEntity(await task);
         }
+
+   
     }
 }

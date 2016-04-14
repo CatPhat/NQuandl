@@ -13,7 +13,7 @@ namespace NQuandl.Npgsql.Api
     {
         protected BaseDataRecordMapper()
         {
-            AttributeMetadata = DbAttributeCache<TEntity>.AttributeAttributeMetadata;
+            AttributeMetadata = DbAttributeCache<TEntity>.AttributeMetadata;
         }
 
         public abstract TEntity ToEntity(IDataRecord record);

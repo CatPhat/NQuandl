@@ -2,7 +2,7 @@
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
-    [DbTableName("database_dataset")]
+    [DbTableName("database_datasets")]
     public class DatabaseDataset
     {
         [DbColumnInfo(0, "id")]

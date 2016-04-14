@@ -8,7 +8,10 @@ using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Client.Services.Logger;
 using NQuandl.Npgsql.Domain.Entities;
+using NQuandl.Npgsql.Domain.Queries;
+using NQuandl.Npgsql.Services;
 using NQuandl.Npgsql.Services.Helpers;
+using NQuandl.Npgsql.Services.Mappers;
 using NQuandl.PostgresEF7.Domain.Commands;
 using NQuandl.PostgresEF7.Domain.Entities;
 using NQuandl.PostgresEF7.Domain.Queries;
@@ -67,21 +70,11 @@ namespace nquandl.console
             //       record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
             //                                              record.GetString(2)));
 
-            var sw = new Stopwatch();
-            sw.Start();
-            var metadata = DbAttributeCache<DatabaseDataset>.AttributeAttributeMetadata;
-            sw.Stop();
+            var query = new DatabaseDatasetBy("ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A");
+            var handler = new HandleDatabaseDatasetBy(new ExecuteRawSql(new PostgresConnection()), new DatabaseDatasetMapper());
+            var result = handler.Handle(query).Result;
 
-            var sw2 = new Stopwatch();
-            sw2.Start();
-            var metadata2 = DbAttributeCache<DatabaseDataset>.AttributeAttributeMetadata;
-            sw2.Stop();
-            NonBlockingConsole.WriteLine(metadata.TableName + " " + sw.Elapsed);
-            NonBlockingConsole.WriteLine(metadata2.TableName + " " + sw2.Elapsed);
-            foreach (var dbColumnInfoAttribute in metadata.PropertyNameAttributeDictionary)
-            {
-                NonBlockingConsole.WriteLine(dbColumnInfoAttribute.Key + " " + dbColumnInfoAttribute.Value.ColumnName);
-            }
+            NonBlockingConsole.WriteLine(result.Description);
 
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();

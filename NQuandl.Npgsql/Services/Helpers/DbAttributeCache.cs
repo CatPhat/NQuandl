@@ -6,12 +6,12 @@ namespace NQuandl.Npgsql.Services.Helpers
 {
     public static class DbAttributeCache<T>
     {
+        public static readonly DbEntityAttributeMetadata AttributeMetadata;
+
         static DbAttributeCache()
         {
-            AttributeAttributeMetadata = GetMetadata(typeof (T));
+            AttributeMetadata = GetMetadata(typeof (T));
         }
-
-        public static readonly DbEntityAttributeMetadata AttributeAttributeMetadata;
 
         private static DbEntityAttributeMetadata GetMetadata(Type type)
         {
@@ -20,7 +20,8 @@ namespace NQuandl.Npgsql.Services.Helpers
                 throw new NullReferenceException("Missing DbTableName attribute");
 
             var typeProperties = type.GetProperties();
-            var dbColumnAttributes = typeProperties.ToDictionary(x => x.Name, x => x.GetCustomAttribute< DbColumnInfoAttribute>(false));
+            var dbColumnAttributes = typeProperties.ToDictionary(x => x.Name,
+                x => x.GetCustomAttribute<DbColumnInfoAttribute>(false));
             if (!dbColumnAttributes.Any())
                 throw new Exception("Missing Property Attributes");
 
@@ -28,23 +29,7 @@ namespace NQuandl.Npgsql.Services.Helpers
             {
                 TableName = tableName,
                 PropertyNameAttributeDictionary = dbColumnAttributes
-
             };
-        }
-
-     
-    }
-
-    public static class DbAttributeExtensions
-    {
-        public static int GetColumnIndexByPropertName(this DbEntityAttributeMetadata attributeMetadata, string propertName)
-        {
-            return attributeMetadata.GetColumnInfoAttributeByPropertyName(propertName).ColumnIndex;
-        }
-
-        public static DbColumnInfoAttribute GetColumnInfoAttributeByPropertyName(this DbEntityAttributeMetadata attributeMetadata, string propertyName)
-        {
-            return attributeMetadata.PropertyNameAttributeDictionary[propertyName];
         }
     }
 }
