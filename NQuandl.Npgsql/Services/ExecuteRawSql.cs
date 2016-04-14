@@ -54,7 +54,9 @@ namespace NQuandl.Npgsql.Services
                         {
                             obs.OnNext(result);
                         }
+                        obs.OnCompleted();
                     }
+                    cmd.Connection.Close();
                 }
             });
         }

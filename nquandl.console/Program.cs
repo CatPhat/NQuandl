@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Client.Services.Logger;
+using NQuandl.Npgsql.Domain.Entities;
+using NQuandl.Npgsql.Services.Helpers;
 using NQuandl.PostgresEF7.Domain.Commands;
 using NQuandl.PostgresEF7.Domain.Entities;
 using NQuandl.PostgresEF7.Domain.Queries;
@@ -48,23 +51,38 @@ namespace nquandl.console
             //    "select * from database_datasets where quandl_code = 'ZFB/NMHC_TOT_COMM_PREF_STOCK_DIV_PAID_A';");
 
 
-            SimpleClientExtensions.GetSql()
-                .ExecuteQueryAsync("select * from database_datasets where database_code = 'BOF'")
-                .Subscribe(
-                    record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
-                                                           record.GetString(2)));
-            SimpleClientExtensions.GetSql()
-                .ExecuteQueryAsync("select * from database_datasets where database_code = 'PSE'")
-                .Subscribe(
-                    record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
-                                                           record.GetString(2)));
+            //SimpleClientExtensions.GetSql()
+            //    .ExecuteQueryAsync("select * from database_datasets where database_code = 'BOE'")
+            //    .Subscribe(
+            //        record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
+            //                                               record.GetString(2)));
+            //SimpleClientExtensions.GetSql()
+            //    .ExecuteQueryAsync("select * from database_datasets where database_code = 'PSE'")
+            //    .Subscribe(
+            //        record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
+            //                                               record.GetString(2)));
+            //SimpleClientExtensions.GetSql()
+            //   .ExecuteQueryAsync("select * from database_datasets where database_code = 'XHKG'")
+            //   .Subscribe(
+            //       record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
+            //                                              record.GetString(2)));
 
+            var sw = new Stopwatch();
+            sw.Start();
+            var metadata = DbAttributeCache<DatabaseDataset>.AttributeAttributeMetadata;
+            sw.Stop();
 
-            SimpleClientExtensions.GetSql()
-               .ExecuteQueryAsync("select * from database_datasets where database_code = 'XHKG'")
-               .Subscribe(
-                   record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
-                                                          record.GetString(2)));
+            var sw2 = new Stopwatch();
+            sw2.Start();
+            var metadata2 = DbAttributeCache<DatabaseDataset>.AttributeAttributeMetadata;
+            sw2.Stop();
+            NonBlockingConsole.WriteLine(metadata.TableName + " " + sw.Elapsed);
+            NonBlockingConsole.WriteLine(metadata2.TableName + " " + sw2.Elapsed);
+            foreach (var dbColumnInfoAttribute in metadata.PropertyNameAttributeDictionary)
+            {
+                NonBlockingConsole.WriteLine(dbColumnInfoAttribute.Key + " " + dbColumnInfoAttribute.Value.ColumnName);
+            }
+
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
