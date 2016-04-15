@@ -3,7 +3,7 @@ using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
-    [DbTableName("raw_response")]
+    [DbTableName("raw_responses")]
     public class RawResponse
     {
         [DbColumnInfo(0, "id")]
