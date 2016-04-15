@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using NQuandl.Npgsql.Services.Helpers;
 
-namespace NQuandl.Npgsql.Services.Helpers
+namespace NQuandl.Npgsql.Services.Extensions
 {
     public static class DbAttributeExtensions
     {

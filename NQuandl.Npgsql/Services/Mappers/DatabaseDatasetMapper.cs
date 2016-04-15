@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Domain.Entities;
+using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Services.Mappers

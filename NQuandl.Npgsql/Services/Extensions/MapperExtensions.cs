@@ -2,7 +2,7 @@ using System;
 using System.Linq.Expressions;
 using NQuandl.Npgsql.Api;
 
-namespace NQuandl.Npgsql.Services.Helpers
+namespace NQuandl.Npgsql.Services.Extensions
 {
     public static class MapperExtensions
     {
