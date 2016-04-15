@@ -15,7 +15,7 @@ namespace NQuandl.Npgsql.Services.Extensions
         /// <param name="dataRecord"></param>
         /// <param name="index"></param>
         /// <returns> Returns 0 if record value is null.</returns>
-        public static int? GetInt32OrDefault(this IDataRecord dataRecord, int index)
+        public static int GetInt32OrDefault(this IDataRecord dataRecord, int index)
         {
             return dataRecord.IsDBNull(index) ? 0 : dataRecord.GetInt32(index);
         }

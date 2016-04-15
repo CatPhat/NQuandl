@@ -2,7 +2,6 @@
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Domain.Entities;
 using NQuandl.Npgsql.Services.Extensions;
-using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
@@ -12,13 +11,16 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return new DatabaseDataset
             {
-                Id = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.Id))),
+                Id = record.GetInt32OrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.Id))),
                 DatabaseCode =
-                    record.GetString(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.DatabaseCode))),
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.DatabaseCode))),
                 DatasetCode =
-                    record.GetString(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.DatasetCode))),
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.DatasetCode))),
                 Description =
-                    record.GetString(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.Description)))
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.Description)))
             };
         }
     }
