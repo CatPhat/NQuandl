@@ -6,17 +6,9 @@ using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Entities;
 using NQuandl.Npgsql.Services.Extensions;
-using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
-    public abstract class PagedResult
-    {
-        public int? Offset { get; set; }
-        public int? Limit { get; set; }
-        public string OrderBy { get; set; }
-    }
-
     public class DatabaseDatasetsByDatabaseCode : PagedResult, IDefineQuery<IObservable<DatabaseDataset>>
     {
         public DatabaseDatasetsByDatabaseCode(string databaseCode)
