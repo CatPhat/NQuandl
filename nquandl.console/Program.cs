@@ -71,27 +71,45 @@ namespace nquandl.console
             //       record => NonBlockingConsole.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + " " + record.GetString(0) + " " + record.GetString(1) + " " +
             //                                              record.GetString(2)));
 
-          
-         
-            for (int i = 0; i < 10000; i++)
-            {
-                var offset = i*20;
-                var limit = 20;
-                var query = new DatabaseDatasetsByDatabaseCode("SF1") {Limit = limit, Offset = offset};
-                var handler = new HandleDatabaseDatasetsByDatabaseCode(new ExecuteRawSql(new PostgresConnection()), new DatabaseDatasetMapper());
-                var result = handler.Handle(query);
-                
-                result.Subscribe(x => NonBlockingConsole.WriteLine("Offset "+ offset + " | " + x.DatabaseCode + " " + x.DatasetCode + " " +
-                                             x.QuandlCode), onError: (exception =>
-                                             {
-                                                 throw new Exception(exception.Message);
-                                             }));
-            }
 
-           
-           
+
+            //for (int i = 0; i < 10000; i++)
+            //{
+            //    var offset = i*20;
+            //    var limit = 20;
+            //    var query = new DatabaseDatasetsByDatabaseCode("SF1") {Limit = limit, Offset = offset};
+            //    var handler = new HandleDatabaseDatasetsByDatabaseCode(new ExecuteRawSql(new PostgresConnection()), new DatabaseDatasetMapper());
+            //    var result = handler.Handle(query);
+
+            //    result.Subscribe(x => NonBlockingConsole.WriteLine("Offset "+ offset + " | " + x.DatabaseCode + " " + x.DatasetCode + " " +
+            //                                 x.QuandlCode), onError: (exception =>
+            //                                 {
+            //                                     throw new Exception(exception.Message);
+            //                                 }));
+            //}
+
+
+            var query = new RawResponsesBy();
+            var handler = new HandleRawResponsesBy(new ExecuteRawSql(new PostgresConnection()), new RawResponseMapper());
+            var result = handler.Handle(query);
+
+
+            using (result.Subscribe(x =>
+            {
+
+                NonBlockingConsole.WriteLine(x.Id + " " + x.RequestUri + " " +
+                                             x.CreationDate);
+            }
+                , onError: (exception =>
+                {
+                    throw new Exception(exception.Message);
+                })))
+            {
+                Console.ReadLine();
+            }
+            
             NonBlockingConsole.WriteLine("Done");
-            Console.ReadLine();
+           
         }
     }
 

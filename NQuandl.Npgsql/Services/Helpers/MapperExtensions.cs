@@ -17,7 +17,7 @@ namespace NQuandl.Npgsql.Services.Helpers
         }
 
         public static string GetColumnNameByPropertyName<TEntity>(this IMapDataRecordToEntity<TEntity> mapper,
-            Expression<Func<TEntity, string>> entityProperty)
+            Expression<Func<TEntity, object>> entityProperty)
         {
             var name = ((MemberExpression) entityProperty.Body).Member.Name;
             return mapper.AttributeMetadata.GetColumnNameByPropertyName(name);

@@ -10,6 +10,7 @@ namespace NQuandl.Npgsql.Services
                                           "Database=nquandl;" +
                                           "MINPOOLSIZE=1;" +
                                           "MAXPOOLSIZE=40;" +
-                                          "Connection Lifetime=0;";
+                                          "Connection Lifetime=0;" +
+                                          "COMMANDTIMEOUT=5000;";
     }
 }
