@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
 using NpgsqlTypes;
 using NQuandl.Npgsql.Services.Helpers;
 
@@ -22,7 +23,7 @@ namespace NQuandl.Npgsql.Domain.Entities
         [DbColumnInfo(4, "description", NpgsqlDbType.Text)]
         public string Description{ get; set; }
 
-        [DbColumnInfo(5, "end_date", NpgsqlDbType.Date)]
+        [DbColumnInfo(5, "end_date", NpgsqlDbType.Timestamp)]
         public DateTime? EndDate { get; set; }
 
         [DbColumnInfo(6, "frequency", NpgsqlDbType.Text)]
@@ -31,13 +32,13 @@ namespace NQuandl.Npgsql.Domain.Entities
         [DbColumnInfo(7, "name", NpgsqlDbType.Text)]
         public string Name { get; set; }
 
-        [DbColumnInfo(8, "refreshed_at", NpgsqlDbType.Date)]
+        [DbColumnInfo(8, "refreshed_at", NpgsqlDbType.Timestamp)]
         public DateTime? RefreshedAt { get; set; }
 
-        [DbColumnInfo(9, "start_date", NpgsqlDbType.Date)]
+        [DbColumnInfo(9, "start_date", NpgsqlDbType.Timestamp)]
         public DateTime? StartDate { get; set; }
 
         [DbColumnInfo(10, "data", NpgsqlDbType.Jsonb)]
-        public dynamic Data { get; set; }
+        public JArray Data { get; set; }
     }
 }

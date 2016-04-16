@@ -94,7 +94,7 @@ namespace nquandl.console
 
             var queries = new List<RawResponsesBy>
             {
-                new RawResponsesBy {Limit = 10},
+                new RawResponsesBy(),
              
         };
 
@@ -107,11 +107,19 @@ namespace nquandl.console
 
                 var observerable = Observable.Create<Dataset>(
                     obs => result.Subscribe(
-                        record => obs.OnNext(record.GetDataset()),
+                        record =>
+                        {
+                            var dataset = record.GetDataset();
+                            if (dataset != null)
+                            {
+                                obs.OnNext(record.GetDataset());
+                            }
+                           
+                        },onCompleted: obs.OnCompleted ,onError:
                         exception => { throw new Exception(exception.Message); }));
 
-                var cmd = new CreateDatasets(observerable);
-                var cmdHanlder = new HandleCreateDatasets(new ExecuteRawSql(new PostgresConnection()), new DatasetMapper() );
+                var cmd = new BulkCreateDatasets(observerable);
+                var cmdHanlder = new HandleBulkCreateDatasets(new PostgresConnection(), new DatasetMapper() );
                 cmdHanlder.Handle(cmd).Wait();
             }
 
@@ -134,11 +142,16 @@ namespace nquandl.console
                     rawResponse.ResponseContent.DeserializeToEntity<JsonResultDatasetDataAndMetadata>().DataAndMetadata;
                 NonBlockingConsole.WriteLine("datasetcode: " + dataAndMetadata.DatasetCode);
 
-           
 
+                if (!dataAndMetadata.EndDate.HasValue || string.IsNullOrEmpty(dataAndMetadata.Frequency) ||
+                    !dataAndMetadata.StartDate.HasValue || !dataAndMetadata.RefreshedAt.HasValue)
+                {
+                    return null;
+                }
 
                 return new Dataset
                 {
+                    Id = dataAndMetadata.Id,
                     Code = dataAndMetadata.DatasetCode,
                     Data = dataAndMetadata.Data,
                     DatabaseCode = dataAndMetadata.DatabaseCode,

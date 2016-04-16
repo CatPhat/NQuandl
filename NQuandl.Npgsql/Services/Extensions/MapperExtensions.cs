@@ -2,6 +2,7 @@ using System;
 using System.Linq.Expressions;
 using Npgsql;
 using NQuandl.Npgsql.Api;
+using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Services.Extensions
 {
@@ -32,6 +33,13 @@ namespace NQuandl.Npgsql.Services.Extensions
             var columnName = mapper.AttributeMetadata.GetColumnNameByPropertyName(name);
             var dbType = mapper.AttributeMetadata.GetNpgsqlDbTypeByPropertyName(name);
             return new NpgsqlParameter(columnName, dbType) {Value = parameterValue};
+        }
+
+        public static DbColumnInfoAttribute GetDbColumnInfoAttributeByProperty<TEntity>(
+            this IMapDataRecordToEntity<TEntity> mapper, Expression<Func<TEntity, object>> entityExpression)
+        {
+            var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
+            return mapper.AttributeMetadata.GetColumnInfoAttributeByPropertyName(name);
         }
     }
 

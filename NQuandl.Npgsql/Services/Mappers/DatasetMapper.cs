@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Newtonsoft.Json.Linq;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Domain.Entities;
 using NQuandl.Npgsql.Services.Extensions;
@@ -13,7 +14,7 @@ namespace NQuandl.Npgsql.Services.Mappers
             {
                 Id = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Id))),
                 Code = record.GetStringOrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Code))),
-                Data = record[(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Data)))] as string[][],
+                Data = record[(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Data)))] as JArray,
                 DatabaseCode =
                     record.GetStringOrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.DatabaseCode))),
                 DatabaseId = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.DatabaseId))),

@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace NQuandl.Client.Domain.Responses
 {
@@ -63,7 +64,7 @@ namespace NQuandl.Client.Domain.Responses
         public DateTime? EndDate { get; set; }
 
         [JsonProperty("data")]
-        public dynamic Data { get; set; }
+        public JArray Data { get; set; }
 
         [JsonProperty("collapse")]
         public string Collapse { get; set; }
