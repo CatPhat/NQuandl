@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NpgsqlTypes;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Services.Extensions
@@ -23,9 +24,15 @@ namespace NQuandl.Npgsql.Services.Extensions
             return attributeMetadata.PropertyNameAttributeDictionary[propertyName].ColumnName;
         }
 
+        public static NpgsqlDbType GetNpgsqlDbTypeByPropertyName(this DbEntityAttributeMetadata attributeMetadata,
+            string propertyName)
+        {
+            return attributeMetadata.PropertyNameAttributeDictionary[propertyName].DbType;
+        }
+
         public static string GetColumnNames(this DbEntityAttributeMetadata attributeMetadata)
         {
-            return string.Join(",", attributeMetadata.PropertyNameAttributeDictionary.Select(x => x.Value.ColumnName));
+            return string.Join(",", attributeMetadata.PropertyNameAttributeDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
         }
     }
 }

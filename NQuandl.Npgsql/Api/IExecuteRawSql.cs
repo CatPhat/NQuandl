@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Threading.Tasks;
+using Npgsql;
 
 namespace NQuandl.Npgsql.Api
 {
     public interface IExecuteRawSql
     {
         IEnumerable<IDataRecord> ExecuteQuery(string query);
-        Task ExecuteCommand(string command);
         IObservable<IDataRecord> ExecuteQueryAsync(string query);
+        Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters);
     }
 }

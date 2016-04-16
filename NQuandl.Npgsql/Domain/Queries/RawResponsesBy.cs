@@ -48,10 +48,16 @@ namespace NQuandl.Npgsql.Domain.Queries
                                $"order by {query.OrderBy}");
 
 
-            if (query.Limit.HasValue && query.Offset.HasValue)
+            if (query.Limit.HasValue)
             {
-                queryString.Append($"limit {query.Limit.Value} offset {query.Offset.Value}");
+                queryString.Append($" limit {query.Limit.Value} ");
             }
+
+            if (query.Offset.HasValue)
+            {
+                queryString.Append($"offset {query.Offset.Value}");
+            }
+
             var sqlStatement = queryString.ToString();
             var result = _sql.ExecuteQueryAsync(sqlStatement);
 

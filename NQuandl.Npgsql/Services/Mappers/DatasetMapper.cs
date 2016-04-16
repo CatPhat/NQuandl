@@ -13,7 +13,7 @@ namespace NQuandl.Npgsql.Services.Mappers
             {
                 Id = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Id))),
                 Code = record.GetStringOrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Code))),
-                Data = record.GetStringOrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Data))),
+                Data = record[(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.Data)))] as string[][],
                 DatabaseCode =
                     record.GetStringOrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.DatabaseCode))),
                 DatabaseId = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Dataset.DatabaseId))),

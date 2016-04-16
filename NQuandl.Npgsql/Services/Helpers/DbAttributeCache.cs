@@ -22,8 +22,8 @@ namespace NQuandl.Npgsql.Services.Helpers
             var typeProperties = type.GetProperties();
             var dbColumnAttributes = typeProperties.ToDictionary(x => x.Name,
                 x => x.GetCustomAttribute<DbColumnInfoAttribute>(false));
-            if (!dbColumnAttributes.Any())
-                throw new Exception("Missing Property Attributes");
+            if (dbColumnAttributes.Count != typeProperties.Length)
+                throw new Exception("Missing Property Attribute(s)");
 
             return new DbEntityAttributeMetadata
             {

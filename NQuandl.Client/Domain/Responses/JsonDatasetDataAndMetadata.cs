@@ -25,7 +25,7 @@ namespace NQuandl.Client.Domain.Responses
         public DateTime? RefreshedAt { get; set; }
 
         [JsonProperty("newest_available_date")]
-        public string NewestAvailableDate { get; set; }
+        public DateTime? NewestAvailableDate { get; set; }
 
         [JsonProperty("oldest_available_date")]
         public string OldestAvailableDate { get; set; }
@@ -57,13 +57,13 @@ namespace NQuandl.Client.Domain.Responses
         public int? ColumnIndex { get; set; }
 
         [JsonProperty("start_date")]
-        public string StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [JsonProperty("end_date")]
-        public string EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [JsonProperty("data")]
-        public object[][] Data { get; set; }
+        public dynamic Data { get; set; }
 
         [JsonProperty("collapse")]
         public string Collapse { get; set; }

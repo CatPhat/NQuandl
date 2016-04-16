@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
@@ -15,11 +14,11 @@ namespace NQuandl.Npgsql.Services
         private readonly IConfigureConnection _configuration;
 
 
-        public ExecuteRawSql([NotNull] IConfigureConnection _configuration)
+        public ExecuteRawSql([NotNull] IConfigureConnection configuration)
         {
-            if (_configuration == null)
-                throw new ArgumentNullException(nameof(_configuration));
-            this._configuration = _configuration;
+            if (configuration == null)
+                throw new ArgumentNullException(nameof(configuration));
+            _configuration = configuration;
         }
 
         public IEnumerable<IDataRecord> ExecuteQuery(string query)
@@ -61,14 +60,19 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
-
-        public async Task ExecuteCommand(string command)
+      
+        public async Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters)
         {
-            //using (var connection = _connection.GetConnection())
-            //using (var cmd = new NpgsqlCommand(command, connection))
-            //{
-            //    await cmd.ExecuteNonQueryAsync();
-            //}
+            using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
+            using (var cmd = new NpgsqlCommand(command, connection))
+            {
+                await cmd.Connection.OpenAsync();
+                cmd.Parameters.AddRange(parameters);
+                cmd.Prepare();
+                await cmd.ExecuteNonQueryAsync();
+                cmd.Connection.Close();
+            }
+          
         }
     }
 }

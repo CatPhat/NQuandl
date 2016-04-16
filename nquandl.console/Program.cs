@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using NQuandl.Client.Api.Quandl.Helpers;
 using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Client.Services.Logger;
+using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Domain.Entities;
 using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services;
@@ -17,6 +19,8 @@ using NQuandl.PostgresEF7.Domain.Commands;
 using NQuandl.PostgresEF7.Domain.Entities;
 using NQuandl.PostgresEF7.Domain.Queries;
 using NQuandl.SimpleClient;
+using Dataset = NQuandl.Npgsql.Domain.Entities.Dataset;
+using RawResponse = NQuandl.Npgsql.Domain.Entities.RawResponse;
 
 namespace nquandl.console
 {
@@ -88,28 +92,71 @@ namespace nquandl.console
             //                                 }));
             //}
 
-
-            var query = new RawResponsesBy();
-            var handler = new HandleRawResponsesBy(new ExecuteRawSql(new PostgresConnection()), new RawResponseMapper());
-            var result = handler.Handle(query);
-
-
-            using (result.Subscribe(x =>
+            var queries = new List<RawResponsesBy>
             {
+                new RawResponsesBy {Limit = 10},
+             
+        };
 
-                NonBlockingConsole.WriteLine(x.Id + " " + x.RequestUri + " " +
-                                             x.CreationDate);
-            }
-                , onError: (exception =>
-                {
-                    throw new Exception(exception.Message);
-                })))
+
+            foreach (var rawResponsesBy in queries)
             {
-                Console.ReadLine();
+                var handler = new HandleRawResponsesBy(new ExecuteRawSql(new PostgresConnection()), new RawResponseMapper());
+                var result = handler.Handle(rawResponsesBy);
+
+
+                var observerable = Observable.Create<Dataset>(
+                    obs => result.Subscribe(
+                        record => obs.OnNext(record.GetDataset()),
+                        exception => { throw new Exception(exception.Message); }));
+
+                var cmd = new CreateDatasets(observerable);
+                var cmdHanlder = new HandleCreateDatasets(new ExecuteRawSql(new PostgresConnection()), new DatasetMapper() );
+                cmdHanlder.Handle(cmd).Wait();
             }
-            
-            NonBlockingConsole.WriteLine("Done");
+
+     
+
            
+            NonBlockingConsole.WriteLine("Done");
+            Console.ReadLine();
+        }
+    }
+
+    public static class DeserializeAndConvertDataAndMetadataToDataset
+    {
+        public static Dataset GetDataset(this RawResponse rawResponse)
+        {
+            try
+            {
+                NonBlockingConsole.WriteLine("deserializing: " + rawResponse.Id);
+                var dataAndMetadata =
+                    rawResponse.ResponseContent.DeserializeToEntity<JsonResultDatasetDataAndMetadata>().DataAndMetadata;
+                NonBlockingConsole.WriteLine("datasetcode: " + dataAndMetadata.DatasetCode);
+
+           
+
+
+                return new Dataset
+                {
+                    Code = dataAndMetadata.DatasetCode,
+                    Data = dataAndMetadata.Data,
+                    DatabaseCode = dataAndMetadata.DatabaseCode,
+                    DatabaseId = dataAndMetadata.DatabaseId,
+                    Description = dataAndMetadata.Description,
+                    EndDate = dataAndMetadata.EndDate,
+                    Frequency = dataAndMetadata.Frequency,
+                    Name = dataAndMetadata.Name,
+                    RefreshedAt = dataAndMetadata.RefreshedAt,
+                    StartDate = dataAndMetadata.StartDate,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           
+         
         }
     }
 
