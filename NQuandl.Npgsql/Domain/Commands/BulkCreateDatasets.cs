@@ -84,6 +84,9 @@ namespace NQuandl.Npgsql.Domain.Commands
 
                 var data = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Data);
                 writer.Write(dataset.Data, data.DbType);
+
+                var columnNames = _mapper.GetDbColumnInfoAttributeByProperty(x => x.ColumnNames);
+                writer.Write(dataset.ColumnNames, columnNames.DbType);
             },
                 onCompleted: () => DisposeConnectionAndWrite(connection, writer),
                 onError:

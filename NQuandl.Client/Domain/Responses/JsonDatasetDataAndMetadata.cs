@@ -32,7 +32,7 @@ namespace NQuandl.Client.Domain.Responses
         public string OldestAvailableDate { get; set; }
 
         [JsonProperty("column_names")]
-        public string[] ColumnNames { get; set; }
+        public JArray ColumnNames { get; set; }
 
         [JsonProperty("frequency")]
         public string Frequency { get; set; }

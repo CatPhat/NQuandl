@@ -40,5 +40,8 @@ namespace NQuandl.Npgsql.Domain.Entities
 
         [DbColumnInfo(10, "data", NpgsqlDbType.Jsonb)]
         public JArray Data { get; set; }
+
+        [DbColumnInfo(11, "column_names",NpgsqlDbType.Jsonb)]
+        public JArray ColumnNames { get; set; }
     }
 }
