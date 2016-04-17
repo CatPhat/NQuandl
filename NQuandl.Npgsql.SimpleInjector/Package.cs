@@ -11,9 +11,9 @@ namespace NQuandl.Npgsql.SimpleInjector
         public void RegisterServices(Container container)
         {
             container.RegisterSingleton<IConfigureConnection, PostgresConnection>();
-            container.RegisterSingleton<IProvideConnection, ConnectionProvider>();
-            container.RegisterSingleton<IConstructConnection, ConnectionFactory>();
             container.Register<IExecuteRawSql, ExecuteRawSql>();
+            
+
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System.Security.Policy;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NQuandl.Client.Api.Quandl;
 using NQuandl.Client.Api.Transactions;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Npgsql.Api;
-using NQuandl.PostgresEF7.Api.Entities;
-using NQuandl.PostgresEF7.Api.Transactions;
+using NQuandl.Npgsql.Api.Transactions;
 using SimpleInjector;
 using SimpleInjector.Extensions.ExecutionContextScoping;
 
@@ -30,16 +28,16 @@ namespace NQuandl.SimpleClient
             await new ExecuteCommand(Container).Execute(command);
         }
 
-        public static async Task SaveChangesAsync()
-        {
-            await new ExecuteCommand(Container).SaveChangesAsync();
-        }
+        //public static async Task SaveChangesAsync()
+        //{
+        //    await new ExecuteCommand(Container).SaveChangesAsync();
+        //}
 
         public static IExecuteRawSql GetSql()
         {
             return Container.GetInstance<IExecuteRawSql>();
         }
-       
+
         public static TResult ExecuteQuery<TResult>(this IDefineQuery<TResult> query)
         {
             using (Container.BeginExecutionContextScope())
@@ -51,10 +49,10 @@ namespace NQuandl.SimpleClient
         }
 
 
-        public static IReadEntities GetReadEntities()
-        {
-            return Container.GetInstance<IReadEntities>();
-        }
+        //public static IReadEntities GetReadEntities()
+        //{
+        //    return Container.GetInstance<IReadEntities>();
+        //}
 
         public static TResult ExecuteRequest<TResult>(this IDefineQuandlRequest<TResult> quandlRequest)
         {
@@ -87,14 +85,15 @@ namespace NQuandl.SimpleClient
             }
         }
 
-        public async Task SaveChangesAsync()
-        {
-            using (_container.BeginExecutionContextScope())
-            {
-                var db = _container.GetInstance<IWriteEntities>();
-                await db.SaveChangesAsync();
-            }
-        }
+        //    using (_container.BeginExecutionContextScope())
+        //{
+
+        //public async Task SaveChangesAsync()
+        //    {
+        //        var db = _container.GetInstance<IWriteEntities>();
+        //        await db.SaveChangesAsync();
+        //    }
+        //}
     }
 
     public class ExecuteQuery
