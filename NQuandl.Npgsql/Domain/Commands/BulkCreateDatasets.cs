@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
@@ -85,8 +84,6 @@ namespace NQuandl.Npgsql.Domain.Commands
 
                 var data = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Data);
                 writer.Write(dataset.Data, data.DbType);
-
-                
             },
                 onCompleted: () => DisposeConnectionAndWrite(connection, writer),
                 onError:
@@ -97,7 +94,6 @@ namespace NQuandl.Npgsql.Domain.Commands
 
         private static void DisposeConnectionAndWrite(NpgsqlConnection connection, NpgsqlBinaryImporter importer)
         {
-         
             importer.Close();
             importer.Dispose();
             connection.Dispose();

@@ -19,6 +19,7 @@ using NQuandl.PostgresEF7.Domain.Commands;
 using NQuandl.PostgresEF7.Domain.Entities;
 using NQuandl.PostgresEF7.Domain.Queries;
 using NQuandl.SimpleClient;
+using Database = NQuandl.Npgsql.Domain.Entities.Database;
 using Dataset = NQuandl.Npgsql.Domain.Entities.Dataset;
 using RawResponse = NQuandl.Npgsql.Domain.Entities.RawResponse;
 
@@ -92,40 +93,70 @@ namespace nquandl.console
             //                                 }));
             //}
 
-            var queries = new List<RawResponsesBy>
-            {
-                new RawResponsesBy(),
+
+
+
+        //    var queries = new List<RawResponsesBy>
+        //    {
+        //        new RawResponsesBy(),
              
-        };
+        //};
+            
+
+        //    foreach (var rawResponsesBy in queries)
+        //    {
+        //        var handler = new HandleRawResponsesBy(new ExecuteRawSql(new PostgresConnection()), new RawResponseMapper());
+        //        var result = handler.Handle(rawResponsesBy);
 
 
-            foreach (var rawResponsesBy in queries)
-            {
-                var handler = new HandleRawResponsesBy(new ExecuteRawSql(new PostgresConnection()), new RawResponseMapper());
-                var result = handler.Handle(rawResponsesBy);
-
-
-                var observerable = Observable.Create<Dataset>(
-                    obs => result.Subscribe(
-                        record =>
-                        {
-                            var dataset = record.GetDataset();
-                            if (dataset != null)
-                            {
-                                obs.OnNext(record.GetDataset());
-                            }
+        //        var observerable = Observable.Create<Dataset>(
+        //            obs => result.Subscribe(
+        //                record =>
+        //                {
+        //                    var dataset = record.GetDataset();
+        //                    if (dataset != null)
+        //                    {
+        //                        obs.OnNext(record.GetDataset());
+        //                    }
                            
-                        },onCompleted: obs.OnCompleted ,onError:
-                        exception => { throw new Exception(exception.Message); }));
+        //                },onCompleted: obs.OnCompleted ,onError:
+        //                exception => { throw new Exception(exception.Message); }));
 
-                var cmd = new BulkCreateDatasets(observerable);
-                var cmdHanlder = new HandleBulkCreateDatasets(new PostgresConnection(), new DatasetMapper() );
-                cmdHanlder.Handle(cmd).Wait();
+        //        var cmd = new BulkCreateDatasets(observerable);
+        //        var cmdHanlder = new HandleBulkCreateDatasets(new PostgresConnection(), new DatasetMapper() );
+        //        cmdHanlder.Handle(cmd).Wait();
+        //    }
+
+
+            var results = new List<JsonDatabaseListDatabase>();
+
+            for (int page = 1; page <= 4; page++)
+            {
+                var request = new RequestDatabaseListBy {Page = page};
+                var result = request.ExecuteRequest().Result;
+                results.AddRange(result.Databases);
+
             }
+            
+            
 
-     
+            var databases = results.Select(jsonDatabaseListDatabase => new Database
+            {
+                Id = jsonDatabaseListDatabase.Id,
+                DatabaseCode = jsonDatabaseListDatabase.DatabaseCode,
+                DatasetsCount = jsonDatabaseListDatabase.DatasetsCount,
+                Description = jsonDatabaseListDatabase.Description,
+                Downloads = jsonDatabaseListDatabase.Downloads,
+                Image = jsonDatabaseListDatabase.Image,
+                Name = jsonDatabaseListDatabase.Name,
+                Premium = jsonDatabaseListDatabase.Premium
+            }).ToObservable();
 
-           
+            var command = new BulkCreateDatabases(databases);
+            var handler = new HandleBulkCreateDatabases(new PostgresConnection(), new DatabaseMapper());
+            handler.Handle(command);
+
+
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }

@@ -60,6 +60,7 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
+        
       
         public async Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters)
         {
