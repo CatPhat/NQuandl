@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
+using NQuandl.Npgsql.Domain.Entities;
+using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.SimpleClient;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,56 +24,37 @@ namespace NQuandl.WebApi.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        //// GET: api/database_list/startIndex/endIndex/orderBy
-        //[Route("database_list/{startIndex:int}/{endIndex:int}/{orderBy}")]
-        //public async Task<JsonResult> Get(int startIndex, int endIndex, string orderBy)
-        //{
-        //    var result = await new GetAllDatabaseListsBy().Execute();
+        // GET: api/database_list/startIndex/endIndex/orderBy
+        [Route("database_list/{startIndex:int}/{endIndex:int}/{orderBy}")]
+        public async Task<JsonResult> Get(int startIndex, int endIndex, string orderBy)
+        {
+            var result = new DatabasesBy
+            {
+                Limit = 10,
+                Offset = startIndex
+            }.ExecuteQuery();
 
-        //    switch (orderBy.ToLowerInvariant())
-        //    {
-        //        case "count":
-        //            result = result.OrderByDescending(x => x.datasets_count);
-        //            break;
+            var results = (await result.ToList()).ToList();
 
-        //        default:
-        //            result = result.OrderBy(x => x.name);
-        //            break;
-        //    }
+
+            return new JsonResult(results);
+        }
+
+
+       // GET: api/datasets_list/databaseCode/startIndex/endIndex/orderBy
+        [Route("dataset_list/{databaseCode}/{startIndex:int}/{endIndex:int}/{orderBy}")]
+        public async Task<JsonResult> Get(string databaseCode, int startIndex, int endIndex, string orderBy)
+        {
+
+            var result = new DatabaseDatasetsByDatabaseCode(databaseCode)
+            {
+                Limit = 10,
+                Offset = startIndex
             
-        //    var results = new List<Databases>();
-        //    for (var i = startIndex; i <= endIndex; i++)
-        //    {
-        //        var db = result.ElementAtOrDefault(i);
-        //        if (db != null)
-        //        {
-        //            results.Add(db);
-        //        }
-              
-        //    }
-        //    return new JsonResult(results);
-        //}
-
-
-        // GET: api/datasets_list/databaseCode/startIndex/endIndex/orderBy
-        //[Route("dataset_list/{databaseCode}/{startIndex:int}/{endIndex:int}/{orderBy}")]
-        //public async Task<JsonResult> Get(string databaseCode, int startIndex, int endIndex, string orderBy)
-        //{
-        //    var result = await new RequestDatabaseDatasetListBy(databaseCode).ExecuteRequest();
-
-        //    var results = new List<CsvDatabaseDataset>();
-
-        //    for (int i = startIndex; i <= endIndex; i++)
-        //    {
-        //        var dataset = result.Datasets.ElementAtOrDefault(i);
-        //        if (dataset != null)
-        //        {
-        //            results.Add(dataset);
-        //        }
-        //    }
-
-        //    return new JsonResult(results);
-        //}
+            }.ExecuteQuery();
+            var results = await result.ToList();
+            return new JsonResult(results);
+        }
 
         // GET api/values/5
         [HttpGet("{id}")]

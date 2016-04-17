@@ -62,7 +62,7 @@ namespace NQuandl.Npgsql.Domain.Queries
 
             return Observable.Create<DatabaseDataset>(
                 obs => result.Subscribe(
-                    record => obs.OnNext(_mapper.ToEntity(record)),
+                    record => obs.OnNext(_mapper.ToEntity(record)), onCompleted: obs.OnCompleted ,onError:
                     exception => { throw new Exception(exception.Message); }));
         }
     }
