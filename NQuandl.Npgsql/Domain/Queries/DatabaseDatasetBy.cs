@@ -61,8 +61,8 @@ namespace NQuandl.Npgsql.Domain.Queries
                               $"= '{quandlCode}'";
             var response = _sql.ExecuteQueryAsync(queryString);
 
-            var task = response.FirstOrDefaultAsync();
-            return _mapper.ToEntity(await task);
+            var task = await response.FirstOrDefaultAsync();
+            return _mapper.ToEntity( task);
         }
 
    

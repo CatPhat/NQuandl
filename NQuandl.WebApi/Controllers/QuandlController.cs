@@ -36,7 +36,7 @@ namespace NQuandl.WebApi.Controllers
 
             var results = (await result.ToList()).ToList();
 
-
+            
             return new JsonResult(results);
         }
 
