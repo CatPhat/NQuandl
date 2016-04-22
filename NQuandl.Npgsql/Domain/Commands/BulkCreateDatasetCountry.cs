@@ -9,9 +9,9 @@ using NQuandl.Npgsql.Services.Extensions;
 
 namespace NQuandl.Npgsql.Domain.Commands
 {
-    public class BulkCreateDatasetCountry : IDefineCommand
+    public class BulkCreateDatasetCountries : IDefineCommand
     {
-        public BulkCreateDatasetCountry(IObservable<DatasetCountry> datasetCountries)
+        public BulkCreateDatasetCountries(IObservable<DatasetCountry> datasetCountries)
         {
             DatasetCountries = datasetCountries;
         }
@@ -19,13 +19,13 @@ namespace NQuandl.Npgsql.Domain.Commands
         public IObservable<DatasetCountry> DatasetCountries { get; }
     }
 
-    public class HandleBulkCreateDatasetCountry : IHandleCommand<BulkCreateDatasetCountry>
+    public class HandleBulkCreateDatasetCountries : IHandleCommand<BulkCreateDatasetCountries>
     {
         private readonly IConfigureConnection _configuration;
         private readonly IMapDataRecordToEntity<DatasetCountry> _mapper;
 
 
-        public HandleBulkCreateDatasetCountry([NotNull] IConfigureConnection configuration,
+        public HandleBulkCreateDatasetCountries([NotNull] IConfigureConnection configuration,
             [NotNull] IMapDataRecordToEntity<DatasetCountry> mapper)
         {
             if (configuration == null)
@@ -39,7 +39,7 @@ namespace NQuandl.Npgsql.Domain.Commands
             _mapper = mapper;
         }
 
-        public Task Handle(BulkCreateDatasetCountry command)
+        public Task Handle(BulkCreateDatasetCountries command)
         {
             var connection = new NpgsqlConnection(_configuration.ConnectionString);
             connection.Open();
