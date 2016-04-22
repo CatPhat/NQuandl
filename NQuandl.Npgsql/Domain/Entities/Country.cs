@@ -7,19 +7,37 @@ namespace NQuandl.Npgsql.Domain.Entities
     public class Country
     {
       
-        [DbColumnInfo(1, "country_name", NpgsqlDbType.Text)]
-        public string CountryName { get; set; }
+        [DbColumnInfo(1, "name", NpgsqlDbType.Text)]
+        public string Name { get; set; }
 
-        [DbColumnInfo(2, "country_code_iso_3166_1_alpha_3", NpgsqlDbType.Text)]
-        public string CountryCodeIso31661Alpha3 { get; set; }
+        [DbColumnInfo(2, "iso31661alpha3", NpgsqlDbType.Text)]
+        public string Iso31661Alpha3 { get; set; }
 
-        [DbColumnInfo(3, "country_code_iso_3166_1_numeric", NpgsqlDbType.Integer)]
-        public int CountryCodeIso31661Numeric { get; set; }
+        [DbColumnInfo(3, "iso31661numeric", NpgsqlDbType.Integer)]
+        public int Iso31661Numeric { get; set; }
 
-        [DbColumnInfo(4, "country_code_iso_3166_1_alpha_2", NpgsqlDbType.Text)]
-        public string CountryCodeIso31661Alpha2 { get; set; }
+        [DbColumnInfo(4, "iso31661alpha2", NpgsqlDbType.Text)]
+        public string Iso31661Alpha2 { get; set; }
 
         [DbColumnInfo(5, "country_flag_url", NpgsqlDbType.Text)]
         public string CountryFlagUrl { get; set; }
+
+        [DbColumnInfo(5, "altname", NpgsqlDbType.Text)]
+        public string AltName { get; set; }
+
+        [DbColumnInfo(5, "iso4217_currency_alphabetic_code", NpgsqlDbType.Text)]
+        public string Iso4217CurrencyAlphabeticCode { get; set; }
+
+        [DbColumnInfo(5, "iso4217_country_name", NpgsqlDbType.Text)]
+        public string Iso4217CountryName { get; set; }
+
+        [DbColumnInfo(5, "iso4217_minor_units", NpgsqlDbType.Integer)]
+        public int Iso4217MinorUnits { get; set; }
+
+        [DbColumnInfo(5, "iso4217_currency_name", NpgsqlDbType.Text)]
+        public string Iso4217CurrencyName { get; set; }
+
+        [DbColumnInfo(5, "iso4217_currency_numeric_code", NpgsqlDbType.Integer)]
+        public int Iso4217CurrencyNumericCode { get; set; }
     }
 }

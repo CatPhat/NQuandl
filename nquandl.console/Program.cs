@@ -34,7 +34,7 @@ namespace nquandl.console
     {
         public IObservable<Country> GetCountryObservable(string filePath)
         {
-         
+
             return Observable.Create<Country>(async obs =>
             {
                 var wikiCountries = await new GetWikiCountriesFromJsonFile().GetWikiCountries(filePath);
@@ -43,17 +43,17 @@ namespace nquandl.console
                 {
                     var country = new Country
                     {
-                        CountryName = binding.countryLabel.value,
-                        CountryCodeIso31661Alpha2 = binding.country_code_iso_3166_1_alpha_2.value,
-                        CountryCodeIso31661Alpha3 = binding.country_code_iso_3166_1_alpha_3.value,
-                        CountryCodeIso31661Numeric = int.Parse(binding.country_code_iso_3166_1_numeric.value),
-                        CountryFlagUrl = binding.flag_image.value
+                        Name = binding.countryLabel.value,
+                        Iso31661Alpha2 = binding.country_code_iso_3166_1_alpha_2.value,
+                        Iso31661Alpha3 = binding.country_code_iso_3166_1_alpha_3.value,
+                        Iso31661Numeric = int.Parse(binding.country_code_iso_3166_1_numeric.value),
+                        CountryFlagUrl = binding.flag_imageImage.value
                     };
                     obs.OnNext(country);
 
                 }
             });
-        } 
+        }
 
         public async Task<WikiCountries> GetWikiCountries(string filePath)
         {
@@ -92,18 +92,11 @@ namespace nquandl.console
 
     public class Binding
     {
-        public Countrylabel countryLabel { get; set; }
         public Country_Code_Iso_3166_1_Alpha_3 country_code_iso_3166_1_alpha_3 { get; set; }
         public Country_Code_Iso_3166_1_Numeric country_code_iso_3166_1_numeric { get; set; }
         public Country_Code_Iso_3166_1_Alpha_2 country_code_iso_3166_1_alpha_2 { get; set; }
-        public Flag_Image flag_image { get; set; }
-    }
-
-    public class Countrylabel
-    {
-        public string xmllang { get; set; }
-        public string type { get; set; }
-        public string value { get; set; }
+        public Flag_Imageimage flag_imageImage { get; set; }
+        public Countrylabel countryLabel { get; set; }
     }
 
     public class Country_Code_Iso_3166_1_Alpha_3
@@ -124,11 +117,19 @@ namespace nquandl.console
         public string value { get; set; }
     }
 
-    public class Flag_Image
+    public class Flag_Imageimage
     {
         public string type { get; set; }
         public string value { get; set; }
     }
+
+    public class Countrylabel
+    {
+        public string xmllang { get; set; }
+        public string type { get; set; }
+        public string value { get; set; }
+    }
+
 
 
     public static class DeserializeAndConvertDataAndMetadataToDataset

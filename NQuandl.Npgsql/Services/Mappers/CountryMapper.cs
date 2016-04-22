@@ -11,20 +11,38 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return new Country
             {
-              
-                CountryName = 
+                Name =
                     record.GetStringOrDefault(
-                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryName))),
-                CountryCodeIso31661Alpha3 = 
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Name))),
+                Iso31661Alpha3 =
                     record.GetStringOrDefault(
-                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryCodeIso31661Alpha3))),
-                CountryCodeIso31661Alpha2 = 
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso31661Alpha3))),
+                Iso31661Alpha2 =
                     record.GetStringOrDefault(
-                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryCodeIso31661Alpha2))),
-                CountryCodeIso31661Numeric = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryCodeIso31661Numeric))),
-                CountryFlagUrl = 
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso31661Alpha2))),
+                Iso31661Numeric =
+                    record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso31661Numeric))),
+                CountryFlagUrl =
                     record.GetStringOrDefault(
-                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryFlagUrl)))
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryFlagUrl))),
+                AltName =
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.AltName))),
+                Iso4217CurrencyAlphabeticCode =
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CurrencyAlphabeticCode))),
+                Iso4217CountryName =
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CountryName))),
+                Iso4217MinorUnits =
+                    record.GetInt32(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217MinorUnits))),
+                Iso4217CurrencyName =
+                    record.GetStringOrDefault(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CurrencyName))),
+                Iso4217CurrencyNumericCode =
+                    record.GetInt32(
+                        AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CurrencyNumericCode)))
             };
         }
     }

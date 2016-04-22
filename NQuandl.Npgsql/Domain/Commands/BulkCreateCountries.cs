@@ -52,20 +52,36 @@ namespace NQuandl.Npgsql.Domain.Commands
             {
                 writer.StartRow();
 
-                var code = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryName);
-                writer.Write(country.CountryName, code.DbType);
+                var code = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Name);
+                writer.Write(country.Name, code.DbType);
 
-                var databaseCode = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryCodeIso31661Alpha3);
-                writer.Write(country.CountryCodeIso31661Alpha3, databaseCode.DbType);
+                var databaseCode = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso31661Alpha3);
+                writer.Write(country.Iso31661Alpha3, databaseCode.DbType);
 
-                var databaseId = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryCodeIso31661Numeric);
-                writer.Write(country.CountryCodeIso31661Numeric, databaseId.DbType);
+                var databaseId = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso31661Numeric);
+                writer.Write(country.Iso31661Numeric, databaseId.DbType);
 
-                var description = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryCodeIso31661Alpha2);
-                writer.Write(country.CountryCodeIso31661Alpha2, description.DbType);
+                var description = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso31661Alpha2);
+                writer.Write(country.Iso31661Alpha2, description.DbType);
 
-                var endDate = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryFlagUrl);
-                writer.Write(country.CountryFlagUrl, endDate.DbType);
+                var countryFlagUrl = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryFlagUrl);
+                writer.Write(country.CountryFlagUrl, countryFlagUrl.DbType);
+
+                var altName = _mapper.GetDbColumnInfoAttributeByProperty(x => x.AltName);
+                writer.Write(country.CountryFlagUrl, altName.DbType);
+
+                var iso4217CountryName = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso4217CountryName);
+                writer.Write(country.Iso4217CountryName, iso4217CountryName.DbType);
+
+                var iso4217MinorUnits = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso4217MinorUnits);
+                writer.Write(country.Iso4217MinorUnits, iso4217MinorUnits.DbType);
+
+                var iso4217CurrencyName = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso4217CurrencyName);
+                writer.Write(country.Iso4217CurrencyName, iso4217CurrencyName.DbType);
+
+                var iso4217CurrencyNumericCode = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso4217CurrencyNumericCode);
+                writer.Write(country.CountryFlagUrl, iso4217CurrencyNumericCode.DbType);
+                
             },
                 onCompleted: () => DisposeConnectionAndWrite(connection, writer),
                 onError:
