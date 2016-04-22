@@ -18,6 +18,11 @@ namespace NQuandl.Npgsql.Services.Extensions
             return mapper.AttributeMetadata.GetColumnNames();
         }
 
+        public static string GetColumnNamesWithoutId<TEntity>(this IMapDataRecordToEntity<TEntity> mapper)
+        {
+            return mapper.AttributeMetadata.GetColumnNamesWithoutId();
+        }
+
         public static string GetColumnNameByPropertyName<TEntity>(this IMapDataRecordToEntity<TEntity> mapper,
             Expression<Func<TEntity, object>> entityExpression)
         {

@@ -34,5 +34,12 @@ namespace NQuandl.Npgsql.Services.Extensions
         {
             return string.Join(",", attributeMetadata.PropertyNameAttributeDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
         }
+
+        public static string GetColumnNamesWithoutId(this DbEntityAttributeMetadata attributeMetadata)
+        {
+            var properyNameDictionary = attributeMetadata.PropertyNameAttributeDictionary;
+            properyNameDictionary.Remove("Id");
+            return string.Join(",", properyNameDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
+        }
     }
 }
