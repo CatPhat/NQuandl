@@ -52,8 +52,8 @@ namespace NQuandl.Npgsql.Domain.Commands
             {
                 writer.StartRow();
 
-                var code = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Name);
-                writer.Write(country.Name, code.DbType);
+                var name = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Name);
+                writer.Write(country.Name, name.DbType);
 
                 var databaseCode = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso31661Alpha3);
                 writer.Write(country.Iso31661Alpha3, databaseCode.DbType);
@@ -66,6 +66,9 @@ namespace NQuandl.Npgsql.Domain.Commands
 
                 var countryFlagUrl = _mapper.GetDbColumnInfoAttributeByProperty(x => x.CountryFlagUrl);
                 writer.Write(country.CountryFlagUrl, countryFlagUrl.DbType);
+
+                var iso4217CurrencyAlphabeticCode = _mapper.GetDbColumnInfoAttributeByProperty(x => x.Iso4217CurrencyAlphabeticCode);
+                writer.Write(country.Iso4217CurrencyAlphabeticCode, iso4217CurrencyAlphabeticCode.DbType);
 
                 var altName = _mapper.GetDbColumnInfoAttributeByProperty(x => x.AltName);
                 writer.Write(country.CountryFlagUrl, altName.DbType);
