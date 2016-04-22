@@ -48,7 +48,7 @@ namespace NQuandl.Npgsql.Domain.Queries
             queryString.Append($"select {_mapper.GetColumnNames()} " +
                                $"from {_mapper.GetTableName()} " +
                                $"where {_mapper.GetColumnNameByPropertyName(dataset => dataset.Description)} " +
-                               $"like '% {query.QueryString} %'" +
+                               $"like '% {query.QueryString} %' " +
                                $"order by {query.OrderBy} ");
 
 
@@ -59,7 +59,7 @@ namespace NQuandl.Npgsql.Domain.Queries
 
             if (query.Offset.HasValue)
             {
-                queryString.Append($"offset {query.Offset.Value}");
+                queryString.Append($" offset {query.Offset.Value}");
             }
 
             var result = _sql.ExecuteQueryAsync(queryString.ToString());
