@@ -47,7 +47,7 @@ namespace NQuandl.Npgsql.Domain.Queries
             var queryString = new StringBuilder();
             queryString.Append($"select {_mapper.GetColumnNames()} " +
                                $"from {_mapper.GetTableName()} " +
-                               $"where {_mapper.GetColumnNameByPropertyName(dataset => dataset.DatabaseCode)} " +
+                               $"where {_mapper.GetColumnNameByPropertyName(dataset => dataset.Description)} " +
                                $"like '% {query.QueryString} %'" +
                                $"order by {query.OrderBy} ");
 

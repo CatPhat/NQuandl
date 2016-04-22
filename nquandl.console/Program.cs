@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
@@ -18,17 +20,45 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
 
-            var observable =
-                new GetWikiCountriesFromJsonFile().GetCountryObservable(
-                    @"C:\Users\USER9\Documents\quandl_data\wiki_country_query.json");
 
-            var command = new BulkCreateCountries(observable);
-            command.ExecuteCommand().Wait();
 
+            new GetResultsFromDatasetByDescriptionContains().GetAndPrint().Wait();
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
     }
+
+    public class GetResultsFromDatasetByDescriptionContains
+    {
+        public async Task<IEnumerable<Dataset>> GetDatasets(string queryString)
+        {
+            var query = new DatasetsByDescriptionContains(queryString);
+            var result = query.ExecuteQuery();
+            var results = await result.ToList();
+
+            return results;
+        }
+
+        public void PrintResults(IEnumerable<Dataset> results)
+        {
+
+            var count = 0;
+            foreach (var dataset in results)
+            {
+                NonBlockingConsole.WriteLine(dataset.Description);
+                count = count + 1;
+
+            }
+            NonBlockingConsole.WriteLine("Count: " + count);
+        }
+
+        public async Task GetAndPrint()
+        {
+            var results =  await GetDatasets("US");
+            PrintResults(results);
+        }
+    }
+
 
     public class GetWikiCountriesFromJsonFile
     {
