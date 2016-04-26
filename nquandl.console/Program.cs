@@ -35,7 +35,8 @@ namespace nquandl.console
     {
         public async Task Get(string databaseCode)
         {
-            var datasetList =  await new RequestDatabaseDatasetListBy(databaseCode).ExecuteRequest();
+            var request = new RequestDatabaseDatasetListBy(databaseCode) {ApiKey = "ABC123"};
+            var datasetList = await request.ExecuteRequest();
             foreach (var csvDatabaseDataset in datasetList.Datasets)
             {
                 NonBlockingConsole.WriteLine(csvDatabaseDataset.DatasetCode);

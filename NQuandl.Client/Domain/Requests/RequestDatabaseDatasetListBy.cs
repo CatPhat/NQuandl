@@ -39,7 +39,7 @@ namespace NQuandl.Client.Domain.Requests
             return new QuandlClientRequestParameters
             {
                 PathSegment = $"{ApiVersion}/databases/{DatabaseCode}/codes",
-                QueryParameters = new Dictionary<string, string>()
+                QueryParameters = this.ToRequestParameterDictionary()
             }.ToUri();
         }
     }

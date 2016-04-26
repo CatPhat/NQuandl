@@ -23,6 +23,16 @@ namespace NQuandl.Client.Api.Quandl.Helpers
         }
 
 
+        public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseDatasetListBy query)
+        {
+            if (query == null) throw new ArgumentNullException(nameof(query));
+
+            var parameters = new List<RequestParameter>();
+
+            return parameters.ToDictionary(query.ApiKey);
+
+        }
+
         public static Dictionary<string, string> ToRequestParameterDictionary(this RequestDatabaseListBy query)
         {
             if (query == null) throw new ArgumentNullException(nameof(query));
