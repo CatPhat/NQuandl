@@ -11,7 +11,7 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return new DatabaseDataset
             {
-                Id = record.GetInt32OrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.Id))),
+                Id = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.Id))),
                 DatabaseCode =
                     record.GetStringOrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(DatabaseDataset.DatabaseCode))),

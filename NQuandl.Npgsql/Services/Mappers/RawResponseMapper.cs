@@ -12,7 +12,7 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return new RawResponse
             {
-                Id = record.GetInt32OrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(RawResponse.Id))),
+                Id = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(RawResponse.Id))),
                 CreationDate =
                     record.GetDateTime(AttributeMetadata.GetColumnIndexByPropertName(nameof(RawResponse.CreationDate))),
                 RequestUri =

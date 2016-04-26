@@ -11,12 +11,12 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return new Database
             {
-                Id = record.GetInt32OrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Database.Id))),
+                Id = record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Database.Id))),
                 DatabaseCode =
                     record.GetStringOrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Database.DatabaseCode))),
                 DatasetsCount =
-                    record.GetInt32OrDefault(
+                    record.GetInt32(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Database.DatasetsCount))),
                 Description =
                     record.GetStringOrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Database.Description))),

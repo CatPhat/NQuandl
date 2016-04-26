@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using NQuandl.Client.Api.Quandl;
@@ -63,22 +64,54 @@ namespace NQuandl.Client.Domain.Requests
         {
             var quandlResponse = await _client.GetStreamAsync(query.ToUri());
 
-            
-            var zipArchive = new ZipArchive(quandlResponse.ContentStream, ZipArchiveMode.Read);
-          
-             var csvFile = new StreamReader(zipArchive.Entries[0].Open());
 
-           // var datasets = GetCsvRows(csvFile);
-   
+            var zipArchive = new ZipArchive(quandlResponse.ContentStream, ZipArchiveMode.Read);
+
+            var csvFile = new StreamReader(zipArchive.Entries[0].Open());
+
+            var datasets = await GetCsvDatabaseDatasetsAsync(csvFile).ToList();
+
             var databaseDatasetList = new CsvResultDatabaseDatasetList
             {
                 QuandlClientResponseInfo = quandlResponse.QuandlClientResponseInfo,
-                Datasets = csvFile
+                Datasets = datasets
             };
 
             return databaseDatasetList;
         }
-       
-      
+
+        private IObservable<CsvDatabaseDataset> GetCsvDatabaseDatasetsAsync(StreamReader csvFile)
+        {
+            return Observable.Create<CsvDatabaseDataset>(async obs =>
+            {
+                using (csvFile)
+                {
+                    string line;
+                    while ((line = await csvFile.ReadLineAsync()) != null)
+                    {
+                        var csvDatabaseDataset = ParseCsvDatabaseDataset(line);
+
+                        obs.OnNext(csvDatabaseDataset);
+                    }
+                    obs.OnCompleted();
+                }
+            });
+        }
+
+        private static CsvDatabaseDataset ParseCsvDatabaseDataset(string csvLine)
+        {
+            var commaIndex = csvLine.IndexOf(",", StringComparison.Ordinal);
+            var quandlCode = csvLine.Substring(0, commaIndex);
+            var splitQuandlCode = quandlCode.Split('/');
+            var description = csvLine.Substring(commaIndex + 1);
+
+            return new CsvDatabaseDataset
+            {
+                QuandlCode = quandlCode,
+                DatasetDescription = description,
+                DatabaseCode = splitQuandlCode[0],
+                DatasetCode = splitQuandlCode[1]
+            };
+        }
     }
 }

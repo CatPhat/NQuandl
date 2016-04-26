@@ -9,16 +9,16 @@ using NQuandl.Npgsql.Services.Extensions;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
-    public class CountriesBy : PagedResult, IDefineQuery<IObservable<Database>> {}
+    public class CountriesBy : PagedResult, IDefineQuery<IObservable<Country>> {}
 
     public class HandleCountriesBy :
-        IHandleQuery<CountriesBy, IObservable<Database>>
+        IHandleQuery<CountriesBy, IObservable<Country>>
     {
-        private readonly IMapDataRecordToEntity<Database> _mapper;
+        private readonly IMapDataRecordToEntity<Country> _mapper;
         private readonly IExecuteRawSql _sql;
 
         public HandleCountriesBy([NotNull] IExecuteRawSql sql,
-            [NotNull] IMapDataRecordToEntity<Database> mapper)
+            [NotNull] IMapDataRecordToEntity<Country> mapper)
         {
             if (sql == null)
                 throw new ArgumentNullException(nameof(sql));
@@ -28,11 +28,11 @@ namespace NQuandl.Npgsql.Domain.Queries
             _mapper = mapper;
         }
 
-        public IObservable<Database> Handle(CountriesBy query)
+        public IObservable<Country> Handle(CountriesBy query)
         {
             if (string.IsNullOrEmpty(query.OrderBy))
             {
-                query.OrderBy = _mapper.GetColumnNameByPropertyName(dataset => dataset.DatabaseCode);
+                query.OrderBy = _mapper.GetColumnNameByPropertyName(dataset => dataset.Name);
             }
 
             var queryString = new StringBuilder();
@@ -52,7 +52,7 @@ namespace NQuandl.Npgsql.Domain.Queries
 
             var result = _sql.ExecuteQueryAsync(queryString.ToString());
 
-            return Observable.Create<Database>(
+            return Observable.Create<Country>(
                 obs => result.Subscribe(
                     record => obs.OnNext(_mapper.ToEntity(record)),
                     onCompleted: obs.OnCompleted,

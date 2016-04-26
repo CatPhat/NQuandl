@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using NQuandl.Client.Api.Quandl.Helpers;
+using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Client.Services.Logger;
 using NQuandl.Npgsql.Domain.Commands;
@@ -20,11 +21,38 @@ namespace nquandl.console
         public static void Main(string[] args)
         {
 
+            //var countries = new CountriesBy().ExecuteQuery();
+            //countries.Subscribe((country => NonBlockingConsole.WriteLine(country.Name)));
 
-
-            new GetResultsFromDatasetByDescriptionContains().GetAndPrint().Wait();
+            var allDatasets = new DownloadAllDatasetsByDatabase().Get("ODA");
+            allDatasets.Wait();
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
+        }
+    }
+
+    public class DownloadAllDatasetsByDatabase
+    {
+        public async Task Get(string databaseCode)
+        {
+            var datasetList =  await new RequestDatabaseDatasetListBy(databaseCode).ExecuteRequest();
+            foreach (var csvDatabaseDataset in datasetList.Datasets)
+            {
+                NonBlockingConsole.WriteLine(csvDatabaseDataset.DatasetCode);
+            }
+        }
+    }
+
+    public class GetAllDatasetCountries
+    {
+        public async Task Get()
+        {
+            var countries = new CountriesBy().ExecuteQuery();
+
+            var task = countries.Subscribe(
+                async country => await new GetResultsFromDatasetByDescriptionContains().CreateDatasetCountries(country.Iso4217CountryName, country.Iso31661Alpha3), onError: exception => { throw new Exception(exception.Message); });
+
+           
         }
     }
 
@@ -50,6 +78,37 @@ namespace nquandl.console
 
             }
             NonBlockingConsole.WriteLine("Count: " + count);
+        }
+
+        public void CreateDatasetCountriesByAllCountries()
+        {
+            var countries = new CountriesBy().ExecuteQuery();
+
+            countries.Subscribe(
+                async country => await CreateDatasetCountries(country.Iso31661Alpha2, country.Iso31661Alpha3), onError: exception => {throw new Exception(exception.Message);});
+
+        }
+
+        public async Task CreateDatasetCountries(string queryString, string iso3166Alpha3)
+        {
+           
+           
+            var query = new DatasetsByDescriptionContains(queryString);
+            var result = query.ExecuteQuery();
+
+            var observable = Observable.Create<DatasetCountry>(
+                obs => result.Subscribe(
+                    record => obs.OnNext(new DatasetCountry
+                    {
+                        Association = queryString,
+                        DatasetId = record.Id,
+                        Iso31661Alpha3 = iso3166Alpha3
+                    }),
+                    onCompleted: obs.OnCompleted,
+                    onError: exception => { throw new Exception(exception.Message); }));
+
+            var command = new BulkCreateDatasetCountries(observable);
+            await command.ExecuteCommand();
         }
 
         public async Task GetAndPrint()

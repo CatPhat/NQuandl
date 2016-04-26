@@ -4,7 +4,7 @@ namespace NQuandl.Npgsql.Services
 {
     public sealed class PostgresConnection : IConfigureConnection
     {
-        public string ConnectionString => "Host=192.168.43.191;" +
+        public string ConnectionString => "Host=192.168.1.3;" +
                                           "Username=postgres;" +
                                           "Password=postgres;" +
                                           "Database=nquandl;" +

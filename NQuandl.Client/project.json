@@ -25,10 +25,12 @@
     "Newtonsoft.Json": "8.0.2",
     "Flurl": "1.0.10",
     "Flurl.Http": "0.7.0",
-   
+
     "Microsoft.Framework.Configuration": "1.0.0-beta8",
     "Microsoft.Framework.Configuration.Json": "1.0.0-beta8",
-    "Microsoft.Tpl.Dataflow": "4.5.24"
+    "Microsoft.Tpl.Dataflow": "4.5.24",
+    "Rx-Core": "2.3.0-beta2",
+    "Rx-Main": "2.3.0-beta2"
 
   }
 }

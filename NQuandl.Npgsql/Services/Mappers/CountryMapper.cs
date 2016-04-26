@@ -21,7 +21,7 @@ namespace NQuandl.Npgsql.Services.Mappers
                     record.GetStringOrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso31661Alpha2))),
                 Iso31661Numeric =
-                    record.GetInt32(AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso31661Numeric))),
+                    record.GetInt32OrDefault(AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso31661Numeric))),
                 CountryFlagUrl =
                     record.GetStringOrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.CountryFlagUrl))),
@@ -35,13 +35,13 @@ namespace NQuandl.Npgsql.Services.Mappers
                     record.GetStringOrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CountryName))),
                 Iso4217MinorUnits =
-                    record.GetInt32(
+                    record.GetInt32OrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217MinorUnits))),
                 Iso4217CurrencyName =
                     record.GetStringOrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CurrencyName))),
                 Iso4217CurrencyNumericCode =
-                    record.GetInt32(
+                    record.GetInt32OrDefault(
                         AttributeMetadata.GetColumnIndexByPropertName(nameof(Country.Iso4217CurrencyNumericCode)))
             };
         }
