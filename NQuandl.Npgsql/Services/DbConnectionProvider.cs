@@ -1,22 +1,22 @@
-﻿using System;
+using System;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
 
 namespace NQuandl.Npgsql.Services
 {
-    public sealed class ConnectionFactory : IConstructConnection
+    public class DbConnectionProvider : IProvideConnection
     {
         private readonly IConfigureConnection _configuration;
 
-        public ConnectionFactory([NotNull] IConfigureConnection configuration)
+        public DbConnectionProvider([NotNull] IConfigureConnection configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
             _configuration = configuration;
         }
 
-        public NpgsqlConnection ConstructConnection()
+        public NpgsqlConnection CreateConnection()
         {
             return new NpgsqlConnection(_configuration.ConnectionString);
         }

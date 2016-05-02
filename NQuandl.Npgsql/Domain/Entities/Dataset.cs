@@ -1,15 +1,16 @@
 ﻿using System;
 using Newtonsoft.Json.Linq;
 using NpgsqlTypes;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("datasets")]
-    public class Dataset
+    public class Dataset : DbEntityWithSerialId
     {
         [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [DbColumnInfo(1, "code", NpgsqlDbType.Text)]
         public string Code { get; set; }

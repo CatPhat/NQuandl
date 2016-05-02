@@ -15,7 +15,7 @@ namespace NQuandl.Npgsql.SimpleInjector
         {
             if (mapperAssemblies == null || !mapperAssemblies.Any())
             {
-                mapperAssemblies = new[] { typeof(IMapDataRecordToEntity<>).Assembly };
+                mapperAssemblies = new[] { typeof(IMapDataRecordToEntity).Assembly };
             }
             MapperAssemblies = mapperAssemblies;
         }
@@ -25,10 +25,10 @@ namespace NQuandl.Npgsql.SimpleInjector
         //todo move configuration to Package constuctor
         public void RegisterServices(Container container)
         {
-            container.RegisterSingleton<IConfigureConnection, PostgresConnection>();
+            container.RegisterSingleton<IConfigureConnection, ConnectionConfiguration>();
             container.Register<IExecuteRawSql, ExecuteRawSql>();
             
-            container.Register(typeof(IMapDataRecordToEntity<>), MapperAssemblies);
+            container.Register(typeof(IMapDataRecordToEntity), MapperAssemblies);
 
         }
     }

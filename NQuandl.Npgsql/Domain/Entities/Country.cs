@@ -1,10 +1,11 @@
 ﻿using NpgsqlTypes;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("countries")]
-    public class Country
+    public class Country : DbEntity
     {
       
         [DbColumnInfo(0, "name", NpgsqlDbType.Text)]

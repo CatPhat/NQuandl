@@ -1,13 +1,14 @@
 ﻿using NpgsqlTypes;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("dataset_countries")]
-    public class DatasetCountry
+    public class DatasetCountry : DbEntityWithSerialId
     {
         [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [DbColumnInfo(1, "dataset_id", NpgsqlDbType.Integer)]
         public int DatasetId { get; set; }

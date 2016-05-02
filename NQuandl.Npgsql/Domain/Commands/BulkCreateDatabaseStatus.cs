@@ -1,7 +1,4 @@
 ﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Reactive.Linq;
 //using System.Threading.Tasks;
 //using JetBrains.Annotations;
 //using Npgsql;
@@ -12,40 +9,48 @@
 
 //namespace NQuandl.Npgsql.Domain.Commands
 //{
-//    public class BulkCreateDatabases : IDefineCommand
+//    public class BulkCreateDatabaseStatuses : IDefineCommand
 //    {
-//        public IObservable<Database> Databases { get; private set; }
-
-//        public BulkCreateDatabases([NotNull] IObservable<Database> databases)
+//        public BulkCreateDatabaseStatuses(IObservable<DatabaseStatus> databaseStatuses)
 //        {
-//            if (databases == null)
-//                throw new ArgumentNullException(nameof(databases));
-//            Databases = databases;
+//            DatabaseStatuses = databaseStatuses;
 //        }
+
+//        public IObservable<DatabaseStatus> DatabaseStatuses { get; }
 //    }
 
-//    public class HandleBulkCreateDatabases : IHandleCommand<BulkCreateDatabases>
+//    public class HandleBulkCreateDatabaseStatus : IHandleCommand<BulkCreateDatabaseStatuses>
 //    {
 //        private readonly IConfigureConnection _configuration;
-//        private readonly IMapDataRecordToEntity<Database> _mapper;
+//        private readonly IMapDataRecordToEntity<DatabaseStatus> _mapper;
 
 
-//        public HandleBulkCreateDatabases([NotNull] IConfigureConnection configuration,
-//            [NotNull] IMapDataRecordToEntity<Database> mapper)
+//        public HandleBulkCreateDatabaseStatus([NotNull] IConfigureConnection configuration,
+//            [NotNull] IMapDataRecordToEntity<DatabaseStatus> mapper)
 //        {
 //            if (configuration == null)
 //                throw new ArgumentNullException(nameof(configuration));
+
 //            if (mapper == null)
 //                throw new ArgumentNullException(nameof(mapper));
+
+
 //            _configuration = configuration;
 //            _mapper = mapper;
 //        }
 
-//        public Task Handle(BulkCreateDatabases command)
+//        public Task Handle(BulkCreateDatabaseStatuses command)
 //        {
-           
+//            var connection = new NpgsqlConnection(_configuration.ConnectionString);
+//            connection.Open();
+//            var writer =
+//                connection.BeginBinaryImport("SQL STATEMENT GOES HEREE!!!!");
 
-             
+//            command.DatabaseStatuses.Subscribe(DatabaseStatus =>
+//            {
+//                writer.StartRow();
+
+                
 //            },
 //                onCompleted: () => DisposeConnectionAndWrite(connection, writer),
 //                onError:

@@ -1,14 +1,15 @@
 ﻿using System;
 using NpgsqlTypes;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("raw_responses")]
-    public class RawResponse
+    public class RawResponse : DbEntityWithSerialId
     {
         [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [DbColumnInfo(1, "creation_date", NpgsqlDbType.Date)]
         public DateTime CreationDate { get; set; }

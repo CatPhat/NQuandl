@@ -1,13 +1,14 @@
 ﻿using NpgsqlTypes;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("databases")]
-    public class Database
+    public class Database : DbEntityWithSerialId
     {
         [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [DbColumnInfo(1, "database_code", NpgsqlDbType.Text)]
         public string DatabaseCode { get; set; }

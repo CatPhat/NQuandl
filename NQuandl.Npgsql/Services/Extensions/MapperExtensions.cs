@@ -6,47 +6,38 @@ using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Services.Extensions
 {
-    public static class MapperExtensions
-    {
-        public static string GetTableName<TEntity>(this IMapDataRecordToEntity<TEntity> mapper)
-        {
-            return mapper.AttributeMetadata.TableName;
-        }
+    //public static class MapperExtensions
+    //{
+    //    public static string GetTableName<TEntity>(this IMapDataRecordToEntity<TEntity> mapper)
+    //    {
+    //        return mapper.Metadata.TableName;
+    //    }
 
-        public static string GetColumnNames<TEntity>(this IMapDataRecordToEntity<TEntity> mapper)
-        {
-            return mapper.AttributeMetadata.GetColumnNames();
-        }
 
-        public static string GetColumnNamesWithoutId<TEntity>(this IMapDataRecordToEntity<TEntity> mapper)
-        {
-            return mapper.AttributeMetadata.GetColumnNamesWithoutId();
-        }
+    //    public static string GetColumnNameByPropertyName<TEntity>(this IMapDataRecordToEntity<TEntity> mapper,
+    //        Expression<Func<TEntity, object>> entityExpression)
+    //    {
+    //        var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
+    //        return mapper.Metadata.GetColumnNameByPropertyName(name);
+    //    }
 
-        public static string GetColumnNameByPropertyName<TEntity>(this IMapDataRecordToEntity<TEntity> mapper,
-            Expression<Func<TEntity, object>> entityExpression)
-        {
-            var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
-            return mapper.AttributeMetadata.GetColumnNameByPropertyName(name);
-        }
+    //    public static NpgsqlParameter GetNpgsqlParameterByProperty<TEntity>(
+    //        this IMapDataRecordToEntity<TEntity> mapper, Expression<Func<TEntity, object>> entityExpression,
+    //        object parameterValue)
+    //    {
+    //        var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
+    //        var columnName = mapper.Metadata.GetColumnNameByPropertyName(name);
+    //        var dbType = mapper.Metadata.GetNpgsqlDbTypeByPropertyName(name);
+    //        return new NpgsqlParameter(columnName, dbType) {Value = parameterValue};
+    //    }
 
-        public static NpgsqlParameter GetNpgsqlParameterByProperty<TEntity>(
-            this IMapDataRecordToEntity<TEntity> mapper, Expression<Func<TEntity, object>> entityExpression,
-            object parameterValue)
-        {
-            var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
-            var columnName = mapper.AttributeMetadata.GetColumnNameByPropertyName(name);
-            var dbType = mapper.AttributeMetadata.GetNpgsqlDbTypeByPropertyName(name);
-            return new NpgsqlParameter(columnName, dbType) {Value = parameterValue};
-        }
-
-        public static DbColumnInfoAttribute GetDbColumnInfoAttributeByProperty<TEntity>(
-            this IMapDataRecordToEntity<TEntity> mapper, Expression<Func<TEntity, object>> entityExpression)
-        {
-            var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
-            return mapper.AttributeMetadata.GetColumnInfoAttributeByPropertyName(name);
-        }
-    }
+    //    public static DbEntityPropertyMetadata GetDbColumnInfoAttributeByProperty<TEntity>(
+    //        this IMapDataRecordToEntity<TEntity> mapper, Expression<Func<TEntity, object>> entityExpression)
+    //    {
+    //        var name = ReflectionExtensions<TEntity>.GetPropertyNameFromPropertyExpression(entityExpression);
+    //        return mapper.Metadata.GetColumnInfoAttributeByPropertyName(name);
+    //    }
+    //}
 
     public static class ReflectionExtensions<TEntity>
     {

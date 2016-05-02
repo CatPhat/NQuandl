@@ -1,45 +1,35 @@
-﻿using System.Linq;
-using NpgsqlTypes;
-using NQuandl.Npgsql.Services.Helpers;
+﻿//using System.Linq;
+//using NpgsqlTypes;
+//using NQuandl.Npgsql.Services.Helpers;
 
-namespace NQuandl.Npgsql.Services.Extensions
-{
-    public static class DbAttributeExtensions
-    {
-        public static int GetColumnIndexByPropertName(this DbEntityAttributeMetadata attributeMetadata,
-            string propertName)
-        {
-            return attributeMetadata.GetColumnInfoAttributeByPropertyName(propertName).ColumnIndex;
-        }
+//namespace NQuandl.Npgsql.Services.Extensions
+//{
+//    public static class DbAttributeExtensions
+//    {
+//        public static int GetColumnIndexByPropertName(this DbEntityMetadata metadata,
+//            string propertName)
+//        {
+//            return metadata.GetColumnInfoAttributeByPropertyName(propertName).ColumnIndex;
+//        }
 
-        public static DbColumnInfoAttribute GetColumnInfoAttributeByPropertyName(
-            this DbEntityAttributeMetadata attributeMetadata, string propertyName)
-        {
-            return attributeMetadata.PropertyNameAttributeDictionary[propertyName];
-        }
+//        public static DbEntityPropertyMetadata GetColumnInfoAttributeByPropertyName(
+//            this DbEntityMetadata metadata, string propertyName)
+//        {
+//            return metadata.PropertyNameDbMetadata[propertyName];
+//        }
 
-        public static string GetColumnNameByPropertyName(this DbEntityAttributeMetadata attributeMetadata,
-            string propertyName)
-        {
-            return attributeMetadata.PropertyNameAttributeDictionary[propertyName].ColumnName;
-        }
+//        public static string GetColumnNameByPropertyName(this DbEntityMetadata metadata,
+//            string propertyName)
+//        {
+//            return metadata.PropertyNameDbMetadata[propertyName].ColumnName;
+//        }
 
-        public static NpgsqlDbType GetNpgsqlDbTypeByPropertyName(this DbEntityAttributeMetadata attributeMetadata,
-            string propertyName)
-        {
-            return attributeMetadata.PropertyNameAttributeDictionary[propertyName].DbType;
-        }
+//        public static NpgsqlDbType GetNpgsqlDbTypeByPropertyName(this DbEntityMetadata metadata,
+//            string propertyName)
+//        {
+//            return metadata.PropertyNameDbMetadata[propertyName].DbType;
+//        }
 
-        public static string GetColumnNames(this DbEntityAttributeMetadata attributeMetadata)
-        {
-            return string.Join(",", attributeMetadata.PropertyNameAttributeDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
-        }
-
-        public static string GetColumnNamesWithoutId(this DbEntityAttributeMetadata attributeMetadata)
-        {
-            var properyNameDictionary = attributeMetadata.PropertyNameAttributeDictionary;
-            properyNameDictionary.Remove("Id");
-            return string.Join(",", properyNameDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
-        }
-    }
-}
+      
+//    }
+//}
