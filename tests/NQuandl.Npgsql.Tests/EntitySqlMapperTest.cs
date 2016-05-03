@@ -17,8 +17,7 @@ namespace NQuandl.Npgsql.Tests
         [Fact]
         public void EntityBulkMapSqlStatementTest()
         {
-            var metadataProvider = new EntityMetadataProvider<MockDbEntity>();
-            var metadata = new EntityMetadata<MockDbEntity>(metadataProvider);
+            var metadata = new EntityMetadata<MockDbEntity>();
             var sql = new EntitySqlMapper<MockDbEntity>(metadata);
 
             var statement = sql.BulkInsertSql();
@@ -28,8 +27,7 @@ namespace NQuandl.Npgsql.Tests
         [Fact]
         public void EntitySelectMapSqlStatementTest()
         {
-            var metadataProvider = new EntityMetadataProvider<Country>();
-            var metadata = new EntityMetadata<Country>(metadataProvider);
+            var metadata = new EntityMetadata<Country>();
             var sql = new EntitySqlMapper<Country>(metadata);
 
             var query = new EntitiesReaderQuery<Country>

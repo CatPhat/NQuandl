@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Services.Transactions;
@@ -20,13 +21,17 @@ namespace NQuandl.Npgsql.Services.Mappers
         private readonly string _columnNamesWithoutId;
 
 
-        public EntitySqlMapper(IEntityMetadata<TEntity> entityMetadata)
+        public EntitySqlMapper([NotNull] IEntityMetadata<TEntity> entityMetadata)
         {
+            if (entityMetadata == null)
+                throw new ArgumentNullException(nameof(entityMetadata));
             _entityMetadata = entityMetadata;
-            _bulkInsertSql = GetBulkInsertSql();
 
             _columnNames = GetColumnNames();
             _columnNamesWithoutId = GetColumnNamesWithoutId();
+            _bulkInsertSql = GetBulkInsertSql();
+
+
 
         }
 
@@ -42,12 +47,12 @@ namespace NQuandl.Npgsql.Services.Mappers
                 : _columnNames;
 
             return
-                $"COPY {_entityMetadata.TableName} ({columnNames}) FROM STDIN (FORMAT BINARY)";
+                $"COPY {_entityMetadata.GetTableName()} ({columnNames}) FROM STDIN (FORMAT BINARY)";
         }
 
         public string GetSelectSqlBy(EntitiesReaderQuery<TEntity> query)
         {
-            var queryString = new StringBuilder($"SELECT {_columnNames} FROM {_entityMetadata.TableName}");
+            var queryString = new StringBuilder($"SELECT {_columnNames} FROM {_entityMetadata.GetTableName()}");
             
             if (query.Column != null)
             {
@@ -80,14 +85,14 @@ namespace NQuandl.Npgsql.Services.Mappers
         private string GetColumnNames()
         {
             return string.Join(",",
-                _entityMetadata.PropertyNameDbMetadataDictionary
+                _entityMetadata.GetProperyNameDbMetadata()
                     .OrderBy(y => y.Value.ColumnIndex)
                     .Select(x => x.Value.ColumnName));
         }
 
         private string GetColumnNamesWithoutId()
         {
-            var properyNameDictionary = _entityMetadata.PropertyNameDbMetadataDictionary;
+            var properyNameDictionary = _entityMetadata.GetProperyNameDbMetadata();
             properyNameDictionary.Remove("Id");
             return string.Join(",",
                 properyNameDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));

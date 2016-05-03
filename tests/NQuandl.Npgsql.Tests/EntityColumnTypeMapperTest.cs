@@ -25,8 +25,7 @@ namespace NQuandl.Npgsql.Tests
             datarecord.Setup(x => x.IsDBNull(1)).Returns(false);
             datarecord.Setup(x => x.IsDBNull(2)).Returns(false);
 
-            var metadataProvider = new EntityMetadataProvider<MockDbEntity>();
-            var metadata = new EntityMetadata<MockDbEntity>(metadataProvider);
+            var metadata = new EntityMetadata<MockDbEntity>();
             var mapper = new EntityColumnTypeMapper<MockDbEntity>(metadata);
             var entity = mapper.ToEntity(datarecord.Object);
 

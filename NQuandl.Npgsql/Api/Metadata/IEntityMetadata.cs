@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using NQuandl.Npgsql.Api.Entities;
@@ -8,11 +8,9 @@ namespace NQuandl.Npgsql.Api.Metadata
 {
     public interface IEntityMetadata<TEntity> where TEntity : DbEntity
     {
-        string TableName { get; }
-        Dictionary<string, DbEntityPropertyMetadata> PropertyNameDbMetadataDictionary { get; }
+        Dictionary<string, DbEntityPropertyMetadata> GetProperyNameDbMetadata();
         TEntity GetEntityValueByPropertyName(TEntity entityWithData, string propertyName);
-
-
         string GetColumnNameBy(Expression<Func<TEntity, object>> expression);
+        string GetTableName();
     }
 }

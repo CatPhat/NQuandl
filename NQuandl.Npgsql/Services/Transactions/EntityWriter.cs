@@ -52,7 +52,7 @@ namespace NQuandl.Npgsql.Services.Transactions
         {
             foreach (
                 var keyValue in
-                    _metadata.PropertyNameDbMetadataDictionary.OrderBy(x => x.Value.ColumnIndex))
+                    _metadata.GetProperyNameDbMetadata().OrderBy(x => x.Value.ColumnIndex))
             {
                 var data = _metadata.GetEntityValueByPropertyName(entityWithData, keyValue.Key);
                 if (data == null)
