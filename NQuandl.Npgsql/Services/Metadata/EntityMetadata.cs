@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Services.Helpers;
@@ -28,9 +29,13 @@ namespace NQuandl.Npgsql.Services.Metadata
               new  object[] { });
         }
 
-       
+        public string GetColumnNameBy(Expression<Func<TEntity, object>> expression)
+        {
+            var expressionDetail = ExpressionDetail.Create(expression);
+           
+            return _metadata.GetProperyNameDbMetadata()[expressionDetail.Name].ColumnName;
+        }
 
-        public Dictionary<Expression<Func<TEntity, object>>, DbEntityPropertyMetadata> FuncPropertyMetadatas
-            => _metadata.GetEntityPropertyMetadatas();
+      
     }
 }

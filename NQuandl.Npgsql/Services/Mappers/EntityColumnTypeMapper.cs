@@ -21,7 +21,7 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             var entity = (TEntity) Activator.CreateInstance(typeof (TEntity), new object[] {});
 
-            foreach (var dbEntityPropertyMetadata in _metadata.FuncPropertyMetadatas)
+            foreach (var dbEntityPropertyMetadata in _metadata.PropertyNameDbMetadataDictionary)
             {
                 var entityProperty = dbEntityPropertyMetadata.Value.PropertyInfo;
                 var recordValue = record[dbEntityPropertyMetadata.Value.ColumnIndex];

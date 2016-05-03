@@ -16,14 +16,18 @@ namespace NQuandl.Npgsql.Services.Mappers
     {
         private readonly string _bulkInsertSql;
         private readonly IEntityMetadata<TEntity> _entityMetadata;
- 
+        private readonly string _columnNames;
+        private readonly string _columnNamesWithoutId;
 
 
         public EntitySqlMapper(IEntityMetadata<TEntity> entityMetadata)
         {
             _entityMetadata = entityMetadata;
             _bulkInsertSql = GetBulkInsertSql();
-           
+
+            _columnNames = GetColumnNames();
+            _columnNamesWithoutId = GetColumnNamesWithoutId();
+
         }
 
         public string BulkInsertSql()
@@ -33,9 +37,9 @@ namespace NQuandl.Npgsql.Services.Mappers
 
         private string GetBulkInsertSql()
         {
-            var columnNames = typeof (TEntity).GetGenericTypeDefinition() == typeof (DbEntityWithSerialId)
-                ? GetColumnNamesWithoutId()
-                : GetColumnNames();
+            var columnNames = typeof(TEntity).BaseType == typeof(DbEntityWithSerialId)
+                ? _columnNamesWithoutId
+                : _columnNames;
 
             return
                 $"COPY {_entityMetadata.TableName} ({columnNames}) FROM STDIN (FORMAT BINARY)";
@@ -43,26 +47,26 @@ namespace NQuandl.Npgsql.Services.Mappers
 
         public string GetSelectSqlBy(EntitiesReaderQuery<TEntity> query)
         {
-            var queryString = new StringBuilder($"SELECT {_entityMetadata.TableName} FROM {_entityMetadata.TableName} ");
-
+            var queryString = new StringBuilder($"SELECT {_columnNames} FROM {_entityMetadata.TableName}");
+            
             if (query.Column != null)
             {
-                queryString.Append($" WHERE {_entityMetadata.FuncPropertyMetadatas[query.Column].ColumnName} = ");
                 if (!query.QueryByInt.HasValue && string.IsNullOrEmpty(query.QueryByString))
                 {
                     throw new Exception("missing value for where clause.");
                 }
-                queryString.Append(query.QueryByInt.HasValue ? $"{query.QueryByInt.Value} " : $"{query.QueryByString} ");
+                var whereValue = query.QueryByInt.HasValue ? $"{query.QueryByInt.Value}" : $"'{query.QueryByString}'";
+                queryString.Append($" WHERE {_entityMetadata.GetColumnNameBy(query.Column)} = {whereValue}");
             }
 
             if (query.OrderBy != null)
             {
-                queryString.Append($" ORDER BY {_entityMetadata.FuncPropertyMetadatas[query.OrderBy].ColumnName}");
+                queryString.Append($" ORDER BY {_entityMetadata.GetColumnNameBy(query.OrderBy)}");
             }
 
             if (query.Limit.HasValue)
             {
-                queryString.Append($" LIMIT {query.Limit.Value} ");
+                queryString.Append($" LIMIT {query.Limit.Value}");
             }
 
             if (query.Offset.HasValue)

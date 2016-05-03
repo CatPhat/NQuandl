@@ -2,7 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using NQuandl.Client.Api.Transactions;
 using NQuandl.Client.SimpleInjector.Extensions;
-using NQuandl.PostgresEF7.Api.Transactions;
+using NQuandl.Npgsql.Api.Transactions;
+
 using SimpleInjector;
 using SimpleInjector.Extensions.ExecutionContextScoping;
 using SimpleInjector.Packaging;

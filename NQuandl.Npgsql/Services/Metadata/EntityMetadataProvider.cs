@@ -12,7 +12,7 @@ namespace NQuandl.Npgsql.Services.Metadata
     public class EntityMetadataProvider<TEntity> : IProvideEntityMetadata<TEntity> where TEntity : DbEntity
     {
         private readonly Dictionary<string, DbEntityPropertyMetadata> _propertyNameDbMetadata;
-        private readonly Dictionary<Expression<Func<TEntity, object>>, DbEntityPropertyMetadata> _funcToPropertyNameDictionary;
+    
         private readonly string _tableName;
         private readonly Type _type;
 
@@ -21,7 +21,7 @@ namespace NQuandl.Npgsql.Services.Metadata
             _type = typeof (TEntity);
             _tableName = GetTableName();
             _propertyNameDbMetadata = GetMetadataDictionary();
-            _funcToPropertyNameDictionary = GetFuncToPropertyNameDictionary();
+        
         }
 
         public Dictionary<string, DbEntityPropertyMetadata> GetProperyNameDbMetadata()
@@ -29,11 +29,7 @@ namespace NQuandl.Npgsql.Services.Metadata
             return _propertyNameDbMetadata;
         }
 
-        public Dictionary<Expression<Func<TEntity, object>>, DbEntityPropertyMetadata> GetEntityPropertyMetadatas()
-        {
-            return _funcToPropertyNameDictionary;
-        }
-
+      
 
         string IProvideEntityMetadata<TEntity>.GetTableName()
         {
@@ -55,13 +51,31 @@ namespace NQuandl.Npgsql.Services.Metadata
             return tableName;
         }
 
-        private Dictionary<Expression<Func<TEntity, object>>, DbEntityPropertyMetadata> GetFuncToPropertyNameDictionary()
-        {
-            var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        //private Dictionary<Expression, DbEntityPropertyMetadata> GetFuncToPropertyNameDictionary()
+        //{
+        //    var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        //    var dictionary = new Dictionary<Expression, DbEntityPropertyMetadata>();
 
-           return properties.ToDictionary<PropertyInfo, Expression<Func<TEntity, object>>, DbEntityPropertyMetadata>(propertyInfo => (entity => propertyInfo), propertyInfo => _propertyNameDbMetadata[propertyInfo.Name]);
-        }
-    
+        
+
+        //    foreach (var propertyInfo in properties)
+        //    {
+                
+            
+        //        var parameter = Expression.Parameter(_type, _type.Name);
+        //        var property = Expression.Property(parameter, propertyInfo);
+
+        //        var funcType = typeof(Func<,>).MakeGenericType(_type, propertyInfo.PropertyType);
+        //        var lambda =  Expression.Lambda(funcType, property, parameter);
+        //        //var expression = Expression.Lambda<Func<TEntity, object>>();
+
+        //        dictionary.Add(lambda, _propertyNameDbMetadata[propertyInfo.Name]);
+        //    }
+        //    return dictionary;
+        //}
+
+   
+
         private Dictionary<string, DbEntityPropertyMetadata> GetMetadataDictionary()
         {
             var typeProperties = _type.GetProperties();
