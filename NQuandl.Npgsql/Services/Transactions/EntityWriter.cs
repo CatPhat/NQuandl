@@ -8,37 +8,35 @@ using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
-using NQuandl.Npgsql.Services.Mappers;
 
 namespace NQuandl.Npgsql.Services.Transactions
 {
     public class EntityWriter<TEntity> : IWriteEntities<TEntity> where TEntity : DbEntity
     {
-        private readonly IProvideConnection _connection;
+        private readonly IExecuteRawSql _db;
         private readonly IEntityMetadata<TEntity> _metadata;
         private readonly IEntitySqlMapper<TEntity> _sql;
 
 
         public EntityWriter([NotNull] IEntitySqlMapper<TEntity> sql, [NotNull] IEntityMetadata<TEntity> metadata,
-            [NotNull] IProvideConnection connection)
+            [NotNull] IExecuteRawSql db
+            )
         {
             if (sql == null)
                 throw new ArgumentNullException(nameof(sql));
-
-
             if (metadata == null)
                 throw new ArgumentNullException(nameof(metadata));
-            if (connection == null)
-                throw new ArgumentNullException(nameof(connection));
-            _sql = sql;
+            if (db == null)
+                throw new ArgumentNullException(nameof(db));
 
+            _sql = sql;
             _metadata = metadata;
-            _connection = connection;
+            _db = db;
         }
 
         public async Task BulkWriteEntities(IObservable<TEntity> entities)
         {
-            using (var importer = GetBulkImporter(_sql.BulkInsertSql()))
+            using (var importer = _db.GetBulkImporter(_sql.BulkInsertSql()))
             {
                 await entities.ForEachAsync(entity =>
                 {
@@ -61,12 +59,6 @@ namespace NQuandl.Npgsql.Services.Transactions
 
                 importer.Write(data, keyValue.Value.DbType);
             }
-        }
-
-        private NpgsqlBinaryImporter GetBulkImporter(string sqlStatement)
-        {
-            var connection = _connection.CreateConnection();
-            return connection.BeginBinaryImport(sqlStatement);
         }
     }
 }

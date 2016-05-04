@@ -10,6 +10,7 @@ namespace NQuandl.Npgsql.Api
     {
         IEnumerable<IDataRecord> ExecuteQuery(string query);
         IObservable<IDataRecord> ExecuteQueryAsync(string query);
+        NpgsqlBinaryImporter GetBulkImporter(string sqlStatement);
         Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters);
     }
 }

@@ -60,8 +60,13 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
-        
-      
+        //todo seems wrong - lifetime should be handled by this class
+        public NpgsqlBinaryImporter GetBulkImporter(string sqlStatement)
+        {
+            var connection = new NpgsqlConnection(_configuration.ConnectionString);
+            return connection.BeginBinaryImport(sqlStatement);
+        }
+
         public async Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters)
         {
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
