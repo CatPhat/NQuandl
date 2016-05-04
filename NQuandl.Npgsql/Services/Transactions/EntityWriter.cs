@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -18,10 +16,8 @@ namespace NQuandl.Npgsql.Services.Transactions
         private readonly IEntityMetadata<TEntity> _metadata;
         private readonly IEntitySqlMapper<TEntity> _sql;
 
-
         public EntityWriter([NotNull] IEntitySqlMapper<TEntity> sql, [NotNull] IEntityMetadata<TEntity> metadata,
-            [NotNull] IExecuteRawSql db
-            )
+            [NotNull] IExecuteRawSql db)
         {
             if (sql == null)
                 throw new ArgumentNullException(nameof(sql));
@@ -48,7 +44,8 @@ namespace NQuandl.Npgsql.Services.Transactions
 
         private IObservable<BulkImportData> GetBulkImportData(TEntity entityWithData)
         {
-            return (from keyValue in _metadata.GetProperyNameDbMetadata().OrderBy(x => x.Value.ColumnIndex)
+            return (from keyValue in _metadata.GetProperyNameDbMetadata()
+                .OrderBy(x => x.Value.ColumnIndex)
                 let data = _metadata.GetEntityValueByPropertyName(entityWithData, keyValue.Key)
                 where data != null
                 select new BulkImportData
