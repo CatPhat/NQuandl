@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -28,10 +29,27 @@ namespace NQuandl.Npgsql.Services.Metadata
             return _propertyNameDbMetadata;
         }
 
-        public TEntity GetEntityValueByPropertyName(TEntity entityWithData, string propertyName)
+        public object GetEntityValueByPropertyName(TEntity entityWithData, string propertyName)
         {
-            return (TEntity)_propertyNameDbMetadata[propertyName].PropertyInfo.GetValue(entityWithData,
+            return _propertyNameDbMetadata[propertyName].PropertyInfo.GetValue(entityWithData,
               new object[] { });
+        }
+
+        public TEntity CreatEntity(IDataRecord record)
+        {
+            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { });
+            var metadata = _propertyNameDbMetadata;
+            foreach (var dbEntityPropertyMetadata in metadata)
+            {
+                var entityProperty = dbEntityPropertyMetadata.Value.PropertyInfo;
+                var recordValue = record[dbEntityPropertyMetadata.Value.ColumnIndex];
+                if (recordValue != DBNull.Value)
+                {
+                    entityProperty.SetValue(entity, recordValue);
+                }
+            }
+
+            return entity;
         }
 
         public string GetColumnNameBy(Expression<Func<TEntity, object>> expression)

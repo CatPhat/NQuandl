@@ -4,19 +4,16 @@ using System.Text;
 using JetBrains.Annotations;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
+using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
-    public interface IEntitySqlMapper<TEntity> where TEntity : DbEntity
-    {
-        string BulkInsertSql();
-    }
-
     public class EntitySqlMapper<TEntity> : IEntitySqlMapper<TEntity> where TEntity : DbEntity
     {
         private readonly string _bulkInsertSql;
         private readonly IEntityMetadata<TEntity> _entityMetadata;
+
         private readonly string _columnNames;
         private readonly string _columnNamesWithoutId;
 
@@ -25,14 +22,13 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             if (entityMetadata == null)
                 throw new ArgumentNullException(nameof(entityMetadata));
+         
             _entityMetadata = entityMetadata;
+        
 
             _columnNames = GetColumnNames();
             _columnNamesWithoutId = GetColumnNamesWithoutId();
             _bulkInsertSql = GetBulkInsertSql();
-
-
-
         }
 
         public string BulkInsertSql()

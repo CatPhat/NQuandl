@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using NQuandl.Npgsql.Api.Entities;
 
-namespace NQuandl.Npgsql.Services.Transactions
+namespace NQuandl.Npgsql.Api.Transactions
 {
     public interface IWriteEntities<in TEntity> where TEntity : DbEntity
     {

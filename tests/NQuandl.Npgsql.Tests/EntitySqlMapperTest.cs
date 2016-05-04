@@ -42,5 +42,7 @@ namespace NQuandl.Npgsql.Tests
             Assert.Equal(statement, "SELECT name,iso31661alpha3,iso31661numeric,iso31661alpha2,country_flag_url,altname,iso4217_currency_alphabetic_code,iso4217_country_name,iso4217_minor_units,iso4217_currency_name,iso4217_currency_numeric_code FROM countries WHERE iso31661alpha3 = 'USA' ORDER BY iso31661alpha3 LIMIT 10");
         }
 
+       
+
     }
 }
