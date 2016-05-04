@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace NQuandl.Npgsql.Services.Transactions
+namespace NQuandl.Npgsql.Domain.Queries
 {
     public class EntitiesReaderQuery<TEntity>
     {

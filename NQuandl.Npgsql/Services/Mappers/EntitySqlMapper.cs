@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers
