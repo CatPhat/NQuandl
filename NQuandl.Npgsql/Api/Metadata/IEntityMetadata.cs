@@ -11,7 +11,7 @@ namespace NQuandl.Npgsql.Api.Metadata
     {
         Dictionary<string, DbEntityPropertyMetadata> GetProperyNameDbMetadata();
         object GetEntityValueByPropertyName(TEntity entityWithData, string propertyName);
-        TEntity CreatEntity(IDataRecord record);
+        TEntity CreateEntity(IDataRecord record);
         string GetColumnNameBy(Expression<Func<TEntity, object>> expression);
         string GetTableName();
     }

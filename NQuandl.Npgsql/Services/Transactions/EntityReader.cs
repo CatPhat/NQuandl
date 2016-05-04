@@ -43,7 +43,7 @@ namespace NQuandl.Npgsql.Services.Transactions
         public async Task<TEntity> GetAsync(EntitiesReaderQuery<TEntity> query)
         {
             var result = await GetRecords(query).FirstOrDefaultAsync();
-            return _metadata.CreatEntity(result);
+            return _metadata.CreateEntity(result);
         }
 
 
@@ -53,7 +53,7 @@ namespace NQuandl.Npgsql.Services.Transactions
 
             return Observable.Create<TEntity>(
                 obs => result.Subscribe(
-                    record => obs.OnNext(_metadata.CreatEntity(record)), onCompleted: obs.OnCompleted, onError:
+                    record => obs.OnNext(_metadata.CreateEntity(record)), onCompleted: obs.OnCompleted, onError:
                         exception => { throw new Exception(exception.Message); }));
         }
 

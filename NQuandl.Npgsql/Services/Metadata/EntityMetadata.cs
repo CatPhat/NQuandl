@@ -35,7 +35,7 @@ namespace NQuandl.Npgsql.Services.Metadata
               new object[] { });
         }
 
-        public TEntity CreatEntity(IDataRecord record)
+        public TEntity CreateEntity(IDataRecord record)
         {
             var entity = (TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { });
             var metadata = _propertyNameDbMetadata;
