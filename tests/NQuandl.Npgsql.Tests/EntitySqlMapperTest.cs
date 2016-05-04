@@ -30,12 +30,10 @@ namespace NQuandl.Npgsql.Tests
             var metadata = new EntityMetadata<Country>();
             var sql = new EntitySqlMapper<Country>(metadata);
 
-            var query = new EntitiesReaderQuery<Country>
+            var query = new EntitiesReaderQuery<Country>(country => country.Iso31661Alpha3, "USA")
             {
-                Column = x => x.Iso31661Alpha3,
                 Limit = 10,
-                OrderBy = x => x.Iso31661Alpha3,
-                QueryByString = "USA"
+                OrderBy = x => x.Iso31661Alpha3
             };
             var statement = sql.GetSelectSqlBy(query);
        
