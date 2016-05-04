@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
+using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services
 {
@@ -60,12 +61,25 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
-        //todo seems wrong - lifetime should be handled by this class
-        public NpgsqlBinaryImporter GetBulkImporter(string sqlStatement)
+        public async Task BulkWriteData(string sqlStatement, IObservable<IObservable<BulkImportData>> dataObservable)
         {
-            var connection = new NpgsqlConnection(_configuration.ConnectionString);
-            return connection.BeginBinaryImport(sqlStatement);
+            using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
+            using (var importer = connection.BeginBinaryImport(sqlStatement))
+            {
+                await dataObservable.ForEachAsync(async importData =>
+                {
+                    importer.StartRow();
+                    await importData.ForEachAsync(bulkImportData =>
+                    {
+                        importer.Write(bulkImportData, bulkImportData.DbType);
+                    });
+                });
+                importer.Close();
+            }
         }
+
+
+     
 
         public async Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters)
         {

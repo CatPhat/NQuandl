@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
@@ -36,29 +37,25 @@ namespace NQuandl.Npgsql.Services.Transactions
 
         public async Task BulkWriteEntities(IObservable<TEntity> entities)
         {
-            using (var importer = _db.GetBulkImporter(_sql.BulkInsertSql()))
-            {
-                await entities.ForEachAsync(entity =>
-                {
-                    importer.StartRow();
-                    WriteByObjectParametersIfNotNull(importer, entity);
-                });
-                importer.Close();
-            }
+            await _db.BulkWriteData(_sql.BulkInsertSql(), GetBulkImportDatas(entities));
         }
 
-        private void WriteByObjectParametersIfNotNull(NpgsqlBinaryImporter importer, TEntity entityWithData)
+        private IObservable<IObservable<BulkImportData>> GetBulkImportDatas(IObservable<TEntity> entities)
         {
-            foreach (
-                var keyValue in
-                    _metadata.GetProperyNameDbMetadata().OrderBy(x => x.Value.ColumnIndex))
-            {
-                var data = _metadata.GetEntityValueByPropertyName(entityWithData, keyValue.Key);
-                if (data == null)
-                    continue;
+            return Observable.Create<IObservable<BulkImportData>>(observer =>
+                entities.Subscribe(entity => observer.OnNext(GetBulkImportData(entity))));
+        }
 
-                importer.Write(data, keyValue.Value.DbType);
-            }
+        private IObservable<BulkImportData> GetBulkImportData(TEntity entityWithData)
+        {
+            return (from keyValue in _metadata.GetProperyNameDbMetadata().OrderBy(x => x.Value.ColumnIndex)
+                let data = _metadata.GetEntityValueByPropertyName(entityWithData, keyValue.Key)
+                where data != null
+                select new BulkImportData
+                {
+                    Data = data,
+                    DbType = keyValue.Value.DbType
+                }).ToObservable();
         }
     }
 }

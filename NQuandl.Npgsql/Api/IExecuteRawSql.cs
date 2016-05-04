@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Npgsql;
+using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Api
 {
@@ -10,7 +11,7 @@ namespace NQuandl.Npgsql.Api
     {
         IEnumerable<IDataRecord> ExecuteQuery(string query);
         IObservable<IDataRecord> ExecuteQueryAsync(string query);
-        NpgsqlBinaryImporter GetBulkImporter(string sqlStatement);
+        Task BulkWriteData(string sqlStatement, IObservable<IObservable<BulkImportData>> dataObservable);
         Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters);
     }
 }
