@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -36,13 +37,15 @@ namespace NQuandl.Npgsql.Services.Transactions
             await _db.BulkWriteData(_sql.BulkInsertSql(), GetBulkImportDatas(entities));
         }
 
-        private IObservable<IObservable<BulkImportData>> GetBulkImportDatas(IObservable<TEntity> entities)
+        private IObservable<IEnumerable<BulkImportData>> GetBulkImportDatas(IObservable<TEntity> entities)
         {
-            return Observable.Create<IObservable<BulkImportData>>(observer =>
-                entities.Subscribe(entity => observer.OnNext(GetBulkImportData(entity))));
+            return Observable.Create<IEnumerable<BulkImportData>>(observer =>
+                entities.Subscribe(entity => observer.OnNext(GetBulkImportData(entity)), 
+                onCompleted: observer.OnCompleted, 
+                onError: ex => {throw new Exception(ex.Message);}));
         }
 
-        private IObservable<BulkImportData> GetBulkImportData(TEntity entityWithData)
+        private IEnumerable<BulkImportData> GetBulkImportData(TEntity entityWithData)
         {
             return (from keyValue in _metadata.GetProperyNameDbMetadata()
                 .OrderBy(x => x.Value.ColumnIndex)
@@ -52,7 +55,7 @@ namespace NQuandl.Npgsql.Services.Transactions
                 {
                     Data = data,
                     DbType = keyValue.Value.DbType
-                }).ToObservable();
+                });
         }
     }
 }

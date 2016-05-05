@@ -61,18 +61,18 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
-        public async Task BulkWriteData(string sqlStatement, IObservable<IObservable<BulkImportData>> dataObservable)
+        public async Task BulkWriteData(string sqlStatement, IObservable<IEnumerable<BulkImportData>> dataObservable)
         {
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var importer = connection.BeginBinaryImport(sqlStatement))
             {
-                await dataObservable.ForEachAsync(async importData =>
+                await dataObservable.ForEachAsync(importData =>
                 {
                     importer.StartRow();
-                    await importData.ForEachAsync(bulkImportData =>
+                    foreach (var bulkImportData in importData)
                     {
                         importer.Write(bulkImportData, bulkImportData.DbType);
-                    });
+                    }
                 });
                 importer.Close();
             }

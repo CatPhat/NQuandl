@@ -11,7 +11,7 @@ namespace NQuandl.Npgsql.Api
     {
         IEnumerable<IDataRecord> ExecuteQuery(string query);
         IObservable<IDataRecord> ExecuteQueryAsync(string query);
-        Task BulkWriteData(string sqlStatement, IObservable<IObservable<BulkImportData>> dataObservable);
+        Task BulkWriteData(string sqlStatement, IObservable<IEnumerable<BulkImportData>> dataObservable);
         Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters);
     }
 }
