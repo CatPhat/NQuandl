@@ -7,7 +7,7 @@ using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Api
 {
-    public interface IExecuteRawSql
+    public interface IDb
     {
         IEnumerable<IDataRecord> ExecuteQuery(string query);
         IObservable<IDataRecord> ExecuteQueryAsync(string query);

@@ -27,7 +27,7 @@ namespace NQuandl.Npgsql.SimpleInjector
         public void RegisterServices(Container container)
         {
             container.RegisterSingleton<IConfigureConnection, ConnectionConfiguration>();
-            container.Register<IExecuteRawSql, ExecuteRawSql>();
+            container.Register<IDb, Db>();
             
             container.Register(typeof(IMapDataRecordToEntity), MapperAssemblies);
 

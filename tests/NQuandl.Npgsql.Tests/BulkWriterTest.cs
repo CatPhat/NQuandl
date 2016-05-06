@@ -17,7 +17,7 @@ namespace NQuandl.Npgsql.Tests
         public async void BulkWriteEntitiesTest()
         {
             var sqlMapper = new EntitySqlMapper<MockDbEntity>(new EntityMetadata<MockDbEntity>());
-            var mockdb = new MockExecuteRawSql();
+            var mockdb = new MockDb();
             var entityWriter = new EntityWriter<MockDbEntity>(sqlMapper, mockdb);
 
             var mockDbEntites = new List<MockDbEntity>();

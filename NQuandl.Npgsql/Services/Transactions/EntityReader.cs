@@ -14,13 +14,13 @@ namespace NQuandl.Npgsql.Services.Transactions
 {
     public class EntityReader<TEntity> : IReadEntities<TEntity> where TEntity : DbEntity
     {
-        private readonly IExecuteRawSql _db;
+        private readonly IDb _db;
         private readonly IEntityMetadata<TEntity> _metadata;
         private readonly IEntitySqlMapper<TEntity> _sql;
 
 
         public EntityReader([NotNull] IEntitySqlMapper<TEntity> sql, [NotNull] IEntityMetadata<TEntity> metadata,
-            [NotNull] IExecuteRawSql db)
+            [NotNull] IDb db)
         {
             if (sql == null)
                 throw new ArgumentNullException(nameof(sql));

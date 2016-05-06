@@ -10,12 +10,12 @@ using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services
 {
-    public class ExecuteRawSql : IExecuteRawSql
+    public class Db : IDb
     {
         private readonly IConfigureConnection _configuration;
 
 
-        public ExecuteRawSql([NotNull] IConfigureConnection configuration)
+        public Db([NotNull] IConfigureConnection configuration)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));

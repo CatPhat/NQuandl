@@ -9,9 +9,9 @@ using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Tests.Mocks
 {
-    public class MockExecuteRawSql : IExecuteRawSql
+    public class MockDb : IDb
     {
-        public MockExecuteRawSql()
+        public MockDb()
         {
             ImportedData = new List<MockBulkImportOrder>();
             CurrentColumnIndex = 0;

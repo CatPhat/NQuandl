@@ -14,10 +14,10 @@ namespace NQuandl.Npgsql.Services.Transactions
 {
     public class EntityWriter<TEntity> : IWriteEntities<TEntity> where TEntity : DbEntity
     {
-        private readonly IExecuteRawSql _db;
+        private readonly IDb _db;
         private readonly IEntitySqlMapper<TEntity> _sql;
 
-        public EntityWriter([NotNull] IEntitySqlMapper<TEntity> sql, [NotNull] IExecuteRawSql db)
+        public EntityWriter([NotNull] IEntitySqlMapper<TEntity> sql, [NotNull] IDb db)
         {
             if (sql == null)
                 throw new ArgumentNullException(nameof(sql));
