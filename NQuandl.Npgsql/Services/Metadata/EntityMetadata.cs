@@ -79,19 +79,7 @@ namespace NQuandl.Npgsql.Services.Metadata
             return tableName;
         }
 
-        public List<DbData> GetDbDatas(TEntity entity)
-        {
-            return (from keyValue in _propertyNameDbMetadata.OrderBy(x => x.Value.ColumnIndex)
-                let data = GetEntityValueByPropertyName(entity, keyValue.Key)
-                select new DbData
-                {
-                    Data = data,
-                    DbType = keyValue.Value.DbType,
-                    ColumnName = keyValue.Value.ColumnName,
-                    ColumnIndex = keyValue.Value.ColumnIndex,
-                    IsNullable = keyValue.Value.IsNullable
-                }).ToList();
-        }
+
 
 
         //private Dictionary<Expression, DbEntityPropertyMetadata> GetFuncToPropertyNameDictionary()

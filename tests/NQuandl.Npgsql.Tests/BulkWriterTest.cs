@@ -18,9 +18,7 @@ namespace NQuandl.Npgsql.Tests
         {
             var sqlMapper = new EntitySqlMapper<MockDbEntity>(new EntityMetadata<MockDbEntity>());
             var mockdb = new MockExecuteRawSql();
-            var entityWriter = new EntityWriter<MockDbEntity>(sqlMapper,
-                new EntityMetadata<MockDbEntity>(), mockdb
-                );
+            var entityWriter = new EntityWriter<MockDbEntity>(sqlMapper, mockdb);
 
             var mockDbEntites = new List<MockDbEntity>();
             for (var i = 0; i < 3; i++)

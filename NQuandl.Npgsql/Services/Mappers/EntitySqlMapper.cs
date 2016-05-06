@@ -8,6 +8,7 @@ using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Queries;
+using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
@@ -80,9 +81,47 @@ namespace NQuandl.Npgsql.Services.Mappers
                 $"COPY {_entityMetadata.GetTableName()} ({columnNames}) FROM STDIN (FORMAT BINARY)";
         }
 
-      
+        public InsertData GetInsertData(TEntity entity)
+        {
+            var parameters = GetParameters(entity);
+            var insertStatement = GetInsertSql(parameters);
 
-        public string GetInsertSql(NpgsqlParameter[] parameters)
+            return new InsertData
+            {
+                Parameters = parameters,
+                SqlStatement = insertStatement
+            };
+        }
+
+        public IEnumerable<DbData> GetDbDatas(TEntity entity)
+        {
+            var orderedEnumerable = _entityMetadata.GetProperyNameDbMetadata();
+            return (from keyValue in orderedEnumerable
+                    let data = _entityMetadata.GetEntityValueByPropertyName(entity, keyValue.Key)
+                select new DbData
+                {
+                    Data = data,
+                    DbType = keyValue.Value.DbType,
+                    ColumnName = keyValue.Value.ColumnName,
+                    ColumnIndex = keyValue.Value.ColumnIndex,
+                    IsNullable = keyValue.Value.IsNullable
+                });
+        }
+
+
+        //todo am i mixing concerns with depending on NpgsqlParameters?
+        private NpgsqlParameter[] GetParameters(TEntity entity)
+        {
+            var datas = GetDbDatas(entity);
+            return datas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
+            {
+                Value = dbData.Data,
+                IsNullable = dbData.IsNullable
+            }).ToArray();
+        }
+
+
+        private string GetInsertSql(NpgsqlParameter[] parameters)
         {
             return
                 $"INSERT INTO {_entityMetadata.GetTableName()} ({string.Join(",", parameters.Select(x => x.ParameterName))}) " +
@@ -100,9 +139,8 @@ namespace NQuandl.Npgsql.Services.Mappers
         private string GetColumnNamesWithoutId()
         {
             var properyNameDictionary = _entityMetadata.GetProperyNameDbMetadata();
-            properyNameDictionary.Remove("Id");
             return string.Join(",",
-                properyNameDictionary.OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
+                properyNameDictionary.Where(x => x.Key != "Id").OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
         }
     }
 }

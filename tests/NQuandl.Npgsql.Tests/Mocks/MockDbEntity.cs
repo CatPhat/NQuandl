@@ -11,7 +11,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
         [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
         public int Id { get; set; }
 
-        [DbColumnInfo(1, "name", NpgsqlDbType.Text)]
+        [DbColumnInfo(1, "name", NpgsqlDbType.Text, true)]
         public string Name { get; set; }
 
         [DbColumnInfo(2, "insert_date", NpgsqlDbType.Timestamp)]
