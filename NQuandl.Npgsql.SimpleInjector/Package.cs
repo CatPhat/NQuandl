@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using NQuandl.Client.Api.Transactions;
 using NQuandl.Npgsql.Api;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services;
 using SimpleInjector;
 using SimpleInjector.Packaging;

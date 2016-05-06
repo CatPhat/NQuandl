@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace NQuandl.Npgsql.Api
+namespace NQuandl.Npgsql.Api.Entities
 {
     public interface IMapDataRecordToEntity
     {

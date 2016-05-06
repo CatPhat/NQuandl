@@ -8,7 +8,6 @@ using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
-using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Mappers;
 
 namespace NQuandl.Npgsql.Services.Transactions

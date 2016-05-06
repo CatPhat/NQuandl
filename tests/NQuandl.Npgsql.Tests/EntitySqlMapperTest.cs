@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Domain.Entities;
-using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services;
 using NQuandl.Npgsql.Services.Mappers;
 using NQuandl.Npgsql.Services.Metadata;
