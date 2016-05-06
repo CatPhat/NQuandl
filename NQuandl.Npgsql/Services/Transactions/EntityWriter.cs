@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
@@ -32,30 +33,37 @@ namespace NQuandl.Npgsql.Services.Transactions
             _db = db;
         }
 
+        public async Task WriteEntity(TEntity entity)
+        {
+            var parameters = GetParameters(entity);
+            var insertStatement = _sql.GetInsertSql(parameters);
+            await _db.ExecuteCommandAsync(insertStatement, parameters);
+        }
+
+        //todo am i mixing concerns with depending on NpgsqlParameters?
+        private NpgsqlParameter[] GetParameters(TEntity entity)
+        {
+            var datas = _metadata.GetDbDatas(entity);
+            return datas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
+            {
+                Value = dbData.Data
+            }).ToArray();
+        }
+       
+
         public async Task BulkWriteEntities(IObservable<TEntity> entities)
         {
             await _db.BulkWriteData(_sql.BulkInsertSql(), GetBulkImportDatas(entities));
         }
 
-        private IObservable<IEnumerable<BulkImportData>> GetBulkImportDatas(IObservable<TEntity> entities)
+        private IObservable<List<DbData>> GetBulkImportDatas(IObservable<TEntity> entities)
         {
-            return Observable.Create<IEnumerable<BulkImportData>>(observer =>
-                entities.Subscribe(entity => observer.OnNext(GetBulkImportData(entity)), 
+            return Observable.Create<List<DbData>>(observer =>
+                entities.Subscribe(entity => observer.OnNext(_metadata.GetDbDatas(entity)), 
                 onCompleted: observer.OnCompleted, 
                 onError: ex => {throw new Exception(ex.Message);}));
         }
 
-        private IEnumerable<BulkImportData> GetBulkImportData(TEntity entityWithData)
-        {
-            return (from keyValue in _metadata.GetProperyNameDbMetadata()
-                .OrderBy(x => x.Value.ColumnIndex)
-                let data = _metadata.GetEntityValueByPropertyName(entityWithData, keyValue.Key)
-                where data != null
-                select new BulkImportData
-                {
-                    Data = data,
-                    DbType = keyValue.Value.DbType
-                });
-        }
+
     }
 }

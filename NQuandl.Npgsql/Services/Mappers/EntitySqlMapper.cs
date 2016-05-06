@@ -1,31 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using Npgsql;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Queries;
-using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
     public class EntitySqlMapper<TEntity> : IEntitySqlMapper<TEntity> where TEntity : DbEntity
     {
         private readonly string _bulkInsertSql;
-        private readonly IEntityMetadata<TEntity> _entityMetadata;
 
         private readonly string _columnNames;
         private readonly string _columnNamesWithoutId;
+        private readonly IEntityMetadata<TEntity> _entityMetadata;
 
 
         public EntitySqlMapper([NotNull] IEntityMetadata<TEntity> entityMetadata)
         {
             if (entityMetadata == null)
                 throw new ArgumentNullException(nameof(entityMetadata));
-         
+
             _entityMetadata = entityMetadata;
-        
+
 
             _columnNames = GetColumnNames();
             _columnNamesWithoutId = GetColumnNamesWithoutId();
@@ -37,20 +38,10 @@ namespace NQuandl.Npgsql.Services.Mappers
             return _bulkInsertSql;
         }
 
-        private string GetBulkInsertSql()
-        {
-            var columnNames = typeof(TEntity).BaseType == typeof(DbEntityWithSerialId)
-                ? _columnNamesWithoutId
-                : _columnNames;
-
-            return
-                $"COPY {_entityMetadata.GetTableName()} ({columnNames}) FROM STDIN (FORMAT BINARY)";
-        }
-
         public string GetSelectSqlBy(EntitiesReaderQuery<TEntity> query)
         {
             var queryString = new StringBuilder($"SELECT {_columnNames} FROM {_entityMetadata.GetTableName()}");
-            
+
             if (query.Column != null)
             {
                 if (!query.QueryByInt.HasValue && string.IsNullOrEmpty(query.QueryByString))
@@ -77,6 +68,25 @@ namespace NQuandl.Npgsql.Services.Mappers
             }
 
             return queryString.ToString();
+        }
+
+        private string GetBulkInsertSql()
+        {
+            var columnNames = typeof(TEntity).BaseType == typeof(DbEntityWithSerialId)
+                ? _columnNamesWithoutId
+                : _columnNames;
+
+            return
+                $"COPY {_entityMetadata.GetTableName()} ({columnNames}) FROM STDIN (FORMAT BINARY)";
+        }
+
+      
+
+        public string GetInsertSql(NpgsqlParameter[] parameters)
+        {
+            return
+                $"INSERT INTO {_entityMetadata.GetTableName()} ({string.Join(",", parameters.Select(x => x.ParameterName))}) " +
+                $"VALUES ({string.Join(",", parameters.Select(x => $":{x.ParameterName}"))});";
         }
 
         private string GetColumnNames()

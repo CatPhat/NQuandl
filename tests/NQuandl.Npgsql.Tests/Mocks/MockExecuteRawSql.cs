@@ -32,7 +32,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public async Task BulkWriteData(string sqlStatement, IObservable<IEnumerable<BulkImportData>> dataObservable)
+        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbData>> dataObservable)
         {
             await dataObservable.ForEachAsync(x =>
             {
@@ -49,7 +49,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        private void AddToImportedData(BulkImportData importData)
+        private void AddToImportedData(DbData importData)
         {
             ImportedData.Add(new MockBulkImportOrder
             {

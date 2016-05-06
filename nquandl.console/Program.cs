@@ -9,7 +9,7 @@ using NQuandl.Client.Api.Quandl.Helpers;
 using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Client.Services.Logger;
-using NQuandl.Npgsql.Domain.Commands;
+
 using NQuandl.Npgsql.Domain.Entities;
 
 using NQuandl.Npgsql.Services.Extensions;

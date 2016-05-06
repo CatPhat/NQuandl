@@ -61,7 +61,7 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
-        public async Task BulkWriteData(string sqlStatement, IObservable<IEnumerable<BulkImportData>> dataObservable)
+        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbData>> dataObservable)
         {
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var importer = connection.BeginBinaryImport(sqlStatement))

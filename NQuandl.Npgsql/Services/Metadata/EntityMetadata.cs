@@ -7,6 +7,7 @@ using System.Reflection;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Services.Helpers;
+using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services.Metadata
 {
@@ -18,10 +19,9 @@ namespace NQuandl.Npgsql.Services.Metadata
 
         public EntityMetadata()
         {
-            _type = typeof (TEntity);
+            _type = typeof(TEntity);
             _tableName = GetTableNameFromAttributes();
             _propertyNameDbMetadata = GetMetadataDictionary();
-        
         }
 
         public Dictionary<string, DbEntityPropertyMetadata> GetProperyNameDbMetadata()
@@ -32,12 +32,12 @@ namespace NQuandl.Npgsql.Services.Metadata
         public object GetEntityValueByPropertyName(TEntity entityWithData, string propertyName)
         {
             return _propertyNameDbMetadata[propertyName].PropertyInfo.GetValue(entityWithData,
-              new object[] { });
+                new object[] {});
         }
 
         public TEntity CreateEntity(IDataRecord record)
         {
-            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { });
+            var entity = (TEntity) Activator.CreateInstance(typeof(TEntity), new object[] {});
             var metadata = _propertyNameDbMetadata;
             foreach (var dbEntityPropertyMetadata in metadata)
             {
@@ -79,17 +79,30 @@ namespace NQuandl.Npgsql.Services.Metadata
             return tableName;
         }
 
+        public List<DbData> GetDbDatas(TEntity entity)
+        {
+            return (from keyValue in _propertyNameDbMetadata.OrderBy(x => x.Value.ColumnIndex)
+                let data = GetEntityValueByPropertyName(entity, keyValue.Key)
+                select new DbData
+                {
+                    Data = data,
+                    DbType = keyValue.Value.DbType,
+                    ColumnName = keyValue.Value.ColumnName,
+                    ColumnIndex = keyValue.Value.ColumnIndex
+                }).ToList();
+        }
+
+
         //private Dictionary<Expression, DbEntityPropertyMetadata> GetFuncToPropertyNameDictionary()
         //{
         //    var properties = _type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
         //    var dictionary = new Dictionary<Expression, DbEntityPropertyMetadata>();
 
-        
 
         //    foreach (var propertyInfo in properties)
         //    {
-                
-            
+
+
         //        var parameter = Expression.Parameter(_type, _type.Name);
         //        var property = Expression.Property(parameter, propertyInfo);
 
@@ -102,7 +115,6 @@ namespace NQuandl.Npgsql.Services.Metadata
         //    return dictionary;
         //}
 
-   
 
         private Dictionary<string, DbEntityPropertyMetadata> GetMetadataDictionary()
         {
@@ -130,7 +142,4 @@ namespace NQuandl.Npgsql.Services.Metadata
             return dbColumnDictionary;
         }
     }
-
-
-
 }

@@ -1,6 +1,6 @@
+using Npgsql;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Domain.Queries;
-using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Api.Transactions
 {
@@ -8,5 +8,6 @@ namespace NQuandl.Npgsql.Api.Transactions
     {
         string BulkInsertSql();
         string GetSelectSqlBy(EntitiesReaderQuery<TEntity> query);
+        string GetInsertSql(NpgsqlParameter[] parameters);
     }
 }
