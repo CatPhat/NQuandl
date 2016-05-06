@@ -88,7 +88,8 @@ namespace NQuandl.Npgsql.Services.Metadata
                     Data = data,
                     DbType = keyValue.Value.DbType,
                     ColumnName = keyValue.Value.ColumnName,
-                    ColumnIndex = keyValue.Value.ColumnIndex
+                    ColumnIndex = keyValue.Value.ColumnIndex,
+                    IsNullable = keyValue.Value.IsNullable
                 }).ToList();
         }
 
@@ -130,7 +131,8 @@ namespace NQuandl.Npgsql.Services.Metadata
                 {
                     ColumnIndex = dbColumnInfoAttribute.Value.ColumnIndex,
                     DbType = dbColumnInfoAttribute.Value.DbType,
-                    ColumnName = dbColumnInfoAttribute.Value.ColumnName
+                    ColumnName = dbColumnInfoAttribute.Value.ColumnName,
+                    IsNullable = dbColumnInfoAttribute.Value.IsNullable
                 });
 
             var propertyInfos = GetPropertyInfos();

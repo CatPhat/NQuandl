@@ -9,5 +9,6 @@ namespace NQuandl.Npgsql.Services.Helpers
         public string ColumnName { get; set; }
         public NpgsqlDbType DbType { get; set; }
         public PropertyInfo PropertyInfo { get; set; }
+        public bool IsNullable { get; set; }
     }
 }

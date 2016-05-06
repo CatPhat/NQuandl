@@ -46,7 +46,8 @@ namespace NQuandl.Npgsql.Services.Transactions
             var datas = _metadata.GetDbDatas(entity);
             return datas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
             {
-                Value = dbData.Data
+                Value = dbData.Data,
+                IsNullable = dbData.IsNullable 
             }).ToArray();
         }
        
