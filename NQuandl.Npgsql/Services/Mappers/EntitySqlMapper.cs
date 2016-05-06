@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using Npgsql;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
@@ -67,22 +67,21 @@ namespace NQuandl.Npgsql.Services.Mappers
 
         public InsertData GetInsertData(TEntity entity)
         {
-            var dbData = GetDbDatas(entity).Where(x => x.IsStoreGenerated == false);
-            var parameters = GetParameters(dbData);
-            var insertStatement = GetInsertSql(parameters);
+            var dbDatas = GetDbDatas(entity, true);
+            var insertStatement = GetInsertSql(dbDatas);
             return new InsertData
             {
-                Parameters = parameters,
+                DbDatas = dbDatas,
                 SqlStatement = insertStatement
             };
         }
 
-        public IEnumerable<DbData> GetDbDatas(TEntity entity)
+        public List<DbData> GetDbDatas(TEntity entity, bool excludeIsStoreGenerated = false)
         {
             var orderedEnumerable =
                 _entityMetadata.GetProperyNameDbMetadata()
-                .OrderBy(y => y.Value.ColumnIndex);
-            return from keyValue in orderedEnumerable
+                    .OrderBy(y => y.Value.ColumnIndex);
+            var dbDatas = (from keyValue in orderedEnumerable
                 let data = _entityMetadata.GetEntityValueByPropertyName(entity, keyValue.Key)
                 select new DbData
                 {
@@ -92,10 +91,31 @@ namespace NQuandl.Npgsql.Services.Mappers
                     ColumnIndex = keyValue.Value.ColumnIndex,
                     IsNullable = keyValue.Value.IsNullable,
                     IsStoreGenerated = keyValue.Value.IsStoreGenerated
-                    
-                };
+                });
+            if (excludeIsStoreGenerated)
+            {
+                dbDatas = dbDatas.Where(x => x.IsStoreGenerated == false);
+            }
+
+            return dbDatas.ToList();
         }
 
+        public BulkInsertData GetBulkInsertData(IObservable<TEntity> entities)
+        {
+            return new BulkInsertData
+            {
+                SqlStatement = GetBulkInsertSql(),
+                DbDatasObservable = GetBulkImportDatas(entities)
+            };
+        }
+
+        private IObservable<List<DbData>> GetBulkImportDatas(IObservable<TEntity> entities)
+        {
+            return Observable.Create<List<DbData>>(observer =>
+                entities.Subscribe(entity => observer.OnNext(GetDbDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
+                onCompleted: observer.OnCompleted,
+                onError: ex => { throw new Exception(ex.Message); }));
+        }
 
         private string GetColumnNamesIfNotStoreGenerated()
         {
@@ -113,23 +133,11 @@ namespace NQuandl.Npgsql.Services.Mappers
         }
 
 
-        //todo am i mixing concerns with depending on NpgsqlParameters?
-        private NpgsqlParameter[] GetParameters(IEnumerable<DbData> dbDatas)
-        {
-            return dbDatas
-            .Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
-            {
-                Value = dbData.Data,
-                IsNullable = dbData.IsNullable
-            }).ToArray();
-        }
-
-
-        private string GetInsertSql(NpgsqlParameter[] parameters)
+        private string GetInsertSql(List<DbData> dbDatas)
         {
             return
-                $"INSERT INTO {_entityMetadata.GetTableName()} ({string.Join(",", parameters.Select(x => x.ParameterName))}) " +
-                $"VALUES ({string.Join(",", parameters.Select(x => $":{x.ParameterName}"))});";
+                $"INSERT INTO {_entityMetadata.GetTableName()} ({string.Join(",", dbDatas.Select(x => x.ColumnName))}) " +
+                $"VALUES ({string.Join(",", dbDatas.Select(x => $":{x.ColumnName}"))});";
         }
 
         private string GetColumnNames()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -81,8 +82,9 @@ namespace NQuandl.Npgsql.Services
 
      
 
-        public async Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters)
+        public async Task ExecuteCommandAsync(string command, IEnumerable<DbData> dbDatas)
         {
+            var parameters = GetParameters(dbDatas);
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var cmd = new NpgsqlCommand(command, connection))
             {
@@ -92,7 +94,15 @@ namespace NQuandl.Npgsql.Services
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Connection.Close();
             }
-          
+        }
+
+        private NpgsqlParameter[] GetParameters(IEnumerable<DbData> dbDatas)
+        {
+            return dbDatas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
+            {
+                Value = dbData.Data,
+                IsNullable = dbData.IsNullable
+            }).ToArray();
         }
     }
 }

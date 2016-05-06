@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Npgsql;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Transactions;
 
@@ -7,9 +7,10 @@ namespace NQuandl.Npgsql.Api.Transactions
 {
     public interface IEntitySqlMapper<TEntity> where TEntity : DbEntity
     {
-        string BulkInsertSql();
+     
         string GetSelectSqlBy(EntitiesReaderQuery<TEntity> query);
         InsertData GetInsertData(TEntity entity);
-        IEnumerable<DbData> GetDbDatas(TEntity entity);
+        List<DbData> GetDbDatas(TEntity entity, bool excludeIsStoreGenerated = false);
+        BulkInsertData GetBulkInsertData(IObservable<TEntity> entities);
     }
 }

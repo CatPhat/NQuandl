@@ -43,11 +43,13 @@ namespace NQuandl.Npgsql.Tests.Mocks
             });
         }
 
-
-        public Task ExecuteCommandAsync(string command, NpgsqlParameter[] parameters)
+        public Task ExecuteCommandAsync(string command, IEnumerable<DbData> dbDatas)
         {
             throw new NotImplementedException();
         }
+
+
+      
 
         private void AddToImportedData(DbData importData)
         {

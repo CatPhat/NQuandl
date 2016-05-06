@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Services.Transactions
@@ -28,29 +23,17 @@ namespace NQuandl.Npgsql.Services.Transactions
             _db = db;
         }
 
-        public async Task WriteEntity(TEntity entity)
-        {
-            var insertData = _sql.GetInsertData(entity);
-            
-            await _db.ExecuteCommandAsync(insertData.SqlStatement, insertData.Parameters);
-        }
-
-   
-       
 
         public async Task BulkWriteEntities(IObservable<TEntity> entities)
         {
-            await _db.BulkWriteData(_sql.BulkInsertSql(), GetBulkImportDatas(entities));
+            var insertData = _sql.GetBulkInsertData(entities);
+            await _db.BulkWriteData(insertData.SqlStatement, insertData.DbDatasObservable);
         }
 
-        private IObservable<List<DbData>> GetBulkImportDatas(IObservable<TEntity> entities)
+        public async Task WriteEntity(TEntity entity)
         {
-            return Observable.Create<List<DbData>>(observer =>
-                entities.Subscribe(entity => observer.OnNext(_sql.GetDbDatas(entity).ToList()), 
-                onCompleted: observer.OnCompleted, 
-                onError: ex => {throw new Exception(ex.Message);}));
+            var insertData = _sql.GetInsertData(entity);
+            await _db.ExecuteCommandAsync(insertData.SqlStatement, insertData.DbDatas);
         }
-
-
     }
 }

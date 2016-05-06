@@ -1,5 +1,5 @@
 using System;
-using System.Data.SqlClient;
+using System.Linq;
 using NQuandl.Npgsql.Services.Mappers;
 using NQuandl.Npgsql.Services.Metadata;
 using NQuandl.Npgsql.Tests.Mocks;
@@ -25,13 +25,14 @@ namespace NQuandl.Npgsql.Tests
             var sqlMapper = new EntitySqlMapper<MockDbEntity>(new EntityMetadata<MockDbEntity>());
 
             var insertData = sqlMapper.GetInsertData(entity);
+            var dbDatas = insertData.DbDatas.ToList();
+            Assert.Equal(dbDatas.Count, 3);
+            Assert.Equal(dbDatas[0].Data, id);
+            Assert.Equal(dbDatas[1].Data, name);
+            Assert.Equal(dbDatas[2].Data, dateTime);
 
-            Assert.Equal(insertData.Parameters.Length, 3);
-            Assert.Equal(insertData.Parameters[0].Value, id);
-            Assert.Equal(insertData.Parameters[1].Value, name);
-            Assert.Equal(insertData.Parameters[2].Value, dateTime);
-
-            Assert.Equal(insertData.SqlStatement, "INSERT INTO mock_db_entities (id,name,insert_date) VALUES (:id,:name,:insert_date);");
+            Assert.Equal(insertData.SqlStatement,
+                "INSERT INTO mock_db_entities (id,name,insert_date) VALUES (:id,:name,:insert_date);");
         }
 
         [Fact]
@@ -46,18 +47,17 @@ namespace NQuandl.Npgsql.Tests
                 Id = id,
                 InsertDate = dateTime,
                 Name = name
-              
             };
             var sqlMapper = new EntitySqlMapper<MockDbEntityWithSerialId>(new EntityMetadata<MockDbEntityWithSerialId>());
 
             var insertData = sqlMapper.GetInsertData(entity);
+            var dbDatas = insertData.DbDatas.ToList();
 
-            Assert.Equal(insertData.Parameters.Length, 2);
-            Assert.Equal(insertData.Parameters[0].Value, name);
-            Assert.Equal(insertData.Parameters[1].Value, dateTime);
-            Assert.Equal(insertData.SqlStatement, "INSERT INTO mock_db_entities_with_serial_id (name,insert_date) VALUES (:name,:insert_date);");
+            Assert.Equal(dbDatas.Count, 2);
+            Assert.Equal(dbDatas[0].Data, name);
+            Assert.Equal(dbDatas[1].Data, dateTime);
+            Assert.Equal(insertData.SqlStatement,
+                "INSERT INTO mock_db_entities_with_serial_id (name,insert_date) VALUES (:name,:insert_date);");
         }
     }
-
-
 }
