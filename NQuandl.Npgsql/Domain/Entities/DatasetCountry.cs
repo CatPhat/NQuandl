@@ -5,10 +5,10 @@ using NQuandl.Npgsql.Services.Helpers;
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("dataset_countries")]
-    public class DatasetCountry : DbEntityWithSerialId
+    public class DatasetCountry : DbEntity
     {
-        [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
-        public override int Id { get; set; }
+        [DbColumnInfo(0, "id", NpgsqlDbType.Integer, isStoreGenerated: true)]
+        public int Id { get; set; }
 
         [DbColumnInfo(1, "dataset_id", NpgsqlDbType.Integer)]
         public int DatasetId { get; set; }

@@ -120,7 +120,8 @@ namespace NQuandl.Npgsql.Services.Metadata
                     ColumnIndex = dbColumnInfoAttribute.Value.ColumnIndex,
                     DbType = dbColumnInfoAttribute.Value.DbType,
                     ColumnName = dbColumnInfoAttribute.Value.ColumnName,
-                    IsNullable = dbColumnInfoAttribute.Value.IsNullable
+                    IsNullable = dbColumnInfoAttribute.Value.IsNullable,
+                    IsStoreGenerated = dbColumnInfoAttribute.Value.IsStoreGenerated
                 });
 
             var propertyInfos = GetPropertyInfos();

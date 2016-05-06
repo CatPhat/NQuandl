@@ -15,9 +15,7 @@ namespace NQuandl.Npgsql.Services.Mappers
     public class EntitySqlMapper<TEntity> : IEntitySqlMapper<TEntity> where TEntity : DbEntity
     {
         private readonly string _bulkInsertSql;
-
         private readonly string _columnNames;
-        private readonly string _columnNamesWithoutId;
         private readonly IEntityMetadata<TEntity> _entityMetadata;
 
 
@@ -27,10 +25,7 @@ namespace NQuandl.Npgsql.Services.Mappers
                 throw new ArgumentNullException(nameof(entityMetadata));
 
             _entityMetadata = entityMetadata;
-
-
             _columnNames = GetColumnNames();
-            _columnNamesWithoutId = GetColumnNamesWithoutId();
             _bulkInsertSql = GetBulkInsertSql();
         }
 
@@ -71,21 +66,11 @@ namespace NQuandl.Npgsql.Services.Mappers
             return queryString.ToString();
         }
 
-        private string GetBulkInsertSql()
-        {
-            var columnNames = typeof(TEntity).BaseType == typeof(DbEntityWithSerialId)
-                ? _columnNamesWithoutId
-                : _columnNames;
-
-            return
-                $"COPY {_entityMetadata.GetTableName()} ({columnNames}) FROM STDIN (FORMAT BINARY)";
-        }
-
         public InsertData GetInsertData(TEntity entity)
         {
-            var parameters = GetParameters(entity);
+            var dbData = GetDbDatas(entity).Where(x => x.IsStoreGenerated == false);
+            var parameters = GetParameters(dbData);
             var insertStatement = GetInsertSql(parameters);
-
             return new InsertData
             {
                 Parameters = parameters,
@@ -95,25 +80,45 @@ namespace NQuandl.Npgsql.Services.Mappers
 
         public IEnumerable<DbData> GetDbDatas(TEntity entity)
         {
-            var orderedEnumerable = _entityMetadata.GetProperyNameDbMetadata();
-            return (from keyValue in orderedEnumerable
-                    let data = _entityMetadata.GetEntityValueByPropertyName(entity, keyValue.Key)
+            var orderedEnumerable =
+                _entityMetadata.GetProperyNameDbMetadata()
+                .OrderBy(y => y.Value.ColumnIndex);
+            return from keyValue in orderedEnumerable
+                let data = _entityMetadata.GetEntityValueByPropertyName(entity, keyValue.Key)
                 select new DbData
                 {
                     Data = data,
                     DbType = keyValue.Value.DbType,
                     ColumnName = keyValue.Value.ColumnName,
                     ColumnIndex = keyValue.Value.ColumnIndex,
-                    IsNullable = keyValue.Value.IsNullable
-                });
+                    IsNullable = keyValue.Value.IsNullable,
+                    IsStoreGenerated = keyValue.Value.IsStoreGenerated
+                    
+                };
+        }
+
+
+        private string GetColumnNamesIfNotStoreGenerated()
+        {
+            var properyNameDictionary = _entityMetadata.GetProperyNameDbMetadata();
+            return string.Join(",",
+                properyNameDictionary.Where(x => x.Value.IsStoreGenerated == false)
+                    .OrderBy(y => y.Value.ColumnIndex)
+                    .Select(x => x.Value.ColumnName));
+        }
+
+        private string GetBulkInsertSql()
+        {
+            return
+                $"COPY {_entityMetadata.GetTableName()} ({GetColumnNamesIfNotStoreGenerated()}) FROM STDIN (FORMAT BINARY)";
         }
 
 
         //todo am i mixing concerns with depending on NpgsqlParameters?
-        private NpgsqlParameter[] GetParameters(TEntity entity)
+        private NpgsqlParameter[] GetParameters(IEnumerable<DbData> dbDatas)
         {
-            var datas = GetDbDatas(entity);
-            return datas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
+            return dbDatas
+            .Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
             {
                 Value = dbData.Data,
                 IsNullable = dbData.IsNullable
@@ -134,13 +139,6 @@ namespace NQuandl.Npgsql.Services.Mappers
                 _entityMetadata.GetProperyNameDbMetadata()
                     .OrderBy(y => y.Value.ColumnIndex)
                     .Select(x => x.Value.ColumnName));
-        }
-
-        private string GetColumnNamesWithoutId()
-        {
-            var properyNameDictionary = _entityMetadata.GetProperyNameDbMetadata();
-            return string.Join(",",
-                properyNameDictionary.Where(x => x.Key != "Id").OrderBy(y => y.Value.ColumnIndex).Select(x => x.Value.ColumnName));
         }
     }
 }

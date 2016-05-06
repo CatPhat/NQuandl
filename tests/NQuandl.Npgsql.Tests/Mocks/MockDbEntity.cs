@@ -17,4 +17,17 @@ namespace NQuandl.Npgsql.Tests.Mocks
         [DbColumnInfo(2, "insert_date", NpgsqlDbType.Timestamp)]
         public DateTime InsertDate { get; set; }
     }
+
+    [DbTableName("mock_db_entities_with_serial_id")]
+    public class MockDbEntityWithSerialId : DbEntity
+    {
+        [DbColumnInfo(0, "id", NpgsqlDbType.Integer, isStoreGenerated: true)]
+        public int Id { get; set; }
+
+        [DbColumnInfo(1, "name", NpgsqlDbType.Text, true)]
+        public string Name { get; set; }
+
+        [DbColumnInfo(2, "insert_date", NpgsqlDbType.Timestamp)]
+        public DateTime InsertDate { get; set; }
+    }
 }

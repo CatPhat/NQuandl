@@ -10,5 +10,6 @@ namespace NQuandl.Npgsql.Services.Helpers
         public NpgsqlDbType DbType { get; set; }
         public PropertyInfo PropertyInfo { get; set; }
         public bool IsNullable { get; set; }
+        public bool IsStoreGenerated { get; set; }
     }
 }

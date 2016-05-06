@@ -10,6 +10,7 @@ namespace NQuandl.Npgsql.Services.Transactions
         public string ColumnName { get; set; }
         public int ColumnIndex { get; set; }
         public bool IsNullable { get; set; }
+        public bool IsStoreGenerated { get; set; }
     }
 
 

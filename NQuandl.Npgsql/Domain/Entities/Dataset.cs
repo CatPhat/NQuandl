@@ -7,10 +7,10 @@ using NQuandl.Npgsql.Services.Helpers;
 namespace NQuandl.Npgsql.Domain.Entities
 {
     [DbTableName("datasets")]
-    public class Dataset : DbEntityWithSerialId
+    public class Dataset : DbEntity
     {
-        [DbColumnInfo(0, "id", NpgsqlDbType.Integer)]
-        public override int Id { get; set; }
+        [DbColumnInfo(0, "id", NpgsqlDbType.Integer, isStoreGenerated: true)]
+        public int Id { get; set; }
 
         [DbColumnInfo(1, "code", NpgsqlDbType.Text)]
         public string Code { get; set; }
