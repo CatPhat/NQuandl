@@ -21,7 +21,7 @@ namespace NQuandl.Npgsql.Tests
             var metadata = new EntityMetadata<MockDbEntity>();
             var sql = new EntitySqlMapper<MockDbEntity>(metadata);
 
-            var statement = sql.BulkInsertSql();
+            var statement = sql.GetBulkInsertSql();
             Assert.Equal(statement, "COPY mock_db_entities (id,name,insert_date) FROM STDIN (FORMAT BINARY)");
         }
 
