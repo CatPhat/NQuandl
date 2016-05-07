@@ -103,7 +103,7 @@ namespace NQuandl.Npgsql.Services.Mappers
         public string GetBulkInsertSql()
         {
             return
-                $"COPY {_entityMetadata.GetTableName()} ({GetColumnNamesIfNotStoreGenerated()}) FROM STDIN (FORMAT BINARY)";
+                $"COPY {_entityMetadata.GetTableName()} ({GetColumnNames(true)}) FROM STDIN (FORMAT BINARY)";
         }
 
         private IObservable<List<DbData>> GetBulkImportDatas(IObservable<TEntity> entities)
@@ -114,14 +114,7 @@ namespace NQuandl.Npgsql.Services.Mappers
                     onError: ex => { throw new Exception(ex.Message); }));
         }
 
-        private string GetColumnNamesIfNotStoreGenerated()
-        {
-            var properyNameDictionary = _entityMetadata.GetProperyNameDbMetadata();
-            return string.Join(",",
-                properyNameDictionary.Where(x => x.Value.IsStoreGenerated == false)
-                    .OrderBy(y => y.Value.ColumnIndex)
-                    .Select(x => x.Value.ColumnName));
-        }
+      
 
 
         private string GetInsertSql(List<DbData> dbDatas)
@@ -131,12 +124,14 @@ namespace NQuandl.Npgsql.Services.Mappers
                 $"VALUES ({string.Join(",", dbDatas.Select(x => $":{x.ColumnName}"))});";
         }
 
-        private string GetColumnNames()
+        private string GetColumnNames(bool excludeIsStoreGenerated = false)
         {
-            return string.Join(",",
-                _entityMetadata.GetProperyNameDbMetadata()
-                    .OrderBy(y => y.Value.ColumnIndex)
-                    .Select(x => x.Value.ColumnName));
+            var propertyNames =
+                _entityMetadata.GetProperyNameDbMetadata().OrderBy(x => x.Value.ColumnIndex).Select(y => y.Value);
+
+            return string.Join(",", excludeIsStoreGenerated ? propertyNames
+                .Where(x => x.IsStoreGenerated == false)
+                .Select(x => x.ColumnName) : propertyNames.Select(x => x.ColumnName));
         }
     }
 }
