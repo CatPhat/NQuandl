@@ -100,7 +100,7 @@ namespace NQuandl.Npgsql.Services.Mappers
             };
         }
 
-        public string GetBulkInsertSql()
+        private string GetBulkInsertSql()
         {
             return
                 $"COPY {_entityMetadata.GetTableName()} ({GetColumnNames(true)}) FROM STDIN (FORMAT BINARY)";
