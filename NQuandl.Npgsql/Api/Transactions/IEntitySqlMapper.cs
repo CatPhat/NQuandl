@@ -8,7 +8,9 @@ namespace NQuandl.Npgsql.Api.Transactions
 {
     public interface ISqlMapper
     {
-
+        string GetSelectSqlBy(ReaderQuery query);
+        string GetBulkInsertSql(BulkInsertCommand command);
+        string GetInsertSql(InsertDataCommand command);
     }
 
     public interface IEntitySqlMapper<TEntity> where TEntity : DbEntity

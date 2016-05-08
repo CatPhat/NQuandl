@@ -86,12 +86,20 @@ namespace NQuandl.Npgsql.Services.Mappers
                 $"({columnNames}) FROM STDIN (FORMAT BINARY)";
         }
 
-        public string GetInsertSql(List<DbData> dbDatas, string tableName)
+
+
+        public string GetInsertSql(InsertDataCommand command)
         {
+            var columnNames =
+               GetColumnNamesString(
+                   command.DbDatas.OrderBy(x => x.ColumnIndex).Select(y => y.ColumnName).ToArray());
+
             return
-                $"INSERT INTO {tableName} ({string.Join(",", dbDatas.Select(x => x.ColumnName))}) " +
-                $"VALUES ({string.Join(",", dbDatas.Select(x => $":{x.ColumnName}"))});";
+                $"INSERT INTO {command.TableName} ({columnNames}) " +
+                $"VALUES ({string.Join(",", command.DbDatas.Select(x => $":{x.ColumnName}"))});";
         }
+
+     
 
         private string GetColumnNamesString(string[] columnNames)
         {

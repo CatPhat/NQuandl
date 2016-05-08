@@ -9,25 +9,30 @@ using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
+using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Services
 {
     public class Db : IDb
     {
         private readonly IConfigureConnection _configuration;
+        private readonly ISqlMapper _sql;
 
-
-        public Db([NotNull] IConfigureConnection configuration)
+        public Db([NotNull] IConfigureConnection configuration, [NotNull] ISqlMapper sql)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
+            if (sql == null)
+                throw new ArgumentNullException(nameof(sql));
             _configuration = configuration;
+            _sql = sql;
         }
 
         public IEnumerable<IDataRecord> ExecuteQuery(ReaderQuery query)
         {
+            var sqlStatement = _sql.GetSelectSqlBy(query);
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
-            using (var cmd = new NpgsqlCommand(query, connection))
+            using (var cmd = new NpgsqlCommand(sqlStatement, connection))
             {
                 cmd.Connection.Open();
                 using (var reader = cmd.ExecuteReader())
@@ -43,10 +48,11 @@ namespace NQuandl.Npgsql.Services
 
         public IObservable<IDataRecord> ExecuteQueryAsync(ReaderQuery query)
         {
+            var sqlStatement = _sql.GetSelectSqlBy(query);
             return Observable.Create<IDataRecord>(async obs =>
             {
                 using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
-                using (var cmd = new NpgsqlCommand(query, connection))
+                using (var cmd = new NpgsqlCommand(sqlStatement, connection))
                 {
                     await cmd.Connection.OpenAsync();
                     using (var reader = cmd.ExecuteReaderAsync())
@@ -65,6 +71,7 @@ namespace NQuandl.Npgsql.Services
 
         public async Task BulkWriteData(BulkInsertCommand command)
         {
+            var sqlStatement = _sql.GetBulkInsertSql(command);
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var importer = connection.BeginBinaryImport(sqlStatement))
             {
@@ -83,10 +90,11 @@ namespace NQuandl.Npgsql.Services
         
         public async Task ExecuteInsertCommandAsync(InsertDataCommand command)
         {
+            var sqlStatement = _sql.GetInsertSql(command);
             var parameters = GetParameters(command.DbDatas);
 
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
-            using (var cmd = new NpgsqlCommand(command, connection))
+            using (var cmd = new NpgsqlCommand(sqlStatement, connection))
             {
                 await cmd.Connection.OpenAsync();
                 cmd.Parameters.AddRange(parameters);
