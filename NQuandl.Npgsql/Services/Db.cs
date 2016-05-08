@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
-using NQuandl.Npgsql.Services.Transactions;
+using NQuandl.Npgsql.Api.DTO;
+using NQuandl.Npgsql.Api.Entities;
 
 namespace NQuandl.Npgsql.Services
 {
@@ -23,7 +24,7 @@ namespace NQuandl.Npgsql.Services
             _configuration = configuration;
         }
 
-        public IEnumerable<IDataRecord> ExecuteQuery(string query)
+        public IEnumerable<IDataRecord> ExecuteQuery(ReaderQuery query)
         {
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var cmd = new NpgsqlCommand(query, connection))
@@ -40,7 +41,7 @@ namespace NQuandl.Npgsql.Services
             }
         }
 
-        public IObservable<IDataRecord> ExecuteQueryAsync(string query)
+        public IObservable<IDataRecord> ExecuteQueryAsync(ReaderQuery query)
         {
             return Observable.Create<IDataRecord>(async obs =>
             {
@@ -62,15 +63,15 @@ namespace NQuandl.Npgsql.Services
             });
         }
 
-        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbData>> dataObservable)
+        public async Task BulkWriteData(BulkInsertCommand command)
         {
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var importer = connection.BeginBinaryImport(sqlStatement))
             {
-                await dataObservable.ForEachAsync(importData =>
+                await command.DbDatasObservable.ForEachAsync(importData =>
                 {
                     importer.StartRow();
-                    foreach (var bulkImportData in importData)
+                    foreach (var bulkImportData in importData.OrderBy(x => x.ColumnIndex))
                     {
                         importer.Write(bulkImportData, bulkImportData.DbType);
                     }
@@ -79,12 +80,11 @@ namespace NQuandl.Npgsql.Services
             }
         }
 
-
-     
-
-        public async Task ExecuteCommandAsync(string command, IEnumerable<DbData> dbDatas)
+        
+        public async Task ExecuteInsertCommandAsync(InsertDataCommand command)
         {
-            var parameters = GetParameters(dbDatas);
+            var parameters = GetParameters(command.DbDatas);
+
             using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
             using (var cmd = new NpgsqlCommand(command, connection))
             {

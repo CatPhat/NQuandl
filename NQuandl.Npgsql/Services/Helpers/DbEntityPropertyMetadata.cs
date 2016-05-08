@@ -12,4 +12,6 @@ namespace NQuandl.Npgsql.Services.Helpers
         public bool IsNullable { get; set; }
         public bool IsStoreGenerated { get; set; }
     }
+
+    
 }

@@ -13,20 +13,33 @@ namespace NQuandl.Npgsql.Api.Entities
         public EntitiesReaderQuery(Expression<Func<TEntity, object>> where, string query)
         {
             QueryByString = query;
-            Column = where;
+            WhereColumn = where;
         }
 
         public EntitiesReaderQuery(Expression<Func<TEntity, object>> where, int query)
         {
             QueryByInt = query;
-            Column = where;
+            WhereColumn = where;
         }
 
-        public Expression<Func<TEntity, object>> Column { get; }
-        public Expression<Func<TEntity, object>> OrderBy { get; set; }
+        public Expression<Func<TEntity, object>> WhereColumn { get; }
+        public Expression<Func<TEntity, object>> OrderByColumn { get; set; }
         public string QueryByString { get; }
         public int? QueryByInt { get;  }
         public int? Limit { get; set; }
         public int? Offset { get; set; }
+    }
+
+    public class ReaderQuery
+    {
+    
+        public string TableName { get; set; }
+        public string WhereColumn { get; set; }
+        public string OrderByColumn { get; set;}
+        public string QueryByString { get; set; }
+        public int? QueryByInt { get; set; }
+        public int? Limit { get; set; }
+        public int? Offset { get; set; }
+        public string[] ColumnNames { get; set; }
     }
 }

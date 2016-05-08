@@ -34,7 +34,7 @@ namespace NQuandl.Npgsql.Tests
             var query = new EntitiesReaderQuery<Country>(country => country.Iso31661Alpha3, "USA")
             {
                 Limit = 10,
-                OrderBy = x => x.Iso31661Alpha3
+                OrderByColumn = x => x.Iso31661Alpha3
             };
             var statement = sql.GetSelectSqlBy(query);
        

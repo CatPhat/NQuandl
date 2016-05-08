@@ -1,7 +1,6 @@
 ﻿using NpgsqlTypes;
-using NQuandl.Npgsql.Services.Helpers;
 
-namespace NQuandl.Npgsql.Services.Transactions
+namespace NQuandl.Npgsql.Api.DTO
 {
     public class DbData
     {

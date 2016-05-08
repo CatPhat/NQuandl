@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Npgsql;
 using NQuandl.Npgsql.Api;
+using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Tests.Mocks
