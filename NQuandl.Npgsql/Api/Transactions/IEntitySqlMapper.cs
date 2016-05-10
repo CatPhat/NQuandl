@@ -10,6 +10,7 @@ namespace NQuandl.Npgsql.Api.Transactions
     {
         string GetBulkInsertSql(string tableName, string[] columnNames);
         string GetInsertSql(string tableName, string[] columnNames, IEnumerable<DbImportData> dbDatas);
+        string GetSelectSqlBy(ReaderQuery query);
     }
 
     public interface IEntitySqlMapper<TEntity> where TEntity : DbEntity

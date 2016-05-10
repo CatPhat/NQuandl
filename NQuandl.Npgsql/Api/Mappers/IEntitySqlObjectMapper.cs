@@ -8,7 +8,7 @@ namespace NQuandl.Npgsql.Api.Mappers
 {
     public interface IEntityObjectMapper<TEntity> where TEntity : DbEntity {
         IObservable<TEntity> GetEntityObservable(IObservable<IDataRecord> records);
-        ReaderQuery GetReaderQuery(EntitiesReaderQuery<TEntity> query);
+        ReaderQuery GetReaderQuery<TQuery>(TQuery query) where TQuery : BaseEntitiesQuery<TEntity>;
         TEntity CreateEntity(IDataRecord record);
         IEnumerable<DbImportData> GetDbImportDatas(TEntity entity);
         IObservable<List<DbImportData>> GetDbImportDatasObservable(IEnumerable<TEntity> entities);

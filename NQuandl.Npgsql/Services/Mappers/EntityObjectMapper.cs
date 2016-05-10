@@ -33,7 +33,7 @@ namespace NQuandl.Npgsql.Services.Mappers
 
      
 
-        public ReaderQuery GetReaderQuery(EntitiesReaderQuery<TEntity> query)
+        public ReaderQuery GetReaderQuery<TQuery>(TQuery query) where TQuery : BaseEntitiesQuery<TEntity>
         {
             var whereColumnPropertyName = _metadata.GetPropertyName(query.WhereColumn);
             var orderByPropertyName = _metadata.GetPropertyName(query.OrderByColumn);
