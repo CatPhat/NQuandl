@@ -4,7 +4,6 @@ using System.Data;
 using System.Linq;
 using System.Reactive.Linq;
 using JetBrains.Annotations;
-using NpgsqlTypes;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Mappers;
@@ -12,8 +11,6 @@ using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Extensions;
-using NQuandl.Npgsql.Services.Metadata;
-
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
@@ -36,8 +33,8 @@ namespace NQuandl.Npgsql.Services.Mappers
                         exception => { throw new Exception(exception.Message); }));
         }
 
-
-        public DataRecordsObservableBy GetDataRecordsObservableQuery<TQuery>(TQuery query) where TQuery : BaseEntitiesQuery<TEntity>
+        public DataRecordsObservableBy GetDataRecordsObservableQuery<TQuery>(TQuery query)
+            where TQuery : BaseEntitiesQuery<TEntity>
         {
             DataRecordsObservableBy recordsQuery;
             var tableName = _metadata.GetTableName();
@@ -62,13 +59,6 @@ namespace NQuandl.Npgsql.Services.Mappers
             return recordsQuery;
         }
 
-        private string[] GetOrderedColumnsStrings()
-        {
-            return _metadata.ToColumnNameWithIndices().Select(x => x.ColumnName).ToArray();
-        }
-
-     
-
         public ReaderQuery GetReaderQuery<TQuery>(TQuery query) where TQuery : BaseEntitiesQuery<TEntity>
         {
             var whereColumnPropertyName = _metadata.GetPropertyName(query.WhereColumn);
@@ -87,12 +77,10 @@ namespace NQuandl.Npgsql.Services.Mappers
                 ColumnNames = columnNames
             };
         }
-        
-        
 
         public TEntity CreateEntity(IDataRecord record)
         {
-            var entity = (TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { });
+            var entity = (TEntity) Activator.CreateInstance(typeof(TEntity), new object[] {});
             var properties = _metadata.GetPropertyInfos();
 
             foreach (var propertyInfo in properties)
@@ -123,8 +111,6 @@ namespace NQuandl.Npgsql.Services.Mappers
                 };
         }
 
-      
-
         public IObservable<List<DbImportData>> GetDbImportDatasObservable(IEnumerable<TEntity> entities)
         {
             return GetDbImportDatasObservable(entities.ToObservable());
@@ -133,7 +119,8 @@ namespace NQuandl.Npgsql.Services.Mappers
         public IObservable<List<DbImportData>> GetDbImportDatasObservable(IObservable<TEntity> entities)
         {
             return Observable.Create<List<DbImportData>>(observer =>
-                entities.Subscribe(entity => observer.OnNext(GetDbImportDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
+                entities.Subscribe(
+                    entity => observer.OnNext(GetDbImportDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
                     onCompleted: observer.OnCompleted,
                     onError: ex => { throw new Exception(ex.Message); }));
         }
@@ -142,6 +129,10 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return _metadata.GetPropertyInfo(propertyName).GetValue(entityWithData, new object[] {});
         }
-        
+
+        private string[] GetOrderedColumnsStrings()
+        {
+            return _metadata.ToColumnNameWithIndices().Select(x => x.ColumnName).ToArray();
+        }
     }
 }

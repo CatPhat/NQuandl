@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NQuandl.Npgsql.Api.DTO;
-using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers
@@ -51,8 +49,6 @@ namespace NQuandl.Npgsql.Services.Mappers
                 $"COPY {tableName} ({columnNamesString}) FROM STDIN (FORMAT BINARY)";
         }
 
-
-
         public string GetInsertSql(string tableName, string[] columnNames, IEnumerable<DbImportData> dbDatas)
         {
             return
@@ -60,13 +56,9 @@ namespace NQuandl.Npgsql.Services.Mappers
                 $"VALUES ({string.Join(",", dbDatas.Select(x => $":{x.ColumnName}"))});";
         }
 
-     
-
         private string GetColumnNamesString(string[] columnNames)
         {
             return string.Join(",", columnNames);
         }
     }
-
-   
 }

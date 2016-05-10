@@ -7,14 +7,13 @@ using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Services.Extensions;
-using NQuandl.Npgsql.Services.Metadata;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
     public class EntitySqlMapper<TEntity> : IEntitySqlMapper<TEntity> where TEntity : DbEntity
     {
-        private readonly ISqlMapper _sqlMapper;
         private readonly IEntityMetadataCache<TEntity> _metadata;
+        private readonly ISqlMapper _sqlMapper;
 
         public EntitySqlMapper([NotNull] ISqlMapper sqlMapper, [NotNull] IEntityMetadataCache<TEntity> metadata)
         {
@@ -30,7 +29,7 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return _sqlMapper.GetBulkInsertSql(_metadata.GetTableName(), GetOrderedColumnsStrings());
         }
-        
+
         public string GetInsertSql(IEnumerable<DbImportData> dbDatas)
         {
             return _sqlMapper.GetInsertSql(_metadata.GetTableName(), GetOrderedColumnsStrings(), dbDatas);
@@ -40,7 +39,5 @@ namespace NQuandl.Npgsql.Services.Mappers
         {
             return _metadata.ToColumnNameWithIndices().Select(x => x.ColumnName).ToArray();
         }
-
-       
     }
 }
