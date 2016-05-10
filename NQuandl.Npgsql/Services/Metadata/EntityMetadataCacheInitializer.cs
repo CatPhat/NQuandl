@@ -6,7 +6,7 @@ using System.Reflection;
 using NpgsqlTypes;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
-using NQuandl.Npgsql.Services.Helpers;
+using NQuandl.Npgsql.Services.Attributes;
 
 namespace NQuandl.Npgsql.Services.Metadata
 {

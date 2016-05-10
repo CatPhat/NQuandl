@@ -1,7 +1,7 @@
 ﻿using System;
 using NpgsqlTypes;
 
-namespace NQuandl.Npgsql.Services.Helpers
+namespace NQuandl.Npgsql.Services.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class DbColumnInfoAttribute : Attribute
