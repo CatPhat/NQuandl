@@ -26,9 +26,18 @@ namespace NQuandl.Npgsql.Services.Mappers
 
         public string GetBulkInsertSql()
         {
-            return _sqlMapper.GetBulkInsertSql(_metadata.GetTableName(), GetOrderedColumns().Select(x => x.ColumnName).ToArray());
+            return _sqlMapper.GetBulkInsertSql(_metadata.GetTableName(), GetOrderedColumnsStrings());
+        }
+        
+        public string GetInsertSql(IEnumerable<DbImportData> dbDatas)
+        {
+            return _sqlMapper.GetInsertSql(_metadata.GetTableName(), GetOrderedColumnsStrings(), dbDatas);
         }
 
+        private string[] GetOrderedColumnsStrings()
+        {
+            return GetOrderedColumns().Select(x => x.ColumnName).ToArray();
+        }
 
         private IEnumerable<ColumnNameWithIndex> GetOrderedColumns()
         {
