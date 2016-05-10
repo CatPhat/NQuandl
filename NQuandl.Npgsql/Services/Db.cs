@@ -28,6 +28,11 @@ namespace NQuandl.Npgsql.Services
             _sql = sql;
         }
 
+        public NpgsqlConnection CreateConnection()
+        {
+            return new NpgsqlConnection(_configuration.ConnectionString);
+        }
+
         public IEnumerable<IDataRecord> ExecuteQuery(ReaderQuery query)
         {
             var sqlStatement = _sql.GetSelectSqlBy(query);
@@ -104,7 +109,7 @@ namespace NQuandl.Npgsql.Services
             }
         }
 
-        private NpgsqlParameter[] GetParameters(IEnumerable<DbData> dbDatas)
+        private NpgsqlParameter[] GetParameters(IEnumerable<DbImportData> dbDatas)
         {
             return dbDatas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
             {

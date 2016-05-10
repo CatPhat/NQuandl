@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Metadata;
@@ -10,37 +9,6 @@ using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
-    public class EntitySqlMapper<TEntity> : IEntitySqlMapper<TEntity> where TEntity : DbEntity
-    {
-        private readonly ISqlMapper _sqlMapper;
-        private readonly IEntityMetadata<TEntity> _metadata;
-
-        public EntitySqlMapper([NotNull] ISqlMapper sqlMapper, [NotNull] IEntityMetadata<TEntity> metadata)
-        {
-            if (sqlMapper == null)
-                throw new ArgumentNullException(nameof(sqlMapper));
-            if (metadata == null)
-                throw new ArgumentNullException(nameof(metadata));
-            _sqlMapper = sqlMapper;
-            _metadata = metadata;
-        }
-
-        public string GetSelectSqlBy(ReaderQuery query)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetBulkInsertSql()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetInsertSql(List<DbData> dbDatas, string tableName)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public class SqlMapper : ISqlMapper
     {
         public string GetSelectSqlBy(ReaderQuery query)
@@ -76,27 +44,20 @@ namespace NQuandl.Npgsql.Services.Mappers
             return queryString.ToString();
         }
 
-        public string GetBulkInsertSql(BulkInsertCommand command)
+        public string GetBulkInsertSql(string tableName, string[] columnNames)
         {
-            var columnNames =
-                GetColumnNamesString(
-                    command.ColumnNameWithIndices.OrderBy(x => x.ColumnIndex).Select(y => y.ColumnName).ToArray());
+            var columnNamesString = GetColumnNamesString(columnNames);
             return
-                $"COPY {command.TableName} " +
-                $"({columnNames}) FROM STDIN (FORMAT BINARY)";
+                $"COPY {tableName} ({columnNamesString}) FROM STDIN (FORMAT BINARY)";
         }
 
 
 
-        public string GetInsertSql(InsertDataCommand command)
+        public string GetInsertSql(string tableName, string[] columnNames, IEnumerable<DbImportData> dbDatas)
         {
-            var columnNames =
-               GetColumnNamesString(
-                   command.DbDatas.OrderBy(x => x.ColumnIndex).Select(y => y.ColumnName).ToArray());
-
             return
-                $"INSERT INTO {command.TableName} ({columnNames}) " +
-                $"VALUES ({string.Join(",", command.DbDatas.Select(x => $":{x.ColumnName}"))});";
+                $"INSERT INTO {tableName} ({columnNames}) " +
+                $"VALUES ({string.Join(",", dbDatas.Select(x => $":{x.ColumnName}"))});";
         }
 
      

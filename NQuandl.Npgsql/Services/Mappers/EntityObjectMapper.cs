@@ -31,6 +31,8 @@ namespace NQuandl.Npgsql.Services.Mappers
                         exception => { throw new Exception(exception.Message); }));
         }
 
+     
+
         public ReaderQuery GetReaderQuery(EntitiesReaderQuery<TEntity> query)
         {
             var whereColumnPropertyName = _metadata.GetPropertyName(query.WhereColumn);
@@ -49,32 +51,10 @@ namespace NQuandl.Npgsql.Services.Mappers
                 ColumnNames = columnNames
             };
         }
+        
+        
 
-        public InsertDataCommand GetInsertCommand(TEntity entity)
-        {
-            return new InsertDataCommand
-            {
-                TableName = _metadata.GetTableName(),
-                DbDatas = GetDbDatas(entity)
-            };
-        }
-
-        public BulkInsertCommand GetBulkInsertCommand(IObservable<TEntity> entities)
-        {
-            var columnNamesWithIndices = _metadata.GetPropertyInfos()
-                .Select(propertyInfo => new ColumnNameWithIndex
-            {
-                ColumnName = _metadata.GetColumnName(propertyInfo.Name),
-                ColumnIndex = _metadata.GetColumnIndex(propertyInfo.Name)
-            });
-            return new BulkInsertCommand
-            {
-                ColumnNameWithIndices = columnNamesWithIndices,
-                DbDatasObservable = GetDbDatasObservable(entities)
-            };
-        }
-
-        private TEntity CreateEntity(IDataRecord record)
+        public TEntity CreateEntity(IDataRecord record)
         {
             var entity = (TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { });
             var properties = _metadata.GetPropertyInfos();
@@ -91,12 +71,12 @@ namespace NQuandl.Npgsql.Services.Mappers
             return entity;
         }
 
-        private IEnumerable<DbData> GetDbDatas(TEntity entity)
+        public IEnumerable<DbImportData> GetDbImportDatas(TEntity entity)
         {
             return from propertyInfo in _metadata.GetPropertyInfos()
-                let data = GetEntityValueByPropertyName(entity, propertyInfo.Name)
+                let data = GetEntityPropertyValue(entity, propertyInfo.Name)
                 let propertyName = propertyInfo.Name
-                select new DbData
+                select new DbImportData
                 {
                     Data = data,
                     DbType = _metadata.GetNpgsqlDbType(propertyName),
@@ -107,15 +87,22 @@ namespace NQuandl.Npgsql.Services.Mappers
                 };
         }
 
-        private IObservable<List<DbData>> GetDbDatasObservable(IObservable<TEntity> entities)
+      
+
+        public IObservable<List<DbImportData>> GetDbImportDatasObservable(IEnumerable<TEntity> entities)
         {
-            return Observable.Create<List<DbData>>(observer =>
-                entities.Subscribe(entity => observer.OnNext(GetDbDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
+            return GetDbImportDatasObservable(entities.ToObservable());
+        }
+
+        public IObservable<List<DbImportData>> GetDbImportDatasObservable(IObservable<TEntity> entities)
+        {
+            return Observable.Create<List<DbImportData>>(observer =>
+                entities.Subscribe(entity => observer.OnNext(GetDbImportDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
                     onCompleted: observer.OnCompleted,
                     onError: ex => { throw new Exception(ex.Message); }));
         }
 
-        private object GetEntityValueByPropertyName(TEntity entityWithData, string propertyName)
+        public object GetEntityPropertyValue(TEntity entityWithData, string propertyName)
         {
             return _metadata.GetPropertyInfo(propertyName).GetValue(entityWithData, new object[] {});
         }

@@ -33,7 +33,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbData>> dataObservable)
+        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbImportData>> dataObservable)
         {
             await dataObservable.ForEachAsync(x =>
             {
@@ -44,7 +44,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
             });
         }
 
-        public Task ExecuteCommandAsync(string command, IEnumerable<DbData> dbDatas)
+        public Task ExecuteCommandAsync(string command, IEnumerable<DbImportData> dbDatas)
         {
             throw new NotImplementedException();
         }
@@ -52,14 +52,14 @@ namespace NQuandl.Npgsql.Tests.Mocks
 
       
 
-        private void AddToImportedData(DbData importData)
+        private void AddToImportedData(DbImportData importImportData)
         {
             ImportedData.Add(new MockBulkImportOrder
             {
                 ColumnIndex = CurrentColumnIndex,
                 RowIndex = CurrentRowIndex,
-                Data = importData.Data,
-                DbType = importData.DbType
+                Data = importImportData.Data,
+                DbType = importImportData.DbType
             });
 
             CurrentColumnIndex = CurrentColumnIndex + 1;
@@ -73,7 +73,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
             }
             CurrentColumnIndex = 0;
             CurrentRowIndex = CurrentRowIndex + 1;
-            Console.WriteLine(importData.Data);
+            Console.WriteLine(importImportData.Data);
         }
     }
 }
