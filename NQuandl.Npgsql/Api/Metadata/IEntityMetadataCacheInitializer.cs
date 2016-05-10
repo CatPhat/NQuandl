@@ -4,7 +4,7 @@ using System.Reflection;
 using NpgsqlTypes;
 using NQuandl.Npgsql.Api.Entities;
 
-namespace NQuandl.Npgsql.Services.Metadata
+namespace NQuandl.Npgsql.Api.Metadata
 {
     public interface IEntityMetadataCacheInitializer<TEntity> where TEntity : DbEntity
     {

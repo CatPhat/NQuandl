@@ -51,28 +51,7 @@ namespace NQuandl.Npgsql.Services
             }
         }
 
-        public IObservable<IDataRecord> ExecuteQueryAsync(ReaderQuery query)
-        {
-            var sqlStatement = _sql.GetSelectSqlBy(query);
-            return Observable.Create<IDataRecord>(async obs =>
-            {
-                using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
-                using (var cmd = new NpgsqlCommand(sqlStatement, connection))
-                {
-                    await cmd.Connection.OpenAsync();
-                    using (var reader = cmd.ExecuteReaderAsync())
-                    {
-                        var result = await reader;
-                        while (await result.ReadAsync())
-                        {
-                            obs.OnNext(result);
-                        }
-                        obs.OnCompleted();
-                    }
-                    cmd.Connection.Close();
-                }
-            });
-        }
+     
 
      
 

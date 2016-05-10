@@ -1,61 +1,38 @@
-﻿using System;
+using System;
 using System.Data;
-using System.Linq.Expressions;
 using System.Reactive.Linq;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
-using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Mappers;
 using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
-    public class DataRecordsObservableBy<TEntity> : BaseEntitiesQuery<TEntity>, IDefineQuery<IObservable<IDataRecord>>
-        where TEntity : DbEntity
+    public class DataRecordsObservableBy : BaseDataRecordsQuery, IDefineQuery<IObservable<IDataRecord>>
     {
-        public DataRecordsObservableBy() {}
-
-        public DataRecordsObservableBy(Expression<Func<TEntity, object>> where, string query)
-        {
-            QueryByString = query;
-            WhereColumn = where;
-        }
-
-        public DataRecordsObservableBy(Expression<Func<TEntity, object>> where, int query)
-        {
-            QueryByInt = query;
-            WhereColumn = where;
-        }
+        public DataRecordsObservableBy(string tableName, string[] columnNames) : base(tableName, columnNames) {}
+        public DataRecordsObservableBy(string tableName, string whereColumn, string[] columnNames, string query) : base(tableName, whereColumn, columnNames, query) {}
+        public DataRecordsObservableBy(string tableName, string whereColumn, string[] columnNames, int query) : base(tableName, whereColumn, columnNames, query) {}
     }
 
-    public class HandleDataRecordsObservableBy<TEntity> :
-        IHandleQuery<DataRecordsObservableBy<TEntity>, IObservable<IDataRecord>> where TEntity : DbEntity
+    public class HandleDataRecordsObservableBy : IHandleQuery<DataRecordsObservableBy, IObservable<IDataRecord>>
     {
         private readonly IDb _db;
-        private readonly IEntityObjectMapper<TEntity> _objectMapper;
-
         private readonly ISqlMapper _sqlMapper;
 
-        public HandleDataRecordsObservableBy([NotNull] ISqlMapper sqlMapper,
-            [NotNull] IEntityObjectMapper<TEntity> objectMapper, [NotNull] IDb db)
+        public HandleDataRecordsObservableBy([NotNull] ISqlMapper sqlMapper, [NotNull] IDb db)
         {
             if (sqlMapper == null)
                 throw new ArgumentNullException(nameof(sqlMapper));
-            if (objectMapper == null)
-                throw new ArgumentNullException(nameof(objectMapper));
             if (db == null)
                 throw new ArgumentNullException(nameof(db));
             _sqlMapper = sqlMapper;
-            _objectMapper = objectMapper;
             _db = db;
         }
 
-        public IObservable<IDataRecord> Handle(DataRecordsObservableBy<TEntity> query)
+        public IObservable<IDataRecord> Handle(DataRecordsObservableBy query)
         {
-            var readersQuery = _objectMapper.GetReaderQuery(query);
-
-            var sqlStatement = _sqlMapper.GetSelectSqlBy(readersQuery);
+            var sqlStatement = _sqlMapper.GetSelectSqlBy(query);
             return Observable.Create<IDataRecord>(async obs =>
             {
                 using (var connection = _db.CreateConnection())

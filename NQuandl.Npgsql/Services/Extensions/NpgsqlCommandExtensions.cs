@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Npgsql;
 using NpgsqlTypes;
-using NQuandl.Npgsql.Api;
-using NQuandl.Npgsql.Services.Helpers;
-using NQuandl.Npgsql.Services.Transactions;
 
 namespace NQuandl.Npgsql.Services.Extensions
 {
@@ -29,7 +25,5 @@ namespace NQuandl.Npgsql.Services.Extensions
                 Value = parameterValue
             };
         }
-
-      
     }
 }

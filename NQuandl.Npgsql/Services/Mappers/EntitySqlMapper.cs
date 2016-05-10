@@ -4,7 +4,9 @@ using System.Linq;
 using JetBrains.Annotations;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Metadata;
 
 namespace NQuandl.Npgsql.Services.Mappers
@@ -36,17 +38,9 @@ namespace NQuandl.Npgsql.Services.Mappers
 
         private string[] GetOrderedColumnsStrings()
         {
-            return GetOrderedColumns().Select(x => x.ColumnName).ToArray();
+            return _metadata.ToColumnNameWithIndices().Select(x => x.ColumnName).ToArray();
         }
 
-        private IEnumerable<ColumnNameWithIndex> GetOrderedColumns()
-        {
-            return _metadata.GetPropertyInfos()
-                .Select(propertyInfo => new ColumnNameWithIndex
-                {
-                    ColumnName = _metadata.GetColumnName(propertyInfo.Name),
-                    ColumnIndex = _metadata.GetColumnIndex(propertyInfo.Name)
-                }).OrderBy(x => x.ColumnIndex);
-        }
+       
     }
 }

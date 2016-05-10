@@ -4,9 +4,14 @@ using System.Data;
 using System.Linq;
 using System.Reactive.Linq;
 using JetBrains.Annotations;
+using NpgsqlTypes;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Mappers;
+using NQuandl.Npgsql.Api.Metadata;
+using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Domain.Queries;
+using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Metadata;
 
 
@@ -29,6 +34,37 @@ namespace NQuandl.Npgsql.Services.Mappers
                 obs => records.Subscribe(
                     record => obs.OnNext(CreateEntity(record)), onCompleted: obs.OnCompleted, onError:
                         exception => { throw new Exception(exception.Message); }));
+        }
+
+
+        public DataRecordsObservableBy GetDataRecordsObservableQuery<TQuery>(TQuery query) where TQuery : BaseEntitiesQuery<TEntity>
+        {
+            DataRecordsObservableBy recordsQuery;
+            var tableName = _metadata.GetTableName();
+            var whereColumn = _metadata.GetPropertyName(query.WhereColumn);
+            var columnNames = GetOrderedColumnsStrings();
+            if (query.QueryByInt.HasValue)
+            {
+                recordsQuery = new DataRecordsObservableBy(tableName, whereColumn, columnNames, query.QueryByInt.Value);
+            }
+            else if (string.IsNullOrEmpty(query.QueryByString))
+            {
+                recordsQuery = new DataRecordsObservableBy(tableName, whereColumn, columnNames, query.QueryByString);
+            }
+            else
+            {
+                recordsQuery = new DataRecordsObservableBy(tableName, columnNames);
+            }
+
+            recordsQuery.Limit = query.Limit;
+            recordsQuery.Offset = query.Offset;
+
+            return recordsQuery;
+        }
+
+        private string[] GetOrderedColumnsStrings()
+        {
+            return _metadata.ToColumnNameWithIndices().Select(x => x.ColumnName).ToArray();
         }
 
      

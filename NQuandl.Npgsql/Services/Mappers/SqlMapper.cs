@@ -11,7 +11,7 @@ namespace NQuandl.Npgsql.Services.Mappers
 {
     public class SqlMapper : ISqlMapper
     {
-        public string GetSelectSqlBy(ReaderQuery query)
+        public string GetSelectSqlBy<TQuery>(TQuery query) where TQuery : BaseDataRecordsQuery
         {
             var queryString =
                 new StringBuilder($"SELECT {GetColumnNamesString(query.ColumnNames)} FROM {query.TableName}");

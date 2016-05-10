@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using NpgsqlTypes;
 using NQuandl.Npgsql.Api.Entities;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Services.Helpers;
 
 namespace NQuandl.Npgsql.Services.Metadata
