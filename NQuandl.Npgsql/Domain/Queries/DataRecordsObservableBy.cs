@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
@@ -14,12 +11,10 @@ using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
-    public class DataRecordsObservableBy<TEntity> : BaseEntitiesQuery<TEntity>, IDefineQuery<IObservable<IDataRecord>> where TEntity : DbEntity
+    public class DataRecordsObservableBy<TEntity> : BaseEntitiesQuery<TEntity>, IDefineQuery<IObservable<IDataRecord>>
+        where TEntity : DbEntity
     {
-        public DataRecordsObservableBy()
-        {
-
-        }
+        public DataRecordsObservableBy() {}
 
         public DataRecordsObservableBy(Expression<Func<TEntity, object>> where, string query)
         {
@@ -32,15 +27,15 @@ namespace NQuandl.Npgsql.Domain.Queries
             QueryByInt = query;
             WhereColumn = where;
         }
-      
     }
 
-    public class HandleDataRecordsObservableBy<TEntity> : IHandleQuery<DataRecordsObservableBy<TEntity>, IObservable<IDataRecord>> where TEntity : DbEntity
+    public class HandleDataRecordsObservableBy<TEntity> :
+        IHandleQuery<DataRecordsObservableBy<TEntity>, IObservable<IDataRecord>> where TEntity : DbEntity
     {
+        private readonly IDb _db;
+        private readonly IEntityObjectMapper<TEntity> _objectMapper;
 
         private readonly ISqlMapper _sqlMapper;
-        private readonly IEntityObjectMapper<TEntity> _objectMapper;
-        private readonly IDb _db;
 
         public HandleDataRecordsObservableBy([NotNull] ISqlMapper sqlMapper,
             [NotNull] IEntityObjectMapper<TEntity> objectMapper, [NotNull] IDb db)
@@ -80,6 +75,5 @@ namespace NQuandl.Npgsql.Domain.Queries
                 }
             });
         }
-    }
     }
 }
