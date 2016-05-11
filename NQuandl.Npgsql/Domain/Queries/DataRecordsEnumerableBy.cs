@@ -10,13 +10,7 @@ namespace NQuandl.Npgsql.Domain.Queries
 {
     public class DataRecordsEnumerableBy : BaseDataRecordsQuery, IDefineQuery<IEnumerable<IDataRecord>>
     {
-        public DataRecordsEnumerableBy(string tableName, string[] columnNames) : base(tableName, columnNames) {}
-
-        public DataRecordsEnumerableBy(string tableName, string whereColumn, string[] columnNames, string query)
-            : base(tableName, whereColumn, columnNames, query) {}
-
-        public DataRecordsEnumerableBy(string tableName, string whereColumn, string[] columnNames, int query)
-            : base(tableName, whereColumn, columnNames, query) {}
+        
     }
 
     public class HandleDataRecordsEnumerableBy : IHandleQuery<DataRecordsEnumerableBy, IEnumerable<IDataRecord>>

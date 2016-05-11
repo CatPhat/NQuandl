@@ -38,7 +38,7 @@ namespace NQuandl.Npgsql.Domain.Queries
 
         public IObservable<TEntity> Handle(EntitiesObservableBy<TEntity> query)
         {
-           var dataRecordQuery = _objectMapper.GetDataRecordsObservableQuery(query);
+           var dataRecordQuery = _objectMapper.GetDataRecordsQuery<EntitiesObservableBy<TEntity>, DataRecordsObservableBy>(query);
            var result = _queries.Execute(dataRecordQuery);
            return _objectMapper.GetEntityObservable(result);
         }

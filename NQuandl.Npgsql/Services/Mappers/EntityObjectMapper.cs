@@ -33,28 +33,31 @@ namespace NQuandl.Npgsql.Services.Mappers
                         exception => { throw new Exception(exception.Message); }));
         }
 
-        public DataRecordsObservableBy GetDataRecordsObservableQuery<TQuery>(TQuery query)
-            where TQuery : BaseEntitiesQuery<TEntity>
+        public TDataRecordsQuery GetDataRecordsQuery<TQuery, TDataRecordsQuery>(TQuery query)
+            where TQuery : BaseEntitiesQuery<TEntity> where TDataRecordsQuery : BaseDataRecordsQuery, new()
         {
-            DataRecordsObservableBy recordsQuery;
-            var tableName = _metadata.GetTableName();
-            var whereColumn = _metadata.GetPropertyName(query.WhereColumn);
-            var columnNames = GetOrderedColumnsStrings();
-            if (query.QueryByInt.HasValue)
+            var recordsQuery = new TDataRecordsQuery
             {
-                recordsQuery = new DataRecordsObservableBy(tableName, whereColumn, columnNames, query.QueryByInt.Value);
-            }
-            else if (string.IsNullOrEmpty(query.QueryByString))
+                ColumnNames = GetOrderedColumnsStrings(),
+                Limit = query.Limit,
+                Offset = query.Offset,
+                QueryByString = query.QueryByString,
+                QueryByInt = query.QueryByInt,
+                TableName = _metadata.GetTableName()
+            };
+
+            if (query.OrderByColumn != null)
             {
-                recordsQuery = new DataRecordsObservableBy(tableName, whereColumn, columnNames, query.QueryByString);
-            }
-            else
-            {
-                recordsQuery = new DataRecordsObservableBy(tableName, columnNames);
+                recordsQuery.OrderByColumn = _metadata.GetColumnName(query.OrderByColumn);
             }
 
-            recordsQuery.Limit = query.Limit;
-            recordsQuery.Offset = query.Offset;
+            if (query.WhereColumn != null)
+            {
+                recordsQuery.WhereColumn = _metadata.GetColumnName(query.WhereColumn);
+            }
+            
+         
+            
 
             return recordsQuery;
         }

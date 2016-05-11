@@ -33,23 +33,7 @@ namespace NQuandl.Npgsql.Services
             return new NpgsqlConnection(_configuration.ConnectionString);
         }
 
-        public IEnumerable<IDataRecord> ExecuteQuery(ReaderQuery query)
-        {
-            var sqlStatement = _sql.GetSelectSqlBy(query);
-            using (var connection = new NpgsqlConnection(_configuration.ConnectionString))
-            using (var cmd = new NpgsqlCommand(sqlStatement, connection))
-            {
-                cmd.Connection.Open();
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        yield return reader;
-                    }
-                }
-                cmd.Connection.Close();
-            }
-        }
+      
 
      
 

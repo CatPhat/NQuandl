@@ -11,7 +11,18 @@ namespace NQuandl.Npgsql.Domain.Queries
     public class DataRecordsObservableByEntity<TEntity> : BaseEntitiesQuery<TEntity>,
         IDefineQuery<IObservable<IDataRecord>>
         where TEntity : DbEntity
-    {       
+    {
+        public DataRecordsObservableByEntity()
+        {
+        }
+
+        public DataRecordsObservableByEntity(Expression<Func<TEntity, object>> whereColumn, int query) : base(whereColumn, query)
+        {
+        }
+
+        public DataRecordsObservableByEntity(Expression<Func<TEntity, object>> whereColumn, string query) : base(whereColumn, query)
+        {
+        }
     }
 
     public class HandleDataRecordsObservableByEntity<TEntity> :
@@ -34,7 +45,7 @@ namespace NQuandl.Npgsql.Domain.Queries
 
         public IObservable<IDataRecord> Handle(DataRecordsObservableByEntity<TEntity> query)
         {
-            var readersQuery = _objectMapper.GetDataRecordsObservableQuery(query);
+            var readersQuery = _objectMapper.GetDataRecordsQuery<DataRecordsObservableByEntity<TEntity>, DataRecordsObservableBy>(query);
             return _queries.Execute(readersQuery);
         }
     }

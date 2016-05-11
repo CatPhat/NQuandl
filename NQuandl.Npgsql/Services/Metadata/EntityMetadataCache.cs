@@ -42,6 +42,11 @@ namespace NQuandl.Npgsql.Services.Metadata
             return _expressionPropertyNames[expression];
         }
 
+        public string GetColumnName(Expression<Func<TEntity, object>> expression)
+        {
+            return GetColumnName(GetPropertyName(expression));
+        }
+
         public string GetColumnName(string propertyName)
         {
             return _propertyNameDbColumnNames[propertyName];

@@ -8,12 +8,7 @@ using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
-    public class DataRecordsObservableBy : BaseDataRecordsQuery, IDefineQuery<IObservable<IDataRecord>>
-    {
-        public DataRecordsObservableBy(string tableName, string[] columnNames) : base(tableName, columnNames) {}
-        public DataRecordsObservableBy(string tableName, string whereColumn, string[] columnNames, string query) : base(tableName, whereColumn, columnNames, query) {}
-        public DataRecordsObservableBy(string tableName, string whereColumn, string[] columnNames, int query) : base(tableName, whereColumn, columnNames, query) {}
-    }
+    public class DataRecordsObservableBy : BaseDataRecordsQuery, IDefineQuery<IObservable<IDataRecord>> {}
 
     public class HandleDataRecordsObservableBy : IHandleQuery<DataRecordsObservableBy, IObservable<IDataRecord>>
     {

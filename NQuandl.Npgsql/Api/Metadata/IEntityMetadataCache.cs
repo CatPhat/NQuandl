@@ -10,6 +10,7 @@ namespace NQuandl.Npgsql.Api.Metadata
     public interface IEntityMetadataCache<TEntity> where TEntity : DbEntity {
         string GetTableName();
         string GetPropertyName(Expression<Func<TEntity, object>> expression);
+        string GetColumnName(Expression<Func<TEntity, object>> expression);
         string GetColumnName(string propertyName);
         int GetColumnIndex(string propertyName);
         bool GetIsNullable(string propertyName);
