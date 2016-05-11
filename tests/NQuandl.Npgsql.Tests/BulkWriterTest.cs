@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using NpgsqlTypes;
+using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Services.Mappers;
-using NQuandl.Npgsql.Services.Metadata;
-using NQuandl.Npgsql.Services.Transactions;
 using NQuandl.Npgsql.Tests.Mocks;
 using Xunit;
 
@@ -16,9 +15,10 @@ namespace NQuandl.Npgsql.Tests
         [Fact]
         public async void BulkWriteEntitiesTest()
         {
-            var sqlMapper = new EntitySqlMapper<MockDbEntity>(new EntityMetadata<MockDbEntity>());
+            var metadata = new MockMetadataCacheFactory().CreateMockMetadataCache();
+            var sqlMapper = new SqlMapper();
+            var entitySqlMapper = new EntitySqlMapper<MockDbEntity>(sqlMapper,metadata);
             var mockdb = new MockDb();
-            var entityWriter = new EntityWriter<MockDbEntity>(sqlMapper, mockdb);
 
             var mockDbEntites = new List<MockDbEntity>();
             for (var i = 0; i < 3; i++)
@@ -30,6 +30,10 @@ namespace NQuandl.Npgsql.Tests
                     Name = $"nameValue{i}"
                 });
             }
+
+            var command = new BulkWriteEntities<MockDbEntity>(mockDbEntites);
+            var commandHandler = new HandleBulkWriteEntities<MockDbEntity>(entitySqlMapper, new EntityObjectMapper<MockDbEntity>(metadata), new MockDb());
+
             await entityWriter.BulkWriteEntities(mockDbEntites.ToObservable());
 
             for (var i = 0; i < 3; i++)
