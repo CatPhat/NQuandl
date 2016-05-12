@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
-using NQuandl.Npgsql.Api.DTO;
-using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Api.Mappers;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Commands;
 
-namespace NQuandl.Npgsql.Services
+namespace NQuandl.Npgsql.Services.Database
 {
     public class Db : IDb
     {
