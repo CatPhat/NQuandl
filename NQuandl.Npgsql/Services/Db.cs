@@ -9,6 +9,7 @@ using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
+using NQuandl.Npgsql.Api.Mappers;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Commands;
 

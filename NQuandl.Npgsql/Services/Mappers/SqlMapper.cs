@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NQuandl.Npgsql.Api.DTO;
+using NQuandl.Npgsql.Api.Mappers;
 using NQuandl.Npgsql.Api.Transactions;
 
 namespace NQuandl.Npgsql.Services.Mappers

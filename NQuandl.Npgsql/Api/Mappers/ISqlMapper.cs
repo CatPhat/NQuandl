@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using NQuandl.Npgsql.Api.DTO;
+using NQuandl.Npgsql.Api.Transactions;
 
-namespace NQuandl.Npgsql.Api.Transactions
+namespace NQuandl.Npgsql.Api.Mappers
 {
     public interface ISqlMapper
     {
