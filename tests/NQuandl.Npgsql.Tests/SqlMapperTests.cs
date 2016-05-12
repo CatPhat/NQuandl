@@ -64,19 +64,22 @@ namespace NQuandl.Npgsql.Tests
         public void SqlSelectByStatementTest()
         {
             const string queryString = "valueToBeQueried";
+            const int limit = 10;
+            const int offset = 0;
+
 
             var sqlMapper = new SqlMapper();
             var metadata = MockMetadataFactory<MockDbEntity>.Metadata;
             
             var query = metadata.CreateDataRecordsQuery(new DataRecordsEnumerableByEntity<MockDbEntity>(x => x.Name, queryString)
             {
-                Limit = 10,
-                Offset = 0,
+                Limit = limit,
+                Offset = offset,
                 OrderByColumn = x => x.Id
             });
             var insertSqlStatement = sqlMapper.GetSelectSqlBy(query);
 
-            Assert.Equal("SELECT id,name,insert_date FROM mock_db_entities WHERE name = 'valueToBeQueried' ORDER BY id LIMIT 10 OFFSET 0", insertSqlStatement);
+            Assert.Equal($"SELECT id,name,insert_date FROM mock_db_entities WHERE name = '{queryString}' ORDER BY id LIMIT {limit} OFFSET {offset}", insertSqlStatement);
         }
 
         
