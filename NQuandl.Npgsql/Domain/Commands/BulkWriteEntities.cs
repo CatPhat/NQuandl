@@ -70,7 +70,7 @@ namespace NQuandl.Npgsql.Domain.Commands
         {
             return Observable.Create<List<DbInsertData>>(observer =>
                 entities.Subscribe(
-                    entity => observer.OnNext(_metadata.CreateInsertDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
+                    entity => observer.OnNext(_metadata.CreateInsertDatas(entity)),
                     onCompleted: observer.OnCompleted,
                     onError: ex => { throw new Exception(ex.Message); }));
         }
