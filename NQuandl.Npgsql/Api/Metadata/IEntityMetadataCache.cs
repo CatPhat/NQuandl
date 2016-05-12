@@ -17,6 +17,6 @@ namespace NQuandl.Npgsql.Api.Metadata
         bool GetIsStoreGenerated(string propertyName);
         NpgsqlDbType GetNpgsqlDbType(string propertyName);
         PropertyInfo GetPropertyInfo(string propertyName);
-        List<PropertyInfo> GetPropertyInfos();
+        IEnumerable<PropertyInfo> GetPropertyInfos();
     }
 }

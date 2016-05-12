@@ -56,5 +56,7 @@ namespace NQuandl.Npgsql.Tests
                 Assert.Equal(entitiesToInsert[i].InsertDate, importDatas[i][2].Data);
             }
         }
+
+       
     }
 }

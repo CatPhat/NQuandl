@@ -83,9 +83,9 @@ namespace NQuandl.Npgsql.Services.Metadata
             return _propertyNamePropertyInfos[propertyName];
         }
 
-        public List<PropertyInfo> GetPropertyInfos()
+        public IEnumerable<PropertyInfo> GetPropertyInfos()
         {
-            return _propertyNamePropertyInfos.Select(x => x.Value).ToList();
+            return _propertyNamePropertyInfos.Select(x => x.Value);
         }
 
     }
