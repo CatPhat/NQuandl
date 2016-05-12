@@ -84,7 +84,8 @@ namespace NQuandl.Npgsql.Services.Metadata
                 var funcType = typeof(Func<,>).MakeGenericType(_entityType, propertyInfo.PropertyType);
                 var lambda = Expression.Lambda(funcType, property, parameter);
                 //var expression = Expression.Lambda<Func<TEntity, object>>();
-                dictionary.Add(lambda, propertyInfo.Name);
+                var expressionDetail = ExpressionDetail.Create(lambda);
+                dictionary.Add(expressionDetail.Expression, propertyInfo.Name);
             }
             return dictionary;
         }

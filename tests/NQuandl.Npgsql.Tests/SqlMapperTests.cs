@@ -76,7 +76,7 @@ namespace NQuandl.Npgsql.Tests
             });
             var insertSqlStatement = sqlMapper.GetSelectSqlBy(query);
 
-            Assert.Equal("", insertSqlStatement);
+            Assert.Equal("SELECT id,name,insert_date FROM mock_db_entities WHERE name = 'valueToBeQueried' ORDER BY id LIMIT 10 OFFSET 0", insertSqlStatement);
         }
 
         

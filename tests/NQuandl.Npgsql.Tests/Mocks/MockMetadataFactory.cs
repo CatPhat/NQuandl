@@ -11,6 +11,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
         static MockMetadataFactory()
         {
             var metadataInitializer = new EntityMetadataCacheInitializer<TEntity>();
+           
             Metadata = new EntityMetadataCache<TEntity>(metadataInitializer);
         }
     }
