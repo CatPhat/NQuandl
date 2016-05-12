@@ -32,7 +32,7 @@ namespace NQuandl.Npgsql.Tests
             var importDatasSw = new Stopwatch();
 
             metadataSw.Start();
-            var metadata = MockMetadataFactory<MockDbEntity>.Metadata;
+            var metadata = MockMetadataFactory.Metadata;
             var mockDb = new MockDb();
             metadataSw.Stop();
 

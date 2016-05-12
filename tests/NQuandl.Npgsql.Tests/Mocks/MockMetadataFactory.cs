@@ -4,6 +4,16 @@ using NQuandl.Npgsql.Services.Metadata;
 
 namespace NQuandl.Npgsql.Tests.Mocks
 {
+    public static class MockMetadataFactory
+    {
+        public static IEntityMetadataCache<MockDbEntity> Metadata;
+
+        static MockMetadataFactory()
+        {
+            Metadata = MockMetadataFactory<MockDbEntity>.Metadata;
+        }
+    }
+
     public static class MockMetadataFactory<TEntity> where TEntity : DbEntity
     {
         public static IEntityMetadataCache<TEntity> Metadata;
