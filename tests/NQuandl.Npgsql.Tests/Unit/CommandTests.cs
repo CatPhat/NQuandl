@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reactive.Linq;
 using NpgsqlTypes;
 using NQuandl.Npgsql.Domain.Commands;
-using NQuandl.Npgsql.Tests.Mocks;
+using NQuandl.Npgsql.Tests.Unit.Mocks;
 using Xunit;
 
-namespace NQuandl.Npgsql.Tests
+namespace NQuandl.Npgsql.Tests.Unit
 {
     public class CommandTests
     {

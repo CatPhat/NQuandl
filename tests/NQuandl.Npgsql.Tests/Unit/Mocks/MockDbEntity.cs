@@ -3,7 +3,7 @@ using NpgsqlTypes;
 using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Services.Attributes;
 
-namespace NQuandl.Npgsql.Tests.Mocks
+namespace NQuandl.Npgsql.Tests.Unit.Mocks
 {
     [DbTableName("mock_db_entities")]
     public class MockDbEntity : DbEntity

@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Mappers;
-using NQuandl.Npgsql.Services.Metadata;
-using NQuandl.Npgsql.Tests.Mocks;
+using NQuandl.Npgsql.Tests.Unit.Mocks;
 using Xunit;
 
-namespace NQuandl.Npgsql.Tests
+namespace NQuandl.Npgsql.Tests.Unit
 {
     public class SqlMapperTests
     {

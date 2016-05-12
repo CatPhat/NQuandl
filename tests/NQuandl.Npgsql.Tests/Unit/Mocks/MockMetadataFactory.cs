@@ -2,7 +2,7 @@
 using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Services.Metadata;
 
-namespace NQuandl.Npgsql.Tests.Mocks
+namespace NQuandl.Npgsql.Tests.Unit.Mocks
 {
     public static class MockMetadataFactory
     {

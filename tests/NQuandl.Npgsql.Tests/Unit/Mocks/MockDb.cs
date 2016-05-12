@@ -6,7 +6,7 @@ using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Commands;
 
-namespace NQuandl.Npgsql.Tests.Mocks
+namespace NQuandl.Npgsql.Tests.Unit.Mocks
 {
     public class MockDb : IDb
     {
