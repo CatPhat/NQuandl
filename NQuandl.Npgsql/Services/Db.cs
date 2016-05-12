@@ -78,7 +78,7 @@ namespace NQuandl.Npgsql.Services
 
         public async Task BulkWriteAsync(BulkWriteCommand command)
         {
-            var firstRow = command.DatasObservable.Take(1).Select(x => x[0]).ToEnumerable();
+            var firstRow = command.DatasObservable.Take(1).Select(x => x.ToList()[0]).ToEnumerable();
             var sqlStatement = _sql.GetBulkInsertSql(command.TableName, firstRow);
             using (var connection = CreateConnection())
             using (var importer = connection.BeginBinaryImport(sqlStatement))

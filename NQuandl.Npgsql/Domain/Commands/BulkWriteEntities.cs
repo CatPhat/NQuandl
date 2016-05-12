@@ -48,7 +48,7 @@ namespace NQuandl.Npgsql.Domain.Commands
 
         public async Task Handle(BulkWriteEntities<TEntity> command)
         {
-            IObservable<List<DbInsertData>> dbDatas;
+            IObservable<IEnumerable<DbInsertData>> dbDatas;
             if (command.EntitiesEnumerable != null && command.EntitiesEnumerable.Any())
             {
                 dbDatas = GetDbImportDatasObservable(command.EntitiesEnumerable.ToObservable());
@@ -66,9 +66,9 @@ namespace NQuandl.Npgsql.Domain.Commands
             await _db.BulkWriteAsync(bulkWriteCommand);
         }
 
-        private IObservable<List<DbInsertData>> GetDbImportDatasObservable(IObservable<TEntity> entities)
+        private IObservable<IEnumerable<DbInsertData>> GetDbImportDatasObservable(IObservable<TEntity> entities)
         {
-            return Observable.Create<List<DbInsertData>>(observer =>
+            return Observable.Create<IEnumerable<DbInsertData>>(observer =>
                 entities.Subscribe(
                     entity => observer.OnNext(_metadata.CreateInsertDatas(entity)),
                     onCompleted: observer.OnCompleted,
