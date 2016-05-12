@@ -1,6 +1,6 @@
 namespace NQuandl.Npgsql.Api.Transactions
 {
-    public abstract class BaseDataRecordsQuery
+    public class DataRecordsQuery
     {
         public string TableName { get; set; }
         public string WhereColumn { get; set; }

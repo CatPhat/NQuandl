@@ -1,6 +1,8 @@
 ﻿using NQuandl.Npgsql.Api.Entities;
 using NQuandl.Npgsql.Domain.Entities;
+using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Mappers;
+using NQuandl.Npgsql.Services.Metadata;
 using Xunit;
 
 namespace NQuandl.Npgsql.Tests
@@ -20,15 +22,17 @@ namespace NQuandl.Npgsql.Tests
         [Fact]
         public void EntitySelectMapSqlStatementTest()
         {
-            var metadata = new EntityMetadata<Country>();
-            var sql = new EntitySqlMapper<Country>(metadata);
-
-            var query = new EntitiesReaderQuery<Country>(country => country.Iso31661Alpha3, "USA")
+            var metadata = new EntityMetadataCache<Country>(new EntityMetadataCacheInitializer<Country>());
+            var sqlEntityMapper = new EntitySqlMapper<Country>(new SqlMapper(), metadata);
+            var sqlMapper = new SqlMapper();
+            var objectMapper = new EntityObjectMapper<Country>(metadata);
+            var query = new DataRecordsEnumerableByEntity<Country>(country => country.Iso31661Alpha3, "USA")
             {
                 Limit = 10,
                 OrderByColumn = x => x.Iso31661Alpha3
             };
-            var statement = sql.GetSelectSqlBy(query);
+          
+            var statement = sqlEntityMapper.g(query);
 
             Assert.Equal(statement,
                 "SELECT name,iso31661alpha3,iso31661numeric,iso31661alpha2,country_flag_url,altname,iso4217_currency_alphabetic_code,iso4217_country_name,iso4217_minor_units,iso4217_currency_name,iso4217_currency_numeric_code FROM countries WHERE iso31661alpha3 = 'USA' ORDER BY iso31661alpha3 LIMIT 10");

@@ -9,7 +9,7 @@ namespace NQuandl.Npgsql.Services.Mappers
 {
     public class SqlMapper : ISqlMapper
     {
-        public string GetSelectSqlBy<TQuery>(TQuery query) where TQuery : BaseDataRecordsQuery
+        public string GetSelectSqlBy(DataRecordsQuery query)
         {
             var queryString =
                 new StringBuilder($"SELECT {GetColumnNamesString(query.ColumnNames)} FROM {query.TableName}");
@@ -42,21 +42,24 @@ namespace NQuandl.Npgsql.Services.Mappers
             return queryString.ToString();
         }
 
-        public string GetBulkInsertSql(string tableName, string[] columnNames)
+        public string GetBulkInsertSql(string tableName, IEnumerable<DbInsertData> dbInsertDatas)
         {
-            var columnNamesString = GetColumnNamesString(columnNames);
+            var dbDatas = dbInsertDatas as IList<DbInsertData> ?? dbInsertDatas.ToList();
+            var columnNames = GetColumnNamesString(dbDatas.Select(x => x.ColumnName).ToArray());
             return
-                $"COPY {tableName} ({columnNamesString}) FROM STDIN (FORMAT BINARY)";
+               $"COPY {tableName} ({columnNames}) FROM STDIN (FORMAT BINARY)";
         }
 
-        public string GetInsertSql(string tableName, string[] columnNames, IEnumerable<DbImportData> dbDatas)
+        public string GetInsertSql(string tableName, IEnumerable<DbInsertData> dbDatas)
         {
+            var dbInsertDatas = dbDatas as IList<DbInsertData> ?? dbDatas.ToList();
+            var columnNames = GetColumnNamesString(dbInsertDatas.Select(x => x.ColumnName).ToArray());
             return
                 $"INSERT INTO {tableName} ({columnNames}) " +
-                $"VALUES ({string.Join(",", dbDatas.Select(x => $":{x.ColumnName}"))});";
+                $"VALUES ({string.Join(",", dbInsertDatas.Select(x => $":{x.ColumnName}"))});";
         }
 
-        private string GetColumnNamesString(string[] columnNames)
+        private static string GetColumnNamesString(string[] columnNames)
         {
             return string.Join(",", columnNames);
         }

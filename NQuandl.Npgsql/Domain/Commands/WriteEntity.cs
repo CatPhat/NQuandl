@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Mappers;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Services.Extensions;
 
 namespace NQuandl.Npgsql.Domain.Commands
 {
@@ -23,44 +22,28 @@ namespace NQuandl.Npgsql.Domain.Commands
     public class HandleWriteEntity<TEntity> : IHandleCommand<WriteEntity<TEntity>> where TEntity : DbEntity
     {
         private readonly IDb _db;
-        private readonly IEntityObjectMapper<TEntity> _objectMapper;
-        private readonly IEntitySqlMapper<TEntity> _sqlMapper;
+        private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleWriteEntity([NotNull] IEntitySqlMapper<TEntity> sqlMapper,
-            [NotNull] IEntityObjectMapper<TEntity> objectMapper, [NotNull] IDb db)
+        public HandleWriteEntity([NotNull] IDb db, [NotNull] IEntityMetadataCache<TEntity> metadata)
         {
-            if (sqlMapper == null)
-                throw new ArgumentNullException(nameof(sqlMapper));
-            if (objectMapper == null)
-                throw new ArgumentNullException(nameof(objectMapper));
             if (db == null)
                 throw new ArgumentNullException(nameof(db));
-            _sqlMapper = sqlMapper;
-            _objectMapper = objectMapper;
+            if (metadata == null)
+                throw new ArgumentNullException(nameof(metadata));
+
             _db = db;
+            _metadata = metadata;
         }
 
         public async Task Handle(WriteEntity<TEntity> command)
         {
-            var dbImportDatas = _objectMapper.GetDbImportDatas(command.Entity).ToList();
-
-            var sqlStatement = _sqlMapper.GetInsertSql(dbImportDatas);
-
-            var parameters = dbImportDatas.Select(dbData => new NpgsqlParameter(dbData.ColumnName, dbData.DbType)
+            var dbImportDatas = _metadata.CreateInsertDatas(command.Entity);
+            var writeCommand = new WriteCommand
             {
-                Value = dbData.Data,
-                IsNullable = dbData.IsNullable
-            }).ToArray();
-
-            using (var connection = _db.CreateConnection())
-            using (var cmd = new NpgsqlCommand(sqlStatement, connection))
-            {
-                await cmd.Connection.OpenAsync();
-                cmd.Parameters.AddRange(parameters);
-                cmd.Prepare();
-                await cmd.ExecuteNonQueryAsync();
-                cmd.Connection.Close();
-            }
+                Datas = dbImportDatas,
+                TableName = _metadata.GetTableName()
+            };
+            await _db.WriteAsync(writeCommand);
         }
     }
 }

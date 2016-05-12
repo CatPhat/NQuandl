@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.DTO;
-using NQuandl.Npgsql.Services.Transactions;
+using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Domain.Commands;
 
 namespace NQuandl.Npgsql.Tests.Mocks
 {
@@ -33,7 +33,7 @@ namespace NQuandl.Npgsql.Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbImportData>> dataObservable)
+        public async Task BulkWriteData(string sqlStatement, IObservable<List<DbInsertData>> dataObservable)
         {
             await dataObservable.ForEachAsync(x =>
             {
@@ -44,22 +44,19 @@ namespace NQuandl.Npgsql.Tests.Mocks
             });
         }
 
-        public Task ExecuteCommandAsync(string command, IEnumerable<DbImportData> dbDatas)
+        public Task ExecuteCommandAsync(string command, IEnumerable<DbInsertData> dbDatas)
         {
             throw new NotImplementedException();
         }
 
-
-      
-
-        private void AddToImportedData(DbImportData importImportData)
+        private void AddToImportedData(DbInsertData insertInsertData)
         {
             ImportedData.Add(new MockBulkImportOrder
             {
                 ColumnIndex = CurrentColumnIndex,
                 RowIndex = CurrentRowIndex,
-                Data = importImportData.Data,
-                DbType = importImportData.DbType
+                Data = insertInsertData.Data,
+                DbType = insertInsertData.DbType
             });
 
             CurrentColumnIndex = CurrentColumnIndex + 1;
@@ -73,7 +70,27 @@ namespace NQuandl.Npgsql.Tests.Mocks
             }
             CurrentColumnIndex = 0;
             CurrentRowIndex = CurrentRowIndex + 1;
-            Console.WriteLine(importImportData.Data);
+            Console.WriteLine(insertInsertData.Data);
+        }
+
+        public IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IObservable<IDataRecord> GetObservable(DataRecordsQuery query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task BulkWriteAsync(BulkWriteCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task WriteAsync(WriteCommand command)
+        {
+            throw new NotImplementedException();
         }
     }
 }

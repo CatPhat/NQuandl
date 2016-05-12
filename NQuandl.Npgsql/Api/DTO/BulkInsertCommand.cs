@@ -7,6 +7,6 @@ namespace NQuandl.Npgsql.Api.DTO
     {
         public string TableName { get; set; }
         public IEnumerable<ColumnNameWithIndex> ColumnNameWithIndices { get; set; }
-        public IObservable<List<DbImportData>> DbDatasObservable { get; set; }
+        public IObservable<List<DbInsertData>> DbDatasObservable { get; set; }
     }
 }

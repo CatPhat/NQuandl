@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Data;
 using System.Linq.Expressions;
+using System.Reactive.Linq;
 using JetBrains.Annotations;
+using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Mappers;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Services.Extensions;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
@@ -22,25 +26,49 @@ namespace NQuandl.Npgsql.Domain.Queries
     public class HandleEntitiesObservableBy<TEntity> : IHandleQuery<EntitiesObservableBy<TEntity>, IObservable<TEntity>>
         where TEntity : DbEntity
     {
-        private readonly IExecuteQueries _queries;
-        private readonly IEntityObjectMapper<TEntity> _objectMapper;
+        private readonly IDb _db;
+        private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleEntitiesObservableBy([NotNull] IExecuteQueries queries,
-            [NotNull] IEntityObjectMapper<TEntity> objectMapper)
+        public HandleEntitiesObservableBy([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDb db)
         {
-            if (queries == null)
-                throw new ArgumentNullException(nameof(queries));
-            if (objectMapper == null)
-                throw new ArgumentNullException(nameof(objectMapper));
-            _queries = queries;
-            _objectMapper = objectMapper;
+            if (metadata == null)
+                throw new ArgumentNullException(nameof(metadata));
+            if (db == null)
+                throw new ArgumentNullException(nameof(db));
+            _metadata = metadata;
+            _db = db;
         }
 
         public IObservable<TEntity> Handle(EntitiesObservableBy<TEntity> query)
         {
-           var dataRecordQuery = _objectMapper.GetDataRecordsQuery<EntitiesObservableBy<TEntity>, DataRecordsObservableBy>(query);
-           var result = _queries.Execute(dataRecordQuery);
-           return _objectMapper.GetEntityObservable(result);
+            var dataRecordsQuery = _metadata.CreateDataRecordsQuery(query);
+            var observable = _db.GetObservable(dataRecordsQuery);
+            return GetEntityObservable(observable);
+        }
+
+        private IObservable<TEntity> GetEntityObservable(IObservable<IDataRecord> records)
+        {
+            return Observable.Create<TEntity>(
+                obs => records.Subscribe(
+                    record => obs.OnNext(CreateEntity(record)), onCompleted: obs.OnCompleted, onError:
+                        exception => { throw new Exception(exception.Message); }));
+        }
+
+        private TEntity CreateEntity(IDataRecord record)
+        {
+            var entity = (TEntity) Activator.CreateInstance(typeof(TEntity), new object[] {});
+            var properties = _metadata.GetPropertyInfos();
+
+            foreach (var propertyInfo in properties)
+            {
+                var columnIndex = _metadata.GetColumnIndex(propertyInfo.Name);
+                var recordValue = record[columnIndex];
+                if (recordValue != DBNull.Value)
+                {
+                    propertyInfo.SetValue(entity, recordValue);
+                }
+            }
+            return entity;
         }
     }
 }

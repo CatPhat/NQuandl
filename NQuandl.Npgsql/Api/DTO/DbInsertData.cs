@@ -2,7 +2,7 @@
 
 namespace NQuandl.Npgsql.Api.DTO
 {
-    public class DbImportData
+    public class DbInsertData
     {
         public object Data { get; set; }
         public NpgsqlDbType DbType { get; set; }

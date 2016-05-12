@@ -2,9 +2,11 @@
 using System.Data;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
+using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Mappers;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Services.Extensions;
 
 namespace NQuandl.Npgsql.Domain.Queries
 {
@@ -12,41 +14,35 @@ namespace NQuandl.Npgsql.Domain.Queries
         IDefineQuery<IObservable<IDataRecord>>
         where TEntity : DbEntity
     {
-        public DataRecordsObservableByEntity()
-        {
-        }
+        public DataRecordsObservableByEntity() {}
 
-        public DataRecordsObservableByEntity(Expression<Func<TEntity, object>> whereColumn, int query) : base(whereColumn, query)
-        {
-        }
+        public DataRecordsObservableByEntity(Expression<Func<TEntity, object>> whereColumn, int query)
+            : base(whereColumn, query) {}
 
-        public DataRecordsObservableByEntity(Expression<Func<TEntity, object>> whereColumn, string query) : base(whereColumn, query)
-        {
-        }
+        public DataRecordsObservableByEntity(Expression<Func<TEntity, object>> whereColumn, string query)
+            : base(whereColumn, query) {}
     }
 
     public class HandleDataRecordsObservableByEntity<TEntity> :
         IHandleQuery<DataRecordsObservableByEntity<TEntity>, IObservable<IDataRecord>> where TEntity : DbEntity
     {
-        private readonly IEntityObjectMapper<TEntity> _objectMapper;
-        private readonly IExecuteQueries _queries;
+        private readonly IDb _db;
+        private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleDataRecordsObservableByEntity([NotNull] IEntityObjectMapper<TEntity> objectMapper,
-            [NotNull] IExecuteQueries queries)
+        public HandleDataRecordsObservableByEntity([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDb db)
         {
-            if (objectMapper == null)
-                throw new ArgumentNullException(nameof(objectMapper));
-            if (queries == null)
-                throw new ArgumentNullException(nameof(queries));
-
-            _objectMapper = objectMapper;
-            _queries = queries;
+            if (metadata == null)
+                throw new ArgumentNullException(nameof(metadata));
+            if (db == null)
+                throw new ArgumentNullException(nameof(db));
+            _metadata = metadata;
+            _db = db;
         }
 
         public IObservable<IDataRecord> Handle(DataRecordsObservableByEntity<TEntity> query)
         {
-            var readersQuery = _objectMapper.GetDataRecordsQuery<DataRecordsObservableByEntity<TEntity>, DataRecordsObservableBy>(query);
-            return _queries.Execute(readersQuery);
+            var dataRecordsQuery = _metadata.CreateDataRecordsQuery(query);
+            return _db.GetObservable(dataRecordsQuery);
         }
     }
 }

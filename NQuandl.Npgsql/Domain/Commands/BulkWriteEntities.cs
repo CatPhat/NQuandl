@@ -4,20 +4,17 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Npgsql;
 using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Entities;
-using NQuandl.Npgsql.Api.Mappers;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Services.Extensions;
 
 namespace NQuandl.Npgsql.Domain.Commands
 {
     public class BulkWriteEntities<TEntity> : IDefineCommand where TEntity : DbEntity
     {
-        public IEnumerable<TEntity> EntitiesEnumerable { get; private set; }
-        public IObservable<TEntity> EntitiesObservable { get; private set; }
-
         public BulkWriteEntities(IObservable<TEntity> entitiesObservable)
         {
             EntitiesObservable = entitiesObservable;
@@ -27,55 +24,55 @@ namespace NQuandl.Npgsql.Domain.Commands
         {
             EntitiesEnumerable = entitiesEnumerable;
         }
+
+        public IEnumerable<TEntity> EntitiesEnumerable { get; }
+        public IObservable<TEntity> EntitiesObservable { get; }
     }
 
     public class HandleBulkWriteEntities<TEntity> : IHandleCommand<BulkWriteEntities<TEntity>> where TEntity : DbEntity
     {
-        private readonly IEntitySqlMapper<TEntity> _sqlMapper;
-        private readonly IEntityObjectMapper<TEntity> _objectMapper;
         private readonly IDb _db;
+        private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleBulkWriteEntities([NotNull] IEntitySqlMapper<TEntity> sqlMapper,
-            [NotNull] IEntityObjectMapper<TEntity> objectMapper, [NotNull] IDb db)
+        public HandleBulkWriteEntities([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDb db)
         {
-            if (sqlMapper == null)
-                throw new ArgumentNullException(nameof(sqlMapper));
-            if (objectMapper == null)
-                throw new ArgumentNullException(nameof(objectMapper));
+            if (metadata == null)
+                throw new ArgumentNullException(nameof(metadata));
+
             if (db == null)
                 throw new ArgumentNullException(nameof(db));
-            _sqlMapper = sqlMapper;
-            _objectMapper = objectMapper;
+
+            _metadata = metadata;
             _db = db;
         }
 
         public async Task Handle(BulkWriteEntities<TEntity> command)
         {
-            IObservable<List<DbImportData>> dbDatas;
+            IObservable<List<DbInsertData>> dbDatas;
             if (command.EntitiesEnumerable != null && command.EntitiesEnumerable.Any())
             {
-                dbDatas = _objectMapper.GetDbImportDatasObservable(command.EntitiesEnumerable);
+                dbDatas = GetDbImportDatasObservable(command.EntitiesEnumerable.ToObservable());
             }
             else
             {
-                dbDatas = _objectMapper.GetDbImportDatasObservable(command.EntitiesObservable);
+                dbDatas = GetDbImportDatasObservable(command.EntitiesObservable);
             }
 
-            var sqlStatement = _sqlMapper.GetBulkInsertSql();
-
-            using (var connection = _db.CreateConnection())
-            using (var importer = connection.BeginBinaryImport(sqlStatement))
+            var bulkWriteCommand = new BulkWriteCommand
             {
-                await dbDatas.ForEachAsync(importData =>
-                {
-                    importer.StartRow();
-                    foreach (var bulkImportData in importData.OrderBy(x => x.ColumnIndex))
-                    {
-                        importer.Write(bulkImportData, bulkImportData.DbType);
-                    }
-                });
-                importer.Close();
-            }
+                DatasObservable = dbDatas,
+                TableName = _metadata.GetTableName()
+            };
+            await _db.BulkWriteAsync(bulkWriteCommand);
+        }
+
+        private IObservable<List<DbInsertData>> GetDbImportDatasObservable(IObservable<TEntity> entities)
+        {
+            return Observable.Create<List<DbInsertData>>(observer =>
+                entities.Subscribe(
+                    entity => observer.OnNext(_metadata.CreateInsertDatas(entity).OrderBy(x => x.ColumnIndex).ToList()),
+                    onCompleted: observer.OnCompleted,
+                    onError: ex => { throw new Exception(ex.Message); }));
         }
     }
 }
