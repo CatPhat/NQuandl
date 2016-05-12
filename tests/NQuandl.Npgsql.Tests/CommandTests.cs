@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
 using NpgsqlTypes;
@@ -10,10 +9,10 @@ using Xunit;
 
 namespace NQuandl.Npgsql.Tests
 {
-    public class BulkWriteEntitiesTests
+    public class CommandTests
     {
         [Fact]
-        public async void DbInsertDatasAreValidTest()
+        public async void BulkWriteEntityTest()
         {
             const int upperLimit = 10;
             var entitiesToInsert = new List<MockDbEntity>();
@@ -27,28 +26,15 @@ namespace NQuandl.Npgsql.Tests
                 };
                 entitiesToInsert.Add(entity);
             }
-            var metadataSw = new Stopwatch();
-            var bulkWriteCommandSw = new Stopwatch();
-            var bulkWriteHandleSw = new Stopwatch();
-            var importDatasSw = new Stopwatch();
 
-            metadataSw.Start();
             var metadata = MockMetadataFactory.Metadata;
             var mockDb = new MockDb();
-            metadataSw.Stop();
 
-            bulkWriteCommandSw.Start();
             var bulkWriteEntityCommand = new BulkWriteEntities<MockDbEntity>(entitiesToInsert);
-            bulkWriteCommandSw.Stop();
-
-            bulkWriteHandleSw.Start();
             var bulkWriteEntityHandler =
                 new HandleBulkWriteEntities<MockDbEntity>(metadata, mockDb).Handle(bulkWriteEntityCommand);
-            bulkWriteHandleSw.Stop();
-
-            importDatasSw.Start();
             var importDatas = await mockDb.GetBulkWriteCommand.DatasObservable.ToList();
-            importDatasSw.Stop();
+
             for (var i = 0; i < upperLimit; i++)
             {
                 var importDatasList = importDatas[i].ToList();
@@ -77,6 +63,53 @@ namespace NQuandl.Npgsql.Tests
                 Assert.Equal(false, column2.IsNullable);
                 Assert.Equal(false, column2.IsStoreGenerated);
             }
+        }
+
+        [Fact]
+        public void WriteEntityTest()
+        {
+            const int id = 777;
+            const string name = "nameValue";
+            var instertDate = DateTime.Now;
+
+            var entity = new MockDbEntity
+            {
+                Id = id,
+                InsertDate = DateTime.Now,
+                Name = name
+            };
+
+            var metadata = MockMetadataFactory.Metadata;
+            var mockDb = new MockDb();
+
+            var bulkWriteEntityCommand = new WriteEntity<MockDbEntity>(entity);
+            var bulkWriteEntityHandler =
+                new HandleWriteEntity<MockDbEntity>(mockDb, metadata).Handle(bulkWriteEntityCommand);
+            var importDatas = mockDb.GetWriteCommand.Datas.ToList();
+
+            var column0 = importDatas[0];
+            Assert.Equal(id, column0.Data);
+            Assert.Equal(0, column0.ColumnIndex);
+            Assert.Equal(NpgsqlDbType.Integer, column0.DbType);
+            Assert.Equal("id", column0.ColumnName);
+            Assert.Equal(false, column0.IsNullable);
+            Assert.Equal(false, column0.IsStoreGenerated);
+
+            var column1 = importDatas[1];
+            Assert.Equal(name, column1.Data);
+            Assert.Equal(1, column1.ColumnIndex);
+            Assert.Equal(NpgsqlDbType.Text, column1.DbType);
+            Assert.Equal("name", column1.ColumnName);
+            Assert.Equal(true, column1.IsNullable);
+            Assert.Equal(false, column1.IsStoreGenerated);
+
+            var column2 = importDatas[2];
+            Assert.Equal(instertDate, column2.Data);
+            Assert.Equal(2, column2.ColumnIndex);
+            Assert.Equal(NpgsqlDbType.Timestamp, column2.DbType);
+            Assert.Equal("insert_date", column2.ColumnName);
+            Assert.Equal(false, column2.IsNullable);
+            Assert.Equal(false, column2.IsStoreGenerated);
         }
     }
 }
