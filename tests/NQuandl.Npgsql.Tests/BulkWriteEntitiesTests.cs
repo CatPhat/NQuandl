@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
+using NpgsqlTypes;
 using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Tests.Mocks;
 using Xunit;
@@ -51,9 +52,30 @@ namespace NQuandl.Npgsql.Tests
             for (var i = 0; i < upperLimit; i++)
             {
                 var importDatasList = importDatas[i].ToList();
-                Assert.Equal(entitiesToInsert[i].Id, importDatasList[0].Data);
-                Assert.Equal(entitiesToInsert[i].Name, importDatasList[1].Data);
-                Assert.Equal(entitiesToInsert[i].InsertDate, importDatasList[2].Data);
+
+                var column0 = importDatasList[0];
+                Assert.Equal(entitiesToInsert[i].Id, column0.Data);
+                Assert.Equal(0, column0.ColumnIndex);
+                Assert.Equal(NpgsqlDbType.Integer, column0.DbType);
+                Assert.Equal("id", column0.ColumnName);
+                Assert.Equal(false, column0.IsNullable);
+                Assert.Equal(false, column0.IsStoreGenerated);
+
+                var column1 = importDatasList[1];
+                Assert.Equal(entitiesToInsert[i].Name, column1.Data);
+                Assert.Equal(1, column1.ColumnIndex);
+                Assert.Equal(NpgsqlDbType.Text, column1.DbType);
+                Assert.Equal("name", column1.ColumnName);
+                Assert.Equal(true, column1.IsNullable);
+                Assert.Equal(false, column1.IsStoreGenerated);
+
+                var column2 = importDatasList[2];
+                Assert.Equal(entitiesToInsert[i].InsertDate, column2.Data);
+                Assert.Equal(2, column2.ColumnIndex);
+                Assert.Equal(NpgsqlDbType.Timestamp, column2.DbType);
+                Assert.Equal("insert_date", column2.ColumnName);
+                Assert.Equal(false, column2.IsNullable);
+                Assert.Equal(false, column2.IsStoreGenerated);
             }
         }
     }
