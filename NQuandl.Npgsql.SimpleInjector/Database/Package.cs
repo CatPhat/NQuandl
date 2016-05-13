@@ -37,8 +37,8 @@ namespace NQuandl.Npgsql.SimpleInjector.Database
             }
             else
             {
-                container.Register<ICustomizeDb, VainillaDbCustomizer>();
-                container.Register<IDbInitializer, BrownfrieldDbInitializer>();
+                container.Register<ICustomizeDb, VanillaDbCustomizer>();
+                container.Register<IDbInitializer, BrownfieldDbInitializer>();
             }
 
             container.Register<IDb, Db>(Lifestyle.Transient);

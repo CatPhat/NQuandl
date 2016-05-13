@@ -2,7 +2,7 @@
 
 namespace NQuandl.Npgsql.Services.Database.Initialization
 {
-    public class BrownfrieldDbInitializer : IDbInitializer
+    public class BrownfieldDbInitializer : IDbInitializer
     {
        
         public void Intialize(IDb db)

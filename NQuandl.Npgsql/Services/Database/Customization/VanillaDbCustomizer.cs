@@ -2,7 +2,7 @@
 
 namespace NQuandl.Npgsql.Services.Database.Customization
 {
-    public class VainillaDbCustomizer : ICustomizeDb
+    public class VanillaDbCustomizer : ICustomizeDb
     {
         public void Customize(IDb db)
         {
