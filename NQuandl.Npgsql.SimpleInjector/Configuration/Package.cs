@@ -1,5 +1,6 @@
 ﻿using NQuandl.Npgsql.Api;
 using NQuandl.Npgsql.Services.Database;
+using NQuandl.Npgsql.Services.Database.Configuration;
 using SimpleInjector;
 using SimpleInjector.Packaging;
 
