@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using NQuandl.Npgsql.SimpleInjector.CompositionRoot;
 using SimpleInjector;
 
 namespace NQuandl.Npgsql.Tests.Unit.SimpleInjector._Fixtures
@@ -17,7 +18,7 @@ namespace NQuandl.Npgsql.Tests.Unit.SimpleInjector._Fixtures
            
             Container = new Container();
             var assemblies = new[] { Assembly.GetExecutingAssembly() };
-            var settings = new RootCompositionSettings
+            var settings = new CompositionRootSettings()
             {
                 FluentValidatorAssemblies = assemblies,
                 QueryHandlerAssemblies = assemblies,

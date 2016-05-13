@@ -9,7 +9,6 @@ namespace NQuandl.Npgsql.SimpleInjector.CompositionRoot
         {
             var packages = new IPackage[]
             {
-                new Configuration.Package(),
                 new Database.Package(settings.IsGreenfield),
                 new Mapper.Package(),
                 new Metadata.Package(settings.MetadataCacheInitializerAssemblies, settings.MetadataCacheAssemblies),
