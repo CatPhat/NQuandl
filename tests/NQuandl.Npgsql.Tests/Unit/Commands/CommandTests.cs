@@ -5,12 +5,15 @@ using System.Reactive.Linq;
 using NpgsqlTypes;
 using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Tests.Unit.Mocks;
+using NQuandl.Npgsql.Tests.Unit._Fixtures;
 using Xunit;
 
-namespace NQuandl.Npgsql.Tests.Unit
+namespace NQuandl.Npgsql.Tests.Unit.Commands
 {
-    public class CommandTests
+    public class CommandTests : MockMetadataTests
     {
+        public CommandTests(MockMetadataFixture mockMetadata) : base(mockMetadata) {}
+
         [Fact]
         public async void BulkWriteEntityTest()
         {
@@ -27,12 +30,12 @@ namespace NQuandl.Npgsql.Tests.Unit
                 entitiesToInsert.Add(entity);
             }
 
-            var metadata = MockMetadataFactory.Metadata;
+          
             var mockDb = new MockDb();
 
             var bulkWriteEntityCommand = new BulkWriteEntities<MockDbEntity>(entitiesToInsert);
             var bulkWriteEntityHandler =
-                new HandleBulkWriteEntities<MockDbEntity>(metadata, mockDb).Handle(bulkWriteEntityCommand);
+                new HandleBulkWriteEntities<MockDbEntity>(MockMetadata, mockDb).Handle(bulkWriteEntityCommand);
             var importDatas = await mockDb.GetBulkWriteCommand.DatasObservable.ToList();
 
             for (var i = 0; i < upperLimit; i++)
@@ -75,16 +78,16 @@ namespace NQuandl.Npgsql.Tests.Unit
             var entity = new MockDbEntity
             {
                 Id = id,
-                InsertDate = DateTime.Now,
+                InsertDate = instertDate,
                 Name = name
             };
 
-            var metadata = MockMetadataFactory.Metadata;
+       
             var mockDb = new MockDb();
 
             var bulkWriteEntityCommand = new WriteEntity<MockDbEntity>(entity);
             var bulkWriteEntityHandler =
-                new HandleWriteEntity<MockDbEntity>(mockDb, metadata).Handle(bulkWriteEntityCommand);
+                new HandleWriteEntity<MockDbEntity>(mockDb, MockMetadata).Handle(bulkWriteEntityCommand);
             var importDatas = mockDb.GetWriteCommand.Datas.ToList();
 
             var column0 = importDatas[0];

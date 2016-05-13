@@ -3,12 +3,15 @@ using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Mappers;
 using NQuandl.Npgsql.Tests.Unit.Mocks;
+using NQuandl.Npgsql.Tests.Unit._Fixtures;
 using Xunit;
 
-namespace NQuandl.Npgsql.Tests.Unit
+namespace NQuandl.Npgsql.Tests.Unit.Mapper
 {
-    public class SqlMapperTests
+    public class SqlMapperTests : MockMetadataTests
     {
+        public SqlMapperTests(MockMetadataFixture mockMetadata) : base(mockMetadata) {}
+
         [Fact]
         public void SqlInsertStatementTest()
         {
@@ -17,7 +20,7 @@ namespace NQuandl.Npgsql.Tests.Unit
             const string name = "mockedName";
 
             var sqlMapper = new SqlMapper();
-            var metadata = MockMetadataFactory<MockDbEntity>.Metadata;
+       
 
             var entity = new MockDbEntity
             {
@@ -26,8 +29,8 @@ namespace NQuandl.Npgsql.Tests.Unit
                 Name = name
             };
 
-            var insertDatas = metadata.CreateInsertDatas(entity);
-            var insertSqlStatement = sqlMapper.GetInsertSql(metadata.GetTableName(), insertDatas);
+            var insertDatas = MockMetadata.CreateInsertDatas(entity);
+            var insertSqlStatement = sqlMapper.GetInsertSql(MockMetadata.GetTableName(), insertDatas);
 
             Assert.Equal("INSERT INTO mock_db_entities (id,name,insert_date) VALUES (:id,:name,:insert_date);", insertSqlStatement);
         }
@@ -40,7 +43,7 @@ namespace NQuandl.Npgsql.Tests.Unit
             const string name = "mockedName";
 
             var sqlMapper = new SqlMapper();
-            var metadata = MockMetadataFactory<MockDbEntity>.Metadata;
+          
 
             var entity = new MockDbEntity
             {
@@ -49,8 +52,8 @@ namespace NQuandl.Npgsql.Tests.Unit
                 Name = name
             };
 
-            var insertDatas = metadata.CreateInsertDatas(entity);
-            var insertSqlStatement = sqlMapper.GetBulkInsertSql(metadata.GetTableName(), insertDatas);
+            var insertDatas = MockMetadata.CreateInsertDatas(entity);
+            var insertSqlStatement = sqlMapper.GetBulkInsertSql(MockMetadata.GetTableName(), insertDatas);
 
             Assert.Equal("COPY mock_db_entities (id,name,insert_date) FROM STDIN (FORMAT BINARY)", insertSqlStatement);
         }
@@ -64,9 +67,9 @@ namespace NQuandl.Npgsql.Tests.Unit
 
 
             var sqlMapper = new SqlMapper();
-            var metadata = MockMetadataFactory<MockDbEntity>.Metadata;
+         
             
-            var query = metadata.CreateDataRecordsQuery(new DataRecordsEnumerableByEntity<MockDbEntity>(x => x.Name, queryString)
+            var query = MockMetadata.CreateDataRecordsQuery(new DataRecordsEnumerableByEntity<MockDbEntity>(x => x.Name, queryString)
             {
                 Limit = limit,
                 Offset = offset,
