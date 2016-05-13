@@ -14,8 +14,7 @@ namespace NQuandl.Npgsql.Services.Database.Initialization
 
         public void Intialize(IDb db)
         {
-            if (_customizer != null)
-                _customizer.Customize(db);
+            _customizer?.Customize(db);
         }
     }
 }
