@@ -113,5 +113,16 @@ namespace NQuandl.Npgsql.Services.Database
                 cmd.Connection.Close();
             }
         }
+
+        public async Task ExecuteSqlCommand(string sqlStatement)
+        {
+            using (var connection = CreateConnection())
+            using (var cmd = new NpgsqlCommand(sqlStatement, connection))
+            {
+                await cmd.Connection.OpenAsync();
+                await cmd.ExecuteNonQueryAsync();
+                cmd.Connection.Close();
+            }
+        }
     }
 }
