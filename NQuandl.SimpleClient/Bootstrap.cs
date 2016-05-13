@@ -56,7 +56,7 @@ namespace NQuandl.SimpleClient
                 new Client.SimpleInjector.RateGate.Package(),
                 new Client.SimpleInjector.TaskQueue.Package(),
                 new Client.SimpleInjector.Transactions.Package(requestHandlerAssemblies),
-                new Npgsql.SimpleInjector.Package(),
+        
                 new Npgsql.SimpleInjector.Transactions.Commands.Package(),
                 new Npgsql.SimpleInjector.Transactions.Queries.Package()
             };
