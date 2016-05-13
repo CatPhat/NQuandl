@@ -38,5 +38,10 @@ namespace NQuandl.Npgsql.Tests.Unit.Mocks
             GetWriteCommand = command;
             return Task.FromResult(0);
         }
+
+        public Task ExecuteSqlCommand(string sqlStatement)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -11,19 +11,24 @@ namespace NQuandl.Npgsql.SimpleInjector.Database
     public class Package : IPackage
     {
         private bool IsGreenfield { get; }
-        public Package(bool isGreenfield = false)
+        private bool UseDebugDatabase { get; }
+
+        public Package(bool isGreenfield = false, bool useDebugDatabase = true)
         {
             IsGreenfield = isGreenfield;
+            UseDebugDatabase = useDebugDatabase;
         }
-     
+
         public void RegisterServices(Container container)
         {
-#if DEBUG
-            container.Register<IConfigureConnection>(() => new DebugConnectionConfiguration());
-#endif
-#if !DEBUG
-            container.Register<IConfigureConnection>(() => new ConnectionConfiguration());
-#endif
+            if (UseDebugDatabase)
+            {
+                container.Register<IConfigureConnection>(() => new DebugConnectionConfiguration());
+            }
+            else
+            {
+                container.Register<IConfigureConnection>(() => new ConnectionConfiguration());
+            }
 
             if (IsGreenfield)
             {
