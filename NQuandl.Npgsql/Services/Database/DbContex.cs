@@ -13,12 +13,12 @@ using NQuandl.Npgsql.Domain.Commands;
 
 namespace NQuandl.Npgsql.Services.Database
 {
-    public class Db : IDb
+    public class DbContex : IDbContext
     {
         private readonly IConfigureConnection _configuration;
         private readonly ISqlMapper _sql;
 
-        public Db([NotNull] IConfigureConnection configuration, [NotNull] ISqlMapper sql)
+        public DbContex([NotNull] IConfigureConnection configuration, [NotNull] ISqlMapper sql)
         {
             if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));

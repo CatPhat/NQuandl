@@ -33,9 +33,9 @@ namespace NQuandl.SimpleClient
         //    await new ExecuteCommand(Container).SaveChangesAsync();
         //}
 
-        public static IDb GetSql()
+        public static IDbContext GetSql()
         {
-            return Container.GetInstance<IDb>();
+            return Container.GetInstance<IDbContext>();
         }
 
         public static TResult ExecuteQuery<TResult>(this IDefineQuery<TResult> query)

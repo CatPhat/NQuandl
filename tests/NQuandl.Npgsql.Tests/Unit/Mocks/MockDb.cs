@@ -8,7 +8,7 @@ using NQuandl.Npgsql.Domain.Commands;
 
 namespace NQuandl.Npgsql.Tests.Unit.Mocks
 {
-    public class MockDb : IDb
+    public class MockDbContext : IDbContext
     {
         public DataRecordsQuery GetEnumerableQuery { get; private set; }
         public DataRecordsQuery GetObservableQuery { get; private set; }

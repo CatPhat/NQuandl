@@ -7,7 +7,7 @@ namespace NQuandl.Npgsql.Services.Database.Customization
 {
     public class PostgresSqlScriptsCustomizer : ICustomizeDb
     {
-        public void Customize(IDb db)
+        public void Customize(IDbContext dbContext)
         {
             var assembly = Assembly.GetExecutingAssembly();
             var sqlScriptNames = assembly.GetManifestResourceNames()
@@ -15,7 +15,7 @@ namespace NQuandl.Npgsql.Services.Database.Customization
             foreach (var sqlScriptName in sqlScriptNames)
             {
                 var sqlScriptText = assembly.GetManifestResourceText(sqlScriptName);
-                db.ExecuteSqlCommand(sqlScriptText);
+                dbContext.ExecuteSqlCommand(sqlScriptText);
             }
         }
     }

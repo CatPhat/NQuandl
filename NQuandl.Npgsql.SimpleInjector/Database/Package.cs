@@ -41,7 +41,7 @@ namespace NQuandl.Npgsql.SimpleInjector.Database
                 container.Register<IDbInitializer, BrownfieldDbInitializer>();
             }
 
-            container.Register<IDb, Db>(Lifestyle.Transient);
+            container.Register<IDbContext, Services.Database.DbContex>(Lifestyle.Transient);
         }
     }
 }

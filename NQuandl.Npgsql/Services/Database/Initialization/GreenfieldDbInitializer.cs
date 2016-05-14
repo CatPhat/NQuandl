@@ -12,9 +12,9 @@ namespace NQuandl.Npgsql.Services.Database.Initialization
             _customizer = customizer;
         }
 
-        public void Intialize(IDb db)
+        public void Intialize(IDbContext dbContext)
         {
-            _customizer?.Customize(db);
+            _customizer?.Customize(dbContext);
         }
     }
 }

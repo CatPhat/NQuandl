@@ -21,17 +21,17 @@ namespace NQuandl.Npgsql.Domain.Commands
 
     public class HandleWriteEntity<TEntity> : IHandleCommand<WriteEntity<TEntity>> where TEntity : DbEntity
     {
-        private readonly IDb _db;
+        private readonly IDbContext _dbContext;
         private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleWriteEntity([NotNull] IDb db, [NotNull] IEntityMetadataCache<TEntity> metadata)
+        public HandleWriteEntity([NotNull] IDbContext dbContext, [NotNull] IEntityMetadataCache<TEntity> metadata)
         {
-            if (db == null)
-                throw new ArgumentNullException(nameof(db));
+            if (dbContext == null)
+                throw new ArgumentNullException(nameof(dbContext));
             if (metadata == null)
                 throw new ArgumentNullException(nameof(metadata));
 
-            _db = db;
+            _dbContext = dbContext;
             _metadata = metadata;
         }
 
@@ -43,7 +43,7 @@ namespace NQuandl.Npgsql.Domain.Commands
                 Datas = dbImportDatas,
                 TableName = _metadata.GetTableName()
             };
-            await _db.WriteAsync(writeCommand);
+            await _dbContext.WriteAsync(writeCommand);
         }
     }
 }

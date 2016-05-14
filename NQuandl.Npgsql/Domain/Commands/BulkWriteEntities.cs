@@ -31,19 +31,19 @@ namespace NQuandl.Npgsql.Domain.Commands
 
     public class HandleBulkWriteEntities<TEntity> : IHandleCommand<BulkWriteEntities<TEntity>> where TEntity : DbEntity
     {
-        private readonly IDb _db;
+        private readonly IDbContext _dbContext;
         private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleBulkWriteEntities([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDb db)
+        public HandleBulkWriteEntities([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDbContext dbContext)
         {
             if (metadata == null)
                 throw new ArgumentNullException(nameof(metadata));
 
-            if (db == null)
-                throw new ArgumentNullException(nameof(db));
+            if (dbContext == null)
+                throw new ArgumentNullException(nameof(dbContext));
 
             _metadata = metadata;
-            _db = db;
+            _dbContext = dbContext;
         }
 
         public async Task Handle(BulkWriteEntities<TEntity> command)
@@ -63,7 +63,7 @@ namespace NQuandl.Npgsql.Domain.Commands
                 DatasObservable = dbDatas,
                 TableName = _metadata.GetTableName()
             };
-            await _db.BulkWriteAsync(bulkWriteCommand);
+            await _dbContext.BulkWriteAsync(bulkWriteCommand);
         }
 
         private IObservable<IEnumerable<DbInsertData>> GetDbImportDatasObservable(IObservable<TEntity> entities)

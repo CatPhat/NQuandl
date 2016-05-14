@@ -26,23 +26,23 @@ namespace NQuandl.Npgsql.Domain.Queries
     public class HandleDataRecordsObservableByEntity<TEntity> :
         IHandleQuery<DataRecordsObservableByEntity<TEntity>, IObservable<IDataRecord>> where TEntity : DbEntity
     {
-        private readonly IDb _db;
+        private readonly IDbContext _dbContext;
         private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleDataRecordsObservableByEntity([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDb db)
+        public HandleDataRecordsObservableByEntity([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDbContext dbContext)
         {
             if (metadata == null)
                 throw new ArgumentNullException(nameof(metadata));
-            if (db == null)
-                throw new ArgumentNullException(nameof(db));
+            if (dbContext == null)
+                throw new ArgumentNullException(nameof(dbContext));
             _metadata = metadata;
-            _db = db;
+            _dbContext = dbContext;
         }
 
         public IObservable<IDataRecord> Handle(DataRecordsObservableByEntity<TEntity> query)
         {
             var dataRecordsQuery = _metadata.CreateDataRecordsQuery(query);
-            return _db.GetObservable(dataRecordsQuery);
+            return _dbContext.GetObservable(dataRecordsQuery);
         }
     }
 }

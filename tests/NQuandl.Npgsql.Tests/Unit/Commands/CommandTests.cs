@@ -31,7 +31,7 @@ namespace NQuandl.Npgsql.Tests.Unit.Commands
             }
 
           
-            var mockDb = new MockDb();
+            var mockDb = new MockDbContext();
 
             var bulkWriteEntityCommand = new BulkWriteEntities<MockDbEntity>(entitiesToInsert);
             var bulkWriteEntityHandler =
@@ -83,7 +83,7 @@ namespace NQuandl.Npgsql.Tests.Unit.Commands
             };
 
        
-            var mockDb = new MockDb();
+            var mockDb = new MockDbContext();
 
             var bulkWriteEntityCommand = new WriteEntity<MockDbEntity>(entity);
             var bulkWriteEntityHandler =

@@ -27,23 +27,23 @@ namespace NQuandl.Npgsql.Domain.Queries
     public class HandleDataRecordsEnumerableByEntity<TEntity> :
         IHandleQuery<DataRecordsEnumerableByEntity<TEntity>, IEnumerable<IDataRecord>> where TEntity : DbEntity
     {
-        private readonly IDb _db;
+        private readonly IDbContext _dbContext;
         private readonly IEntityMetadataCache<TEntity> _metadata;
 
-        public HandleDataRecordsEnumerableByEntity([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDb db)
+        public HandleDataRecordsEnumerableByEntity([NotNull] IEntityMetadataCache<TEntity> metadata, [NotNull] IDbContext dbContext)
         {
             if (metadata == null)
                 throw new ArgumentNullException(nameof(metadata));
-            if (db == null)
-                throw new ArgumentNullException(nameof(db));
+            if (dbContext == null)
+                throw new ArgumentNullException(nameof(dbContext));
             _metadata = metadata;
-            _db = db;
+            _dbContext = dbContext;
         }
 
         public IEnumerable<IDataRecord> Handle(DataRecordsEnumerableByEntity<TEntity> query)
         {
             var dataRecordsQuery = _metadata.CreateDataRecordsQuery(query);
-            return _db.GetEnumerable(dataRecordsQuery);
+            return _dbContext.GetEnumerable(dataRecordsQuery);
         }
     }
 }

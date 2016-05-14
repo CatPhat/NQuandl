@@ -4,6 +4,6 @@ namespace NQuandl.Npgsql.Services.Database.Customization
 {
     public interface ICustomizeDb
     {
-        void Customize(IDb db);
+        void Customize(IDbContext dbContext);
     }
 }

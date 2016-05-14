@@ -7,7 +7,7 @@ using NQuandl.Npgsql.Domain.Commands;
 
 namespace NQuandl.Npgsql.Api
 {
-    public interface IDb
+    public interface IDbContext
     {
         IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query);
         IObservable<IDataRecord> GetObservable(DataRecordsQuery query);

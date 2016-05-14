@@ -3,6 +3,6 @@
 namespace NQuandl.Npgsql.Services.Database.Initialization
 {
     public interface IDbInitializer {
-        void Intialize(IDb db);
+        void Intialize(IDbContext dbContext);
     }
 }
