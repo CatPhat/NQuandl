@@ -1,286 +1,265 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using NQuandl.Client;
-using NQuandl.Client.Helpers;
-using NQuandl.Client.Interfaces;
-using NQuandl.Client.Requests;
-using NQuandl.Client.Responses;
-using NQuandl.Client.URIs;
-using NQuandl.Queue;
-using Rebus;
-using Rebus.Configuration;
-using Rebus.Logging;
-using Rebus.Messages;
-using Rebus.Persistence.SqlServer;
-using Rebus.Transports.Sql;
+using NQuandl.Client.Api.Quandl.Helpers;
+using NQuandl.Client.Domain.Requests;
+using NQuandl.Client.Domain.Responses;
+using NQuandl.Client.Services.Logger;
 
-namespace NQuandl.TestConsole
+using NQuandl.Npgsql.Domain.Entities;
+
+using NQuandl.Npgsql.Services.Extensions;
+using NQuandl.Npgsql.Services.Mappers;
+using NQuandl.SimpleClient;
+
+namespace nquandl.console
 {
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var test = new TestBus();
-            test.Run();
 
-            Console.WriteLine("done");
+            //var countries = new CountriesBy().ExecuteQuery();
+            //countries.Subscribe((country => NonBlockingConsole.WriteLine(country.Name)));
+
+          
+            NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
         }
     }
 
-    public class TestBus
-    {
-        public void Run()
-        {
-            using (var adapter = new BuiltinContainerAdapter())
-            {
-                adapter.Register(() => new HandleQueueRequest());
-                adapter.Register(() => new PrintDateTime());
-                var bus = Configure.With(adapter)
-                    .Logging(l => l.ColoredConsole(LogLevel.Error))
-                    .Transport(
-                        t =>
-                            t.UseSqlServer(@"server=SHIVA9.;initial catalog=RebusInputQueue;integrated security=sspi",
-                                "thequeue", "my-app.input", "my-app.error").EnsureTableIsCreated())
-                    .Timeouts(
-                        x =>
-                            x.Use(
-                                new SqlServerTimeoutStorage(
-                                    @"server=SHIVA9.;initial catalog=RebusInputQueue;integrated security=sspi",
-                                    "timeouts").EnsureTableIsCreated()))
-                    .MessageOwnership(x => x.Use(new DetermineQueueOwnership()))
-                    .CreateBus()
-                    .Start();
+    //public class DownloadAllDatasetsByDatabase
+    //{
+    //    public async Task Get(string databaseCode)
+    //    {
+    //        var request = new RequestDatabaseDatasetListBy(databaseCode);
+    //        var datasetList = await request.ExecuteRequest();
+    //        var command = new BulkCreateDatabaseDataset(datasetList.Datasets);
+    //        await command.ExecuteCommand();
 
-                var requests = new List<QueryParametersV2>();
-                for (var i = 1; i <= 10; i++)
-                {
-                    for (var j = 1; j <= 2000; j++)
-                    {
-                        var options = new QueryParametersV2
-                        {
-                            ApiKey = QuandlServiceConfiguration.ApiKey,
-                            Query = "*",
-                            SourceCode = "UNDATA",
-                            PerPage = 300,
-                            Page = i
-                        };
+    //    }
+    //}
 
-                        requests.Add(options);
-                    }
-                }
+    //public class GetAllDatasetCountries
+    //{
+    //    public async Task Get()
+    //    {
+    //        var countries = new CountriesBy().ExecuteQuery();
 
+    //        var task = countries.Subscribe(
+    //            async country => await new GetResultsFromDatasetByDescriptionContains().CreateDatasetCountries(country.Iso4217CountryName, country.Iso31661Alpha3), onError: exception => { throw new Exception(exception.Message); });
 
-                foreach (var request in requests)
-                {
-                    bus.Defer(TimeSpan.FromMilliseconds(300*requests.IndexOf(request)), request);
-                }
-                Console.WriteLine("Press enter to quit");
-                Console.ReadLine();
-            }
-        }
+           
+    //    }
+    //}
 
-        public class DetermineQueueOwnership : IDetermineMessageOwnership
-        {
-            public string GetEndpointFor(Type messageType)
-            {
-                if (messageType == typeof (DeserializeMetadataRequestV2))
-                {
-                    return "my-app.input";
-                }
-                throw new Exception("no endpoint for message type");
-            }
-        }
+    //public class GetResultsFromDatasetByDescriptionContains
+    //{
+    //    public async Task<IEnumerable<Dataset>> GetDatasets(string queryString)
+    //    {
+    //        var query = new DatasetsByDescriptionContains(queryString);
+    //        var result = query.ExecuteQuery();
+    //        var results = await result.ToList();
 
-        public class HandleQueueRequest : IHandleMessages<QueryParametersV2>
-        {
-            private readonly IQuandlJsonService _client;
+    //        return results;
+    //    }
 
-            public HandleQueueRequest()
-            {
-                _client = new QuandlJsonService(QuandlServiceConfiguration.BaseUrl);
-            }
+    //    public void PrintResults(IEnumerable<Dataset> results)
+    //    {
 
-            public async void Handle(QueryParametersV2 message)
-            {
-                var request = new TestMetadataRequestV2(message);
-                var response = await _client.GetAsync(request);
-                Verbose.PrintTestResponse(response.JsonResponse);
-            }
-        }
+    //        var count = 0;
+    //        foreach (var dataset in results)
+    //        {
+    //            NonBlockingConsole.WriteLine(dataset.Description);
+    //            count = count + 1;
 
-        private class PrintDateTime : IHandleMessages<DateTime>
-        {
-            public void Handle(DateTime currentDateTime)
-            {
-                Console.WriteLine("The time is {0}", currentDateTime);
-            }
-        }
-    }
+    //        }
+    //        NonBlockingConsole.WriteLine("Count: " + count);
+    //    }
+
+    //    public void CreateDatasetCountriesByAllCountries()
+    //    {
+    //        var countries = new CountriesBy().ExecuteQuery();
+
+    //        countries.Subscribe(
+    //            async country => await CreateDatasetCountries(country.Iso31661Alpha2, country.Iso31661Alpha3), onError: exception => {throw new Exception(exception.Message);});
+
+    //    }
+
+    //    public async Task CreateDatasetCountries(string queryString, string iso3166Alpha3)
+    //    {
+           
+           
+    //        var query = new DatasetsByDescriptionContains(queryString);
+    //        var result = query.ExecuteQuery();
+
+    //        var observable = Observable.Create<DatasetCountry>(
+    //            obs => result.Subscribe(
+    //                record => obs.OnNext(new DatasetCountry
+    //                {
+    //                    Association = queryString,
+    //                    DatasetId = record.Id,
+    //                    Iso31661Alpha3 = iso3166Alpha3
+    //                }),
+    //                onCompleted: obs.OnCompleted,
+    //                onError: exception => { throw new Exception(exception.Message); }));
+
+    //        var command = new BulkCreateDatasetCountries(observable);
+    //        await command.ExecuteCommand();
+    //    }
+
+    //    public async Task GetAndPrint()
+    //    {
+    //        var results =  await GetDatasets("US");
+    //        PrintResults(results);
+    //    }
+    //}
 
 
-    public class QueueRequestSerializer : ISerializeMessages
-    {
-        public TransportMessageToSend Serialize(Message message)
-        {
-            var thisMessage = message;
-            var transportMessage = new TransportMessageToSend();
+    //public class GetWikiCountriesFromJsonFile
+    //{
+    //    public IObservable<Country> GetCountryObservable(string filePath)
+    //    {
 
-            throw new NotImplementedException();
-        }
+    //        return Observable.Create<Country>(async obs =>
+    //        {
+    //            var wikiCountries = await new GetWikiCountriesFromJsonFile().GetWikiCountries(filePath);
 
-        public Message Deserialize(ReceivedTransportMessage transportMessage)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //            foreach (var binding in wikiCountries.results.bindings)
+    //            {
+    //                var country = new Country
+    //                {
+    //                    Name = binding.countryLabel.value,
+    //                    Iso31661Alpha2 = binding.country_code_iso_3166_1_alpha_2.value,
+    //                    Iso31661Alpha3 = binding.country_code_iso_3166_1_alpha_3.value,
+    //                    Iso31661Numeric = int.Parse(binding.country_code_iso_3166_1_numeric.value),
+    //                    CountryFlagUrl = binding.flag_imageImage.value
+    //                };
+    //                obs.OnNext(country);
 
+    //            }
+    //        });
+    //    }
 
-    public class Cacheresponse
-    {
-        public DateTime FirstRequestTime { get; set; }
-        public DateTime LastRequestTime { get; set; }
-        public string TimeElapsed { get; set; }
-        public string AverageTimeBetweenRequests { get; set; }
-        public Lastentry LastEntry { get; set; }
-        public int RequestCount { get; set; }
-        public float RequestsPerSecond { get; set; }
-        public float AverageRequestsPerSecond { get; set; }
-        public string TimeElapsedSinceFirstRequest { get; set; }
-        public float RequestsPerLastTenMinutes { get; set; }
-        public float EstimatedRequestsPer10MinutesAtCurrentRate { get; set; }
-        public float EstimatedAverageRequestsPer10MinutesAtCurrentRate { get; set; }
-        public int RequestsRemaining { get; set; }
-        public float RequestsSinceFirstRequestTime { get; set; }
-    }
+    //    public async Task<WikiCountries> GetWikiCountries(string filePath)
+    //    {
+    //        var memoryStream = new MemoryStream();
+    //        await GetStreamFromFile(filePath, memoryStream);
+    //        return memoryStream.DeserializeToEntity<WikiCountries>();
+    //    }
 
-    public class TestClient
-    {
-        public void Run()
-        {
-            var task = Task.WhenAll(Consume());
-            while (task.IsCompleted == false)
-            {
-            }
-        }
-
-        public async Task<int> Consume()
-        {
-            var requests = new List<TestMetadataRequestV2>();
-            for (var i = 1; i <= 100; i++)
-            {
-                for (var j = 1; j <= 200; j++)
-                {
-                    var options = new QueryParametersV2
-                    {
-                        ApiKey = QuandlServiceConfiguration.ApiKey,
-                        Query = "*",
-                        SourceCode = "UNDATA",
-                        PerPage = 300,
-                        Page = i
-                    };
-
-                    var request = new TestMetadataRequestV2(options);
-
-                    requests.Add(request);
-                }
-            }
-
-            var tasks =
-                requests.Select(async request =>
-                {
-                    var response = await NQueue.GetStringAsync(request);
-                    var desrialized = new DeserializedJsonResponse<TestJsonResponseV2>(response);
-
-                    Console.Clear();
-                    Verbose.PrintStatus();
-                    Verbose.PrintTestResponse(desrialized.JsonResponse);
-                    Console.WriteLine();
-                }).ToList();
-
-            await Task.WhenAll(tasks);
-
-            return await Task.FromResult(0);
-        }
-    }
+    //    private async Task GetStreamFromFile(string filePath, Stream stream)
+    //    {
+    //        using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+    //        {
+    //            await fileStream.CopyToAsync(stream);
+    //        }
+    //        stream.Seek(0, SeekOrigin.Begin);
+    //    }
+    //}
 
 
-    public class TestJsonResponseV2 : JsonResponse
-    {
-        public JsonResponseV2 MetadataResponse { get; set; }
-        public Cacheresponse CacheResponse { get; set; }
-    }
 
-    public class TestMetadataRequestV2 : IQuandlJsonRequest<TestJsonResponseV2>
-    {
-        public readonly QueryParametersV2 _options;
+    //public class WikiCountries
+    //{
+    //    public Head head { get; set; }
+    //    public Results results { get; set; }
+    //}
 
-        public TestMetadataRequestV2(QueryParametersV2 options)
-        {
-            _options = options;
-        }
+    //public class Head
+    //{
+    //    public string[] vars { get; set; }
+    //}
 
-        public IQuandlUri Uri
-        {
-            get { return new QuandlUriV2(ResponseFormat.JSON, _options); }
-        }
-    }
+    //public class Results
+    //{
+    //    public Binding[] bindings { get; set; }
+    //}
+
+    //public class Binding
+    //{
+    //    public Country_Code_Iso_3166_1_Alpha_3 country_code_iso_3166_1_alpha_3 { get; set; }
+    //    public Country_Code_Iso_3166_1_Numeric country_code_iso_3166_1_numeric { get; set; }
+    //    public Country_Code_Iso_3166_1_Alpha_2 country_code_iso_3166_1_alpha_2 { get; set; }
+    //    public Flag_Imageimage flag_imageImage { get; set; }
+    //    public Countrylabel countryLabel { get; set; }
+    //}
+
+    //public class Country_Code_Iso_3166_1_Alpha_3
+    //{
+    //    public string type { get; set; }
+    //    public string value { get; set; }
+    //}
+
+    //public class Country_Code_Iso_3166_1_Numeric
+    //{
+    //    public string type { get; set; }
+    //    public string value { get; set; }
+    //}
+
+    //public class Country_Code_Iso_3166_1_Alpha_2
+    //{
+    //    public string type { get; set; }
+    //    public string value { get; set; }
+    //}
+
+    //public class Flag_Imageimage
+    //{
+    //    public string type { get; set; }
+    //    public string value { get; set; }
+    //}
+
+    //public class Countrylabel
+    //{
+    //    public string xmllang { get; set; }
+    //    public string type { get; set; }
+    //    public string value { get; set; }
+    //}
 
 
-    public class Lastentry
-    {
-        public string CurrentAverageTimeBetweenRequests { get; set; }
-        public DateTime LastRequestTime { get; set; }
-        public int RequestId { get; set; }
-        public DateTime RequestTime { get; set; }
-        public string TimeSinceLastRequest { get; set; }
-    }
+
+    //public static class DeserializeAndConvertDataAndMetadataToDataset
+    //{
+    //    public static Dataset GetDataset(this RawResponse rawResponse)
+    //    {
+    //        try
+    //        {
+    //            NonBlockingConsole.WriteLine("deserializing: " + rawResponse.Id);
+    //            var dataAndMetadata =
+    //                rawResponse.ResponseContent.DeserializeToEntity<JsonResultDatasetDataAndMetadata>().DataAndMetadata;
+    //            NonBlockingConsole.WriteLine("datasetcode: " + dataAndMetadata.DatasetCode);
 
 
-    public class SaveToFile
-    {
-        public void Run()
-        {
-            var printStatus = new PrintStatus();
-            var task = Task.WhenAll(QueryAndSave());
-            while (task.IsCompleted == false)
-            {
-                printStatus.Print();
-            }
-        }
+    //            if (!dataAndMetadata.EndDate.HasValue || string.IsNullOrEmpty(dataAndMetadata.Frequency) ||
+    //                !dataAndMetadata.StartDate.HasValue || !dataAndMetadata.RefreshedAt.HasValue)
+    //            {
+    //                return null;
+    //            }
 
-        public async Task<int> QueryAndSave()
-        {
-            var requests = new List<DeserializeMetadataRequestV2>();
-            for (var i = 1; i <= 6752; i++)
-            {
-                var options = new QueryParametersV2
-                {
-                    ApiKey = QuandlServiceConfiguration.ApiKey,
-                    Query = "*",
-                    SourceCode = "UNDATA",
-                    PerPage = 300,
-                    Page = i
-                };
-                var request = new DeserializeMetadataRequestV2(options);
-                requests.Add(request);
-            }
-
-            //var tasks = requests.Select(async request =>
-            //{
-            //    var response = await NQueue.GetStringAsync(request);
-            //    using (var writer =
-            //        new StreamWriter(@"A:\DEVOPS\NQuandl\NQuandl.Generator\testresponses\" +
-            //                         request._options.SourceCode + request._options.Page + ".json"))
-            //    {
-            //        writer.Write(response);
-            //    }
-            //}).ToList();
-
-            //await Task.WhenAll(tasks);
-            return await Task.FromResult(0);
-        }
-    }
+    //            return new Dataset
+    //            {
+    //                Id = dataAndMetadata.Id,
+    //                Code = dataAndMetadata.DatasetCode,
+    //                Data = dataAndMetadata.Data,
+    //                DatabaseCode = dataAndMetadata.DatabaseCode,
+    //                DatabaseId = dataAndMetadata.DatabaseId,
+    //                Description = dataAndMetadata.Description,
+    //                EndDate = dataAndMetadata.EndDate,
+    //                Frequency = dataAndMetadata.Frequency,
+    //                Name = dataAndMetadata.Name,
+    //                RefreshedAt = dataAndMetadata.RefreshedAt,
+    //                StartDate = dataAndMetadata.StartDate,
+    //                ColumnNames = dataAndMetadata.ColumnNames
+    //            };
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            throw new Exception(ex.Message);
+    //        }
+    //    }
+    //}
 }

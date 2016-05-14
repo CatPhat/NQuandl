@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0-*",
+  "description": "nquandl.console Console Application",
+  "authors": [ "USER9" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "NQuandl.Client": "1.0.0-*",
+    "NQuandl.Npgsql": "1.0.0-*",
+    "NQuandl.SimpleClient": "1.0.0-*",
+    "System.IO.Compression": "4.1.0-beta-23516",
+    "System.IO.Compression.ZipFile": "4.0.1-beta-23516"
+  },
+
+  "commands": {
+    "nquandl.console": "nquandl.console"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "dependencies": {
+   
+     
+       
+      }
+    }
+    
+  }
+}

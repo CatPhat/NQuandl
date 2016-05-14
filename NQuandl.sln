@@ -1,13 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.Client", "NQuandl.Client\NQuandl.Client.csproj", "{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E78A6625-A805-460D-BED0-0DF43A2E7CE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.Console", "NQuandl.Console\NQuandl.Console.csproj", "{05FCAF61-D450-49ED-B031-F0B300BE36B2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39B0A59C-6C99-481A-B8F0-5A9A8B5768C9}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+		nquandl.client.nuspec = nquandl.client.nuspec
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NQuandl.client-test", "NQuandl.client-test\NQuandl.client-test.csproj", "{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "nquandl.console", "nquandl.console\nquandl.console.xproj", "{81320399-8AB2-43A9-876D-0CA9F8285969}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Client.SimpleInjector", "NQuandl.Client.SimpleInjector\NQuandl.Client.SimpleInjector.xproj", "{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.SimpleClient", "NQuandl.SimpleClient\NQuandl.SimpleClient.xproj", "{A4EA89CC-6940-4A29-8F13-B273E134827F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{95BCA6D3-E31F-45D2-8AB9-9DC1CD67FC1D}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Client", "NQuandl.Client\NQuandl.Client.xproj", "{3260FD84-8A32-41C4-8F44-DA571ABEADED}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.PostgresEF7.SimpleInjector", "NQuandl.PostgresEF7.SimpleInjector\NQuandl.PostgresEF7.SimpleInjector.xproj", "{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.WebApi", "NQuandl.WebApi\NQuandl.WebApi.xproj", "{C24DAB64-16FF-4F77-A214-4CFE8647683B}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.PostgresEF7", "NQuandl.PostgresEF7\NQuandl.PostgresEF7.xproj", "{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Npgsql", "NQuandl.Npgsql\NQuandl.Npgsql.xproj", "{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Npgsql.SimpleInjector", "NQuandl.Npgsql.SimpleInjector\NQuandl.Npgsql.SimpleInjector.xproj", "{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NQuandl.Npgsql.Tests", "tests\NQuandl.Npgsql.Tests\NQuandl.Npgsql.Tests.xproj", "{7EA4FFFE-0A6A-4997-AE17-E9A306A07FB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,20 +39,60 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FA48FE6-943A-4CBF-88FF-A431887A0A9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05FCAF61-D450-49ED-B031-F0B300BE36B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E90D39E9-7128-4B6F-BD7E-ED7C4C4481B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81320399-8AB2-43A9-876D-0CA9F8285969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81320399-8AB2-43A9-876D-0CA9F8285969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81320399-8AB2-43A9-876D-0CA9F8285969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81320399-8AB2-43A9-876D-0CA9F8285969}.Release|Any CPU.Build.0 = Release|Any CPU
+		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4EA89CC-6940-4A29-8F13-B273E134827F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C24DAB64-16FF-4F77-A214-4CFE8647683B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EA4FFFE-0A6A-4997-AE17-E9A306A07FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EA4FFFE-0A6A-4997-AE17-E9A306A07FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EA4FFFE-0A6A-4997-AE17-E9A306A07FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EA4FFFE-0A6A-4997-AE17-E9A306A07FB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81320399-8AB2-43A9-876D-0CA9F8285969} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{440E70D1-E1FF-4B93-8BE9-C8CF0D18A2D6} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{A4EA89CC-6940-4A29-8F13-B273E134827F} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{3260FD84-8A32-41C4-8F44-DA571ABEADED} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{53AC8FA7-F218-4A9D-8E04-B6BAFB52C804} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{C24DAB64-16FF-4F77-A214-4CFE8647683B} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{1B7BE7C1-CBF7-4E38-B342-0C8EA285BD4E} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{FF0DFF8D-A94C-40CE-8037-7312F54A1A50} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{8E13211D-35ED-4A1F-B299-0C8B7AC3BB9A} = {E78A6625-A805-460D-BED0-0DF43A2E7CE2}
+		{7EA4FFFE-0A6A-4997-AE17-E9A306A07FB1} = {95BCA6D3-E31F-45D2-8AB9-9DC1CD67FC1D}
 	EndGlobalSection
 EndGlobal
