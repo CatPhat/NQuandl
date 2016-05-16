@@ -44,18 +44,26 @@ namespace NQuandl.Npgsql.Services.Metadata
         //todo result should be cached
         public string GetPropertyName(Expression<Func<TEntity, object>> expression)
         {
+            if (expression == null)
+            {
+                return "";
+            }
             var expressionDetail = ExpressionDetail.Create(expression);
             return expressionDetail.Name;
         }
 
         public string GetColumnName(Expression<Func<TEntity, object>> expression)
         {
-            return GetColumnName(GetPropertyName(expression));
+            if (expression == null)
+            {
+                return "";
+            }
+            return GetColumnNameOrDefault(GetPropertyName(expression));
         }
 
-        public string GetColumnName(string propertyName)
+        public string GetColumnNameOrDefault(string propertyName)
         {
-            return _propertyNameDbColumnNames[propertyName];
+            return !string.IsNullOrEmpty(propertyName) ? _propertyNameDbColumnNames[propertyName] : propertyName;
         }
 
         public int GetColumnIndex(string propertyName)

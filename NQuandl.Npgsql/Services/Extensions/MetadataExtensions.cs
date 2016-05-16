@@ -17,7 +17,7 @@ namespace NQuandl.Npgsql.Services.Extensions
             return metadata.GetPropertyInfos()
                 .Select(propertyInfo => new ColumnNameWithIndex
                 {
-                    ColumnName = metadata.GetColumnName(propertyInfo.Name),
+                    ColumnName = metadata.GetColumnNameOrDefault(propertyInfo.Name),
                     ColumnIndex = metadata.GetColumnIndex(propertyInfo.Name)
                 }).OrderBy(x => x.ColumnIndex);
         }
@@ -35,7 +35,7 @@ namespace NQuandl.Npgsql.Services.Extensions
                 {
                     Data = data,
                     DbType = metadata.GetNpgsqlDbType(propertyName),
-                    ColumnName = metadata.GetColumnName(propertyName),
+                    ColumnName = metadata.GetColumnNameOrDefault(propertyName),
                     ColumnIndex = metadata.GetColumnIndex(propertyName),
                     IsNullable = metadata.GetIsNullable(propertyName),
                     IsStoreGenerated = metadata.GetIsStoreGenerated(propertyName)
@@ -47,12 +47,12 @@ namespace NQuandl.Npgsql.Services.Extensions
             var whereColumnPropertyName = metadata.GetPropertyName(query.WhereColumn);
             var orderByPropertyName = metadata.GetPropertyName(query.OrderByColumn);
             var properties = metadata.GetPropertyInfos();
-            var columnNames = properties.Select(propertyInfo => metadata.GetColumnName(propertyInfo.Name)).ToArray();
+            var columnNames = properties.Select(propertyInfo => metadata.GetColumnNameOrDefault(propertyInfo.Name)).ToArray();
             return new DataRecordsQuery
             {
                 TableName = metadata.GetTableName(),
-                WhereColumn = metadata.GetColumnName(whereColumnPropertyName),
-                OrderByColumn = metadata.GetColumnName(orderByPropertyName),
+                WhereColumn = metadata.GetColumnNameOrDefault(whereColumnPropertyName),
+                OrderByColumn = metadata.GetColumnNameOrDefault(orderByPropertyName),
                 Limit = query.Limit,
                 Offset = query.Offset,
                 QueryByInt = query.QueryByInt,

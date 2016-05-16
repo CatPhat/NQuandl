@@ -11,7 +11,7 @@ namespace NQuandl.Npgsql.Api.Metadata
         string GetTableName();
         string GetPropertyName(Expression<Func<TEntity, object>> expression);
         string GetColumnName(Expression<Func<TEntity, object>> expression);
-        string GetColumnName(string propertyName);
+        string GetColumnNameOrDefault(string propertyName);
         int GetColumnIndex(string propertyName);
         bool GetIsNullable(string propertyName);
         bool GetIsStoreGenerated(string propertyName);
