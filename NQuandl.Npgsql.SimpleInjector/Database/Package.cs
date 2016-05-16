@@ -10,14 +10,14 @@ namespace NQuandl.Npgsql.SimpleInjector.Database
 {
     public class Package : IPackage
     {
-        private bool IsGreenfield { get; }
-        private bool UseDebugDatabase { get; }
-
         public Package(bool isGreenfield = false, bool useDebugDatabase = true)
         {
             IsGreenfield = isGreenfield;
             UseDebugDatabase = useDebugDatabase;
         }
+
+        private bool IsGreenfield { get; }
+        private bool UseDebugDatabase { get; }
 
         public void RegisterServices(Container container)
         {
@@ -40,8 +40,8 @@ namespace NQuandl.Npgsql.SimpleInjector.Database
                 container.Register<ICustomizeDb, VanillaDbCustomizer>();
                 container.Register<IDbInitializer, BrownfieldDbInitializer>();
             }
-
-            container.Register<IDbContext, Services.Database.DbContex>(Lifestyle.Transient);
+            container.Register<IProvideDbConnection, DbConnectionProvider>();
+            container.Register<IDbContext, DbContex>(Lifestyle.Transient);
         }
     }
 }

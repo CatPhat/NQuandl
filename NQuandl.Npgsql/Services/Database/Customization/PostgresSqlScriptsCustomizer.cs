@@ -10,8 +10,8 @@ namespace NQuandl.Npgsql.Services.Database.Customization
         public void Customize(IDbContext dbContext)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var sqlScriptNames = assembly.GetManifestResourceNames()
-                .Where(x => x.StartsWith("NQuandl.Npgsql.Services.Database.Customization.SqlServer.") && x.EndsWith(".sql"));
+            var manifests = assembly.GetManifestResourceNames();
+            var sqlScriptNames = manifests.Where(x => x.StartsWith("NQuandl.Npgsql.Services.Database.Customization.PostgresSqlScripts.") && x.EndsWith(".sql"));
             foreach (var sqlScriptName in sqlScriptNames)
             {
                 var sqlScriptText = assembly.GetManifestResourceText(sqlScriptName);

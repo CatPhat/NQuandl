@@ -12,7 +12,8 @@ namespace NQuandl.Npgsql.Tests.Unit.Database.Initialization
         public void InitializeDatabase_HasNoSideEffects()
         {
             var dbInitializer = new BrownfieldDbInitializer();
-            var db = new Services.Database.DbContex(new DebugConnectionConfiguration(), new SqlMapper());
+            var connection = new DbConnectionProvider(new DebugConnectionConfiguration());
+            var db = new DbContex(connection, new SqlMapper());
             dbInitializer.Intialize(db);
             Assert.NotNull(db);
         }

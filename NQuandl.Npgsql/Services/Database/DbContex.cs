@@ -15,28 +15,25 @@ namespace NQuandl.Npgsql.Services.Database
 {
     public class DbContex : IDbContext
     {
-        private readonly IConfigureConnection _configuration;
+        private readonly IProvideDbConnection _connection;
         private readonly ISqlMapper _sql;
 
-        public DbContex([NotNull] IConfigureConnection configuration, [NotNull] ISqlMapper sql)
+        public DbContex([NotNull] IProvideDbConnection connection, [NotNull] ISqlMapper sql)
         {
-            if (configuration == null)
-                throw new ArgumentNullException(nameof(configuration));
+            if (connection == null)
+                throw new ArgumentNullException(nameof(connection));
             if (sql == null)
                 throw new ArgumentNullException(nameof(sql));
-            _configuration = configuration;
+            _connection = connection;
             _sql = sql;
         }
 
-        private NpgsqlConnection CreateConnection()
-        {
-            return new NpgsqlConnection(_configuration.ConnectionString);
-        }
+      
 
         public IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query)
         {
             var sqlStatement = _sql.GetSelectSqlBy(query);
-            using (var connection = CreateConnection())
+            using (var connection = _connection.CreateConnection())
             using (var cmd = new NpgsqlCommand(sqlStatement, connection))
             {
                 cmd.Connection.Open();
@@ -56,7 +53,7 @@ namespace NQuandl.Npgsql.Services.Database
             var sqlStatement = _sql.GetSelectSqlBy(query);
             return Observable.Create<IDataRecord>(async obs =>
             {
-                using (var connection = CreateConnection())
+                using (var connection = _connection.CreateConnection())
                 using (var cmd = new NpgsqlCommand(sqlStatement, connection))
                 {
                     await cmd.Connection.OpenAsync();
@@ -78,7 +75,7 @@ namespace NQuandl.Npgsql.Services.Database
         {
             var firstRow = command.DatasObservable.Take(1).Select(x => x.ToList()[0]).ToEnumerable();
             var sqlStatement = _sql.GetBulkInsertSql(command.TableName, firstRow);
-            using (var connection = CreateConnection())
+            using (var connection = _connection.CreateConnection())
             using (var importer = connection.BeginBinaryImport(sqlStatement))
             {
                 await command.DatasObservable.ForEachAsync(importData =>
@@ -103,7 +100,7 @@ namespace NQuandl.Npgsql.Services.Database
                 IsNullable = dbData.IsNullable
             }).ToArray();
 
-            using (var connection = CreateConnection())
+            using (var connection = _connection.CreateConnection())
             using (var cmd = new NpgsqlCommand(sqlStatement, connection))
             {
                 await cmd.Connection.OpenAsync();
@@ -116,7 +113,7 @@ namespace NQuandl.Npgsql.Services.Database
 
         public async Task ExecuteSqlCommand(string sqlStatement)
         {
-            using (var connection = CreateConnection())
+            using (var connection = _connection.CreateConnection())
             using (var cmd = new NpgsqlCommand(sqlStatement, connection))
             {
                 await cmd.Connection.OpenAsync();

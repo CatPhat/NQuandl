@@ -4,7 +4,7 @@ namespace NQuandl.Npgsql.Services.Database.Configuration
 {
     public sealed class DebugConnectionConfiguration : IConfigureConnection
     {
-        public string ConnectionString => "Host=192.168.1.3;" +
+        public string ConnectionString => "Host=192.168.1.6;" +
                                           "Username=postgres;" +
                                           "Password=postgres;" +
                                           "Database=debug_nquandl;" +
