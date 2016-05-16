@@ -16,6 +16,9 @@
     "dnx451": { "frameworkAssemblies": { "System.Data": "4.0.0.0" } }
 
   },
-  "resourceFiles": [ "Services\\Database\\Customization\\PostgresSqlScripts\\DropAndInitializeDatabase.sql" ]
+  "resourceFiles": [
+    "Services\\Database\\Customization\\PostgresSqlScripts\\DropAndCreatePublicSchema.sql",
+    "Services\\Database\\Customization\\PostgresSqlScripts\\InitializeDatabaseTables.sql"
+  ]
   
 }
