@@ -13,6 +13,7 @@ namespace NQuandl.Npgsql.Api
         IObservable<IDataRecord> GetObservable(DataRecordsQuery query);
         Task BulkWriteAsync(BulkWriteCommand command);
         Task WriteAsync(WriteCommand command);
-        Task ExecuteSqlCommand(string sqlStatement);
+        void ExecuteSqlCommand(string sqlStatement);
+        Task ExecuteSqlCommandAsync(string sqlStatement);
     }
 }

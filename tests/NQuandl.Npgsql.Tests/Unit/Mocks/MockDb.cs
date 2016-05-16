@@ -39,6 +39,16 @@ namespace NQuandl.Npgsql.Tests.Unit.Mocks
             return Task.FromResult(0);
         }
 
+        void IDbContext.ExecuteSqlCommand(string sqlStatement)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ExecuteSqlCommandAsync(string sqlStatement)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task ExecuteSqlCommand(string sqlStatement)
         {
             throw new NotImplementedException();

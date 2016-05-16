@@ -28,8 +28,6 @@ namespace NQuandl.Npgsql.Services.Database
             _sql = sql;
         }
 
-      
-
         public IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query)
         {
             var sqlStatement = _sql.GetSelectSqlBy(query);
@@ -111,7 +109,18 @@ namespace NQuandl.Npgsql.Services.Database
             }
         }
 
-        public async Task ExecuteSqlCommand(string sqlStatement)
+        public void ExecuteSqlCommand(string sqlStatement)
+        {
+            using (var connection = _connection.CreateConnection())
+            using (var cmd = new NpgsqlCommand(sqlStatement, connection))
+            {
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+        }
+
+        public async Task ExecuteSqlCommandAsync(string sqlStatement)
         {
             using (var connection = _connection.CreateConnection())
             using (var cmd = new NpgsqlCommand(sqlStatement, connection))
