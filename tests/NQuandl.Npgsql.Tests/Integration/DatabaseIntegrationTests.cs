@@ -18,20 +18,7 @@ namespace NQuandl.Npgsql.Tests.Integration
     {
         public DatabaseIntegrationTests(DatabaseFixture fixture) : base(fixture) {}
 
-        private Country _country => new Country
-            {
-                AltName = "testAltName",
-                CountryFlagUrl = @"http://testFlagUrl",
-                Iso31661Alpha3 = "AAA",
-                Iso31661Alpha2 = "BB",
-                Iso31661Numeric = 333,
-                Iso4217CountryName = "testCountryName",
-                Iso4217CurrencyAlphabeticCode = "testCurrencyCode",
-                Iso4217CurrencyName = "testCurrencyName",
-                Iso4217CurrencyNumericCode = 444,
-                Iso4217MinorUnits = 555,
-                Name = "testName"
-            };
+       
 
         [Fact]
         public void DatabaseConnectionIsValid()
@@ -50,7 +37,7 @@ namespace NQuandl.Npgsql.Tests.Integration
         [Fact]
         public async void InsertCountryDataCommand()
         {
-            var command = new WriteEntity<Country>(_country);
+            var command = new WriteEntity<Country>(TestCountry);
             var commandHandler = new HandleWriteEntity<Country>(DbContext, new EntityMetadataCache<Country>(new EntityMetadataCacheInitializer<Country>()));
             await commandHandler.Handle(command);
         }
@@ -64,7 +51,7 @@ namespace NQuandl.Npgsql.Tests.Integration
             var results = await result.ToList();
             var firstResult = results.FirstOrDefault();
             Assert.NotNull(firstResult);
-            firstResult.ShouldBeEquivalentTo(_country);
+            firstResult.ShouldBeEquivalentTo(TestCountry);
            
         }
     }
