@@ -15,7 +15,7 @@ namespace NQuandl.Npgsql.Tests.Integration._Fixtures
             var connection = new DbConnectionProvider(configuration);
             var sqlMapper = new SqlMapper();
             Connection = connection;
-            DbContext = new DbContex(connection, sqlMapper);
+            DbContext = new DbContext(connection, sqlMapper);
         }
         public IProvideDbConnection Connection { get; }
         public IDbContext DbContext { get; }
