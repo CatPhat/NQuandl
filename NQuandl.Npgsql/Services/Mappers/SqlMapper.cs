@@ -5,6 +5,7 @@ using System.Text;
 using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Mappers;
 using NQuandl.Npgsql.Api.Transactions;
+using NQuandl.Npgsql.Domain.Commands;
 
 namespace NQuandl.Npgsql.Services.Mappers
 {
@@ -48,7 +49,7 @@ namespace NQuandl.Npgsql.Services.Mappers
             var dbDatas = dbInsertDatas as IList<DbInsertData> ?? dbInsertDatas.ToList();
             var columnNames = GetColumnNamesString(dbDatas.Select(x => x.ColumnName).ToArray());
             return
-               $"COPY {tableName} ({columnNames}) FROM STDIN (FORMAT BINARY)";
+                $"COPY {tableName} ({columnNames}) FROM STDIN (FORMAT BINARY)";
         }
 
         public string GetInsertSql(string tableName, IEnumerable<DbInsertData> dbDatas)
@@ -58,6 +59,26 @@ namespace NQuandl.Npgsql.Services.Mappers
             return
                 $"INSERT INTO {tableName} ({columnNames}) " +
                 $"VALUES ({string.Join(",", dbInsertDatas.Select(x => $":{x.ColumnName}"))});";
+        }
+
+        public string GetDeleteRowSql(DeleteCommand command)
+        {
+            string whereValue;
+
+            if (!string.IsNullOrEmpty(command.DeleteByString))
+            {
+                whereValue = $"'{command.DeleteByString}'";
+            }
+            else if (command.DeleteByInteger.HasValue)
+            {
+                whereValue = $"{command.DeleteByInteger.Value}";
+            }
+            else
+            {
+                throw new Exception("Missing Where Value");
+            }
+
+            return $"DELETE FROM {command.TableName} WHERE {command.WhereColumn} = {whereValue}";
         }
 
         private static string GetColumnNamesString(string[] columnNames)

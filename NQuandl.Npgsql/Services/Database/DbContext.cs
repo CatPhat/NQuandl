@@ -109,6 +109,13 @@ namespace NQuandl.Npgsql.Services.Database
             }
         }
 
+        public async Task DeleteEntitiesAsync(DeleteCommand command)
+        {
+            var sqlStatement = _sql.GetDeleteRowSql(command);
+
+            throw new NotImplementedException();
+        }
+
         public void ExecuteSqlCommand(string sqlStatement)
         {
             using (var connection = _connection.CreateConnection())
