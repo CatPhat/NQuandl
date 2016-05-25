@@ -1,4 +1,5 @@
 ﻿using System;
+using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Domain.Queries;
 using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Mappers;
@@ -80,6 +81,32 @@ namespace NQuandl.Npgsql.Tests.Unit.Mapper
             Assert.Equal($"SELECT id,name,insert_date FROM mock_db_entities WHERE name = '{queryString}' ORDER BY id LIMIT {limit} OFFSET {offset}", insertSqlStatement);
         }
 
-        
+        [Fact]
+        public void SqlDeleteByStringStatementTest()
+        {
+            const string tableName = "test_table";
+            const string whereColumn = "test_column";
+            const string deleteValue = "test_delete_value";
+            var command = new DeleteCommand(tableName, whereColumn, deleteValue);
+            var sqlMapper = new SqlMapper();
+            var statement = sqlMapper.GetDeleteRowSql(command);
+
+            Assert.Equal("DELETE FROM test_table WHERE test_column = 'test_delete_value'", statement);
+        }
+
+        [Fact]
+        public void SqlDeleteByIntegerStatementTest()
+        {
+            const string tableName = "test_table";
+            const string whereColumn = "test_column";
+            const int deleteValue = 777;
+            var command = new DeleteCommand(tableName, whereColumn, deleteValue);
+            var sqlMapper = new SqlMapper();
+            var statement = sqlMapper.GetDeleteRowSql(command);
+
+            Assert.Equal("DELETE FROM test_table WHERE test_column = 777", statement);
+        }
+
+
     }
 }

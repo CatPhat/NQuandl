@@ -49,6 +49,11 @@ namespace NQuandl.Npgsql.Tests.Unit.Mocks
             throw new NotImplementedException();
         }
 
+        public Task DeleteRowsAsync(DeleteCommand command)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task ExecuteSqlCommand(string sqlStatement)
         {
             throw new NotImplementedException();

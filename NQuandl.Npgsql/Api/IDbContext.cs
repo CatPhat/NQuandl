@@ -15,5 +15,6 @@ namespace NQuandl.Npgsql.Api
         Task WriteAsync(WriteCommand command);
         void ExecuteSqlCommand(string sqlStatement);
         Task ExecuteSqlCommandAsync(string sqlStatement);
+        Task DeleteRowsAsync(DeleteCommand command);
     }
 }

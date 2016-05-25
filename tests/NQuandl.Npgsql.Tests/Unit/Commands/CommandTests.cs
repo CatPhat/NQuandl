@@ -114,5 +114,11 @@ namespace NQuandl.Npgsql.Tests.Unit.Commands
             Assert.Equal(false, column2.IsNullable);
             Assert.Equal(false, column2.IsStoreGenerated);
         }
+
+        [Fact]
+        public void DeleteEntitiesTest()
+        {
+            
+        }
     }
 }
