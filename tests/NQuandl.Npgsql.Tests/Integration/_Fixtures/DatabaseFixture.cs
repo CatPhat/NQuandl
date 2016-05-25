@@ -1,8 +1,10 @@
 ﻿using NQuandl.Npgsql.Api;
+using NQuandl.Npgsql.Api.Metadata;
 using NQuandl.Npgsql.Domain.Entities;
 using NQuandl.Npgsql.Services.Database;
 using NQuandl.Npgsql.Services.Database.Configuration;
 using NQuandl.Npgsql.Services.Mappers;
+using NQuandl.Npgsql.Services.Metadata;
 
 namespace NQuandl.Npgsql.Tests.Integration._Fixtures
 {
@@ -16,10 +18,12 @@ namespace NQuandl.Npgsql.Tests.Integration._Fixtures
             var sqlMapper = new SqlMapper();
             Connection = connection;
             DbContext = new DbContext(connection, sqlMapper);
+
+            CountryMetadataCache = new EntityMetadataCache<Country>(new EntityMetadataCacheInitializer<Country>());
         }
         public IProvideDbConnection Connection { get; }
         public IDbContext DbContext { get; }
-
+        public IEntityMetadataCache<Country>  CountryMetadataCache { get; }
         public Country TestCountry => new Country
         {
             AltName = "testAltName",

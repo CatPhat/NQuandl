@@ -1,14 +1,12 @@
-﻿using System.Linq;
+﻿using System;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Domain.Entities;
 using NQuandl.Npgsql.Domain.Queries;
-using NQuandl.Npgsql.Services.Database;
 using NQuandl.Npgsql.Services.Database.Customization;
 using NQuandl.Npgsql.Services.Database.Initialization;
-using NQuandl.Npgsql.Services.Metadata;
 using NQuandl.Npgsql.Tests.Integration._Fixtures;
 using Xunit;
 
@@ -18,7 +16,20 @@ namespace NQuandl.Npgsql.Tests.Integration
     {
         public DatabaseIntegrationTests(DatabaseFixture fixture) : base(fixture) {}
 
-       
+        private IObservable<Country> GetCountries()
+        {
+            var query = new EntitiesObservableBy<Country>();
+            var queryHandler = new HandleEntitiesObservableBy<Country>(CountryMetadataCache, DbContext);
+            var result = queryHandler.Handle(query);
+            return result;
+        }
+
+        private async Task InsertCountry()
+        {
+            var insertCommand = new WriteEntity<Country>(TestCountry);
+            var insertCommandHandler = new HandleWriteEntity<Country>(DbContext, CountryMetadataCache);
+            await insertCommandHandler.Handle(insertCommand);
+        }
 
         [Fact]
         public void DatabaseConnectionIsValid()
@@ -35,24 +46,34 @@ namespace NQuandl.Npgsql.Tests.Integration
         }
 
         [Fact]
-        public async void InsertCountryDataCommand()
+        public async void DeleteCountryCommand()
         {
-            var command = new WriteEntity<Country>(TestCountry);
-            var commandHandler = new HandleWriteEntity<Country>(DbContext, new EntityMetadataCache<Country>(new EntityMetadataCacheInitializer<Country>()));
-            await commandHandler.Handle(command);
+            await InsertCountry();
+            var results1 = await GetCountries().ToList();
+            Assert.NotEmpty(results1);
+
+            var deleteCommand = new DeleteEntities<Country>(x => x.Name, TestCountry.Name);
+            var deleteCommandHandler = new HandleDeleteEntities<Country>(DbContext, CountryMetadataCache);
+            await deleteCommandHandler.Handle(deleteCommand);
+
+            var results2 = await GetCountries().ToList();
+            Assert.Empty(results2);
         }
 
         [Fact]
         public async void EntitiesObservableByQuery()
         {
-            var query = new EntitiesObservableBy<Country>();
-            var queryHandler = new HandleEntitiesObservableBy<Country>(new EntityMetadataCache<Country>(new EntityMetadataCacheInitializer<Country>()), DbContext);
-            var result = queryHandler.Handle(query);
-            var results = await result.ToList();
-            var firstResult = results.FirstOrDefault();
+            await InsertCountry();
+            var results = GetCountries();
+            var firstResult = await results.FirstOrDefaultAsync();
             Assert.NotNull(firstResult);
             firstResult.ShouldBeEquivalentTo(TestCountry);
-           
+        }
+
+        [Fact]
+        public async void InsertCountryDataCommand()
+        {
+            await InsertCountry();
         }
     }
 }
