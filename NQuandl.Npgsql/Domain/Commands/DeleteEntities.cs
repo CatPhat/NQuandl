@@ -12,23 +12,21 @@ namespace NQuandl.Npgsql.Domain.Commands
 {
     public class DeleteEntities<TEntity> : IDefineCommand where TEntity : DbEntity
     {
-        public DeleteEntities(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> whereColumn,
+        public DeleteEntities(Expression<Func<TEntity, object>> whereColumn,
             string whereStringValue)
         {
-            Entities = entities;
+           
             WhereColumn = whereColumn;
             WhereStringValue = whereStringValue;
         }
 
-        public DeleteEntities(IEnumerable<TEntity> entities, Expression<Func<TEntity, object>> whereColumn,
+        public DeleteEntities(Expression<Func<TEntity, object>> whereColumn,
             int whereIntValue)
         {
-            Entities = entities;
             WhereColumn = whereColumn;
             WhereIntValue = whereIntValue;
         }
-
-        public IEnumerable<TEntity> Entities { get; }
+        
         public Expression<Func<TEntity, object>> WhereColumn { get; }
         public string WhereStringValue { get; }
         public int? WhereIntValue { get; }

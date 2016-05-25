@@ -22,8 +22,6 @@
     "SimpleInjector.Packaging": "3.1.3",
     "SimpleInjector.Extensions.ExecutionContextScoping": "3.1.3",
   "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
-    "NQuandl.PostgresEF7": "1.0.0-*",
-    "NQuandl.PostgresEF7.SimpleInjector": "1.0.0-*",
     "NQuandl.Npgsql.SimpleInjector": "1.0.0-*"
   }
 }

@@ -14,6 +14,7 @@ namespace NQuandl.Npgsql.Tests.Unit.Mocks
         public DataRecordsQuery GetObservableQuery { get; private set; }
         public BulkWriteCommand GetBulkWriteCommand { get; private set; }
         public WriteCommand GetWriteCommand { get; private set; }
+        public DeleteCommand DeleteCommand { get; private set; }
 
         public IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query)
         {
@@ -51,7 +52,8 @@ namespace NQuandl.Npgsql.Tests.Unit.Mocks
 
         public Task DeleteRowsAsync(DeleteCommand command)
         {
-            throw new NotImplementedException();
+            DeleteCommand = command;
+            return Task.FromResult(0);
         }
 
         public Task ExecuteSqlCommand(string sqlStatement)

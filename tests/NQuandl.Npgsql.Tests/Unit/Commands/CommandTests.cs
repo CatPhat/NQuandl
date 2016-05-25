@@ -116,9 +116,31 @@ namespace NQuandl.Npgsql.Tests.Unit.Commands
         }
 
         [Fact]
-        public void DeleteEntitiesTest()
+        public async void DeleteEntitiesByIntegerTest()
         {
-            
+            const int id = 777;
+            var mockDb = new MockDbContext();
+            var command = new DeleteEntities<MockDbEntity>(x => x.Id, id);
+            var handler = new HandleDeleteEntities<MockDbEntity>(mockDb, MockMetadata);
+            await handler.Handle(command);
+            var returnedCommand = mockDb.DeleteCommand;
+            Assert.Equal("mock_db_entities", returnedCommand.TableName);
+            Assert.Equal("id", returnedCommand.WhereColumn);
+            Assert.Equal(id, returnedCommand.DeleteByInteger);
+        }
+
+        [Fact]
+        public async void DeleteEntitiesByStringTest()
+        {
+            const string deleteValue = "delete_value";
+            var mockDb = new MockDbContext();
+            var command = new DeleteEntities<MockDbEntity>(x => x.Name, deleteValue);
+            var handler = new HandleDeleteEntities<MockDbEntity>(mockDb, MockMetadata);
+            await handler.Handle(command);
+            var returnedCommand = mockDb.DeleteCommand;
+            Assert.Equal("mock_db_entities", returnedCommand.TableName);
+            Assert.Equal("name", returnedCommand.WhereColumn);
+            Assert.Equal(deleteValue, returnedCommand.DeleteByString);
         }
     }
 }
