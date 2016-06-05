@@ -48,14 +48,14 @@ namespace NQuandl.Npgsql.Domain.Commands
 
         public async Task Handle(BulkWriteEntities<TEntity> command)
         {
-            IObservable<IEnumerable<DbInsertData>> dbDatas;
+            IEnumerable<IEnumerable<DbInsertData>> dbDatas;
             if (command.EntitiesEnumerable != null && command.EntitiesEnumerable.Any())
             {
-                dbDatas = GetDbImportDatasObservable(command.EntitiesEnumerable.ToObservable());
+                dbDatas = GetDbImportDatasEnumerable(command.EntitiesEnumerable.ToObservable());
             }
             else
             {
-                dbDatas = GetDbImportDatasObservable(command.EntitiesObservable);
+                dbDatas = GetDbImportDatasEnumerable(command.EntitiesObservable);
             }
 
             var bulkWriteCommand = new BulkWriteCommand
@@ -64,6 +64,15 @@ namespace NQuandl.Npgsql.Domain.Commands
                 TableName = _metadata.GetTableName()
             };
             await _dbContext.BulkWriteAsync(bulkWriteCommand);
+        }
+
+        private IEnumerable<IEnumerable<DbInsertData>> GetDbImportDatasEnumerable(
+            IObservable<TEntity> entitiesObservable)
+        {
+            var insertDatas = new List<IEnumerable<DbInsertData>>();
+            entitiesObservable.Subscribe(entity => insertDatas.Add(_metadata.CreateInsertDatas(entity)), onError: ex => {throw new Exception(ex.Message);});
+            return insertDatas;
+
         }
 
         private IObservable<IEnumerable<DbInsertData>> GetDbImportDatasObservable(IObservable<TEntity> entities)

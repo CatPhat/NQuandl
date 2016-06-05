@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -31,6 +33,38 @@ namespace NQuandl.Npgsql.Tests.Integration
             await insertCommandHandler.Handle(insertCommand);
         }
 
+        private async Task DeleteCountries()
+        {
+            var deleteCommand = new DeleteEntities<Country>(x => x.Name, TestCountry.Name);
+            var deleteCommandHandler = new HandleDeleteEntities<Country>(DbContext, CountryMetadataCache);
+            await deleteCommandHandler.Handle(deleteCommand);
+        }
+
+        [Fact]
+        public async void BulkInsertCountries()
+        {
+            var existingCountries = await GetCountries().ToList();
+            if (existingCountries.Any())
+            {
+                await DeleteCountries();
+            }
+
+            var countries = new List<Country>();
+            for (var i = 0; i < 100; i++)
+            {
+                var country = TestCountry;
+                countries.Add(country);
+            }
+
+            var command = new BulkWriteEntities<Country>(countries);
+            var commandHandler = new HandleBulkWriteEntities<Country>(CountryMetadataCache, DbContext);
+            await commandHandler.Handle(command);
+
+            var results = GetCountries().ToEnumerable();
+
+            countries.ShouldBeEquivalentTo(results);
+        }
+
         [Fact]
         public void DatabaseConnectionIsValid()
         {
@@ -52,9 +86,7 @@ namespace NQuandl.Npgsql.Tests.Integration
             var results1 = await GetCountries().ToList();
             Assert.NotEmpty(results1);
 
-            var deleteCommand = new DeleteEntities<Country>(x => x.Name, TestCountry.Name);
-            var deleteCommandHandler = new HandleDeleteEntities<Country>(DbContext, CountryMetadataCache);
-            await deleteCommandHandler.Handle(deleteCommand);
+            await DeleteCountries();
 
             var results2 = await GetCountries().ToList();
             Assert.Empty(results2);

@@ -74,17 +74,20 @@ namespace NQuandl.Npgsql.Services.Database
             var firstRow = command.DatasObservable.Take(1).Select(x => x.ToList()[0]).ToEnumerable();
             var sqlStatement = _sql.GetBulkInsertSql(command.TableName, firstRow);
             using (var connection = _connection.CreateConnection())
-            using (var importer = connection.BeginBinaryImport(sqlStatement))
             {
-                await command.DatasObservable.ForEachAsync(importData =>
+                await connection.OpenAsync();
+                using (var importer = connection.BeginBinaryImport(sqlStatement))
                 {
-                    importer.StartRow();
-                    foreach (var bulkImportData in importData.OrderBy(x => x.ColumnIndex))
+                    await command.DatasObservable.ForEachAsync(enumerable =>
                     {
-                        importer.Write(bulkImportData, bulkImportData.DbType);
-                    }
-                });
-                importer.Close();
+                        importer.StartRow();
+                        foreach (var data in enumerable.OrderBy(x => x.ColumnIndex))
+                        {
+                            importer.Write(data.Data, data.DbType);
+                        }
+                    });
+
+                }
             }
         }
 
