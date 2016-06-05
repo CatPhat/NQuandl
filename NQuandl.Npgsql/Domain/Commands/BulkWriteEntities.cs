@@ -60,7 +60,7 @@ namespace NQuandl.Npgsql.Domain.Commands
 
             var bulkWriteCommand = new BulkWriteCommand
             {
-                DatasObservable = dbDatas,
+                DatasEnumerable = dbDatas,
                 TableName = _metadata.GetTableName()
             };
             await _dbContext.BulkWriteAsync(bulkWriteCommand);

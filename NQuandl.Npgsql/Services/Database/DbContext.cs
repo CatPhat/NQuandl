@@ -71,21 +71,22 @@ namespace NQuandl.Npgsql.Services.Database
 
         public async Task BulkWriteAsync(BulkWriteCommand command)
         {
-            var firstRow = command.DatasObservable.Take(1).Select(x => x.ToList()[0]).ToEnumerable();
+            var firstRow = command.DatasEnumerable.Take(1).Select(x => x.ToList()[0]);
             var sqlStatement = _sql.GetBulkInsertSql(command.TableName, firstRow);
             using (var connection = _connection.CreateConnection())
             {
                 await connection.OpenAsync();
                 using (var importer = connection.BeginBinaryImport(sqlStatement))
                 {
-                    await command.DatasObservable.ForEachAsync(enumerable =>
+                    foreach (var datas in command.DatasEnumerable)
                     {
                         importer.StartRow();
-                        foreach (var data in enumerable.OrderBy(x => x.ColumnIndex))
+                        foreach (var data in datas.OrderBy(x => x.ColumnIndex))
                         {
                             importer.Write(data.Data, data.DbType);
                         }
-                    });
+                    }
+                   
 
                 }
             }

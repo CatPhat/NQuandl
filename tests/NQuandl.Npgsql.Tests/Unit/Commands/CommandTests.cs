@@ -36,7 +36,7 @@ namespace NQuandl.Npgsql.Tests.Unit.Commands
             var bulkWriteEntityCommand = new BulkWriteEntities<MockDbEntity>(entitiesToInsert);
             var bulkWriteEntityHandler =
                 new HandleBulkWriteEntities<MockDbEntity>(MockMetadata, mockDb).Handle(bulkWriteEntityCommand);
-            var importDatas = await mockDb.GetBulkWriteCommand.DatasObservable.ToList();
+            var importDatas = mockDb.GetBulkWriteCommand.DatasEnumerable.ToList();
 
             for (var i = 0; i < upperLimit; i++)
             {
