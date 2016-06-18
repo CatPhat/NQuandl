@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
@@ -20,8 +19,6 @@ namespace NQuandl.Npgsql.Services.Database
         private readonly IProvideDbConnection _connection;
         private readonly ISqlMapper _sql;
 
-        private readonly SemaphoreSlim _semaphore;
-
         public DbContext([NotNull] IProvideDbConnection connection, [NotNull] ISqlMapper sql)
         {
             if (connection == null)
@@ -30,8 +27,6 @@ namespace NQuandl.Npgsql.Services.Database
                 throw new ArgumentNullException(nameof(sql));
             _connection = connection;
             _sql = sql;
-
-            _semaphore = new SemaphoreSlim(1);
         }
 
         public IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query)
@@ -94,14 +89,6 @@ namespace NQuandl.Npgsql.Services.Database
             }
         }
 
-        private void BulkImportDatas(NpgsqlBinaryImporter importer,IEnumerable<DbInsertData> importDatas)
-        {
-            foreach (var data in importDatas.OrderBy(x => x.ColumnIndex).ToList())
-            {
-                importer.Write(data.Data, data.DbType);
-            }
-        }
-
         public async Task WriteAsync(WriteCommand command)
         {
             var sqlStatement = _sql.GetInsertSql(command.TableName, command.Datas);
@@ -149,6 +136,14 @@ namespace NQuandl.Npgsql.Services.Database
         {
             var sqlStatement = _sql.GetDeleteRowSql(command);
             await ExecuteSqlCommandAsync(sqlStatement);
+        }
+
+        private void BulkImportDatas(NpgsqlBinaryImporter importer, IEnumerable<DbInsertData> importDatas)
+        {
+            foreach (var data in importDatas.OrderBy(x => x.ColumnIndex).ToList())
+            {
+                importer.Write(data.Data, data.DbType);
+            }
         }
     }
 }
