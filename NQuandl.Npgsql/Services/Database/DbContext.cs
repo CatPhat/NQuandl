@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Npgsql;
 using NQuandl.Npgsql.Api;
+using NQuandl.Npgsql.Api.DTO;
 using NQuandl.Npgsql.Api.Mappers;
 using NQuandl.Npgsql.Api.Transactions;
 using NQuandl.Npgsql.Domain.Commands;
@@ -18,6 +20,8 @@ namespace NQuandl.Npgsql.Services.Database
         private readonly IProvideDbConnection _connection;
         private readonly ISqlMapper _sql;
 
+        private readonly SemaphoreSlim _semaphore;
+
         public DbContext([NotNull] IProvideDbConnection connection, [NotNull] ISqlMapper sql)
         {
             if (connection == null)
@@ -26,6 +30,8 @@ namespace NQuandl.Npgsql.Services.Database
                 throw new ArgumentNullException(nameof(sql));
             _connection = connection;
             _sql = sql;
+
+            _semaphore = new SemaphoreSlim(1);
         }
 
         public IEnumerable<IDataRecord> GetEnumerable(DataRecordsQuery query)
@@ -71,7 +77,7 @@ namespace NQuandl.Npgsql.Services.Database
 
         public async Task BulkWriteAsync(BulkWriteCommand command)
         {
-            var firstRow = command.DatasEnumerable.Take(1).Select(x => x.ToList()[0]);
+            var firstRow = command.DatasEnumerable.Take(1).ToArray()[0];
             var sqlStatement = _sql.GetBulkInsertSql(command.TableName, firstRow);
             using (var connection = _connection.CreateConnection())
             {
@@ -81,14 +87,18 @@ namespace NQuandl.Npgsql.Services.Database
                     foreach (var datas in command.DatasEnumerable)
                     {
                         importer.StartRow();
-                        foreach (var data in datas.OrderBy(x => x.ColumnIndex))
-                        {
-                            importer.Write(data.Data, data.DbType);
-                        }
+                        BulkImportDatas(importer, datas);
                     }
-                   
-
+                    importer.Close();
                 }
+            }
+        }
+
+        private void BulkImportDatas(NpgsqlBinaryImporter importer,IEnumerable<DbInsertData> importDatas)
+        {
+            foreach (var data in importDatas.OrderBy(x => x.ColumnIndex).ToList())
+            {
+                importer.Write(data.Data, data.DbType);
             }
         }
 
