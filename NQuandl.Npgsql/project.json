@@ -6,7 +6,7 @@
   "projectUrl": "",
   "licenseUrl": "",
   "dependencies": {
-    "Npgsql": "3.0.5",
+    "Npgsql": "3.1.4",
     "NQuandl.Client": "1.0.0-*",
     "ReSharper.Annotations": "7.1.3",
     "Rx-Core": "2.3.0-beta2",

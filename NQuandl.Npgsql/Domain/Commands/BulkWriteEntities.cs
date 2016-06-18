@@ -69,9 +69,9 @@ namespace NQuandl.Npgsql.Domain.Commands
         private IEnumerable<IEnumerable<DbInsertData>> GetDbImportDatasEnumerable(
             IObservable<TEntity> entitiesObservable)
         {
-            var insertDatas = new List<IEnumerable<DbInsertData>>();
-            entitiesObservable.Subscribe(entity => insertDatas.Add(_metadata.CreateInsertDatas(entity)), onError: ex => {throw new Exception(ex.Message);});
-            return insertDatas;
+            var entities = entitiesObservable.ToEnumerable();
+            //entitiesObservable.Subscribe(entity => insertDatas.Add(_metadata.CreateInsertDatas(entity)), onError: ex => {throw new Exception(ex.Message);});
+            return entities.Select(entity => _metadata.CreateInsertDatas(entity)).Cast<IEnumerable<DbInsertData>>().ToList();
 
         }
 

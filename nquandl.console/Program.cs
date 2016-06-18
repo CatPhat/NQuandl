@@ -5,15 +5,20 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
+using Microsoft.SqlServer.Server;
+using Newtonsoft.Json.Converters;
 using NQuandl.Client.Api.Quandl.Helpers;
 using NQuandl.Client.Domain.Requests;
 using NQuandl.Client.Domain.Responses;
 using NQuandl.Client.Services.Logger;
-
+using NQuandl.Npgsql.Domain.Commands;
 using NQuandl.Npgsql.Domain.Entities;
-
+using NQuandl.Npgsql.Domain.Queries;
+using NQuandl.Npgsql.Services.Database;
+using NQuandl.Npgsql.Services.Database.Configuration;
 using NQuandl.Npgsql.Services.Extensions;
 using NQuandl.Npgsql.Services.Mappers;
+using NQuandl.Npgsql.Services.Metadata;
 using NQuandl.SimpleClient;
 
 namespace nquandl.console
@@ -25,10 +30,128 @@ namespace nquandl.console
 
             //var countries = new CountriesBy().ExecuteQuery();
             //countries.Subscribe((country => NonBlockingConsole.WriteLine(country.Name)));
-
-          
+            new DownloadAllGoldDatabases().Get().Wait();
+           
             NonBlockingConsole.WriteLine("Done");
             Console.ReadLine();
+        }
+    }
+
+    public class DownloadSampleGoldDatasetsFromDb
+    {
+        public async Task Get()
+        {
+            var dbContext = new DbContext(new DbConnectionProvider(new DebugConnectionConfiguration()), new SqlMapper());
+            var databaseMetadataInitializer = new EntityMetadataCacheInitializer<Database>();
+            var databaseMetadataCache = new EntityMetadataCache<Database>(databaseMetadataInitializer);
+
+            var goldDatabasesQuery = new EntitiesObservableBy<Database>();
+            var queryHandler = new HandleEntitiesObservableBy<Database>(databaseMetadataCache, dbContext);
+            var result = await queryHandler.Handle(goldDatabasesQuery);
+           
+
+
+        }
+    }
+
+
+    public class DownloadAllGoldDatabases
+    {
+        public async Task Get()
+        {
+            for (var i = 1; i <= 2; i++)
+            {
+                var request = new RequestDatabaseSearchBy
+                {
+                    Query = "gold",
+                    Page = i
+                };
+
+                var response = await request.ExecuteRequest();
+
+                var dbContext = new DbContext(new DbConnectionProvider(new DebugConnectionConfiguration()),new SqlMapper());
+
+                var databaseMetadataInitializer = new EntityMetadataCacheInitializer<Database>();
+                var databaseMetadataCache = new EntityMetadataCache<Database>(databaseMetadataInitializer);
+                var databaseDatasetMetadataCache = new EntityMetadataCache<DatabaseDataset>(new EntityMetadataCacheInitializer<DatabaseDataset>());
+                var datasetMetadataCache = new EntityMetadataCache<Dataset>(new EntityMetadataCacheInitializer<Dataset>());
+
+                var databases = new List<Database>();
+                foreach (var jsonDatabaseSearchDatabase in response.JsonDatabaseSearchDatabases)
+                {
+                    var database = new Database
+                    {
+                        DatabaseCode = jsonDatabaseSearchDatabase.DatabaseCode,
+                        DatasetsCount = jsonDatabaseSearchDatabase.DatasetsCount,
+                        Description = jsonDatabaseSearchDatabase.Description,
+                        Downloads = jsonDatabaseSearchDatabase.Downloads,
+                        Id = jsonDatabaseSearchDatabase.Id,
+                        Image = jsonDatabaseSearchDatabase.Image,
+                        Premium = jsonDatabaseSearchDatabase.Premium,
+                        Name = jsonDatabaseSearchDatabase.Name
+                    };
+                    databases.Add(database);
+                    //var dbWriteDatabaseCommand = new WriteEntity<Database>(database);
+                    //var dbWriteCommandHandler = new HandleWriteEntity<Database>(dbContext, databaseMetadataCache);
+                    //await dbWriteCommandHandler.Handle(dbWriteDatabaseCommand);
+                }
+
+             
+                var databaseDatasets = new List<DatabaseDataset>();
+                foreach (var database in databases.OrderBy(x => x.DatasetsCount).Where(x => x.Premium == false))
+                {
+                    var datasetList = await new RequestDatabaseDatasetListBy(database.DatabaseCode).ExecuteRequest();
+                    foreach (var dataset in datasetList.Datasets)
+                    {
+                        var databaseDataset = new DatabaseDataset
+                        {
+                            DatabaseCode = dataset.DatabaseCode,
+                            DatasetCode = dataset.DatasetCode,
+                            Description = dataset.DatasetDescription,
+                            QuandlCode = dataset.QuandlCode,
+              
+                        };
+                        var dbWriteDatabaseDataset = new WriteEntity<DatabaseDataset>(databaseDataset);
+                        var handleDbWriteDatabaseDataset = new HandleWriteEntity<DatabaseDataset>(dbContext, databaseDatasetMetadataCache);
+                        await handleDbWriteDatabaseDataset.Handle(dbWriteDatabaseDataset);
+                        databaseDatasets.Add(databaseDataset);
+                        NonBlockingConsole.WriteLine("DatabaseDataset: " + dataset.QuandlCode);
+                        NonBlockingConsole.WriteLine("DatabaseDataset: " + dataset.DatasetDescription);
+                       
+                    }
+                }
+
+                foreach (var databaseDataset in databaseDatasets)
+                {
+                    var datasetResponse =
+                        await
+                            new RequestDatasetDataAndMetadataBy(databaseDataset.DatabaseCode,
+                                databaseDataset.DatasetCode).ExecuteRequest();
+                    var dataset = new Dataset
+                    {
+                        Code = datasetResponse.DataAndMetadata.DatasetCode,
+                        ColumnNames = datasetResponse.DataAndMetadata.ColumnNames,
+                        Data = datasetResponse.DataAndMetadata.Data,
+                        DatabaseCode = datasetResponse.DataAndMetadata.DatabaseCode,
+                        DatabaseId = datasetResponse.DataAndMetadata.DatabaseId,
+                        Description = datasetResponse.DataAndMetadata.Description,
+                        EndDate = datasetResponse.DataAndMetadata.EndDate,
+                        Frequency = datasetResponse.DataAndMetadata.Frequency,
+                        Id = datasetResponse.DataAndMetadata.Id,
+                        Name = datasetResponse.DataAndMetadata.Name,
+                        RefreshedAt = datasetResponse.DataAndMetadata.RefreshedAt,
+                        StartDate = datasetResponse.DataAndMetadata.StartDate
+                    };
+                    var dbWriteDatasetCommand = new WriteEntity<Dataset>(dataset);
+                    var handleWriteDatasetCommand = new HandleWriteEntity<Dataset>(dbContext,datasetMetadataCache);
+                    await handleWriteDatasetCommand.Handle(dbWriteDatasetCommand);
+                    NonBlockingConsole.WriteLine("Dataset: " + dataset.Name);
+                    NonBlockingConsole.WriteLine("Dataset: " + dataset.Description);
+
+
+                }
+            }
+          
         }
     }
 
